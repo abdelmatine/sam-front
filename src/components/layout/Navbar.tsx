@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store';
 import { setLanguage, Language } from '@/store/slices/i18nSlice';
 import { useTranslation } from '@/hooks/use-translation';
-import { ShoppingCart, Menu, X, Languages, Activity, Sun, Moon, Heart, Stethoscope, PhoneCall, ShieldCheck } from 'lucide-react';
+import { ShoppingCart, Menu, X, Languages, Activity, Sun, Moon, Heart, Stethoscope, PhoneCall, ShieldCheck, Plus, Minus, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
@@ -22,6 +22,7 @@ import {
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileShopOpen, setMobileShopOpen] = useState(false);
   const cartQuantity = useSelector((state: RootState) => state.cart.totalQuantity);
   const wishlistCount = useSelector((state: RootState) => state.wishlist.items.length);
   const { t, lang, isRTL } = useTranslation();
@@ -52,8 +53,17 @@ const Navbar = () => {
     { label: 'العربية', code: 'ar' },
   ];
 
+  const categories = [
+    { label: t.categories.view_all, value: 'all' },
+    { label: t.categories.respiratory, value: 'respiratory' },
+    { label: t.categories.oxygen, value: 'oxygen' },
+    { label: t.categories.accessories, value: 'accessories' },
+    { label: t.categories.monitoring, value: 'monitoring' },
+    { label: t.categories.others, value: 'others' },
+  ];
+
   const menuItems = [
-    { name: 'shop', href: '/shop' },
+    { name: 'shop', href: '/shop', hasDropdown: true },
     { name: 'about', href: '/about' },
     { name: 'contact', href: '/contact' }
   ];
@@ -77,14 +87,38 @@ const Navbar = () => {
         {/* Desktop Navigation */}
         <div className="hidden lg:flex items-center gap-8">
           {menuItems.map((item) => (
-            <Link 
-              key={item.name}
-              href={item.href} 
-              className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground hover:text-primary transition-all relative group"
-            >
-              {t.nav[item.name as keyof typeof t.nav]}
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
-            </Link>
+            <div key={item.name} className="relative group">
+              {item.hasDropdown ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground hover:text-primary transition-all flex items-center gap-1">
+                      {t.nav[item.name as keyof typeof t.nav]}
+                      <ChevronDown className="h-3 w-3 transition-transform group-hover:rotate-180" />
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="start" className="rounded-none border-primary/20 bg-background/95 backdrop-blur-md min-w-[200px]">
+                    {categories.map((cat) => (
+                      <DropdownMenuItem key={cat.value} asChild>
+                        <Link 
+                          href={`/shop?category=${cat.value}`}
+                          className="cursor-pointer rounded-none text-[10px] font-bold uppercase tracking-widest p-4 hover:bg-primary/5 transition-colors block"
+                        >
+                          {cat.label}
+                        </Link>
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <Link 
+                  href={item.href} 
+                  className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground hover:text-primary transition-all relative"
+                >
+                  {t.nav[item.name as keyof typeof t.nav]}
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
+                </Link>
+              )}
+            </div>
           ))}
         </div>
 
@@ -191,21 +225,61 @@ const Navbar = () => {
                 </Button>
               </div>
 
-              <div className="flex flex-col gap-8">
+              <div className="flex flex-col gap-6">
                 {menuItems.map((item, index) => (
                   <motion.div
                     key={item.name}
                     initial={{ opacity: 0, x: isRTL ? -20 : 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1 }}
+                    className="flex flex-col"
                   >
-                    <Link 
-                      href={item.href} 
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="text-3xl font-bold hover:text-primary transition-colors uppercase tracking-tighter block"
-                    >
-                      {t.nav[item.name as keyof typeof t.nav]}
-                    </Link>
+                    <div className="flex items-center justify-between">
+                      <Link 
+                        href={item.href} 
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="text-2xl font-bold hover:text-primary transition-colors uppercase tracking-tighter block"
+                      >
+                        {t.nav[item.name as keyof typeof t.nav]}
+                      </Link>
+                      {item.hasDropdown && (
+                        <Button 
+                          variant="ghost" 
+                          size="icon" 
+                          className="h-8 w-8"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setMobileShopOpen(!mobileShopOpen);
+                          }}
+                        >
+                          {mobileShopOpen ? <Minus className="h-5 w-5" /> : <Plus className="h-5 w-5" />}
+                        </Button>
+                      )}
+                    </div>
+                    
+                    {item.hasDropdown && (
+                      <AnimatePresence>
+                        {mobileShopOpen && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            className="overflow-hidden flex flex-col gap-2 mt-4 pl-4 border-l-2 border-primary/20"
+                          >
+                            {categories.map((cat) => (
+                              <Link
+                                key={cat.value}
+                                href={`/shop?category=${cat.value}`}
+                                onClick={() => setMobileMenuOpen(false)}
+                                className="text-sm font-bold uppercase tracking-widest text-muted-foreground hover:text-primary py-2"
+                              >
+                                {cat.label}
+                              </Link>
+                            ))}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    )}
                   </motion.div>
                 ))}
                 

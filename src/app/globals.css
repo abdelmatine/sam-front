@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -57,11 +56,19 @@
   body {
     @apply bg-background text-foreground transition-colors duration-500 font-body antialiased;
   }
-  body.no-scroll {
-    @apply overflow-hidden;
+  
+  /* Global Heading Styles */
+  h1 {
+    @apply font-headline text-3xl md:text-5xl font-bold tracking-tighter uppercase leading-[1.1];
   }
-  h1, h2, h3, h4 {
-    @apply font-headline tracking-tighter uppercase;
+  h2 {
+    @apply font-headline text-2xl md:text-4xl font-bold tracking-tighter uppercase leading-tight;
+  }
+  h3 {
+    @apply font-headline text-xl md:text-2xl font-bold tracking-tight uppercase;
+  }
+  h4 {
+    @apply font-headline text-sm md:text-base font-bold tracking-widest uppercase;
   }
 }
 
