@@ -10,6 +10,7 @@ import { Heart, ShoppingCart, Star, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { toast } from '@/hooks/use-toast';
+import { cn } from '@/lib/utils';
 
 interface Product {
   id: string;
@@ -49,32 +50,35 @@ const ProductCard = ({ product }: { product: Product }) => {
       animate={{ opacity: 1, scale: 1 }}
       className="bg-card border rounded-xl overflow-hidden group transition-all medical-shadow flex flex-col h-full"
     >
-      <Link href={`/product/${product.id}`} className="relative h-64 overflow-hidden block">
-        <Image 
-          src={product.imageUrl}
-          alt={product.name}
-          fill
-          className="object-cover group-hover:scale-105 transition-transform duration-500"
-        />
+      <div className="relative h-64 overflow-hidden">
+        {/* Main Product Image Link */}
+        <Link href={`/product/${product.id}`} className="block h-full w-full">
+          <Image 
+            src={product.imageUrl}
+            alt={product.name}
+            fill
+            className="object-cover group-hover:scale-105 transition-transform duration-500"
+          />
+        </Link>
         
-        {/* Badges */}
-        <div className="absolute top-3 left-3 flex flex-col gap-2">
+        {/* Badges - Non-interactive overlay */}
+        <div className="absolute top-3 left-3 flex flex-col gap-2 pointer-events-none">
           {product.isNew && <Badge className="bg-primary text-white border-none">New Arrival</Badge>}
           {!product.inStock && <Badge variant="destructive">Out of Stock</Badge>}
         </div>
 
-        {/* Hover Actions */}
-        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
-          <Button variant="secondary" size="icon" className="rounded-full shadow-lg">
+        {/* Hover Actions - Restructured to avoid nested link/button issues */}
+        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3 pointer-events-none">
+          <Button variant="secondary" size="icon" className="rounded-full shadow-lg pointer-events-auto">
             <Heart className="h-4 w-4" />
           </Button>
-          <Button variant="secondary" size="icon" className="rounded-full shadow-lg" asChild>
+          <Button variant="secondary" size="icon" className="rounded-full shadow-lg pointer-events-auto" asChild>
             <Link href={`/product/${product.id}`}>
               <Eye className="h-4 w-4" />
             </Link>
           </Button>
         </div>
-      </Link>
+      </div>
 
       <div className="p-5 flex flex-col flex-1 gap-2">
         <div className="flex justify-between items-start">
@@ -114,7 +118,3 @@ const ProductCard = ({ product }: { product: Product }) => {
 };
 
 export default ProductCard;
-
-function cn(...inputs: any[]) {
-  return inputs.filter(Boolean).join(' ');
-}
