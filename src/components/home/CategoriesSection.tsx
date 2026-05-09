@@ -1,3 +1,4 @@
+
 "use client";
 
 import React from 'react';
@@ -31,6 +32,12 @@ const categories = [
     count: '42 Products',
     href: '/shop?category=monitoring',
     image: 'category-monitoring'
+  },
+  {
+    title: 'Other Medical Supplies',
+    count: '35 Products',
+    href: '/shop?category=others',
+    image: 'category-others'
   }
 ];
 
@@ -49,7 +56,7 @@ const CategoriesSection = () => {
           </Link>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-6">
           {categories.map((cat, index) => {
             const catImage = PlaceHolderImages.find(img => img.id === cat.image);
             return (
@@ -74,7 +81,7 @@ const CategoriesSection = () => {
                     )}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-6">
                       <span className="text-white/80 text-sm font-medium">{cat.count}</span>
-                      <h3 className="text-white text-xl font-bold">{cat.title}</h3>
+                      <h3 className="text-white text-lg font-bold">{cat.title}</h3>
                     </div>
                   </div>
                 </Link>

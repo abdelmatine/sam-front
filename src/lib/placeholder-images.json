@@ -41,6 +41,12 @@
       "description": "Medical monitoring devices",
       "imageUrl": "https://picsum.photos/seed/cat3/400/300",
       "imageHint": "medical monitor"
+    },
+    {
+      "id": "category-others",
+      "description": "Other medical supplies",
+      "imageUrl": "https://picsum.photos/seed/cat4/400/300",
+      "imageHint": "medical supplies"
     }
   ]
 }
