@@ -5,6 +5,7 @@ import { explainMedicalContent } from '@/ai/flows/medical-content-explainer';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Sparkles, Loader2, Info } from 'lucide-react';
+import { useTranslation } from '@/hooks/use-translation';
 
 interface AIExplainerProps {
   content: string;
@@ -13,6 +14,7 @@ interface AIExplainerProps {
 const AIExplainer = ({ content }: AIExplainerProps) => {
   const [summary, setSummary] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const { t } = useTranslation();
 
   const handleExplain = async () => {
     setLoading(true);
@@ -27,51 +29,41 @@ const AIExplainer = ({ content }: AIExplainerProps) => {
   };
 
   return (
-    <Card className="border-primary/20 bg-primary/5 overflow-hidden">
-      <CardHeader className="flex flex-row items-center gap-3 pb-2">
-        <div className="p-2 bg-primary rounded-lg">
-          <Sparkles className="h-5 w-5 text-white" />
-        </div>
-        <div>
-          <CardTitle className="text-lg">AI Product Assistant</CardTitle>
-          <p className="text-sm text-muted-foreground">Simplify complex medical specifications</p>
-        </div>
+    <Card className="border rounded-none clinical-shadow bg-accent/20 overflow-hidden">
+      <CardHeader className="flex flex-row items-center gap-3 pb-2 border-b mb-4">
+        <Sparkles className="h-4 w-4 text-primary" />
+        <CardTitle className="text-xs font-bold uppercase tracking-[0.2em]">{t.product.ai_assistant}</CardTitle>
       </CardHeader>
       <CardContent>
         {!summary ? (
           <div className="flex flex-col gap-4">
-            <p className="text-sm text-muted-foreground">
-              Have questions about technical specs or usage? Our medical assistant can explain this device in simple terms for you.
+            <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest leading-relaxed">
+              {t.product.ai_desc}
             </p>
             <Button 
               onClick={handleExplain} 
               disabled={loading}
-              className="w-full bg-primary text-white hover:bg-primary/90"
+              className="w-full bg-primary text-white hover:bg-primary/90 rounded-none text-[10px] font-bold uppercase tracking-[0.2em] py-5"
             >
               {loading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Analyzing device specs...
-                </>
+                <Loader2 className="h-4 w-4 animate-spin" />
               ) : (
-                'Explain in Plain English'
+                'Expert Summary'
               )}
             </Button>
           </div>
         ) : (
           <div className="space-y-4 animate-in fade-in duration-500">
-            <div className="flex gap-2 items-start text-sm bg-background p-4 rounded-xl border border-primary/10">
-              <Info className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-              <div className="leading-relaxed">
-                {summary}
-              </div>
+            <div className="flex gap-3 items-start text-[11px] bg-background p-4 border leading-relaxed border-primary/20">
+              <Info className="h-4 w-4 text-primary shrink-0" />
+              <div>{summary}</div>
             </div>
             <Button 
               variant="link" 
               onClick={() => setSummary(null)} 
-              className="text-primary p-0 h-auto"
+              className="text-primary p-0 h-auto text-[10px] uppercase font-bold tracking-widest"
             >
-              Regenerate summary
+              Request New Analysis
             </Button>
           </div>
         )}

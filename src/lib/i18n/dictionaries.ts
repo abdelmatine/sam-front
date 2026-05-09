@@ -2,115 +2,220 @@ export const dictionaries = {
   fr: {
     nav: {
       shop: "Boutique",
-      about: "À Propos",
+      about: "Notre Mission",
       contact: "Contact",
       cart: "Panier",
-      consultation: "Réserver une Consultation"
+      consultation: "Expertise Clinique"
     },
     hero: {
-      badge: "Approuvé par la FDA et certifié",
-      title: "Solutions de Soins Respiratoires Avancées",
-      subtitle: "CPAP, BPAP et concentrateurs d'oxygène de qualité supérieure conçus pour l'excellence clinique à domicile.",
-      cta_primary: "Acheter Maintenant",
-      cta_secondary: "Demander une Consultation",
-      stat_patients: "Patients servis",
-      stat_clinics: "Cliniques de confiance",
-      stat_support: "Support expert"
+      badge: "Dispositifs certifiés ISO & FDA",
+      title: "Précision Médicale pour les Soins Respiratoires",
+      subtitle: "Solutions cliniques de haute performance : CPAP, BPAP et concentrateurs d'oxygène pour un usage domestique professionnel.",
+      cta_primary: "Explorer le Catalogue",
+      cta_secondary: "Consultation Technique",
+      stat_patients: "Patients Accompagnés",
+      stat_clinics: "Centres Partenaires",
+      stat_support: "Assistance 24/7"
     },
     categories: {
-      title: "Nos Collections Médicales",
-      subtitle: "Équipement de haute précision pour la santé respiratoire et la surveillance clinique.",
-      view_all: "Voir toutes les catégories",
-      respiratory: "Appareils CPAP & BPAP",
-      oxygen: "Concentrateurs d'Oxygène",
-      accessories: "Masques & Accessoires",
-      monitoring: "Équipement de Surveillance",
-      others: "Autres Fournitures"
+      title: "Spécialités Médicales",
+      subtitle: "Équipements de pointe sélectionnés pour leur fiabilité et leur excellence clinique.",
+      view_all: "Voir Tout",
+      respiratory: "Appareils Respiratoires",
+      oxygen: "Oxygénothérapie",
+      accessories: "Interfaces & Masques",
+      monitoring: "Monitorage Vital",
+      others: "Consommables"
+    },
+    shop: {
+      title: "Catalogue de Précision",
+      subtitle: "Chaque dispositif est soumis à un contrôle technique rigoureux avant expédition.",
+      search: "Rechercher par modèle ou marque...",
+      sort: "Trier par",
+      no_results: "Aucun équipement trouvé",
+      reset: "Réinitialiser les filtres"
+    },
+    cart: {
+      title: "Votre Sélection",
+      empty: "Votre panier est vide",
+      continue: "Continuer mes achats",
+      summary: "Résumé de la commande",
+      subtotal: "Sous-total",
+      shipping: "Livraison",
+      tax: "Taxes estimées",
+      total: "Total",
+      checkout: "Procéder au paiement",
+      disclaimer: "Certains équipements nécessitent une prescription médicale valide pour être activés."
+    },
+    product: {
+      back: "Retour au catalogue",
+      new: "Nouvelle Technologie",
+      clinical_grade: "Certifié Clinique",
+      in_stock: "En stock",
+      out_of_stock: "Sur commande",
+      add_to_cart: "Ajouter à la sélection",
+      ai_assistant: "Assistant Technique IA",
+      ai_desc: "Simplifiez les spécifications complexes du dispositif.",
+      specs: "Spécifications",
+      warranty: "Garantie 2 ans",
+      returns: "Retours 14j",
+      delivery: "Livraison Sécurisée"
     },
     common: {
-      new: "Nouveauté",
-      stock_out: "En rupture de stock",
-      add_to_cart: "Ajouter au panier",
-      clinical_grade: "Qualité Clinique",
+      new: "Nouveau",
+      stock_out: "Indisponible",
+      add: "Ajouter",
+      clinical_grade: "Grade Médical",
       back: "Retour",
-      search: "Rechercher...",
-      sort: "Trier par"
+      search: "Rechercher",
+      sort: "Trier",
+      free: "Gratuit"
     }
   },
   en: {
     nav: {
       shop: "Shop",
-      about: "About",
+      about: "Our Mission",
       contact: "Contact",
       cart: "Cart",
-      consultation: "Book Consultation"
+      consultation: "Clinical Expertise"
     },
     hero: {
-      badge: "FDA Approved & Certified",
-      title: "Advanced Respiratory Care Solutions",
-      subtitle: "Premium CPAP, BPAP, and Oxygen Concentrators designed for clinical excellence at home.",
-      cta_primary: "Shop Now",
-      cta_secondary: "Request Consultation",
+      badge: "ISO & FDA Certified Devices",
+      title: "Medical Precision for Respiratory Care",
+      subtitle: "High-performance clinical solutions: CPAP, BPAP, and oxygen concentrators for professional home use.",
+      cta_primary: "Browse Catalogue",
+      cta_secondary: "Technical Consultation",
       stat_patients: "Patients Served",
-      stat_clinics: "Clinics Trusted",
-      stat_support: "Expert Support"
+      stat_clinics: "Clinical Partners",
+      stat_support: "24/7 Assistance"
     },
     categories: {
-      title: "Our Medical Collections",
-      subtitle: "High-precision equipment for respiratory health and clinical monitoring.",
-      view_all: "View All Categories",
-      respiratory: "CPAP & BPAP Devices",
-      oxygen: "Oxygen Concentrators",
-      accessories: "Masks & Accessories",
-      monitoring: "Monitoring Equipment",
-      others: "Other Supplies"
+      title: "Medical Specialties",
+      subtitle: "Cutting-edge equipment selected for reliability and clinical excellence.",
+      view_all: "View All",
+      respiratory: "Respiratory Devices",
+      oxygen: "Oxygen Therapy",
+      accessories: "Interfaces & Masks",
+      monitoring: "Vital Monitoring",
+      others: "Medical Supplies"
+    },
+    shop: {
+      title: "Precision Catalogue",
+      subtitle: "Every device undergoes rigorous technical inspection before shipping.",
+      search: "Search by model or brand...",
+      sort: "Sort by",
+      no_results: "No equipment found",
+      reset: "Reset filters"
+    },
+    cart: {
+      title: "Your Selection",
+      empty: "Your cart is empty",
+      continue: "Continue shopping",
+      summary: "Order Summary",
+      subtotal: "Subtotal",
+      shipping: "Shipping",
+      tax: "Estimated Tax",
+      total: "Total",
+      checkout: "Proceed to Checkout",
+      disclaimer: "Certain equipment requires a valid medical prescription to be activated."
+    },
+    product: {
+      back: "Back to catalogue",
+      new: "New Technology",
+      clinical_grade: "Clinical Certified",
+      in_stock: "In Stock",
+      out_of_stock: "On Demand",
+      add_to_cart: "Add to Selection",
+      ai_assistant: "AI Technical Assistant",
+      ai_desc: "Simplify complex device specifications.",
+      specs: "Specifications",
+      warranty: "2y Warranty",
+      returns: "14d Returns",
+      delivery: "Secure Delivery"
     },
     common: {
       new: "New",
-      stock_out: "Out of Stock",
-      add_to_cart: "Add to Cart",
-      clinical_grade: "Clinical Grade",
+      stock_out: "Unavailable",
+      add: "Add",
+      clinical_grade: "Medical Grade",
       back: "Back",
-      search: "Search...",
-      sort: "Sort by"
+      search: "Search",
+      sort: "Sort",
+      free: "Free"
     }
   },
   ar: {
     nav: {
       shop: "المتجر",
-      about: "حول",
+      about: "مهمتنا",
       contact: "اتصل بنا",
       cart: "السلة",
-      consultation: "حجز استشارة"
+      consultation: "الخبرة السريرية"
     },
     hero: {
-      badge: "معتمد من إدارة الغذاء والدواء",
-      title: "حلول متقدمة للعناية بالجهاز التنفسي",
-      subtitle: "أجهزة CPAP وBPAP ومكثفات أكسجين متميزة مصممة للتميز السريري في المنزل.",
-      cta_primary: "تسوق الآن",
-      cta_secondary: "طلب استشارة",
+      badge: "أجهزة معتمدة من ISO و FDA",
+      title: "دقة طبية للعناية بالجهاز التنفسي",
+      subtitle: "حلول سريرية عالية الأداء: أجهزة CPAP وBPAP ومكثفات الأكسجين للاستخدام المنزلي الاحترافي.",
+      cta_primary: "تصفح الكتالوج",
+      cta_secondary: "استشارة فنية",
       stat_patients: "مريض تم خدمتهم",
-      stat_clinics: "عيادة موثوقة",
-      stat_support: "دعم خبراء"
+      stat_clinics: "شركاء سريريون",
+      stat_support: "دعم 24/7"
     },
     categories: {
-      title: "مجموعاتنا الطبية",
-      subtitle: "معدات عالية الدقة لصحة الجهاز التنفسي والمراقبة السريرية.",
-      view_all: "عرض جميع الفئات",
-      respiratory: "أجهزة CPAP و BPAP",
-      oxygen: "مكثفات الأكسجين",
-      accessories: "الأقنعة والملحقات",
-      monitoring: "معدات المراقبة",
-      others: "مستلزمات أخرى"
+      title: "التخصصات الطبية",
+      subtitle: "معدات متطورة تم اختيارها لموثوقيتها وتميزها السريري.",
+      view_all: "عرض الكل",
+      respiratory: "أجهزة التنفس",
+      oxygen: "العلاج بالأكسجين",
+      accessories: "الواجهات والأقنعة",
+      monitoring: "المراقبة الحيوية",
+      others: "المستلزمات الطبية"
+    },
+    shop: {
+      title: "كتالوج الدقة",
+      subtitle: "يخضع كل جهاز لفحص فني صارم قبل الشحن.",
+      search: "البحث عن الطراز أو العلامة التجارية...",
+      sort: "فرز حسب",
+      no_results: "لم يتم العثور على معدات",
+      reset: "إعادة ضبط الفلاتر"
+    },
+    cart: {
+      title: "اختيارك",
+      empty: "سلة التسوق فارغة",
+      continue: "مواصلة التسوق",
+      summary: "ملخص الطلب",
+      subtotal: "المجموع الفرعي",
+      shipping: "الشحن",
+      tax: "الضريبة المقدرة",
+      total: "الإجمالي",
+      checkout: "إتمام الشراء",
+      disclaimer: "تتطلب بعض المعدات وصفة طبية صالحة ليتم تفعيلها."
+    },
+    product: {
+      back: "العودة للكتالوج",
+      new: "تقنية جديدة",
+      clinical_grade: "معتمد سريرياً",
+      in_stock: "متوفر",
+      out_of_stock: "عند الطلب",
+      add_to_cart: "إضافة للاختيار",
+      ai_assistant: "مساعد فني ذكي",
+      ai_desc: "تبسيط المواصفات الفنية المعقدة للجهاز.",
+      specs: "المواصفات",
+      warranty: "ضمان سنتين",
+      returns: "إرجاع خلال 14 يوم",
+      delivery: "توصيل آمن"
     },
     common: {
       new: "جديد",
-      stock_out: "نفدت الكمية",
-      add_to_cart: "أضف إلى السلة",
-      clinical_grade: "درجة سريرية",
+      stock_out: "غير متوفر",
+      add: "إضافة",
+      clinical_grade: "درجة طبية",
       back: "رجوع",
-      search: "بحث...",
-      sort: "فرز حسب"
+      search: "بحث",
+      sort: "فرز",
+      free: "مجاني"
     }
   }
 };

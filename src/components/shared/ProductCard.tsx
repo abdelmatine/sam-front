@@ -6,11 +6,12 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '@/store/slices/cartSlice';
-import { Heart, ShoppingCart, Star, Eye } from 'lucide-react';
+import { ShoppingCart, Star, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { toast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
+import { useTranslation } from '@/hooks/use-translation';
 
 interface Product {
   id: string;
@@ -26,6 +27,7 @@ interface Product {
 
 const ProductCard = ({ product }: { product: Product }) => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -38,78 +40,59 @@ const ProductCard = ({ product }: { product: Product }) => {
       brand: product.brand
     }));
     toast({
-      title: "Added to Cart",
-      description: `${product.name} has been added to your shopping cart.`,
+      title: "Selection Updated",
+      description: `${product.name} added to selection.`,
     });
   };
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.95 }}
-      whileHover={{ y: -8 }}
-      animate={{ opacity: 1, scale: 1 }}
-      className="bg-card border rounded-xl overflow-hidden group transition-all medical-shadow flex flex-col h-full"
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true }}
+      className="bg-card border rounded-none overflow-hidden group transition-all clinical-shadow flex flex-col h-full"
     >
-      <div className="relative h-64 overflow-hidden">
-        {/* Main Product Image Link */}
+      <div className="relative h-72 overflow-hidden border-b">
         <Link href={`/product/${product.id}`} className="block h-full w-full">
           <Image 
             src={product.imageUrl}
             alt={product.name}
             fill
-            className="object-cover group-hover:scale-105 transition-transform duration-500"
+            className="object-cover group-hover:scale-105 transition-transform duration-700 grayscale-[0.5] group-hover:grayscale-0"
           />
         </Link>
         
-        {/* Badges - Non-interactive overlay */}
-        <div className="absolute top-3 left-3 flex flex-col gap-2 pointer-events-none">
-          {product.isNew && <Badge className="bg-primary text-white border-none">New Arrival</Badge>}
-          {!product.inStock && <Badge variant="destructive">Out of Stock</Badge>}
-        </div>
-
-        {/* Hover Actions - Restructured to avoid nested link/button issues */}
-        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3 pointer-events-none">
-          <Button variant="secondary" size="icon" className="rounded-full shadow-lg pointer-events-auto">
-            <Heart className="h-4 w-4" />
-          </Button>
-          <Button variant="secondary" size="icon" className="rounded-full shadow-lg pointer-events-auto" asChild>
-            <Link href={`/product/${product.id}`}>
-              <Eye className="h-4 w-4" />
-            </Link>
-          </Button>
+        <div className="absolute top-4 left-4 flex flex-col gap-2">
+          {product.isNew && <Badge className="bg-primary text-white border-none rounded-none text-[9px] uppercase tracking-widest px-2 py-1">{t.common.new}</Badge>}
+          {!product.inStock && <Badge variant="destructive" className="rounded-none text-[9px] uppercase tracking-widest px-2 py-1">{t.common.stock_out}</Badge>}
         </div>
       </div>
 
-      <div className="p-5 flex flex-col flex-1 gap-2">
-        <div className="flex justify-between items-start">
-          <div>
-            <span className="text-xs text-muted-foreground uppercase tracking-widest font-bold">{product.brand}</span>
-            <Link href={`/product/${product.id}`}>
-              <h3 className="font-bold text-lg group-hover:text-primary transition-colors line-clamp-1">{product.name}</h3>
-            </Link>
-          </div>
-        </div>
+      <div className="p-6 flex flex-col flex-1 gap-1">
+        <span className="text-[10px] text-primary font-bold uppercase tracking-[0.2em]">{product.brand}</span>
+        <Link href={`/product/${product.id}`}>
+          <h3 className="font-bold text-base group-hover:text-primary transition-colors line-clamp-1 mb-2">{product.name}</h3>
+        </Link>
 
-        <div className="flex items-center gap-1 mb-2">
+        <div className="flex items-center gap-1 mb-4">
           {[...Array(5)].map((_, i) => (
             <Star 
               key={i} 
               className={cn("h-3 w-3", i < Math.floor(product.rating) ? "fill-primary text-primary" : "text-muted")} 
             />
           ))}
-          <span className="text-xs text-muted-foreground ml-1">({product.rating})</span>
+          <span className="text-[10px] text-muted-foreground ml-1 font-bold">({product.rating})</span>
         </div>
 
-        <div className="mt-auto flex items-center justify-between pt-4 border-t border-border/50">
-          <span className="text-xl font-bold">${product.price.toLocaleString()}</span>
+        <div className="mt-auto flex items-center justify-between pt-4 border-t">
+          <span className="text-lg font-bold tracking-tight">${product.price.toLocaleString()}</span>
           <Button 
             onClick={handleAddToCart}
             disabled={!product.inStock}
             size="sm"
-            className="bg-primary hover:bg-primary/90 rounded-lg gap-2"
+            className="bg-primary hover:bg-primary/90 rounded-none h-8 w-8 p-0"
           >
-            <ShoppingCart className="h-4 w-4" />
-            Add
+            <Plus className="h-4 w-4" />
           </Button>
         </div>
       </div>
