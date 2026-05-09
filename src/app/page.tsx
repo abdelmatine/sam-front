@@ -60,9 +60,9 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="bg-white border p-8 flex gap-8 items-center group transition-shadow hover:shadow-xl hover:shadow-slate-200/50"
+                className="bg-white border p-6 md:p-8 flex flex-col sm:flex-row gap-6 md:gap-8 items-center group transition-shadow hover:shadow-xl hover:shadow-slate-200/50"
               >
-                <div className="relative w-40 h-40 shrink-0 bg-slate-50 flex items-center justify-center">
+                <div className="relative w-full sm:w-40 h-40 shrink-0 bg-slate-50 flex items-center justify-center">
                   <Image 
                     src={product.imageUrl} 
                     alt={product.name} 
@@ -70,7 +70,7 @@ export default function Home() {
                     className="object-contain p-4 grayscale group-hover:grayscale-0 transition-all duration-500"
                   />
                 </div>
-                <div className="flex-1">
+                <div className="flex-1 w-full">
                   <div className="flex items-center gap-2 mb-2">
                     <ShieldCheck className="h-3 w-3 text-slate-400" />
                     <span className="text-[10px] text-slate-400 font-bold tracking-widest uppercase">ISO Certified</span>
@@ -99,8 +99,8 @@ export default function Home() {
       <section className="py-24 bg-white">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div className="bg-emerald-50/50 p-12 md:p-20 border border-emerald-100">
-              <h2 className="text-4xl font-bold text-slate-900 mb-8 leading-tight">Why RespiraMed Solutions?</h2>
+            <div className="bg-emerald-50/50 p-8 md:p-12 lg:p-20 border border-emerald-100">
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-8 leading-tight">Why RespiraMed Solutions?</h2>
               <p className="text-slate-600 mb-10 leading-relaxed">
                 RespiraMed is more than just a supplier. We are a technical partner committed to clinical excellence. Every device in our inventory undergoes a rigorous 15-point calibration check before shipping.
               </p>
@@ -125,7 +125,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-4 h-[500px]">
+            <div className="grid grid-cols-2 gap-4 h-[300px] md:h-[500px]">
               <div className="relative h-full bg-slate-100">
                 <Image src="https://picsum.photos/seed/med10/600/800" alt="Laboratory" fill className="object-cover" data-ai-hint="medical laboratory" />
               </div>
@@ -166,7 +166,7 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-12 mb-16">
             <div className="col-span-2 md:col-span-1">
-              <h4 className="font-bold text-slate-900 mb-6 uppercase tracking-widest text-xs">RespiraMed Solutions</h4>
+              <h4 className="font-bold text-slate-900 mb-6 uppercase tracking-widest text-xs">SAM Medicale Solutions</h4>
               <p className="text-xs text-slate-500 leading-relaxed mb-8">
                 Global provider of clinical respiratory solutions and specialized medical equipment. ISO 13485 Certified.
               </p>
@@ -205,7 +205,7 @@ export default function Home() {
             </div>
           </div>
           <div className="pt-8 border-t flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-[10px] text-slate-400">© {new Date().getFullYear()} RespiraMed Solutions. ISO 13485 Certified Medical Supplies.</p>
+            <p className="text-[10px] text-slate-400">© {new Date().getFullYear()} SAM Medicale Solutions. ISO 13485 Certified Medical Supplies.</p>
             <div className="flex gap-8 text-[10px] text-slate-400">
               <span className="hover:text-primary cursor-pointer">Security</span>
               <span className="hover:text-primary cursor-pointer">Sitemap</span>
