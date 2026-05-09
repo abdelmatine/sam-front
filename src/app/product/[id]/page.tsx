@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Navbar from '@/components/layout/Navbar';
 import AIExplainer from '@/components/shared/AIExplainer';
@@ -8,20 +8,26 @@ import { products } from '@/lib/products';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/store';
 import { addToCart } from '@/store/slices/cartSlice';
+import { toggleWishlist } from '@/store/slices/wishlistSlice';
 import { toast } from '@/hooks/use-toast';
 import Image from 'next/image';
-import { Star, ShoppingCart, ShieldCheck, Truck, RefreshCw, ArrowLeft, ArrowRight } from 'lucide-react';
+import { Star, ShoppingCart, ShieldCheck, Truck, RefreshCw, ArrowLeft, ArrowRight, Heart, Loader2 } from 'lucide-react';
 import { useTranslation } from '@/hooks/use-translation';
+import { motion } from 'framer-motion';
 
 export default function ProductDetailPage() {
   const { id } = useParams();
   const router = useRouter();
   const dispatch = useDispatch();
+  const wishlist = useSelector((state: RootState) => state.wishlist.items);
   const { t, isRTL } = useTranslation();
+  const [isAdding, setIsAdding] = useState(false);
   
   const product = products.find(p => p.id === id);
+  const isWishlisted = wishlist.some(item => item.id === product?.id);
 
   if (!product) {
     return (
@@ -33,18 +39,32 @@ export default function ProductDetailPage() {
   }
 
   const handleAddToCart = () => {
-    dispatch(addToCart({
+    setIsAdding(true);
+    setTimeout(() => {
+      dispatch(addToCart({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        quantity: 1,
+        imageUrl: product.imageUrl,
+        brand: product.brand
+      }));
+      toast({
+        title: "Device Selected",
+        description: `${product.name} ready for acquisition.`,
+      });
+      setIsAdding(false);
+    }, 400);
+  };
+
+  const handleWishlist = () => {
+    dispatch(toggleWishlist({
       id: product.id,
       name: product.name,
       price: product.price,
-      quantity: 1,
       imageUrl: product.imageUrl,
       brand: product.brand
     }));
-    toast({
-      title: "Device Selected",
-      description: `${product.name} ready for acquisition.`,
-    });
   };
 
   return (
@@ -63,7 +83,11 @@ export default function ProductDetailPage() {
 
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-24">
           {/* Gallery */}
-          <div className="space-y-4">
+          <motion.div 
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="space-y-4"
+          >
             <div className="relative aspect-square border bg-muted clinical-shadow overflow-hidden">
               <Image 
                 src={product.imageUrl} 
@@ -78,10 +102,14 @@ export default function ProductDetailPage() {
                 </Badge>
               )}
             </div>
-          </div>
+          </motion.div>
 
           {/* Details */}
-          <div className="flex flex-col gap-8">
+          <motion.div 
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="flex flex-col gap-8"
+          >
             <div className="border-l-4 border-primary pl-6">
               <span className="text-[11px] text-primary font-bold uppercase tracking-[0.3em] block mb-2">{product.brand}</span>
               <h1 className="text-3xl md:text-4xl font-headline font-bold uppercase tracking-tight leading-tight">{product.name}</h1>
@@ -104,8 +132,16 @@ export default function ProductDetailPage() {
               </div>
             </div>
 
-            <div className="text-3xl font-bold tracking-tight text-foreground border-b pb-6">
+            <div className="text-3xl font-bold tracking-tight text-foreground border-b pb-6 flex items-center justify-between">
               ${product.price.toLocaleString()}
+              <Button 
+                variant="outline" 
+                size="icon" 
+                onClick={handleWishlist}
+                className={cn("rounded-none border-primary/20 transition-all", isWishlisted && "bg-destructive/5 border-destructive/20")}
+              >
+                <Heart className={cn("h-5 w-5", isWishlisted && "fill-destructive text-destructive")} />
+              </Button>
             </div>
 
             <div className="space-y-4">
@@ -118,10 +154,10 @@ export default function ProductDetailPage() {
             <div className="pt-4">
               <Button 
                 onClick={handleAddToCart}
-                disabled={!product.inStock}
+                disabled={!product.inStock || isAdding}
                 className="w-full py-8 text-sm font-bold uppercase tracking-[0.3em] rounded-none bg-primary text-white hover:bg-primary/90 transition-all clinical-shadow"
               >
-                <ShoppingCart className="mr-3 h-5 w-5" />
+                {isAdding ? <Loader2 className="mr-3 h-5 w-5 animate-spin" /> : <ShoppingCart className="mr-3 h-5 w-5" />}
                 {product.inStock ? t.product.add_to_cart : t.product.out_of_stock}
               </Button>
             </div>
@@ -146,7 +182,7 @@ export default function ProductDetailPage() {
                 <span className="text-[9px] font-bold uppercase tracking-widest">{t.product.warranty}</span>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </main>

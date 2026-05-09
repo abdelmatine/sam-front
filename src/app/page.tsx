@@ -9,29 +9,35 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { useTranslation } from '@/hooks/use-translation';
-import { ShoppingCart, ArrowRight, ShieldCheck, Activity, Mail, Facebook, Twitter, Instagram } from 'lucide-react';
+import { ShoppingCart, ArrowRight, ShieldCheck, Activity, Mail, Facebook, Twitter, Instagram, Loader2 } from 'lucide-react';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '@/store/slices/cartSlice';
 import { toast } from '@/hooks/use-toast';
+import { useState } from 'react';
 
 export default function Home() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const [addingId, setAddingId] = useState<string | null>(null);
   const featuredProducts = products.slice(0, 2);
 
   const handleAddToCart = (product: any) => {
-    dispatch(addToCart({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      quantity: 1,
-      imageUrl: product.imageUrl,
-      brand: product.brand
-    }));
-    toast({
-      title: "Selection Updated",
-      description: `${product.name} added to cart.`,
-    });
+    setAddingId(product.id);
+    setTimeout(() => {
+      dispatch(addToCart({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        quantity: 1,
+        imageUrl: product.imageUrl,
+        brand: product.brand
+      }));
+      toast({
+        title: "Selection Updated",
+        description: `${product.name} added to cart.`,
+      });
+      setAddingId(null);
+    }, 400);
   };
 
   return (
@@ -41,9 +47,14 @@ export default function Home() {
       <CategoriesSection />
 
       {/* Flagship Equipment */}
-      <section className="py-24 bg-slate-50/50">
+      <section className="py-24 bg-slate-50/50 overflow-hidden">
         <div className="container mx-auto px-4">
-          <div className="flex justify-between items-end mb-16">
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="flex justify-between items-end mb-16"
+          >
             <div>
               <h2 className="text-3xl font-bold text-slate-900 mb-2">Flagship Equipment</h2>
               <p className="text-slate-500 text-sm">Our most trusted and highly-rated solutions.</p>
@@ -51,15 +62,16 @@ export default function Home() {
             <Link href="/shop" className="text-primary text-sm font-bold flex items-center gap-1 hover:underline">
               View All Products <ArrowRight className="h-4 w-4" />
             </Link>
-          </div>
+          </motion.div>
           
           <div className="grid md:grid-cols-2 gap-8">
-            {featuredProducts.map((product) => (
+            {featuredProducts.map((product, index) => (
               <motion.div
                 key={product.id}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
                 className="bg-white border p-6 md:p-8 flex flex-col sm:flex-row gap-6 md:gap-8 items-center group transition-shadow hover:shadow-xl hover:shadow-slate-200/50"
               >
                 <div className="relative w-full sm:w-40 h-40 shrink-0 bg-slate-50 flex items-center justify-center">
@@ -83,9 +95,10 @@ export default function Home() {
                     <span className="text-2xl font-bold text-slate-900">${product.price.toLocaleString()}.00</span>
                     <Button 
                       onClick={() => handleAddToCart(product)}
-                      className="bg-primary text-white h-10 w-10 p-0 rounded-none shadow-lg shadow-primary/20"
+                      disabled={addingId === product.id}
+                      className="bg-primary text-white h-10 w-10 p-0 rounded-none shadow-lg shadow-primary/20 transition-transform active:scale-90"
                     >
-                      <ShoppingCart className="h-5 w-5" />
+                      {addingId === product.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <ShoppingCart className="h-5 w-5" />}
                     </Button>
                   </div>
                 </div>
@@ -99,7 +112,12 @@ export default function Home() {
       <section className="py-24 bg-white">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div className="bg-emerald-50/50 p-8 md:p-12 lg:p-20 border border-emerald-100">
+            <motion.div 
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="bg-emerald-50/50 p-8 md:p-12 lg:p-20 border border-emerald-100"
+            >
               <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-8 leading-tight">Why RespiraMed Solutions?</h2>
               <p className="text-slate-600 mb-10 leading-relaxed">
                 RespiraMed is more than just a supplier. We are a technical partner committed to clinical excellence. Every device in our inventory undergoes a rigorous 15-point calibration check before shipping.
@@ -124,21 +142,37 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
             <div className="grid grid-cols-2 gap-4 h-[300px] md:h-[500px]">
-              <div className="relative h-full bg-slate-100">
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                className="relative h-full bg-slate-100"
+              >
                 <Image src="https://picsum.photos/seed/med10/600/800" alt="Laboratory" fill className="object-cover" data-ai-hint="medical laboratory" />
-              </div>
-              <div className="relative h-full bg-slate-100">
+              </motion.div>
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+                className="relative h-full bg-slate-100"
+              >
                 <Image src="https://picsum.photos/seed/med11/600/800" alt="Medical Tech" fill className="object-cover" data-ai-hint="medical device technician" />
-              </div>
+              </motion.div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Newsletter */}
-      <section className="py-20 bg-slate-900 text-white">
+      <motion.section 
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        className="py-20 bg-slate-900 text-white"
+      >
         <div className="container mx-auto px-4 text-center max-w-3xl">
           <Mail className="h-8 w-8 text-emerald-400 mx-auto mb-6" />
           <h2 className="text-3xl font-bold mb-4">Professional Updates & Reminders</h2>
@@ -159,14 +193,14 @@ export default function Home() {
             We respect clinical privacy. Data handled according to HIPAA guidelines.
           </p>
         </div>
-      </section>
+      </motion.section>
 
-      {/* Footer */}
+      {/* Footer Branding Fix */}
       <footer className="bg-white border-t py-20">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-12 mb-16">
             <div className="col-span-2 md:col-span-1">
-              <h4 className="font-bold text-slate-900 mb-6 uppercase tracking-widest text-xs">SAM Medicale Solutions</h4>
+              <h4 className="font-bold text-slate-900 mb-6 uppercase tracking-widest text-xs">SAM Médicale Solutions</h4>
               <p className="text-xs text-slate-500 leading-relaxed mb-8">
                 Global provider of clinical respiratory solutions and specialized medical equipment. ISO 13485 Certified.
               </p>
@@ -205,7 +239,7 @@ export default function Home() {
             </div>
           </div>
           <div className="pt-8 border-t flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-[10px] text-slate-400">© {new Date().getFullYear()} SAM Medicale Solutions. ISO 13485 Certified Medical Supplies.</p>
+            <p className="text-[10px] text-slate-400">© {new Date().getFullYear()} SAM Médicale Solutions. ISO 13485 Certified Medical Supplies.</p>
             <div className="flex gap-8 text-[10px] text-slate-400">
               <span className="hover:text-primary cursor-pointer">Security</span>
               <span className="hover:text-primary cursor-pointer">Sitemap</span>

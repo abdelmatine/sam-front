@@ -3,9 +3,11 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/store';
 import { addToCart } from '@/store/slices/cartSlice';
-import { Star, Plus, Loader2 } from 'lucide-react';
+import { toggleWishlist } from '@/store/slices/wishlistSlice';
+import { Star, Plus, Loader2, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { toast } from '@/hooks/use-toast';
@@ -27,6 +29,8 @@ interface Product {
 
 const ProductCard = ({ product }: { product: Product }) => {
   const dispatch = useDispatch();
+  const wishlist = useSelector((state: RootState) => state.wishlist.items);
+  const isWishlisted = wishlist.some(item => item.id === product.id);
   const { t } = useTranslation();
   const router = useRouter();
   const [isNavigating, setIsNavigating] = useState(false);
@@ -37,7 +41,6 @@ const ProductCard = ({ product }: { product: Product }) => {
     e.stopPropagation();
     setIsAdding(true);
     
-    // Simulate minor delay for UX feedback
     setTimeout(() => {
       dispatch(addToCart({
         id: product.id,
@@ -55,6 +58,22 @@ const ProductCard = ({ product }: { product: Product }) => {
     }, 400);
   };
 
+  const handleWishlist = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dispatch(toggleWishlist({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      imageUrl: product.imageUrl,
+      brand: product.brand
+    }));
+    toast({
+      title: isWishlisted ? "Retiré" : "Ajouté",
+      description: `${product.name} ${isWishlisted ? 'retiré de' : 'ajouté à'} la liste de souhaits.`,
+    });
+  };
+
   const handleNavigate = (e: React.MouseEvent) => {
     e.preventDefault();
     setIsNavigating(true);
@@ -66,6 +85,7 @@ const ProductCard = ({ product }: { product: Product }) => {
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
+      whileHover={{ y: -5 }}
       className="bg-card border rounded-none overflow-hidden group transition-all clinical-shadow flex flex-col h-full hover:border-primary/40"
     >
       <div className="relative h-64 overflow-hidden border-b cursor-pointer" onClick={handleNavigate}>
@@ -82,7 +102,7 @@ const ProductCard = ({ product }: { product: Product }) => {
         
         {isNavigating && (
           <div className="absolute inset-0 bg-background/40 backdrop-blur-sm flex items-center justify-center">
-            <Loader2 className="h-8 w-8 text-primary animate-spin" />
+            <ActivityLoader />
           </div>
         )}
 
@@ -98,6 +118,15 @@ const ProductCard = ({ product }: { product: Product }) => {
             </Badge>
           )}
         </div>
+
+        <Button 
+          variant="ghost" 
+          size="icon" 
+          onClick={handleWishlist}
+          className="absolute top-4 right-4 bg-white/80 backdrop-blur-sm hover:bg-white text-muted-foreground transition-all rounded-none opacity-0 group-hover:opacity-100 translate-y-[-10px] group-hover:translate-y-0"
+        >
+          <Heart className={cn("h-4 w-4 transition-colors", isWishlisted && "fill-destructive text-destructive")} />
+        </Button>
       </div>
 
       <div className="p-6 flex flex-col flex-1 gap-1">
@@ -138,5 +167,15 @@ const ProductCard = ({ product }: { product: Product }) => {
     </motion.div>
   );
 };
+
+const ActivityLoader = () => (
+  <motion.div 
+    animate={{ opacity: [0.5, 1, 0.5] }}
+    transition={{ duration: 1.5, repeat: Infinity }}
+    className="flex flex-col items-center gap-2"
+  >
+    <div className="h-8 w-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+  </motion.div>
+);
 
 export default ProductCard;
