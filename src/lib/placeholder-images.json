@@ -1,3 +1,46 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero-cpap",
+      "description": "Modern CPAP Machine on nightstand",
+      "imageUrl": "https://picsum.photos/seed/med1/1200/800",
+      "imageHint": "CPAP machine medical device"
+    },
+    {
+      "id": "product-cpap-1",
+      "description": "Premium CPAP Machine",
+      "imageUrl": "https://picsum.photos/seed/med2/600/600",
+      "imageHint": "CPAP machine"
+    },
+    {
+      "id": "product-concentrator-1",
+      "description": "Portable Oxygen Concentrator",
+      "imageUrl": "https://picsum.photos/seed/med3/600/600",
+      "imageHint": "Oxygen concentrator"
+    },
+    {
+      "id": "product-nebulizer-1",
+      "description": "Professional Nebulizer",
+      "imageUrl": "https://picsum.photos/seed/med4/600/600",
+      "imageHint": "Nebulizer device"
+    },
+    {
+      "id": "category-respiratory",
+      "description": "Respiratory care equipment",
+      "imageUrl": "https://picsum.photos/seed/cat1/400/300",
+      "imageHint": "respiratory medical"
+    },
+    {
+      "id": "category-accessories",
+      "description": "CPAP Masks and accessories",
+      "imageUrl": "https://picsum.photos/seed/cat2/400/300",
+      "imageHint": "CPAP accessories"
+    },
+    {
+      "id": "category-monitoring",
+      "description": "Medical monitoring devices",
+      "imageUrl": "https://picsum.photos/seed/cat3/400/300",
+      "imageHint": "medical monitor"
+    }
+  ]
 }
