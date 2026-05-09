@@ -1,3 +1,4 @@
+
 "use client";
 
 import React from 'react';
@@ -18,6 +19,9 @@ const Hero = () => {
     { icon: Truck, title: "LOGISTIQUE CLINIQUE", desc: "Expédition sécurisée de matériel sensible partout." },
     { icon: PhoneCall, title: "SUPPORT TECHNIQUE", desc: "Assistance experte 24/7 pour le calibrage." }
   ];
+
+  // Duplicate items for a seamless horizontal loop
+  const tickerItems = [...stats, ...stats, ...stats];
 
   return (
     <section className="relative w-full overflow-hidden hero-gradient pt-16 md:pt-20">
@@ -73,25 +77,43 @@ const Hero = () => {
       </div>
 
       <motion.div 
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="border-y bg-background/50 backdrop-blur-sm py-12"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="border-y bg-background/50 backdrop-blur-sm py-12 overflow-hidden relative"
       >
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-3 gap-12">
-            {stats.map((stat, i) => (
-              <div key={i} className="flex items-start gap-5">
-                <div className="shrink-0 p-3 bg-primary/5 rounded-none border border-primary/10">
-                  <stat.icon className="h-5 w-5 text-primary" />
+        <div className="flex items-center">
+          <motion.div 
+            className="flex items-center whitespace-nowrap"
+            animate={{
+              x: isRTL ? ["0%", "33.33%"] : ["0%", "-33.33%"]
+            }}
+            transition={{
+              x: {
+                repeat: Infinity,
+                repeatType: "loop",
+                duration: 40,
+                ease: "linear",
+              },
+            }}
+          >
+            {tickerItems.map((stat, i) => (
+              <div key={i} className="flex items-center">
+                <div className="flex items-start gap-6 px-12 md:px-24 min-w-[350px] md:min-w-[450px]">
+                  <div className="shrink-0 p-3 bg-primary/5 rounded-none border border-primary/10">
+                    <stat.icon className="h-5 w-5 text-primary" />
+                  </div>
+                  <div className="flex flex-col whitespace-normal">
+                    <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-foreground mb-1">{stat.title}</h4>
+                    <p className="text-[10px] text-muted-foreground leading-relaxed italic max-w-[280px]">
+                      {stat.desc}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="text-[10px] font-bold uppercase tracking-widest text-foreground mb-1">{stat.title}</h4>
-                  <p className="text-[10px] text-muted-foreground leading-relaxed italic">{stat.desc}</p>
-                </div>
+                {/* Visual Separator */}
+                <div className="h-10 w-[1px] bg-primary/20 shrink-0" />
               </div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </motion.div>
     </section>
