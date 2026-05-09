@@ -14,58 +14,58 @@ export interface Product {
 export const products: Product[] = [
   {
     id: '1',
-    name: 'AirSense 10 AutoSet CPAP',
+    name: 'SAM AirSense 10 AutoSet',
     price: 899,
-    brand: 'ResMed',
-    imageUrl: 'https://picsum.photos/seed/p1/600/600',
+    brand: 'SAM Médicale',
+    imageUrl: 'https://picsum.photos/seed/med-cpap1/600/600',
     category: 'respiratory',
     rating: 4.8,
     inStock: true,
     isNew: true,
-    description: 'The AirSense 10 AutoSet is a premium auto-adjusting pressure therapy device. It features an integrated humidifier and built-in wireless connectivity.'
+    description: 'Le SAM AirSense 10 AutoSet est un dispositif de thérapie à pression auto-ajustable haut de gamme. Il intègre un humidificateur et une connectivité sans fil avancée pour un suivi clinique précis à domicile.'
   },
   {
     id: '2',
-    name: 'SimplyGo Mini Oxygen Concentrator',
+    name: 'SimplyGo Mini Portable',
     price: 2450,
     brand: 'Philips Respironics',
-    imageUrl: 'https://picsum.photos/seed/p2/600/600',
+    imageUrl: 'https://picsum.photos/seed/med-oxy1/600/600',
     category: 'oxygen',
     rating: 4.9,
     inStock: true,
-    description: 'The SimplyGo Mini is the smallest and lightest portable oxygen concentrator developed by Philips Respironics, built for today’s active patients.'
+    description: 'Le SimplyGo Mini est le concentrateur d\'oxygène portable le plus petit et le plus léger développé par Philips. Conçu pour les patients actifs, il allie fiabilité clinique et portabilité extrême.'
   },
   {
     id: '3',
-    name: 'DreamWear Silicone Nasal Mask',
+    name: 'Masque Nasal SAM SoftFit',
     price: 109,
-    brand: 'Philips',
-    imageUrl: 'https://picsum.photos/seed/p3/600/600',
+    brand: 'SAM Médicale',
+    imageUrl: 'https://picsum.photos/seed/med-mask1/600/600',
     category: 'accessories',
     rating: 4.5,
     inStock: true,
-    description: 'The DreamWear Silicone Nasal Mask features a lightweight, open-face design that provides freedom of movement and a clear field of vision.'
+    description: 'Le masque nasal SAM SoftFit utilise une silicone de grade chirurgical pour un confort optimal. Sa conception légère offre une liberté de mouvement maximale pendant le sommeil.'
   },
   {
     id: '4',
-    name: 'Premium Finger Pulse Oximeter',
+    name: 'Oxymètre Clinique Pro-V',
     price: 45,
     brand: 'Wellue',
-    imageUrl: 'https://picsum.photos/seed/p4/600/600',
+    imageUrl: 'https://picsum.photos/seed/med-oxim1/600/600',
     category: 'monitoring',
     rating: 4.7,
     inStock: true,
-    description: 'Highly accurate pulse oximeter for measuring blood oxygen saturation levels and pulse rate, designed for clinical and home use.'
+    description: 'Oxymètre de pouls haute précision pour la mesure de la saturation en oxygène du sang et de la fréquence cardiaque. Indispensable pour le suivi respiratoire quotidien.'
   },
   {
     id: '5',
-    name: 'Nebulizer Machine for Kids',
+    name: 'Nébuliseur SAM Kids-Care',
     price: 65,
-    brand: 'Omron',
-    imageUrl: 'https://picsum.photos/seed/p5/600/600',
+    brand: 'SAM Médicale',
+    imageUrl: 'https://picsum.photos/seed/med-nebu1/600/600',
     category: 'others',
     rating: 4.6,
     inStock: true,
-    description: 'A kid-friendly nebulizer designed to make respiratory treatment less intimidating for children, featuring quiet operation and efficient medication delivery.'
+    description: 'Un nébuliseur conçu spécifiquement pour les enfants, rendant le traitement moins intimidant grâce à son fonctionnement ultra-silencieux et sa diffusion efficace.'
   }
 ];

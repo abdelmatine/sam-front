@@ -6,11 +6,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store';
 import { setLanguage, Language } from '@/store/slices/i18nSlice';
 import { useTranslation } from '@/hooks/use-translation';
-import { ShoppingCart, Menu, X, Languages, Activity, Sun, Moon } from 'lucide-react';
+import { ShoppingCart, Menu, X, Languages, Activity, Sun, Moon, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 import { useTheme } from 'next-themes';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,7 +23,7 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const cartQuantity = useSelector((state: RootState) => state.cart.totalQuantity);
-  const { t, lang } = useTranslation();
+  const { t, lang, isRTL } = useTranslation();
   const dispatch = useDispatch();
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
@@ -34,6 +35,14 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.classList.add('no-scroll');
+    } else {
+      document.body.classList.remove('no-scroll');
+    }
+  }, [mobileMenuOpen]);
+
   if (!mounted) return null;
 
   const languages: { label: string; code: Language }[] = [
@@ -44,40 +53,57 @@ const Navbar = () => {
 
   return (
     <nav className={cn(
-      "fixed top-0 left-0 right-0 z-[100] transition-all duration-300",
-      isScrolled ? "bg-white/95 backdrop-blur-md py-4 border-b shadow-sm" : "bg-white py-6"
+      "fixed top-0 left-0 right-0 z-[100] transition-all duration-500",
+      isScrolled ? "bg-background/95 backdrop-blur-md py-3 border-b clinical-shadow" : "bg-background py-5"
     )}>
       <div className="container mx-auto px-4 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
-          <span className="font-headline font-bold text-xl tracking-tight text-primary">
-            RespiraMed <span className="text-slate-400 font-normal">Respiratory</span>
+        <Link href="/" className="flex items-center gap-2 group">
+          <div className="p-1.5 bg-primary rounded-none transition-transform group-hover:scale-110">
+            <Activity className="h-5 w-5 text-white" />
+          </div>
+          <span className="font-headline font-bold text-xl tracking-tighter text-foreground">
+            SAM <span className="text-primary">Médicale</span>
           </span>
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden lg:flex items-center gap-10">
-          <Link href="/shop" className="text-[10px] font-bold uppercase tracking-widest text-slate-500 hover:text-primary transition-colors">CPAP</Link>
-          <Link href="/shop" className="text-[10px] font-bold uppercase tracking-widest text-slate-500 hover:text-primary transition-colors">BPAP</Link>
-          <Link href="/shop" className="text-[10px] font-bold uppercase tracking-widest text-slate-500 hover:text-primary transition-colors">Oxygen</Link>
-          <Link href="/shop" className="text-[10px] font-bold uppercase tracking-widest text-slate-500 hover:text-primary transition-colors">Protective Gear</Link>
-          <Link href="/about" className="text-[10px] font-bold uppercase tracking-widest text-slate-500 hover:text-primary transition-colors">Certifications</Link>
+        <div className="hidden lg:flex items-center gap-8">
+          {['shop', 'about', 'contact'].map((item) => (
+            <Link 
+              key={item}
+              href={`/${item === 'shop' ? 'shop' : item}`} 
+              className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground hover:text-primary transition-all relative group"
+            >
+              {t.nav[item as keyof typeof t.nav]}
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
+            </Link>
+          ))}
         </div>
 
         {/* Action Icons */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 md:gap-4">
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="h-9 w-9 text-muted-foreground"
+            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+          >
+            {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+          </Button>
+
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-400">
+              <Button variant="ghost" size="icon" className="h-9 w-9 text-muted-foreground">
                 <Languages className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="rounded-none border-primary/20">
+            <DropdownMenuContent align="end" className="rounded-none border-primary/20 bg-background/95 backdrop-blur-md">
               {languages.map((l) => (
                 <DropdownMenuItem 
                   key={l.code} 
                   onClick={() => dispatch(setLanguage(l.code))}
-                  className={cn("cursor-pointer rounded-none text-xs", lang === l.code && "bg-primary text-white")}
+                  className={cn("cursor-pointer rounded-none text-xs font-bold uppercase tracking-widest", lang === l.code && "bg-primary text-primary-foreground")}
                 >
                   {l.label}
                 </DropdownMenuItem>
@@ -86,51 +112,89 @@ const Navbar = () => {
           </DropdownMenu>
 
           <Link href="/cart">
-            <Button variant="ghost" size="icon" className="relative h-8 w-8 text-slate-400">
+            <Button variant="ghost" size="icon" className="relative h-9 w-9 text-muted-foreground">
               <ShoppingCart className="h-4 w-4" />
-              {cartQuantity > 0 && (
-                <Badge className="absolute -top-1 -right-1 h-4 w-4 flex items-center justify-center p-0 text-[8px] bg-emerald-400 text-slate-900 rounded-full font-bold">
-                  {cartQuantity}
-                </Badge>
-              )}
+              <AnimatePresence>
+                {cartQuantity > 0 && (
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    exit={{ scale: 0 }}
+                    className="absolute -top-1 -right-1"
+                  >
+                    <Badge className="h-4 w-4 flex items-center justify-center p-0 text-[8px] bg-primary text-white rounded-full font-bold">
+                      {cartQuantity}
+                    </Badge>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </Button>
           </Link>
 
           <Button 
             variant="ghost" 
             size="icon" 
-            className="lg:hidden text-slate-400"
+            className="lg:hidden text-foreground"
             onClick={() => setMobileMenuOpen(true)}
           >
-            <Menu className="h-5 w-5" />
+            <Menu className="h-6 w-6" />
           </Button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
-      <div className={cn(
-        "fixed inset-0 bg-white z-[110] lg:hidden transition-transform duration-300",
-        mobileMenuOpen ? "translate-x-0" : "translate-x-full"
-      )}>
-        <div className="p-8 flex flex-col h-full">
-          <div className="flex justify-between items-center mb-16">
-            <span className="font-headline font-bold text-xl text-primary">RespiraMed</span>
-            <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(false)}>
-              <X className="h-6 w-6" />
-            </Button>
-          </div>
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <>
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setMobileMenuOpen(false)}
+              className="fixed inset-0 bg-background/80 backdrop-blur-sm z-[110] lg:hidden"
+            />
+            <motion.div 
+              initial={{ x: isRTL ? '-100%' : '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: isRTL ? '-100%' : '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              className={cn(
+                "fixed top-0 bottom-0 w-[80%] max-w-[320px] bg-background border-l z-[120] lg:hidden flex flex-col p-8",
+                isRTL ? "left-0" : "right-0"
+              )}
+            >
+              <div className="flex justify-between items-center mb-12">
+                <div className="flex items-center gap-2">
+                  <Activity className="h-6 w-6 text-primary" />
+                  <span className="font-headline font-bold text-xl">SAM Médicale</span>
+                </div>
+                <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(false)}>
+                  <X className="h-6 w-6" />
+                </Button>
+              </div>
 
-          <div className="flex flex-col gap-8">
-            <Link href="/shop" onClick={() => setMobileMenuOpen(false)} className="text-3xl font-bold text-slate-900">Catalogue</Link>
-            <Link href="/about" onClick={() => setMobileMenuOpen(false)} className="text-3xl font-bold text-slate-900">Certifications</Link>
-            <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="text-3xl font-bold text-slate-900">Support</Link>
-            
-            <Button className="mt-12 bg-primary text-white py-8 rounded-none text-lg font-bold uppercase tracking-widest">
-              Consultation
-            </Button>
-          </div>
-        </div>
-      </div>
+              <div className="flex flex-col gap-6">
+                {['shop', 'about', 'contact'].map((item) => (
+                  <Link 
+                    key={item}
+                    href={`/${item === 'shop' ? 'shop' : item}`} 
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="text-2xl font-bold hover:text-primary transition-colors uppercase tracking-tighter"
+                  >
+                    {t.nav[item as keyof typeof t.nav]}
+                  </Link>
+                ))}
+              </div>
+
+              <div className="mt-auto pt-8 border-t">
+                <Button className="w-full bg-primary text-white py-6 rounded-none text-xs font-bold uppercase tracking-widest shadow-xl shadow-primary/20">
+                  {t.nav.consultation}
+                </Button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </nav>
   );
 };
