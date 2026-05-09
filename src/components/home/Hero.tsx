@@ -24,7 +24,7 @@ const Hero = () => {
   const tickerItems = [...stats, ...stats, ...stats];
 
   return (
-    <section className="relative w-full overflow-hidden hero-gradient pt-16 md:pt-20">
+    <section className="relative w-full overflow-hidden hero-gradient pt-12 md:pt-14">
       <div className="relative h-[600px] md:h-[650px] flex items-center">
         <div className="absolute inset-0 z-0">
           {heroImage && (
@@ -51,7 +51,7 @@ const Hero = () => {
               <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-primary">{t.hero.badge}</span>
             </div>
             
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-[1.1] mb-6 tracking-tighter">
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-foreground leading-[1.1] mb-6 tracking-tighter">
               {t.hero.title}
             </h1>
             
