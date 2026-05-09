@@ -1,11 +1,10 @@
-
 "use client";
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
-import { ShoppingCart, Heart, Search, Menu, User, X, ChevronDown, Activity, Sun, Moon } from 'lucide-react';
+import { ShoppingCart, Search, Menu, User, X, ChevronDown, Activity, Sun, Moon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
@@ -41,17 +40,12 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks = [
-    { name: 'Shop', href: '/shop' },
-    { name: 'About', href: '/about' },
-    { name: 'Contact', href: '/contact' },
-  ];
-
   const shopCategories = [
-    { name: 'All Products', href: '/shop' },
+    { name: 'Shop All', href: '/shop' },
     { name: 'CPAP/BPAP', href: '/shop?category=respiratory' },
     { name: 'Concentrators', href: '/shop?category=oxygen' },
     { name: 'Accessories', href: '/shop?category=accessories' },
+    { name: 'Monitoring', href: '/shop?category=monitoring' },
     { name: 'Others', href: '/shop?category=others' },
   ];
 
@@ -120,7 +114,6 @@ const Navbar = () => {
               <DropdownMenuSeparator />
               <DropdownMenuItem>Profile</DropdownMenuItem>
               <DropdownMenuItem>Orders</DropdownMenuItem>
-              <DropdownMenuItem>Wishlist</DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem>Logout</DropdownMenuItem>
             </DropdownMenuContent>

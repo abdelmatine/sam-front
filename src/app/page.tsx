@@ -2,54 +2,10 @@ import Navbar from '@/components/layout/Navbar';
 import Hero from '@/components/home/Hero';
 import CategoriesSection from '@/components/home/CategoriesSection';
 import ProductCard from '@/components/shared/ProductCard';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { products } from '@/lib/products';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { ArrowRight, CheckCircle2, Award, Truck, PhoneCall } from 'lucide-react';
-
-const featuredProducts = [
-  {
-    id: '1',
-    name: 'AirSense 10 AutoSet CPAP',
-    price: 899,
-    brand: 'ResMed',
-    imageUrl: 'https://picsum.photos/seed/p1/600/600',
-    category: 'respiratory',
-    rating: 4.8,
-    inStock: true,
-    isNew: true
-  },
-  {
-    id: '2',
-    name: 'SimplyGo Mini Oxygen Concentrator',
-    price: 2450,
-    brand: 'Philips Respironics',
-    imageUrl: 'https://picsum.photos/seed/p2/600/600',
-    category: 'oxygen',
-    rating: 4.9,
-    inStock: true
-  },
-  {
-    id: '3',
-    name: 'DreamWear Silicone Nasal Mask',
-    price: 109,
-    brand: 'Philips',
-    imageUrl: 'https://picsum.photos/seed/p3/600/600',
-    category: 'accessories',
-    rating: 4.5,
-    inStock: true
-  },
-  {
-    id: '4',
-    name: 'Premium Finger Pulse Oximeter',
-    price: 45,
-    brand: 'Wellue',
-    imageUrl: 'https://picsum.photos/seed/p4/600/600',
-    category: 'monitoring',
-    rating: 4.7,
-    inStock: false
-  }
-];
+import { CheckCircle2, Award, Truck, PhoneCall } from 'lucide-react';
 
 const benefits = [
   {
@@ -75,6 +31,8 @@ const benefits = [
 ];
 
 export default function Home() {
+  const featuredProducts = products.slice(0, 4);
+
   return (
     <main className="flex flex-col min-h-screen">
       <Navbar />
@@ -148,14 +106,12 @@ export default function Home() {
                 </Button>
               </div>
             </div>
-            {/* Background Accents */}
             <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-white/5 rounded-full blur-[100px] translate-x-1/2 -translate-y-1/2" />
             <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-black/5 rounded-full blur-[80px] -translate-x-1/2 translate-y-1/2" />
           </div>
         </div>
       </section>
 
-      {/* Footer */}
       <footer className="bg-card border-t py-16">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-12 mb-16">
@@ -182,10 +138,10 @@ export default function Home() {
             <div>
               <h4 className="font-bold mb-6">Categories</h4>
               <ul className="flex flex-col gap-4 text-muted-foreground">
-                <li><Link href="/shop" className="hover:text-primary transition-colors">CPAP Devices</Link></li>
-                <li><Link href="/shop" className="hover:text-primary transition-colors">Concentrators</Link></li>
-                <li><Link href="/shop" className="hover:text-primary transition-colors">Masks & Tubes</Link></li>
-                <li><Link href="/shop" className="hover:text-primary transition-colors">Cleaning Kits</Link></li>
+                <li><Link href="/shop?category=respiratory" className="hover:text-primary transition-colors">CPAP Devices</Link></li>
+                <li><Link href="/shop?category=oxygen" className="hover:text-primary transition-colors">Concentrators</Link></li>
+                <li><Link href="/shop?category=accessories" className="hover:text-primary transition-colors">Masks & Tubes</Link></li>
+                <li><Link href="/shop?category=monitoring" className="hover:text-primary transition-colors">Monitoring</Link></li>
               </ul>
             </div>
             <div>
