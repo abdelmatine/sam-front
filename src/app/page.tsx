@@ -9,7 +9,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { useTranslation } from '@/hooks/use-translation';
-import { ShoppingCart, ArrowRight, ShieldCheck, Activity, Mail, Facebook, Twitter, Instagram, Loader2 } from 'lucide-react';
+import { ShoppingCart, ArrowRight, ShieldCheck, Activity, Mail, Loader2 } from 'lucide-react';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '@/store/slices/cartSlice';
 import { toast } from '@/hooks/use-toast';
@@ -194,60 +194,6 @@ export default function Home() {
           </p>
         </div>
       </motion.section>
-
-      {/* Footer Branding Fix */}
-      <footer className="bg-white border-t py-20">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-12 mb-16">
-            <div className="col-span-2 md:col-span-1">
-              <h4 className="font-bold text-slate-900 mb-6 uppercase tracking-widest text-xs">SAM Médicale Solutions</h4>
-              <p className="text-xs text-slate-500 leading-relaxed mb-8">
-                Global provider of clinical respiratory solutions and specialized medical equipment. ISO 13485 Certified.
-              </p>
-              <div className="flex gap-4">
-                <Facebook className="h-4 w-4 text-slate-400 cursor-pointer hover:text-primary transition-colors" />
-                <Twitter className="h-4 w-4 text-slate-400 cursor-pointer hover:text-primary transition-colors" />
-                <Instagram className="h-4 w-4 text-slate-400 cursor-pointer hover:text-primary transition-colors" />
-              </div>
-            </div>
-            <div>
-              <h4 className="font-bold text-slate-900 mb-6 uppercase tracking-widest text-xs">Equipment</h4>
-              <ul className="space-y-4 text-xs text-slate-500">
-                <li className="hover:text-primary cursor-pointer transition-colors">CPAP Machines</li>
-                <li className="hover:text-primary cursor-pointer transition-colors">BPAP Therapy</li>
-                <li className="hover:text-primary cursor-pointer transition-colors">Oxygen Concentrators</li>
-                <li className="hover:text-primary cursor-pointer transition-colors">Humidifiers</li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-bold text-slate-900 mb-6 uppercase tracking-widest text-xs">Services</h4>
-              <ul className="space-y-4 text-xs text-slate-500">
-                <li className="hover:text-primary cursor-pointer transition-colors">Calibration Services</li>
-                <li className="hover:text-primary cursor-pointer transition-colors">Maintenance Plans</li>
-                <li className="hover:text-primary cursor-pointer transition-colors">Facility Procurement</li>
-                <li className="hover:text-primary cursor-pointer transition-colors">Clinical Support</li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-bold text-slate-900 mb-6 uppercase tracking-widest text-xs">Company</h4>
-              <ul className="space-y-4 text-xs text-slate-500">
-                <li className="hover:text-primary cursor-pointer transition-colors">Privacy Policy</li>
-                <li className="hover:text-primary cursor-pointer transition-colors">Terms of Service</li>
-                <li className="hover:text-primary cursor-pointer transition-colors">Shipping & Returns</li>
-                <li className="hover:text-primary cursor-pointer transition-colors">Contact Support</li>
-              </ul>
-            </div>
-          </div>
-          <div className="pt-8 border-t flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-[10px] text-slate-400">© {new Date().getFullYear()} SAM Médicale Solutions. ISO 13485 Certified Medical Supplies.</p>
-            <div className="flex gap-8 text-[10px] text-slate-400">
-              <span className="hover:text-primary cursor-pointer">Security</span>
-              <span className="hover:text-primary cursor-pointer">Sitemap</span>
-              <span className="hover:text-primary cursor-pointer">Certifications</span>
-            </div>
-          </div>
-        </div>
-      </footer>
     </main>
   );
 }
