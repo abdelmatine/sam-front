@@ -1,4 +1,3 @@
-
 "use client";
 
 import React from 'react';
@@ -6,88 +5,94 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { ArrowRight } from 'lucide-react';
-
-const categories = [
-  {
-    title: 'CPAP & BPAP Devices',
-    count: '24 Products',
-    href: '/shop?category=respiratory',
-    image: 'category-respiratory'
-  },
-  {
-    title: 'Oxygen Concentrators',
-    count: '18 Products',
-    href: '/shop?category=oxygen',
-    image: 'category-respiratory'
-  },
-  {
-    title: 'Masks & Accessories',
-    count: '150+ Items',
-    href: '/shop?category=accessories',
-    image: 'category-accessories'
-  },
-  {
-    title: 'Monitoring Equipment',
-    count: '42 Products',
-    href: '/shop?category=monitoring',
-    image: 'category-monitoring'
-  },
-  {
-    title: 'Other Medical Supplies',
-    count: '35 Products',
-    href: '/shop?category=others',
-    image: 'category-others'
-  }
-];
+import { Badge } from '@/components/ui/badge';
 
 const CategoriesSection = () => {
+  const respiratoryImage = PlaceHolderImages.find(img => img.id === 'category-respiratory');
+  const accessoriesImage = PlaceHolderImages.find(img => img.id === 'category-accessories');
+  const monitoringImage = PlaceHolderImages.find(img => img.id === 'category-monitoring');
+
   return (
-    <section className="py-20 bg-background">
+    <section className="py-24 bg-white">
       <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
-          <div className="max-w-xl">
-            <h2 className="text-3xl md:text-4xl font-headline font-bold mb-4">Browse Our Specialist <span className="text-primary">Medical Collections</span></h2>
-            <p className="text-muted-foreground">Discover high-precision equipment curated for respiratory health, patient monitoring, and home clinical support.</p>
-          </div>
-          <Link href="/shop" className="text-primary font-semibold flex items-center gap-1 hover:underline group">
-            View All Categories
-            <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-          </Link>
+        <div className="mb-12">
+          <h2 className="text-3xl font-bold text-slate-900 mb-2">Specialized Categories</h2>
+          <p className="text-slate-500 text-sm">Precision engineered equipment for every respiratory need.</p>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-6">
-          {categories.map((cat, index) => {
-            const catImage = PlaceHolderImages.find(img => img.id === cat.image);
-            return (
-              <motion.div
-                key={cat.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="group cursor-pointer"
-              >
-                <Link href={cat.href}>
-                  <div className="relative h-64 rounded-2xl overflow-hidden mb-4 shadow-md medical-shadow">
-                    {catImage && (
-                      <Image 
-                        src={catImage.imageUrl}
-                        alt={cat.title}
-                        fill
-                        className="object-cover group-hover:scale-110 transition-transform duration-500"
-                        data-ai-hint={catImage.imageHint}
-                      />
-                    )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-6">
-                      <span className="text-white/80 text-sm font-medium">{cat.count}</span>
-                      <h3 className="text-white text-lg font-bold">{cat.title}</h3>
-                    </div>
-                  </div>
-                </Link>
-              </motion.div>
-            );
-          })}
+        <div className="grid lg:grid-cols-3 gap-6 h-[600px]">
+          {/* Main Category */}
+          <motion.div 
+            whileHover={{ y: -5 }}
+            className="lg:col-span-2 relative group overflow-hidden bg-slate-100"
+          >
+            <Link href="/shop?category=respiratory" className="block h-full">
+              {respiratoryImage && (
+                <Image 
+                  src={respiratoryImage.imageUrl}
+                  alt="Respiratory Care"
+                  fill
+                  className="object-cover transition-transform duration-1000 group-hover:scale-105"
+                  data-ai-hint="medical device monitor"
+                />
+              )}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+              <div className="absolute bottom-10 left-10 text-white">
+                <Badge className="bg-emerald-500 text-white mb-4 rounded-none text-[10px] uppercase font-bold tracking-widest px-3">
+                  Professional Choice
+                </Badge>
+                <h3 className="text-3xl font-bold mb-2">Respiratory Care</h3>
+                <p className="text-white/70 text-sm">CPAP, BPAP, and Oxygen Concentrators</p>
+              </div>
+            </Link>
+          </motion.div>
+
+          {/* Side Categories */}
+          <div className="grid gap-6">
+            <motion.div 
+              whileHover={{ y: -5 }}
+              className="relative group overflow-hidden bg-slate-100"
+            >
+              <Link href="/shop?category=others" className="block h-full">
+                {accessoriesImage && (
+                  <Image 
+                    src={accessoriesImage.imageUrl}
+                    alt="Protective Gear"
+                    fill
+                    className="object-cover transition-transform duration-1000 group-hover:scale-105"
+                    data-ai-hint="medical gloves apparel"
+                  />
+                )}
+                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors" />
+                <div className="absolute bottom-6 left-6 text-white">
+                  <h3 className="text-xl font-bold mb-1">Protective Gear</h3>
+                  <p className="text-white/70 text-xs">Nitrile Gloves & Medical Apparel</p>
+                </div>
+              </Link>
+            </motion.div>
+
+            <motion.div 
+              whileHover={{ y: -5 }}
+              className="relative group overflow-hidden bg-slate-100"
+            >
+              <Link href="/shop?category=accessories" className="block h-full">
+                {monitoringImage && (
+                  <Image 
+                    src={monitoringImage.imageUrl}
+                    alt="Clinical Supplies"
+                    fill
+                    className="object-cover transition-transform duration-1000 group-hover:scale-105"
+                    data-ai-hint="medical kits filters"
+                  />
+                )}
+                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors" />
+                <div className="absolute bottom-6 left-6 text-white">
+                  <h3 className="text-xl font-bold mb-1">Clinical Supplies</h3>
+                  <p className="text-white/70 text-xs">Calibration Kits & Filters</p>
+                </div>
+              </Link>
+            </motion.div>
+          </div>
         </div>
       </div>
     </section>

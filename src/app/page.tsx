@@ -3,160 +3,213 @@
 import Navbar from '@/components/layout/Navbar';
 import Hero from '@/components/home/Hero';
 import CategoriesSection from '@/components/home/CategoriesSection';
-import ProductCard from '@/components/shared/ProductCard';
 import { products } from '@/lib/products';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { useTranslation } from '@/hooks/use-translation';
-import { CheckCircle2, Award, Truck, PhoneCall, ShieldCheck, ArrowRight } from 'lucide-react';
+import { ShoppingCart, ArrowRight, ShieldCheck, Activity, Mail, Facebook, Twitter, Instagram } from 'lucide-react';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '@/store/slices/cartSlice';
+import { toast } from '@/hooks/use-toast';
 
 export default function Home() {
-  const { t, isRTL } = useTranslation();
-  const featuredProducts = products.slice(0, 4);
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const featuredProducts = products.slice(0, 2);
 
-  const benefits = [
-    {
-      icon: Award,
-      title: "Authorized Dealer",
-      desc: "100% original products from world-leading medical brands."
-    },
-    {
-      icon: CheckCircle2,
-      title: "Clinical Excellence",
-      desc: "Every device is pre-inspected by our medical technicians."
-    },
-    {
-      icon: Truck,
-      title: "Express Logistics",
-      desc: "Confidential and safe doorstep delivery globally."
-    },
-    {
-      icon: PhoneCall,
-      title: "Medical Support",
-      desc: "Direct access to respiratory specialists for setup support."
-    }
-  ];
+  const handleAddToCart = (product: any) => {
+    dispatch(addToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      quantity: 1,
+      imageUrl: product.imageUrl,
+      brand: product.brand
+    }));
+    toast({
+      title: "Selection Updated",
+      description: `${product.name} added to cart.`,
+    });
+  };
 
   return (
-    <main className="flex flex-col min-h-screen">
+    <main className="flex flex-col min-h-screen bg-white">
       <Navbar />
       <Hero />
       <CategoriesSection />
 
-      {/* Featured Products */}
-      <section className="py-24 bg-muted/30">
+      {/* Flagship Equipment */}
+      <section className="py-24 bg-slate-50/50">
         <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-between items-center mb-16 gap-6">
-            <div className="text-center md:text-left">
-              <h2 className="text-4xl font-headline font-bold mb-4">Solutions <span className="text-primary">Vedettes</span></h2>
-              <p className="text-muted-foreground text-lg max-w-xl">Nos équipements les plus performants, choisis par les professionnels de santé.</p>
+          <div className="flex justify-between items-end mb-16">
+            <div>
+              <h2 className="text-3xl font-bold text-slate-900 mb-2">Flagship Equipment</h2>
+              <p className="text-slate-500 text-sm">Our most trusted and highly-rated solutions.</p>
             </div>
-            <Link href="/shop">
-              <Button variant="outline" className="rounded-2xl px-8 py-6 font-bold border-2 hover:bg-primary hover:text-white transition-all">
-                {t.categories.view_all}
-              </Button>
+            <Link href="/shop" className="text-primary text-sm font-bold flex items-center gap-1 hover:underline">
+              View All Products <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
           
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
-            {featuredProducts.map((product, idx) => (
+          <div className="grid md:grid-cols-2 gap-8">
+            {featuredProducts.map((product) => (
               <motion.div
                 key={product.id}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: idx * 0.1 }}
+                className="bg-white border p-8 flex gap-8 items-center group transition-shadow hover:shadow-xl hover:shadow-slate-200/50"
               >
-                <ProductCard product={product} />
+                <div className="relative w-40 h-40 shrink-0 bg-slate-50 flex items-center justify-center">
+                  <Image 
+                    src={product.imageUrl} 
+                    alt={product.name} 
+                    fill 
+                    className="object-contain p-4 grayscale group-hover:grayscale-0 transition-all duration-500"
+                  />
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-2">
+                    <ShieldCheck className="h-3 w-3 text-slate-400" />
+                    <span className="text-[10px] text-slate-400 font-bold tracking-widest uppercase">ISO Certified</span>
+                  </div>
+                  <h3 className="text-xl font-bold text-slate-900 mb-2">{product.name}</h3>
+                  <p className="text-slate-500 text-xs mb-6 line-clamp-2 leading-relaxed">
+                    Ultra-quiet operation with advanced humidification and smart data tracking for clinical accuracy at home.
+                  </p>
+                  <div className="flex items-center justify-between">
+                    <span className="text-2xl font-bold text-slate-900">${product.price.toLocaleString()}.00</span>
+                    <Button 
+                      onClick={() => handleAddToCart(product)}
+                      className="bg-primary text-white h-10 w-10 p-0 rounded-none shadow-lg shadow-primary/20"
+                    >
+                      <ShoppingCart className="h-5 w-5" />
+                    </Button>
+                  </div>
+                </div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Premium CTA */}
-      <section className="py-24">
+      {/* Why Us Section */}
+      <section className="py-24 bg-white">
         <div className="container mx-auto px-4">
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            className="bg-primary rounded-[3rem] p-12 md:p-20 text-center text-white relative overflow-hidden shadow-2xl shadow-primary/30"
-          >
-            <div className="relative z-10 max-w-3xl mx-auto">
-              <h2 className="text-4xl md:text-6xl font-headline font-bold mb-8">Besoin d'Assistance <span className="text-accent">Professionnelle ?</span></h2>
-              <p className="text-white/80 text-xl mb-12 leading-relaxed">
-                Notre équipe de thérapeutes respiratoires est prête à vous aider à choisir l'équipement et la configuration adaptés à vos besoins.
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div className="bg-emerald-50/50 p-12 md:p-20 border border-emerald-100">
+              <h2 className="text-4xl font-bold text-slate-900 mb-8 leading-tight">Why RespiraMed Solutions?</h2>
+              <p className="text-slate-600 mb-10 leading-relaxed">
+                RespiraMed is more than just a supplier. We are a technical partner committed to clinical excellence. Every device in our inventory undergoes a rigorous 15-point calibration check before shipping.
               </p>
-              <div className="flex flex-col sm:flex-row gap-6 justify-center">
-                <Button className="bg-white text-primary hover:bg-white/90 px-10 py-7 rounded-2xl text-xl font-bold shadow-lg">
-                  Chat en Direct
-                </Button>
-                <Button variant="outline" className="border-white/30 text-white hover:bg-white/10 px-10 py-7 rounded-2xl text-xl border-2 font-bold">
-                  Consulter les FAQs
-                </Button>
+              <div className="space-y-8">
+                <div className="flex gap-6">
+                  <div className="shrink-0 h-10 w-10 bg-emerald-100 flex items-center justify-center">
+                    <Activity className="h-5 w-5 text-emerald-600" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-slate-900 mb-1">Precision Calibration</h4>
+                    <p className="text-sm text-slate-500">In-house laboratory ensures every machine meets original manufacturer specs.</p>
+                  </div>
+                </div>
+                <div className="flex gap-6">
+                  <div className="shrink-0 h-10 w-10 bg-emerald-100 flex items-center justify-center">
+                    <ShieldCheck className="h-5 w-5 text-emerald-600" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-slate-900 mb-1">Compliance First</h4>
+                    <p className="text-sm text-slate-500">Fully compliant with ISO 13485:2016 quality management standards.</p>
+                  </div>
+                </div>
               </div>
             </div>
-            {/* Abstract Background Decor */}
-            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white/5 rounded-full blur-[100px] translate-x-1/2 -translate-y-1/2" />
-            <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-black/5 rounded-full blur-[80px] -translate-x-1/2 translate-y-1/2" />
-          </motion.div>
+            <div className="grid grid-cols-2 gap-4 h-[500px]">
+              <div className="relative h-full bg-slate-100">
+                <Image src="https://picsum.photos/seed/med10/600/800" alt="Laboratory" fill className="object-cover" data-ai-hint="medical laboratory" />
+              </div>
+              <div className="relative h-full bg-slate-100">
+                <Image src="https://picsum.photos/seed/med11/600/800" alt="Medical Tech" fill className="object-cover" data-ai-hint="medical device technician" />
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      <footer className="bg-card border-t pt-24 pb-12">
+      {/* Newsletter */}
+      <section className="py-20 bg-slate-900 text-white">
+        <div className="container mx-auto px-4 text-center max-w-3xl">
+          <Mail className="h-8 w-8 text-emerald-400 mx-auto mb-6" />
+          <h2 className="text-3xl font-bold mb-4">Professional Updates & Reminders</h2>
+          <p className="text-slate-400 mb-10">
+            Stay informed on the latest respiratory technology and receive automated reminders for equipment calibration and filter replacements.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-2">
+            <input 
+              type="email" 
+              placeholder="Medical Email Address" 
+              className="flex-1 bg-white/10 border border-white/20 px-6 py-4 outline-none focus:bg-white/20 transition-all text-sm"
+            />
+            <Button className="bg-emerald-400 text-slate-900 font-bold px-10 h-auto rounded-none hover:bg-emerald-300">
+              Subscribe
+            </Button>
+          </div>
+          <p className="text-[10px] text-slate-500 mt-6">
+            We respect clinical privacy. Data handled according to HIPAA guidelines.
+          </p>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-white border-t py-20">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-20">
-            <div className="lg:col-span-1">
-              <Link href="/" className="flex items-center gap-3 mb-8">
-                <div className="bg-primary rounded-xl p-2">
-                  <ShieldCheck className="h-6 w-6 text-white" />
-                </div>
-                <span className="font-headline font-bold text-2xl tracking-tight">RespiraMed</span>
-              </Link>
-              <p className="text-muted-foreground leading-relaxed text-lg mb-8">
-                Leader mondial de la fourniture de soins respiratoires de haute précision. Certifié cliniquement pour votre tranquillité d'esprit.
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-12 mb-16">
+            <div className="col-span-2 md:col-span-1">
+              <h4 className="font-bold text-slate-900 mb-6 uppercase tracking-widest text-xs">RespiraMed Solutions</h4>
+              <p className="text-xs text-slate-500 leading-relaxed mb-8">
+                Global provider of clinical respiratory solutions and specialized medical equipment. ISO 13485 Certified.
               </p>
+              <div className="flex gap-4">
+                <Facebook className="h-4 w-4 text-slate-400 cursor-pointer hover:text-primary transition-colors" />
+                <Twitter className="h-4 w-4 text-slate-400 cursor-pointer hover:text-primary transition-colors" />
+                <Instagram className="h-4 w-4 text-slate-400 cursor-pointer hover:text-primary transition-colors" />
+              </div>
             </div>
             <div>
-              <h4 className="font-bold text-xl mb-8">Navigation</h4>
-              <ul className="flex flex-col gap-5 text-muted-foreground text-lg">
-                <li><Link href="/shop" className="hover:text-primary transition-colors">Boutique</Link></li>
-                <li><Link href="/about" className="hover:text-primary transition-colors">Notre Mission</Link></li>
-                <li><Link href="/contact" className="hover:text-primary transition-colors">Contact</Link></li>
-                <li><Link href="/faq" className="hover:text-primary transition-colors">Support</Link></li>
+              <h4 className="font-bold text-slate-900 mb-6 uppercase tracking-widest text-xs">Equipment</h4>
+              <ul className="space-y-4 text-xs text-slate-500">
+                <li className="hover:text-primary cursor-pointer transition-colors">CPAP Machines</li>
+                <li className="hover:text-primary cursor-pointer transition-colors">BPAP Therapy</li>
+                <li className="hover:text-primary cursor-pointer transition-colors">Oxygen Concentrators</li>
+                <li className="hover:text-primary cursor-pointer transition-colors">Humidifiers</li>
               </ul>
             </div>
             <div>
-              <h4 className="font-bold text-xl mb-8">Produits</h4>
-              <ul className="flex flex-col gap-5 text-muted-foreground text-lg">
-                <li><Link href="/shop?category=respiratory" className="hover:text-primary transition-colors">CPAP & BPAP</Link></li>
-                <li><Link href="/shop?category=oxygen" className="hover:text-primary transition-colors">Concentrateurs</Link></li>
-                <li><Link href="/shop?category=accessories" className="hover:text-primary transition-colors">Masques</Link></li>
-                <li><Link href="/shop?category=monitoring" className="hover:text-primary transition-colors">Surveillance</Link></li>
+              <h4 className="font-bold text-slate-900 mb-6 uppercase tracking-widest text-xs">Services</h4>
+              <ul className="space-y-4 text-xs text-slate-500">
+                <li className="hover:text-primary cursor-pointer transition-colors">Calibration Services</li>
+                <li className="hover:text-primary cursor-pointer transition-colors">Maintenance Plans</li>
+                <li className="hover:text-primary cursor-pointer transition-colors">Facility Procurement</li>
+                <li className="hover:text-primary cursor-pointer transition-colors">Clinical Support</li>
               </ul>
             </div>
             <div>
-              <h4 className="font-bold text-xl mb-8">Contact</h4>
-              <ul className="flex flex-col gap-5 text-muted-foreground text-lg">
-                <li className="flex items-center gap-3">
-                  <PhoneCall className="h-5 w-5 text-primary" />
-                  +1 (800) RESPIRA
-                </li>
-                <li>support@respiramed.com</li>
-                <li className="text-sm">123 Clinical Way, New York, NY 10001</li>
+              <h4 className="font-bold text-slate-900 mb-6 uppercase tracking-widest text-xs">Company</h4>
+              <ul className="space-y-4 text-xs text-slate-500">
+                <li className="hover:text-primary cursor-pointer transition-colors">Privacy Policy</li>
+                <li className="hover:text-primary cursor-pointer transition-colors">Terms of Service</li>
+                <li className="hover:text-primary cursor-pointer transition-colors">Shipping & Returns</li>
+                <li className="hover:text-primary cursor-pointer transition-colors">Contact Support</li>
               </ul>
             </div>
           </div>
-          <div className="pt-12 border-t flex flex-col md:flex-row justify-between items-center gap-8">
-            <p className="text-sm text-muted-foreground font-medium">
-              &copy; {new Date().getFullYear()} RespiraMed Solutions. Tous les dispositifs médicaux sont approuvés par la FDA.
-            </p>
-            <div className="flex gap-10">
-              <span className="text-sm font-bold text-muted-foreground cursor-pointer hover:text-primary">Conditions</span>
-              <span className="text-sm font-bold text-muted-foreground cursor-pointer hover:text-primary">Confidentialité</span>
-              <span className="text-sm font-bold text-muted-foreground cursor-pointer hover:text-primary">Retours</span>
+          <div className="pt-8 border-t flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-[10px] text-slate-400">© {new Date().getFullYear()} RespiraMed Solutions. ISO 13485 Certified Medical Supplies.</p>
+            <div className="flex gap-8 text-[10px] text-slate-400">
+              <span className="hover:text-primary cursor-pointer">Security</span>
+              <span className="hover:text-primary cursor-pointer">Sitemap</span>
+              <span className="hover:text-primary cursor-pointer">Certifications</span>
             </div>
           </div>
         </div>
