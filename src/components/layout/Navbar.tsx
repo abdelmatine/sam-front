@@ -2,9 +2,11 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store';
-import { ShoppingCart, Search, Menu, User, X, ChevronDown, Activity, Sun, Moon } from 'lucide-react';
+import { setLanguage, Language } from '@/store/slices/i18nSlice';
+import { useTranslation } from '@/hooks/use-translation';
+import { ShoppingCart, Search, Menu, User, X, ChevronDown, Activity, Sun, Moon, Languages } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
@@ -17,113 +19,90 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const cartQuantity = useSelector((state: RootState) => state.cart.totalQuantity);
+  const { t, lang, isRTL } = useTranslation();
+  const dispatch = useDispatch();
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const shopCategories = [
-    { name: 'Shop All', href: '/shop' },
-    { name: 'CPAP/BPAP', href: '/shop?category=respiratory' },
-    { name: 'Concentrators', href: '/shop?category=oxygen' },
-    { name: 'Accessories', href: '/shop?category=accessories' },
-    { name: 'Monitoring', href: '/shop?category=monitoring' },
-    { name: 'Others', href: '/shop?category=others' },
-  ];
-
   if (!mounted) return null;
+
+  const languages: { label: string; code: Language }[] = [
+    { label: 'Français', code: 'fr' },
+    { label: 'English', code: 'en' },
+    { label: 'العربية', code: 'ar' },
+  ];
 
   return (
     <nav className={cn(
-      "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-      isScrolled ? "bg-background/80 backdrop-blur-md border-b py-2 shadow-sm" : "bg-transparent py-4"
+      "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
+      isScrolled ? "bg-background/80 backdrop-blur-xl border-b py-3 shadow-sm" : "bg-transparent py-5"
     )}>
       <div className="container mx-auto px-4 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
-          <div className="bg-primary rounded-lg p-1.5">
+        <Link href="/" className="flex items-center gap-2.5">
+          <div className="bg-primary rounded-xl p-2 shadow-lg shadow-primary/20">
             <Activity className="h-6 w-6 text-white" />
           </div>
-          <span className="font-headline font-bold text-xl tracking-tight hidden sm:inline-block">
+          <span className="font-headline font-bold text-2xl tracking-tight hidden sm:inline-block">
             Respira<span className="text-primary">Med</span>
           </span>
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden lg:flex items-center gap-8">
+        <div className="hidden lg:flex items-center gap-10">
+          <Link href="/shop" className="text-sm font-semibold hover:text-primary transition-colors">{t.nav.shop}</Link>
+          <Link href="/about" className="text-sm font-semibold hover:text-primary transition-colors">{t.nav.about}</Link>
+          <Link href="/contact" className="text-sm font-semibold hover:text-primary transition-colors">{t.nav.contact}</Link>
+        </div>
+
+        {/* Action Icons */}
+        <div className="flex items-center gap-1.5 sm:gap-3">
+          {/* Language Switcher */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="text-sm font-medium hover:text-primary transition-colors flex items-center gap-1">
-                Shop <ChevronDown className="h-4 w-4" />
-              </button>
+              <Button variant="ghost" size="icon" className="rounded-full">
+                <Languages className="h-5 w-5" />
+              </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-48">
-              {shopCategories.map((cat) => (
-                <DropdownMenuItem key={cat.name} asChild>
-                  <Link href={cat.href}>{cat.name}</Link>
+            <DropdownMenuContent align="end" className="w-40 rounded-xl">
+              {languages.map((l) => (
+                <DropdownMenuItem 
+                  key={l.code} 
+                  onClick={() => dispatch(setLanguage(l.code))}
+                  className={cn("cursor-pointer", lang === l.code && "bg-accent text-primary font-bold")}
+                >
+                  {l.label}
                 </DropdownMenuItem>
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
-          
-          <Link href="/about" className="text-sm font-medium hover:text-primary transition-colors">About</Link>
-          <Link href="/contact" className="text-sm font-medium hover:text-primary transition-colors">Contact</Link>
-        </div>
 
-        {/* Action Icons */}
-        <div className="flex items-center gap-2 sm:gap-4">
           <Button 
             variant="ghost" 
             size="icon" 
             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-            title="Toggle Theme"
+            className="rounded-full"
           >
             {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
           </Button>
 
-          <Button variant="ghost" size="icon" className="hidden sm:flex">
-            <Search className="h-5 w-5" />
-          </Button>
-          
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <User className="h-5 w-5" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-56">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Profile</DropdownMenuItem>
-              <DropdownMenuItem>Orders</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Logout</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-
           <Link href="/cart">
-            <Button variant="ghost" size="icon" className="relative">
+            <Button variant="ghost" size="icon" className="relative rounded-full">
               <ShoppingCart className="h-5 w-5" />
               {cartQuantity > 0 && (
-                <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-[10px] bg-primary">
+                <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-[10px] bg-primary border-2 border-background">
                   {cartQuantity}
                 </Badge>
               )}
@@ -133,69 +112,41 @@ const Navbar = () => {
           <Button 
             variant="ghost" 
             size="icon" 
-            className="lg:hidden"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="lg:hidden rounded-full"
+            onClick={() => setMobileMenuOpen(true)}
           >
             <Menu className="h-6 w-6" />
           </Button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu Overlay */}
       <div className={cn(
-        "fixed inset-0 bg-background z-[60] lg:hidden transition-transform duration-300",
-        mobileMenuOpen ? "translate-x-0" : "translate-x-full"
+        "fixed inset-0 bg-background/95 backdrop-blur-xl z-[60] lg:hidden transition-all duration-500",
+        mobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
       )}>
-        <div className="p-4 flex justify-between items-center border-b bg-background">
-           <Link href="/" className="flex items-center gap-2" onClick={() => setMobileMenuOpen(false)}>
-            <div className="bg-primary rounded-lg p-1.5">
-              <Activity className="h-6 w-6 text-white" />
-            </div>
-            <span className="font-headline font-bold text-xl">RespiraMed</span>
-          </Link>
-          <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(false)}>
-            <X className="h-6 w-6" />
-          </Button>
-        </div>
-        <div className="p-6 flex flex-col gap-4 bg-background h-full overflow-y-auto">
-          <Accordion type="single" collapsible className="w-full">
-            <AccordionItem value="shop" className="border-none">
-              <AccordionTrigger className="text-lg font-semibold py-2 hover:no-underline">
-                Shop
-              </AccordionTrigger>
-              <AccordionContent className="flex flex-col gap-3 pl-4 pt-2">
-                {shopCategories.map((cat) => (
-                  <Link 
-                    key={cat.name} 
-                    href={cat.href}
-                    className="text-muted-foreground hover:text-primary transition-colors text-base"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    {cat.name}
-                  </Link>
-                ))}
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
+        <div className="p-6 flex flex-col h-full">
+          <div className="flex justify-between items-center mb-12">
+            <Link href="/" className="flex items-center gap-2" onClick={() => setMobileMenuOpen(false)}>
+              <div className="bg-primary rounded-xl p-2">
+                <Activity className="h-6 w-6 text-white" />
+              </div>
+              <span className="font-headline font-bold text-2xl">RespiraMed</span>
+            </Link>
+            <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(false)} className="rounded-full">
+              <X className="h-7 w-7" />
+            </Button>
+          </div>
 
-          <Link 
-            href="/about" 
-            className="text-lg font-semibold py-2"
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            About
-          </Link>
-          <Link 
-            href="/contact" 
-            className="text-lg font-semibold py-2"
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            Contact
-          </Link>
-          
-          <Button className="w-full mt-4 bg-primary text-white py-6 rounded-xl">
-            Book Consultation
-          </Button>
+          <div className="flex flex-col gap-8 text-center">
+            <Link href="/shop" onClick={() => setMobileMenuOpen(false)} className="text-3xl font-bold">{t.nav.shop}</Link>
+            <Link href="/about" onClick={() => setMobileMenuOpen(false)} className="text-3xl font-bold">{t.nav.about}</Link>
+            <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="text-3xl font-bold">{t.nav.contact}</Link>
+            
+            <Button className="mt-8 bg-primary text-white py-8 rounded-2xl text-xl font-bold shadow-xl">
+              {t.nav.consultation}
+            </Button>
+          </div>
         </div>
       </div>
     </nav>
