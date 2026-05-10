@@ -37,7 +37,7 @@ const Navbar = () => {
   useEffect(() => {
     setMounted(true);
     const handleScroll = () => setIsScrolled(window.scrollY > 10);
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -71,8 +71,8 @@ const Navbar = () => {
       x: 0,
       transition: { 
         type: 'spring', 
-        damping: 25, 
-        stiffness: 200,
+        damping: 30, 
+        stiffness: 300,
         staggerChildren: 0.1,
         delayChildren: 0.2
       }
@@ -80,8 +80,8 @@ const Navbar = () => {
   };
 
   const itemVariants = {
-    closed: { opacity: 0, y: 10 },
-    open: { opacity: 1, y: 0 }
+    closed: { opacity: 0, y: 15, filter: 'blur(5px)' },
+    open: { opacity: 1, y: 0, filter: 'blur(0px)' }
   };
 
   const subItemVariants = {
@@ -89,7 +89,11 @@ const Navbar = () => {
     open: { 
       height: 'auto', 
       opacity: 1,
-      transition: { staggerChildren: 0.05 }
+      transition: { 
+        height: { duration: 0.4 },
+        staggerChildren: 0.08,
+        delayChildren: 0.1
+      }
     }
   };
 
@@ -102,7 +106,7 @@ const Navbar = () => {
         <div className="flex items-center gap-3">
           <Link href="/">
             <motion.div 
-              whileHover={{ scale: 1.08 }}
+              whileHover={{ scale: 1.1 }}
               transition={{ duration: 0.2 }}
               className="p-2.5 rounded-full bg-primary/95 backdrop-blur-md border border-primary/20 shadow-[0_8px_20px_-5px_hsl(var(--primary)/0.3)] flex items-center justify-center relative cursor-pointer"
             >
@@ -122,11 +126,11 @@ const Navbar = () => {
         </div>
 
         {/* Desktop Menu */}
-        <div className="hidden lg:flex items-center gap-8">
+        <div className="hidden lg:flex items-center gap-8 h-full">
           {menuItems.map((item) => (
             <div 
               key={item.name} 
-              className="relative"
+              className="relative h-full flex items-center"
               onMouseEnter={() => item.hasDropdown && setIsShopDropdownOpen(true)}
               onMouseLeave={() => item.hasDropdown && setIsShopDropdownOpen(false)}
             >
@@ -146,11 +150,11 @@ const Navbar = () => {
                 <AnimatePresence>
                   {isShopDropdownOpen && (
                     <motion.div
-                      initial={{ opacity: 0, y: 0, scaleY: 0 }}
+                      initial={{ opacity: 0, y: 10, scaleY: 0 }}
                       animate={{ opacity: 1, y: 0, scaleY: 1 }}
-                      exit={{ opacity: 0, y: 0, scaleY: 0 }}
-                      transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                      className="absolute top-full left-0 mt-0 pt-2 min-w-[220px] origin-top z-50"
+                      exit={{ opacity: 0, y: 10, scaleY: 0 }}
+                      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                      className="absolute top-full left-0 pt-2 min-w-[220px] origin-top z-50"
                     >
                       <div className="bg-background/98 backdrop-blur-xl border border-primary/10 shadow-2xl border-t-4 border-t-primary p-2 overflow-hidden">
                         {categories.map((cat, idx) => (
@@ -252,7 +256,7 @@ const Navbar = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setMobileMenuOpen(false)}
-              className="fixed inset-0 bg-background/90 backdrop-blur-sm z-[140] lg:hidden"
+              className="fixed inset-0 bg-background/90 backdrop-blur-md z-[140] lg:hidden"
             />
             <motion.div 
               variants={sidebarVariants}
@@ -260,28 +264,30 @@ const Navbar = () => {
               animate="open"
               exit="closed"
               className={cn(
-                "fixed top-0 bottom-0 w-[85%] max-w-[360px] bg-background border-l z-[150] lg:hidden flex flex-col p-6 overflow-y-auto clinical-shadow",
+                "fixed top-0 bottom-0 w-[85%] max-w-[400px] bg-background border-l z-[150] lg:hidden flex flex-col p-8 overflow-y-auto shadow-2xl",
                 isRTL ? "left-0" : "right-0"
               )}
             >
-              <div className="flex justify-between items-center mb-10">
-                <div className="flex items-center gap-2">
-                  <Activity className="h-6 w-6 text-primary" />
-                  <span className="font-headline font-bold text-xl tracking-tighter">SAM Médicale</span>
+              <div className="flex justify-between items-center mb-12">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-primary rounded-full">
+                    <Activity className="h-5 w-5 text-white" />
+                  </div>
+                  <span className="font-headline font-bold text-xl tracking-tighter uppercase">SAM Médicale</span>
                 </div>
-                <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(false)} className="rounded-full">
+                <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(false)} className="rounded-full hover:bg-accent">
                   <X className="h-6 w-6" />
                 </Button>
               </div>
 
-              <div className="flex flex-col gap-2 mb-10">
+              <div className="flex flex-col gap-4 mb-12">
                 {menuItems.map((item) => (
                   <motion.div key={item.name} variants={itemVariants} className="flex flex-col">
-                    <div className="flex items-center justify-between py-1">
+                    <div className="flex items-center justify-between">
                       <Link 
                         href={item.href} 
                         onClick={() => setMobileMenuOpen(false)}
-                        className="text-lg font-bold uppercase tracking-tight py-3 flex-1"
+                        className="text-2xl font-bold uppercase tracking-tight py-4 flex-1 hover:text-primary transition-colors"
                       >
                         {t.nav[item.name as keyof typeof t.nav]}
                       </Link>
@@ -289,10 +295,10 @@ const Navbar = () => {
                         <Button 
                           variant="ghost" 
                           size="icon" 
-                          className="h-12 w-12"
+                          className="h-12 w-12 rounded-full"
                           onClick={() => setMobileShopOpen(!mobileShopOpen)}
                         >
-                          {mobileShopOpen ? <Minus className="h-4 w-4 text-primary" /> : <Plus className="h-4 w-4" />}
+                          {mobileShopOpen ? <Minus className="h-5 w-5 text-primary" /> : <Plus className="h-5 w-5" />}
                         </Button>
                       )}
                     </div>
@@ -305,14 +311,14 @@ const Navbar = () => {
                             initial="closed"
                             animate="open"
                             exit="closed"
-                            className="flex flex-col gap-1 pl-4 border-l-2 border-primary/20 overflow-hidden"
+                            className="flex flex-col gap-2 pl-6 border-l-2 border-primary/20 overflow-hidden"
                           >
                             {categories.map((cat) => (
                               <motion.div key={cat.value} variants={itemVariants}>
                                 <Link
                                   href={`/shop?category=${cat.value}`}
                                   onClick={() => setMobileMenuOpen(false)}
-                                  className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground py-3.5 block hover:text-primary transition-colors"
+                                  className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground py-4 block hover:text-primary transition-colors"
                                 >
                                   {cat.label}
                                 </Link>
@@ -322,61 +328,61 @@ const Navbar = () => {
                         )}
                       </AnimatePresence>
                     )}
-                    <Separator className="opacity-40" />
+                    <Separator className="mt-2 opacity-50" />
                   </motion.div>
                 ))}
               </div>
 
-              <div className="mt-auto space-y-6 pb-6">
-                <motion.div variants={itemVariants} className="space-y-4">
-                  <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary">Préférences</h4>
+              <div className="mt-auto space-y-8">
+                <motion.div variants={itemVariants} className="space-y-6">
+                  <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary">Configuration Clinique</h4>
                   
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className="grid grid-cols-1 gap-3">
                     <Button 
                       variant="outline" 
                       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                      className="justify-start h-12 rounded-none gap-3 text-[10px] font-bold uppercase tracking-widest"
+                      className="justify-start h-14 rounded-none gap-4 text-[11px] font-bold uppercase tracking-widest border-border hover:border-primary/40 hover:bg-primary/5"
                     >
-                      {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-                      {theme === 'dark' ? 'Light' : 'Dark'}
+                      <div className="p-2 bg-accent rounded-sm">
+                        {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+                      </div>
+                      Mode {theme === 'dark' ? 'Lumineux' : 'Sombre'}
                     </Button>
                     
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button 
-                          variant="outline" 
-                          className="justify-start h-12 rounded-none gap-3 text-[10px] font-bold uppercase tracking-widest"
-                        >
-                          <Globe className="h-4 w-4" />
-                          {lang.toUpperCase()}
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end" className="rounded-none border-primary/20">
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-2 mb-3">
+                        <Globe className="h-4 w-4 text-muted-foreground" />
+                        <span className="text-[10px] font-bold uppercase tracking-widest">Langue / Language</span>
+                      </div>
+                      <div className="grid grid-cols-3 gap-2">
                         {languages.map((l) => (
-                          <DropdownMenuItem 
-                            key={l.code} 
+                          <Button 
+                            key={l.code}
+                            variant={lang === l.code ? "default" : "outline"}
                             onClick={() => {
                               dispatch(setLanguage(l.code));
-                              setMobileMenuOpen(false);
+                              // Optional: close menu after selection
+                              // setMobileMenuOpen(false);
                             }}
                             className={cn(
-                              "text-[10px] font-bold uppercase tracking-widest p-3",
-                              lang === l.code && "bg-primary text-primary-foreground"
+                              "h-12 rounded-none text-[10px] font-bold uppercase tracking-widest",
+                              lang === l.code ? "bg-primary text-white" : "border-border"
                             )}
                           >
-                            {l.label}
-                          </DropdownMenuItem>
+                            {l.code.toUpperCase()}
+                          </Button>
                         ))}
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+                      </div>
+                    </div>
                   </div>
                 </motion.div>
 
-                <motion.div variants={itemVariants} className="pt-6 border-t">
-                  <div className="flex items-center gap-2 text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
-                    <ShieldCheck className="h-4 w-4 text-primary" />
-                    Clinical Grade Support
+                <motion.div variants={itemVariants} className="pt-8 border-t border-border flex items-center justify-between">
+                  <div className="flex items-center gap-3 text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
+                    <ShieldCheck className="h-5 w-5 text-primary" />
+                    Support Grade Médical
                   </div>
+                  <span className="text-[9px] text-muted-foreground/60 uppercase">v2.5.0</span>
                 </motion.div>
               </div>
             </motion.div>
