@@ -70,23 +70,29 @@ const Navbar = () => {
     { name: 'contact', href: '/contact' }
   ];
 
+  // Window blind animation variants
   const containerVariants = {
-    hidden: { opacity: 0 },
+    hidden: { 
+      opacity: 0,
+      scaleY: 0,
+      transformOrigin: "top",
+    },
     visible: {
       opacity: 1,
+      scaleY: 1,
       transition: {
+        duration: 0.5,
+        ease: [0.22, 1, 0.36, 1],
         staggerChildren: 0.05,
-        delayChildren: 0.05
       }
     }
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 8, scale: 0.98 },
+    hidden: { opacity: 0, y: -10 },
     visible: { 
       opacity: 1, 
-      y: 0, 
-      scale: 1,
+      y: 0,
       transition: {
         type: "spring",
         stiffness: 400,
@@ -121,7 +127,7 @@ const Navbar = () => {
                 >
                   <DropdownMenu open={isShopDropdownOpen} onOpenChange={setIsShopDropdownOpen}>
                     <DropdownMenuTrigger asChild>
-                      <button className="text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground hover:text-primary transition-all flex items-center gap-1.5 focus:outline-none">
+                      <button className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground hover:text-primary transition-all flex items-center gap-1.5 focus:outline-none">
                         {t.nav[item.name as keyof typeof t.nav]}
                         <ChevronDown className={cn("h-3 w-3 transition-transform duration-300", isShopDropdownOpen && "rotate-180 text-primary")} />
                       </button>
@@ -129,6 +135,8 @@ const Navbar = () => {
                     <DropdownMenuContent 
                       align="start" 
                       className="rounded-none border-primary/20 bg-background/98 backdrop-blur-xl min-w-[240px] p-2 shadow-2xl border-t-4 border-t-primary animate-none"
+                      onMouseEnter={() => setIsShopDropdownOpen(true)}
+                      onMouseLeave={() => setIsShopDropdownOpen(false)}
                     >
                       <motion.div
                         initial="hidden"
@@ -140,7 +148,7 @@ const Navbar = () => {
                             <DropdownMenuItem asChild>
                               <Link 
                                 href={`/shop?category=${cat.value}`}
-                                className="cursor-pointer rounded-none text-[10px] font-bold uppercase tracking-[0.12em] px-5 py-3.5 hover:bg-primary/5 hover:text-primary transition-all block border-b border-border/5 last:border-none"
+                                className="cursor-pointer rounded-none text-[9px] font-bold uppercase tracking-[0.15em] px-5 py-3.5 hover:bg-primary/5 hover:text-primary transition-all block border-b border-border/5 last:border-none"
                               >
                                 {cat.label}
                               </Link>
@@ -154,7 +162,7 @@ const Navbar = () => {
               ) : (
                 <Link 
                   href={item.href} 
-                  className="text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground hover:text-primary transition-all relative py-2 group"
+                  className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground hover:text-primary transition-all relative py-2 group"
                 >
                   {t.nav[item.name as keyof typeof t.nav]}
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
