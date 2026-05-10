@@ -96,7 +96,7 @@ const Navbar = () => {
                 >
                   <DropdownMenu open={isShopDropdownOpen} onOpenChange={setIsShopDropdownOpen}>
                     <DropdownMenuTrigger asChild>
-                      <button className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground hover:text-primary transition-all flex items-center gap-1.5 focus:outline-none">
+                      <button className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground hover:text-primary transition-none flex items-center gap-1.5 focus:outline-none">
                         {t.nav[item.name as keyof typeof t.nav]}
                         <ChevronDown className={cn("h-3 w-3 transition-transform duration-300", isShopDropdownOpen && "rotate-180 text-primary")} />
                       </button>
@@ -104,19 +104,44 @@ const Navbar = () => {
                     <DropdownMenuContent 
                       align="start" 
                       sideOffset={0}
-                      className="rounded-none border-primary/20 bg-background/98 backdrop-blur-xl min-w-[240px] p-2 shadow-2xl border-t-4 border-t-primary"
+                      className="rounded-none border-primary/20 bg-background/98 backdrop-blur-xl min-w-[240px] p-2 shadow-2xl border-t-4 border-t-primary overflow-hidden"
                     >
-                      {categories.map((cat) => (
-                        <DropdownMenuItem key={cat.value} asChild>
-                          <Link 
-                            href={`/shop?category=${cat.value}`}
-                            onClick={() => setIsShopDropdownOpen(false)}
-                            className="cursor-pointer rounded-none text-[9px] font-bold uppercase tracking-[0.15em] px-5 py-3.5 hover:bg-primary/5 hover:text-primary transition-all block border-b border-border/5 last:border-none"
+                      <motion.div
+                        initial="hidden"
+                        animate={isShopDropdownOpen ? "visible" : "hidden"}
+                        variants={{
+                          hidden: { height: 0, opacity: 0 },
+                          visible: {
+                            height: 'auto',
+                            opacity: 1,
+                            transition: {
+                              staggerChildren: 0.05,
+                              duration: 0.4,
+                              ease: [0.22, 1, 0.36, 1]
+                            }
+                          }
+                        }}
+                      >
+                        {categories.map((cat) => (
+                          <motion.div
+                            key={cat.value}
+                            variants={{
+                              hidden: { opacity: 0, y: -10 },
+                              visible: { opacity: 1, y: 0 }
+                            }}
                           >
-                            {cat.label}
-                          </Link>
-                        </DropdownMenuItem>
-                      ))}
+                            <DropdownMenuItem asChild>
+                              <Link 
+                                href={`/shop?category=${cat.value}`}
+                                onClick={() => setIsShopDropdownOpen(false)}
+                                className="cursor-pointer rounded-none text-[9px] font-bold uppercase tracking-[0.15em] px-5 py-3.5 hover:bg-primary/5 hover:text-primary transition-all block border-b border-border/5 last:border-none"
+                              >
+                                {cat.label}
+                              </Link>
+                            </DropdownMenuItem>
+                          </motion.div>
+                        ))}
+                      </motion.div>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </div>
