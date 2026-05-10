@@ -67,6 +67,7 @@ export default function Home() {
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
             className="flex justify-between items-end mb-16"
           >
             <div>
@@ -84,10 +85,10 @@ export default function Home() {
               return (
                 <motion.div
                   key={product.id}
-                  initial={{ opacity: 0, y: 30 }}
+                  initial={{ opacity: 0, y: 50 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
+                  transition={{ delay: index * 0.2, duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
                   className="bg-white border p-6 md:p-8 flex flex-col xl:flex-row gap-6 md:gap-8 items-center group transition-shadow hover:shadow-2xl hover:shadow-slate-200/50 relative"
                 >
                   <Button 
@@ -107,7 +108,7 @@ export default function Home() {
                       src={product.imageUrl} 
                       alt={product.name} 
                       fill 
-                      className="object-contain p-4 grayscale group-hover:grayscale-0 transition-all duration-700"
+                      className="object-contain p-4 grayscale group-hover:grayscale-0 transition-all duration-1000"
                     />
                   </div>
                   <div className="flex-1 w-full">
@@ -149,9 +150,10 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <motion.div 
-              initial={{ opacity: 0, x: -30 }}
+              initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
+              transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
               className="bg-slate-50 p-8 md:p-12 lg:p-20 border"
             >
               <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-8 leading-tight uppercase tracking-tighter">Why RespiraMed Solutions?</h2>
@@ -181,18 +183,19 @@ export default function Home() {
             </motion.div>
             <div className="grid grid-cols-2 gap-4 h-[300px] md:h-[500px]">
               <motion.div 
-                initial={{ opacity: 0, scale: 0.95 }}
+                initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
+                transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
                 className="relative h-full bg-slate-100"
               >
                 <Image src="https://picsum.photos/seed/med10/600/800" alt="Laboratory" fill className="object-cover grayscale hover:grayscale-0 transition-all duration-1000" data-ai-hint="medical laboratory" />
               </motion.div>
               <motion.div 
-                initial={{ opacity: 0, scale: 0.95 }}
+                initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                transition={{ delay: 0.2 }}
+                transition={{ delay: 0.3, duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
                 className="relative h-full bg-slate-100"
               >
                 <Image src="https://picsum.photos/seed/med11/600/800" alt="Medical Tech" fill className="object-cover grayscale hover:grayscale-0 transition-all duration-1000" data-ai-hint="medical device technician" />
@@ -207,6 +210,7 @@ export default function Home() {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
+        transition={{ duration: 2.0 }}
         className="py-24 bg-slate-900 text-white"
       >
         <div className="container mx-auto px-4 text-center max-w-3xl">

@@ -1,4 +1,3 @@
-
 "use client";
 
 import React from 'react';
@@ -20,7 +19,6 @@ const Hero = () => {
     { icon: PhoneCall, title: "SUPPORT TECHNIQUE", desc: "Assistance experte 24/7 pour le calibrage." }
   ];
 
-  // Duplicate items for a seamless horizontal loop
   const tickerItems = [...stats, ...stats, ...stats];
 
   return (
@@ -43,7 +41,7 @@ const Hero = () => {
           <motion.div
             initial={{ opacity: 0, x: isRTL ? 30 : -30 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
             className="max-w-2xl"
           >
             <div className="inline-flex items-center gap-2 bg-primary/10 px-3 py-1.5 border border-primary/20 mb-6">
@@ -79,6 +77,7 @@ const Hero = () => {
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
+        transition={{ duration: 1.5, delay: 0.4 }}
         className="border-y bg-background/50 backdrop-blur-sm py-12 overflow-hidden relative"
       >
         <div className="flex items-center">
@@ -91,7 +90,7 @@ const Hero = () => {
               x: {
                 repeat: Infinity,
                 repeatType: "loop",
-                duration: 40,
+                duration: 60,
                 ease: "linear",
               },
             }}
@@ -109,7 +108,6 @@ const Hero = () => {
                     </p>
                   </div>
                 </div>
-                {/* Visual Separator */}
                 <div className="h-10 w-[1px] bg-primary/20 shrink-0" />
               </div>
             ))}

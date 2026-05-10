@@ -57,7 +57,6 @@
     @apply bg-background text-foreground transition-colors duration-500 font-body antialiased;
   }
   
-  /* Global Heading Styles */
   h1 {
     @apply font-headline text-3xl md:text-5xl lg:text-6xl font-bold tracking-tighter uppercase leading-[1.1];
   }

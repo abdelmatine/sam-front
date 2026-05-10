@@ -68,10 +68,6 @@ const ProductCard = ({ product }: { product: Product }) => {
       imageUrl: product.imageUrl,
       brand: product.brand
     }));
-    toast({
-      title: isWishlisted ? "Retiré" : "Ajouté",
-      description: `${product.name} ${isWishlisted ? 'retiré de' : 'ajouté à'} la liste de souhaits.`,
-    });
   };
 
   const handleNavigate = (e: React.MouseEvent) => {
@@ -82,11 +78,11 @@ const ProductCard = ({ product }: { product: Product }) => {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      whileHover={{ y: -5 }}
-      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      whileHover={{ y: -8 }}
+      transition={{ duration: 1.0, ease: [0.22, 1, 0.36, 1] }}
       className="bg-card border rounded-none overflow-hidden group transition-all clinical-shadow flex flex-col h-full hover:border-primary/40"
     >
       <div className="relative h-64 overflow-hidden border-b cursor-pointer" onClick={handleNavigate}>

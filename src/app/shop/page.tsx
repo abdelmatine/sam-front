@@ -29,7 +29,6 @@ export default function ShopPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Initial data load simulation
     const timer = setTimeout(() => setIsLoading(false), 800);
     return () => clearTimeout(timer);
   }, []);
@@ -64,6 +63,7 @@ export default function ShopPage() {
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.0, ease: [0.22, 1, 0.36, 1] }}
           className="mb-12 border-l-4 border-primary pl-6"
         >
           <h1 className="text-3xl font-headline font-bold mb-2 uppercase tracking-tight">
@@ -78,7 +78,7 @@ export default function ShopPage() {
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
+          transition={{ delay: 0.3, duration: 1.2 }}
           className="flex flex-col lg:flex-row gap-6 mb-12 items-start justify-between"
         >
           <div className="flex flex-wrap gap-2 w-full lg:w-auto">
@@ -132,6 +132,7 @@ export default function ShopPage() {
               {filteredProducts.length > 0 ? (
                 <motion.div 
                   layout
+                  transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                   className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6"
                 >
                   {filteredProducts.map((product) => (

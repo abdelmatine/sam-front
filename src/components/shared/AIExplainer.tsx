@@ -53,9 +53,11 @@ const AIExplainer = ({ content }: AIExplainerProps) => {
             </Button>
           </div>
         ) : (
-          <div className="space-y-4 animate-in fade-in duration-500">
+          <div className="space-y-4 animate-in fade-in duration-1000">
             <div className="flex gap-3 items-start text-[11px] bg-background p-4 border leading-relaxed border-primary/20">
-              <Info className="h-4 w-4 text-primary shrink-0" />
+              <span className="shrink-0 p-1 bg-primary/5">
+                <Info className="h-4 w-4 text-primary" />
+              </span>
               <div>{summary}</div>
             </div>
             <Button 
