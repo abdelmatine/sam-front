@@ -64,7 +64,7 @@ const Navbar = () => {
     closed: { x: isRTL ? '-100%' : '100%' },
     open: { 
       x: 0,
-      transition: { type: 'spring', damping: 30, stiffness: 300 }
+      transition: { type: 'spring', damping: 35, stiffness: 300 }
     }
   };
 
@@ -95,22 +95,22 @@ const Navbar = () => {
       isScrolled ? "bg-background/95 backdrop-blur-md py-2 border-b clinical-shadow" : "bg-background py-4"
     )}>
       <div className="container mx-auto px-4 flex items-center justify-between">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
           <Link href="/">
             <motion.div 
-              whileHover={{ scale: 1.1 }}
-              transition={{ duration: 0.2 }}
-              className="h-10 w-10 rounded-full transition-all duration-500 bg-primary shadow-[0_8px_25px_-5px_hsl(var(--primary)/0.5)] flex items-center justify-center relative overflow-hidden border-2 border-white/10"
+              whileHover={{ scale: 1.15 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="h-10 w-10 rounded-full bg-primary flex items-center justify-center relative overflow-hidden border-4 border-primary/20 clinical-shadow"
             >
               <Activity className="h-5 w-5 text-white" />
-              <div className="absolute inset-0 bg-gradient-to-tr from-black/20 to-transparent pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-tr from-black/10 to-transparent" />
             </motion.div>
           </Link>
           
           <Link href="/">
             <motion.span 
-              whileHover={{ scale: 1.05 }}
-              transition={{ duration: 0.2 }}
+              whileHover={{ scale: 1.05, x: 2 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
               className="font-headline font-bold text-lg tracking-tighter text-foreground inline-block"
             >
               SAM <span className="text-primary">Médicale</span>
@@ -121,8 +121,9 @@ const Navbar = () => {
         {/* Desktop Menu */}
         <div className="hidden lg:flex items-center gap-8 h-full">
           <ClinicalDropdown 
+            isHoverable={true}
             trigger={
-              <Button variant="ghost" className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground hover:text-primary gap-1.5 h-auto py-2 outline-none">
+              <Button variant="ghost" className="text-[10px] font-bold uppercase tracking-[0.25em] text-muted-foreground hover:text-primary gap-1.5 h-auto py-2 outline-none">
                 {t.nav.shop}
                 <ChevronDown className="h-3 w-3" />
               </Button>
@@ -130,10 +131,10 @@ const Navbar = () => {
             items={categoryItems}
           />
 
-          <Link href="/about" className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground hover:text-primary transition-all">
+          <Link href="/about" className="text-[10px] font-bold uppercase tracking-[0.25em] text-muted-foreground hover:text-primary transition-all">
             {t.nav.about}
           </Link>
-          <Link href="/contact" className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground hover:text-primary transition-all">
+          <Link href="/contact" className="text-[10px] font-bold uppercase tracking-[0.25em] text-muted-foreground hover:text-primary transition-all">
             {t.nav.contact}
           </Link>
         </div>
@@ -150,6 +151,7 @@ const Navbar = () => {
 
           <div className="hidden sm:flex">
             <ClinicalDropdown 
+              isHoverable={true}
               align="end"
               trigger={
                 <Button variant="ghost" size="icon" className="h-9 w-9 text-muted-foreground outline-none">
@@ -214,13 +216,13 @@ const Navbar = () => {
                 isRTL ? "left-0" : "right-0"
               )}
             >
-              <div className="flex justify-between items-center mb-10">
+              <div className="flex justify-between items-center mb-12">
                 <div className="flex items-center gap-3">
-                  <Activity className="h-5 w-5 text-primary" />
-                  <span className="font-headline font-bold text-lg tracking-tighter uppercase">SAM Médicale</span>
+                  <Activity className="h-6 w-6 text-primary" />
+                  <span className="font-headline font-bold text-xl tracking-tighter uppercase">SAM Médicale</span>
                 </div>
-                <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(false)}>
-                  <X className="h-5 w-5" />
+                <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(false)} className="rounded-full hover:bg-accent">
+                  <X className="h-6 w-6" />
                 </Button>
               </div>
 
@@ -256,7 +258,7 @@ const Navbar = () => {
                             <Link
                               href={`/shop?category=${cat.value}`}
                               onClick={() => setMobileMenuOpen(false)}
-                              className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground py-3 block"
+                              className="text-[10px] font-bold uppercase tracking-[0.25em] text-muted-foreground py-4 block"
                             >
                               {cat.label}
                             </Link>
@@ -291,22 +293,22 @@ const Navbar = () => {
                 </motion.div>
               </div>
 
-              <div className="mt-auto pt-8 flex items-center justify-between">
-                <div className="flex items-center gap-2">
+              <div className="mt-auto pt-10 flex items-center justify-between border-t border-border/50">
+                <div className="flex items-center gap-4">
                   <Button 
                     variant="outline" 
                     size="icon"
                     onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                    className="h-10 w-10 rounded-none border-border"
+                    className="h-12 w-12 rounded-full border-border hover:bg-primary/5"
                   >
-                    {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+                    {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
                   </Button>
 
                   <ClinicalDropdown 
                     align="end"
                     trigger={
-                      <Button variant="outline" size="icon" className="h-10 w-10 rounded-none border-border outline-none">
-                        <Globe className="h-4 w-4" />
+                      <Button variant="outline" size="icon" className="h-12 w-12 rounded-full border-border outline-none hover:bg-primary/5">
+                        <Globe className="h-5 w-5" />
                       </Button>
                     }
                     items={languageItems}
