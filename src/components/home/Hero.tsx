@@ -36,18 +36,18 @@ const Hero = () => {
     visible: { 
       opacity: 1, 
       x: 0,
-      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
+      transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1] }
     }
   };
 
   return (
     <section className="relative w-full overflow-hidden hero-gradient">
-      <div className="relative h-[600px] md:h-[650px] flex items-center">
-        {/* Background Image Animation */}
+      <div className="relative h-[600px] md:h-[650px] flex items-center pt-10">
+        {/* Background Image */}
         <motion.div 
-          initial={{ x: "-10%", opacity: 0 }}
+          initial={{ x: "-5%", opacity: 0 }}
           animate={{ x: 0, opacity: 0.8 }}
-          transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 2, ease: [0.22, 1, 0.36, 1] }}
           className="absolute inset-0 z-0"
         >
           <Image 
@@ -74,12 +74,12 @@ const Hero = () => {
             
             <motion.h1 
               variants={itemVariants} 
-              className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground leading-[1.1] mb-6 tracking-tighter"
+              className="text-3xl md:text-5xl font-bold text-foreground leading-[1.1] mb-6 tracking-tighter"
             >
               {t.hero.title}
             </motion.h1>
             
-            <motion.p variants={itemVariants} className="text-muted-foreground text-sm md:text-base mb-10 max-w-lg leading-relaxed font-medium">
+            <motion.p variants={itemVariants} className="text-muted-foreground text-sm md:text-base mb-10 max-w-lg leading-relaxed font-medium italic">
               {t.hero.subtitle}
             </motion.p>
             
