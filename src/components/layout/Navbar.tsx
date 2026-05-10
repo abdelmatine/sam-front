@@ -41,6 +41,18 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [mobileMenuOpen]);
+
   if (!mounted) return null;
 
   const languages: { label: string; code: Language }[] = [
@@ -66,7 +78,7 @@ const Navbar = () => {
 
   // Animation variants
   const sidebarVariants = {
-    closed: { x: isRTL ? '-100%' : '100%' },
+    closed: { x: isRTL ? '100%' : '-100%' },
     open: { 
       x: 0,
       transition: { 
@@ -80,8 +92,8 @@ const Navbar = () => {
   };
 
   const itemVariants = {
-    closed: { opacity: 0, y: 15, filter: 'blur(5px)' },
-    open: { opacity: 1, y: 0, filter: 'blur(0px)' }
+    closed: { opacity: 0, y: 15 },
+    open: { opacity: 1, y: 0 }
   };
 
   const subItemVariants = {
@@ -104,11 +116,11 @@ const Navbar = () => {
     )}>
       <div className="container mx-auto px-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <Link href="/">
+          <Link href="/" className="relative flex items-center">
             <motion.div 
-              whileHover={{ scale: 1.1 }}
+              whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.2 }}
-              className="p-2.5 rounded-full bg-primary/95 backdrop-blur-md border border-primary/20 shadow-[0_8px_20px_-5px_hsl(var(--primary)/0.3)] flex items-center justify-center relative cursor-pointer"
+              className="p-2.5 rounded-full bg-primary/95 backdrop-blur-md border-4 border-primary/40 shadow-[0_8px_25px_-5px_hsl(var(--primary)/0.4)] flex items-center justify-center relative overflow-hidden before:absolute before:inset-0 before:border-t-2 before:border-white/20 before:rounded-full after:absolute after:inset-0 after:border-b-2 after:border-black/30 after:rounded-full"
             >
               <Activity className="h-5 w-5 text-white" />
             </motion.div>
@@ -116,7 +128,7 @@ const Navbar = () => {
           
           <Link href="/">
             <motion.span 
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: 1.05, x: 5 }}
               transition={{ duration: 0.2 }}
               className="font-headline font-bold text-lg tracking-tighter text-foreground inline-block cursor-pointer"
             >
@@ -150,18 +162,18 @@ const Navbar = () => {
                 <AnimatePresence>
                   {isShopDropdownOpen && (
                     <motion.div
-                      initial={{ opacity: 0, y: 10, scaleY: 0 }}
+                      initial={{ opacity: 0, y: 0, scaleY: 0 }}
                       animate={{ opacity: 1, y: 0, scaleY: 1 }}
-                      exit={{ opacity: 0, y: 10, scaleY: 0 }}
-                      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                      className="absolute top-full left-0 pt-2 min-w-[220px] origin-top z-50"
+                      exit={{ opacity: 0, y: 0, scaleY: 0 }}
+                      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                      className="absolute top-full left-0 pt-0 min-w-[240px] origin-top z-50"
                     >
-                      <div className="bg-background/98 backdrop-blur-xl border border-primary/10 shadow-2xl border-t-4 border-t-primary p-2 overflow-hidden">
+                      <div className="bg-background/98 backdrop-blur-xl border border-primary/20 shadow-2xl border-t-4 border-t-primary p-2 overflow-hidden">
                         {categories.map((cat, idx) => (
                           <motion.div
                             key={cat.value}
-                            initial={{ opacity: 0, x: -10 }}
-                            animate={{ opacity: 1, x: 0 }}
+                            initial={{ opacity: 0, y: -10 }}
+                            animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: idx * 0.05 }}
                           >
                             <Link 
@@ -264,30 +276,30 @@ const Navbar = () => {
               animate="open"
               exit="closed"
               className={cn(
-                "fixed top-0 bottom-0 w-[85%] max-w-[400px] bg-background border-l z-[150] lg:hidden flex flex-col p-8 overflow-y-auto shadow-2xl",
-                isRTL ? "left-0" : "right-0"
+                "fixed top-0 bottom-0 w-[85%] max-w-[320px] bg-background border-r z-[150] lg:hidden flex flex-col p-6 overflow-y-auto clinical-shadow",
+                isRTL ? "right-0" : "left-0"
               )}
             >
-              <div className="flex justify-between items-center mb-12">
+              <div className="flex justify-between items-center mb-10">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-primary rounded-full">
-                    <Activity className="h-5 w-5 text-white" />
+                  <div className="p-2 bg-primary rounded-full shadow-lg shadow-primary/20">
+                    <Activity className="h-4 w-4 text-white" />
                   </div>
-                  <span className="font-headline font-bold text-xl tracking-tighter uppercase">SAM Médicale</span>
+                  <span className="font-headline font-bold text-lg tracking-tighter uppercase">SAM Médicale</span>
                 </div>
-                <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(false)} className="rounded-full hover:bg-accent">
-                  <X className="h-6 w-6" />
+                <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(false)} className="rounded-full">
+                  <X className="h-5 w-5" />
                 </Button>
               </div>
 
-              <div className="flex flex-col gap-4 mb-12">
+              <div className="flex flex-col gap-2 mb-10">
                 {menuItems.map((item) => (
                   <motion.div key={item.name} variants={itemVariants} className="flex flex-col">
                     <div className="flex items-center justify-between">
                       <Link 
                         href={item.href} 
                         onClick={() => setMobileMenuOpen(false)}
-                        className="text-2xl font-bold uppercase tracking-tight py-4 flex-1 hover:text-primary transition-colors"
+                        className="text-lg font-bold uppercase tracking-tight py-4 flex-1 hover:text-primary transition-colors"
                       >
                         {t.nav[item.name as keyof typeof t.nav]}
                       </Link>
@@ -295,10 +307,10 @@ const Navbar = () => {
                         <Button 
                           variant="ghost" 
                           size="icon" 
-                          className="h-12 w-12 rounded-full"
+                          className="h-10 w-10"
                           onClick={() => setMobileShopOpen(!mobileShopOpen)}
                         >
-                          {mobileShopOpen ? <Minus className="h-5 w-5 text-primary" /> : <Plus className="h-5 w-5" />}
+                          {mobileShopOpen ? <Minus className="h-4 w-4 text-primary" /> : <Plus className="h-4 w-4" />}
                         </Button>
                       )}
                     </div>
@@ -311,14 +323,14 @@ const Navbar = () => {
                             initial="closed"
                             animate="open"
                             exit="closed"
-                            className="flex flex-col gap-2 pl-6 border-l-2 border-primary/20 overflow-hidden"
+                            className="flex flex-col gap-1 pl-4 border-l-2 border-primary/20 overflow-hidden"
                           >
                             {categories.map((cat) => (
                               <motion.div key={cat.value} variants={itemVariants}>
                                 <Link
                                   href={`/shop?category=${cat.value}`}
                                   onClick={() => setMobileMenuOpen(false)}
-                                  className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground py-4 block hover:text-primary transition-colors"
+                                  className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground py-3 block hover:text-primary transition-colors"
                                 >
                                   {cat.label}
                                 </Link>
@@ -328,61 +340,59 @@ const Navbar = () => {
                         )}
                       </AnimatePresence>
                     )}
-                    <Separator className="mt-2 opacity-50" />
+                    <Separator className="opacity-50" />
                   </motion.div>
                 ))}
               </div>
 
-              <div className="mt-auto space-y-8">
-                <motion.div variants={itemVariants} className="space-y-6">
-                  <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary">Configuration Clinique</h4>
-                  
-                  <div className="grid grid-cols-1 gap-3">
-                    <Button 
-                      variant="outline" 
-                      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                      className="justify-start h-14 rounded-none gap-4 text-[11px] font-bold uppercase tracking-widest border-border hover:border-primary/40 hover:bg-primary/5"
-                    >
-                      <div className="p-2 bg-accent rounded-sm">
+              <div className="mt-auto pt-8 border-t border-border">
+                <motion.div variants={itemVariants} className="flex flex-col gap-6">
+                  <div className="flex items-center justify-between">
+                    <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary">Configuration</h4>
+                    <div className="flex items-center gap-2">
+                      <Button 
+                        variant="outline" 
+                        size="icon"
+                        onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                        className="h-10 w-10 rounded-none border-border hover:border-primary/40"
+                      >
                         {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-                      </div>
-                      Mode {theme === 'dark' ? 'Lumineux' : 'Sombre'}
-                    </Button>
-                    
-                    <div className="space-y-2">
-                      <div className="flex items-center gap-2 mb-3">
-                        <Globe className="h-4 w-4 text-muted-foreground" />
-                        <span className="text-[10px] font-bold uppercase tracking-widest">Langue / Language</span>
-                      </div>
-                      <div className="grid grid-cols-3 gap-2">
-                        {languages.map((l) => (
-                          <Button 
-                            key={l.code}
-                            variant={lang === l.code ? "default" : "outline"}
-                            onClick={() => {
-                              dispatch(setLanguage(l.code));
-                              // Optional: close menu after selection
-                              // setMobileMenuOpen(false);
-                            }}
-                            className={cn(
-                              "h-12 rounded-none text-[10px] font-bold uppercase tracking-widest",
-                              lang === l.code ? "bg-primary text-white" : "border-border"
-                            )}
-                          >
-                            {l.code.toUpperCase()}
+                      </Button>
+
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="outline" size="icon" className="h-10 w-10 rounded-none border-border">
+                            <Globe className="h-4 w-4" />
                           </Button>
-                        ))}
-                      </div>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="rounded-none border-primary/20 bg-background/95 backdrop-blur-md">
+                          {languages.map((l) => (
+                            <DropdownMenuItem 
+                              key={l.code} 
+                              onClick={() => {
+                                dispatch(setLanguage(l.code));
+                                setMobileMenuOpen(false);
+                              }}
+                              className={cn(
+                                "cursor-pointer rounded-none text-[10px] font-bold uppercase tracking-widest p-3",
+                                lang === l.code && "bg-primary text-primary-foreground"
+                              )}
+                            >
+                              {l.label}
+                            </DropdownMenuItem>
+                          ))}
+                        </DropdownMenuContent>
+                      </DropdownMenu>
                     </div>
                   </div>
-                </motion.div>
 
-                <motion.div variants={itemVariants} className="pt-8 border-t border-border flex items-center justify-between">
-                  <div className="flex items-center gap-3 text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
-                    <ShieldCheck className="h-5 w-5 text-primary" />
-                    Support Grade Médical
+                  <div className="flex items-center justify-between opacity-60">
+                    <div className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-widest">
+                      <ShieldCheck className="h-4 w-4 text-primary" />
+                      Grade Médical
+                    </div>
+                    <span className="text-[8px] uppercase tracking-tighter">v2.5.0</span>
                   </div>
-                  <span className="text-[9px] text-muted-foreground/60 uppercase">v2.5.0</span>
                 </motion.div>
               </div>
             </motion.div>
