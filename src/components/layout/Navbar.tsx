@@ -38,8 +38,10 @@ const Navbar = () => {
   useEffect(() => {
     if (mobileMenuOpen) {
       document.body.style.overflow = 'hidden';
+      document.body.style.paddingRight = 'var(--scrollbar-width, 0px)';
     } else {
       document.body.style.overflow = 'unset';
+      document.body.style.paddingRight = '0px';
     }
   }, [mobileMenuOpen]);
 
@@ -83,7 +85,7 @@ const Navbar = () => {
     label: l.label,
     onClick: () => {
       dispatch(setLanguage(l.code));
-      setMobileMenuOpen(false);
+      if (mobileMenuOpen) setMobileMenuOpen(false);
     },
     isActive: lang === l.code,
     value: l.code
@@ -96,22 +98,19 @@ const Navbar = () => {
     )}>
       <div className="container mx-auto px-4 flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <Link href="/">
+          <Link href="/" className="group flex items-center gap-3">
             <motion.div 
-              whileHover={{ scale: 1.15 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
-              className="h-10 w-10 rounded-full bg-primary flex items-center justify-center relative overflow-hidden border-4 border-primary/20 clinical-shadow"
+              whileHover={{ scale: 1.1 }}
+              transition={{ duration: 0.2 }}
+              className="p-2.5 rounded-full bg-primary/90 backdrop-blur-md border-4 border-primary/40 shadow-[0_8px_25px_-5px_hsl(var(--primary)/0.4)] flex items-center justify-center relative overflow-hidden"
             >
               <Activity className="h-5 w-5 text-white" />
-              <div className="absolute inset-0 bg-gradient-to-tr from-black/10 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent" />
             </motion.div>
-          </Link>
-          
-          <Link href="/">
             <motion.span 
-              whileHover={{ scale: 1.05, x: 2 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
-              className="font-headline font-bold text-lg tracking-tighter text-foreground inline-block"
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.2 }}
+              className="font-headline font-bold text-lg tracking-tighter text-foreground hidden sm:inline-block"
             >
               SAM <span className="text-primary">Médicale</span>
             </motion.span>
@@ -123,9 +122,9 @@ const Navbar = () => {
           <ClinicalDropdown 
             isHoverable={true}
             trigger={
-              <Button variant="ghost" className="text-[10px] font-bold uppercase tracking-[0.25em] text-muted-foreground hover:text-primary gap-1.5 h-auto py-2 outline-none">
+              <Button variant="ghost" className="text-[10px] font-bold uppercase tracking-[0.25em] text-muted-foreground hover:text-primary gap-1.5 h-auto py-2 outline-none group">
                 {t.nav.shop}
-                <ChevronDown className="h-3 w-3" />
+                <ChevronDown className="h-3 w-3 transition-transform duration-300 group-data-[state=open]:rotate-180" />
               </Button>
             }
             items={categoryItems}
@@ -154,8 +153,9 @@ const Navbar = () => {
               isHoverable={true}
               align="end"
               trigger={
-                <Button variant="ghost" size="icon" className="h-9 w-9 text-muted-foreground outline-none">
+                <Button variant="ghost" size="icon" className="h-9 w-9 text-muted-foreground outline-none group">
                   <Globe className="h-4 w-4" />
+                  <ChevronDown className="h-2.5 w-2.5 ml-0.5 transition-transform duration-300 group-data-[state=open]:rotate-180" />
                 </Button>
               }
               items={languageItems}
@@ -237,7 +237,7 @@ const Navbar = () => {
                       {t.nav.shop}
                     </Link>
                     <Button variant="ghost" size="icon" onClick={() => setMobileShopOpen(!mobileShopOpen)}>
-                      {mobileShopOpen ? <Minus className="h-4 w-4 text-primary" /> : <Plus className="h-4 w-4" />}
+                      <ChevronDown className={cn("h-5 w-5 transition-transform duration-300", mobileShopOpen && "rotate-180")} />
                     </Button>
                   </div>
                   <AnimatePresence>
@@ -246,7 +246,7 @@ const Navbar = () => {
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
-                        className="flex flex-col gap-1 pl-4 border-l-2 border-primary/20 overflow-hidden"
+                        className="flex flex-col gap-1 pl-4 border-l-2 border-primary/20 overflow-hidden mb-4"
                       >
                         {categories.map((cat, idx) => (
                           <motion.div
@@ -299,16 +299,16 @@ const Navbar = () => {
                     variant="outline" 
                     size="icon"
                     onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                    className="h-12 w-12 rounded-full border-border hover:bg-primary/5"
+                    className="h-10 w-10 rounded-full border-border hover:bg-primary/5"
                   >
-                    {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+                    {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
                   </Button>
 
                   <ClinicalDropdown 
                     align="end"
                     trigger={
-                      <Button variant="outline" size="icon" className="h-12 w-12 rounded-full border-border outline-none hover:bg-primary/5">
-                        <Globe className="h-5 w-5" />
+                      <Button variant="outline" size="icon" className="h-10 w-10 rounded-full border-border outline-none hover:bg-primary/5 group">
+                        <Globe className="h-4 w-4" />
                       </Button>
                     }
                     items={languageItems}
