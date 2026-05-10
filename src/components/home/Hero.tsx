@@ -21,10 +21,36 @@ const Hero = () => {
 
   const tickerItems = [...stats, ...stats, ...stats];
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.3
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, x: 50 },
+    visible: { 
+      opacity: 1, 
+      x: 0,
+      transition: { duration: 1, ease: [0.22, 1, 0.36, 1] }
+    }
+  };
+
   return (
     <section className="relative w-full overflow-hidden hero-gradient pt-12 md:pt-14">
       <div className="relative h-[600px] md:h-[650px] flex items-center">
-        <div className="absolute inset-0 z-0">
+        {/* Background Image Animation */}
+        <motion.div 
+          initial={{ x: "100%", opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
+          className="absolute inset-0 z-0"
+        >
           {heroImage && (
             <Image 
               src={heroImage.imageUrl}
@@ -35,29 +61,29 @@ const Hero = () => {
             />
           )}
           <div className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-transparent" />
-        </div>
+        </motion.div>
 
         <div className="container mx-auto px-4 relative z-10">
           <motion.div
-            initial={{ opacity: 0, x: isRTL ? 30 : -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
             className="max-w-2xl"
           >
-            <div className="inline-flex items-center gap-2 bg-primary/10 px-3 py-1.5 border border-primary/20 mb-6">
+            <motion.div variants={itemVariants} className="inline-flex items-center gap-2 bg-primary/10 px-3 py-1.5 border border-primary/20 mb-6">
               <div className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
               <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-primary">{t.hero.badge}</span>
-            </div>
+            </motion.div>
             
-            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-foreground leading-[1.1] mb-6 tracking-tighter">
+            <motion.h1 variants={itemVariants} className="text-3xl md:text-5xl lg:text-6xl font-bold text-foreground leading-[1.1] mb-6 tracking-tighter">
               {t.hero.title}
-            </h1>
+            </motion.h1>
             
-            <p className="text-muted-foreground text-base md:text-lg mb-10 max-w-lg leading-relaxed font-medium">
+            <motion.p variants={itemVariants} className="text-muted-foreground text-base md:text-lg mb-10 max-w-lg leading-relaxed font-medium">
               {t.hero.subtitle}
-            </p>
+            </motion.p>
             
-            <div className="flex flex-col sm:flex-row gap-4">
+            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4">
               <Link href="/shop">
                 <Button className="bg-primary text-white px-10 py-7 rounded-none text-xs font-bold uppercase tracking-widest hover:bg-primary/90 transition-all shadow-xl shadow-primary/20">
                   {t.hero.cta_primary}
@@ -69,7 +95,7 @@ const Hero = () => {
                   <ArrowRight className="h-4 w-4" />
                 </Button>
               </Link>
-            </div>
+            </motion.div>
           </motion.div>
         </div>
       </div>
@@ -77,7 +103,7 @@ const Hero = () => {
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 1.5, delay: 0.4 }}
+        transition={{ duration: 1.5, delay: 1.5 }}
         className="border-y bg-background/50 backdrop-blur-sm py-12 overflow-hidden relative"
       >
         <div className="flex items-center">
