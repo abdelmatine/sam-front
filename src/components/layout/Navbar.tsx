@@ -78,14 +78,15 @@ const Navbar = () => {
       <div className="container mx-auto px-4 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-3 group">
           <div className={cn(
-            "p-1.5 bg-primary rounded-none transition-all duration-300 group-hover:scale-110 group-hover:-translate-y-0.5",
-            "border-t border-l border-white/20",
-            "border-b-2 border-r-2 border-black/30",
-            "shadow-[0_4px_12px_rgba(0,77,64,0.4)] dark:shadow-[0_4px_15px_rgba(45,212,191,0.2)]"
+            "p-2 rounded-xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-3",
+            "bg-primary/10 backdrop-blur-md border border-white/20 shadow-xl",
+            "dark:border-white/10 dark:bg-primary/20",
+            "flex items-center justify-center relative overflow-hidden"
           )}>
-            <Activity className="h-5 w-5 text-white" />
+            <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-50" />
+            <Activity className="h-5 w-5 text-primary dark:text-primary relative z-10" />
           </div>
-          <span className="font-headline font-bold text-xl tracking-tighter text-foreground">
+          <span className="font-headline font-bold text-xl tracking-tighter text-foreground transition-all duration-500 group-hover:scale-105 group-hover:translate-x-1 inline-block">
             SAM <span className="text-primary">Médicale</span>
           </span>
         </Link>
