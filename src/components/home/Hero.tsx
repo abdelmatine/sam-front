@@ -5,9 +5,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { useTranslation } from '@/hooks/use-translation';
 import { ShieldCheck, Truck, PhoneCall, ArrowRight } from 'lucide-react';
+import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 const Hero = () => {
   const { t, isRTL } = useTranslation();
@@ -26,38 +26,39 @@ const Hero = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.3,
+        staggerChildren: 0.4,
         delayChildren: 0.5
       }
     }
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, x: -50 },
+    hidden: { opacity: 0, x: -30 },
     visible: { 
       opacity: 1, 
       x: 0,
-      transition: { duration: 1.5, ease: [0.22, 1, 0.36, 1] }
+      transition: { duration: 1.8, ease: [0.22, 1, 0.36, 1] }
     }
   };
 
   return (
     <section className="relative w-full overflow-hidden hero-gradient pt-12 md:pt-14">
       <div className="relative h-[600px] md:h-[650px] flex items-center">
-        {/* Background Image Animation - sliding from Left */}
+        {/* Background Image Animation - sliding gracefully from Left */}
         <motion.div 
           initial={{ x: "-100%", opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
-          transition={{ duration: 2.5, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 3.0, ease: [0.22, 1, 0.36, 1] }}
           className="absolute inset-0 z-0"
         >
           {heroImage && (
             <Image 
               src={heroImage.imageUrl}
-              alt="Medical Device"
+              alt={heroImage.description}
               fill
               className="object-cover opacity-10 dark:opacity-20 grayscale"
               priority
+              data-ai-hint={heroImage.imageHint}
             />
           )}
           <div className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-transparent" />
@@ -77,12 +78,12 @@ const Hero = () => {
             
             <motion.h1 
               variants={itemVariants} 
-              className="text-3xl md:text-5xl lg:text-5xl font-bold text-foreground leading-[1.1] mb-6 tracking-tighter"
+              className="text-3xl md:text-4xl lg:text-4xl font-bold text-foreground leading-[1.1] mb-6 tracking-tighter"
             >
               {t.hero.title}
             </motion.h1>
             
-            <motion.p variants={itemVariants} className="text-muted-foreground text-base md:text-lg mb-10 max-w-lg leading-relaxed font-medium">
+            <motion.p variants={itemVariants} className="text-muted-foreground text-sm md:text-base mb-10 max-w-lg leading-relaxed font-medium">
               {t.hero.subtitle}
             </motion.p>
             
@@ -110,7 +111,7 @@ const Hero = () => {
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 1.5, delay: 1.5 }}
+        transition={{ duration: 1.5, delay: 2.0 }}
         className="border-y bg-background/50 backdrop-blur-sm py-12 overflow-hidden relative"
       >
         <div className="flex items-center">
