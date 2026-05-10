@@ -39,14 +39,6 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  useEffect(() => {
-    if (mobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-  }, [mobileMenuOpen]);
-
   if (!mounted) return null;
 
   const languages: { label: string; code: Language }[] = [
@@ -70,37 +62,56 @@ const Navbar = () => {
     { name: 'contact', href: '/contact' }
   ];
 
+  // Window blind animation variants
+  const dropdownVariants = {
+    hidden: { height: 0, opacity: 0, transition: { when: "afterChildren" } },
+    visible: { 
+      height: 'auto', 
+      opacity: 1,
+      transition: { 
+        duration: 0.4, 
+        ease: [0.22, 1, 0.36, 1],
+        staggerChildren: 0.08
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: -10 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.3 } }
+  };
+
   return (
     <nav className={cn(
       "fixed top-0 left-0 right-0 z-[100] transition-all duration-500",
       isScrolled ? "bg-background/95 backdrop-blur-md py-3 border-b clinical-shadow" : "bg-background py-5"
     )}>
       <div className="container mx-auto px-4 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-3">
-          {/* Logo with Independent Hover - Circular 3D Glassmorphism */}
-          <motion.div 
-            whileHover={{ scale: 1.1 }}
-            className={cn(
-              "p-2.5 rounded-full transition-all duration-500",
-              "bg-primary/90 backdrop-blur-md",
-              "border-4 border-primary/40",
-              "shadow-[0_8px_25px_-5px_hsl(var(--primary)/0.4)]",
-              "flex items-center justify-center relative overflow-hidden",
-              "before:absolute before:inset-0 before:border-t-2 before:border-white/20 before:rounded-full",
-              "after:absolute after:inset-0 after:border-b-2 after:border-black/30 after:rounded-full"
-            )}
-          >
-            <Activity className="h-5 w-5 text-white relative z-10" />
-          </motion.div>
+        <div className="flex items-center gap-3">
+          <Link href="/">
+            <motion.div 
+              whileHover={{ scale: 1.1 }}
+              className={cn(
+                "p-2.5 rounded-full transition-all duration-500",
+                "bg-primary/95 backdrop-blur-md",
+                "border-2 border-primary/20",
+                "shadow-[0_10px_30px_-5px_hsl(var(--primary)/0.5)]",
+                "flex items-center justify-center relative cursor-pointer"
+              )}
+            >
+              <Activity className="h-5 w-5 text-white" />
+            </motion.div>
+          </Link>
           
-          {/* Brand Text with Independent Hover */}
-          <motion.span 
-            whileHover={{ scale: 1.05, x: 5 }}
-            className="font-headline font-bold text-xl tracking-tighter text-foreground transition-all duration-500 inline-block"
-          >
-            SAM <span className="text-primary">Médicale</span>
-          </motion.span>
-        </Link>
+          <Link href="/">
+            <motion.span 
+              whileHover={{ scale: 1.05, x: 2 }}
+              className="font-headline font-bold text-xl tracking-tighter text-foreground transition-all duration-500 inline-block cursor-pointer"
+            >
+              SAM <span className="text-primary">Médicale</span>
+            </motion.span>
+          </Link>
+        </div>
 
         <div className="hidden lg:flex items-center gap-10">
           {menuItems.map((item) => (
@@ -113,7 +124,7 @@ const Navbar = () => {
                 >
                   <DropdownMenu open={isShopDropdownOpen} onOpenChange={setIsShopDropdownOpen}>
                     <DropdownMenuTrigger asChild>
-                      <button className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground hover:text-primary focus:outline-none flex items-center gap-1.5">
+                      <button className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground hover:text-primary focus:outline-none flex items-center gap-1.5 cursor-pointer">
                         {t.nav[item.name as keyof typeof t.nav]}
                         <ChevronDown className={cn("h-3 w-3 transition-transform duration-300", isShopDropdownOpen && "rotate-180 text-primary")} />
                       </button>
@@ -121,32 +132,16 @@ const Navbar = () => {
                     <DropdownMenuContent 
                       align="start" 
                       sideOffset={0}
-                      className="rounded-none border-primary/20 bg-background/98 backdrop-blur-xl min-w-[240px] p-2 shadow-2xl border-t-4 border-t-primary overflow-hidden"
+                      className="rounded-none border-primary/20 bg-background/98 backdrop-blur-xl min-w-[240px] p-2 shadow-2xl border-t-4 border-t-primary overflow-hidden animate-none"
                     >
                       <motion.div
                         initial="hidden"
                         animate={isShopDropdownOpen ? "visible" : "hidden"}
-                        variants={{
-                          hidden: { height: 0, opacity: 0 },
-                          visible: {
-                            height: 'auto',
-                            opacity: 1,
-                            transition: {
-                              staggerChildren: 0.05,
-                              duration: 0.4,
-                              ease: [0.22, 1, 0.36, 1]
-                            }
-                          }
-                        }}
+                        variants={dropdownVariants}
+                        className="flex flex-col"
                       >
                         {categories.map((cat) => (
-                          <motion.div
-                            key={cat.value}
-                            variants={{
-                              hidden: { opacity: 0, y: -10 },
-                              visible: { opacity: 1, y: 0 }
-                            }}
-                          >
+                          <motion.div key={cat.value} variants={itemVariants}>
                             <DropdownMenuItem asChild>
                               <Link 
                                 href={`/shop?category=${cat.value}`}
@@ -207,7 +202,7 @@ const Navbar = () => {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <Link href="/wishlist" className="hidden sm:block">
+          <Link href="/wishlist">
             <Button variant="ghost" size="icon" className="relative h-9 w-9 text-muted-foreground hover:bg-accent/50">
               <Heart className={cn("h-4 w-4", wishlistCount > 0 && "fill-primary text-primary")} />
               {wishlistCount > 0 && (
@@ -336,60 +331,6 @@ const Navbar = () => {
                     )}
                   </motion.div>
                 ))}
-                
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.4 }}
-                  className="pt-8 border-t flex flex-col gap-4"
-                >
-                  <Button 
-                    variant="outline" 
-                    className="w-full h-14 rounded-none uppercase text-[10px] font-bold tracking-[0.2em] flex items-center justify-between px-6 border-border"
-                    onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                  >
-                    <span>{theme === 'dark' ? 'Mode Clair' : 'Mode Sombre'}</span>
-                    {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-                  </Button>
-
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="outline" className="w-full h-14 rounded-none uppercase text-[10px] font-bold tracking-[0.2em] flex items-center justify-between px-6 border-border">
-                        <span>Changer Langue</span>
-                        <Languages className="h-4 w-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="w-[290px] rounded-none bg-background/95 backdrop-blur-md">
-                      {languages.map((l) => (
-                        <DropdownMenuItem 
-                          key={l.code} 
-                          onClick={() => dispatch(setLanguage(l.code))}
-                          className="p-4 rounded-none text-[10px] font-bold uppercase tracking-widest hover:bg-primary/5"
-                        >
-                          {l.label}
-                        </DropdownMenuItem>
-                      ))}
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </motion.div>
-              </div>
-
-              <div className="mt-auto pt-10 space-y-4">
-                <Button className="w-full bg-primary text-white py-8 rounded-none text-xs font-bold uppercase tracking-[0.2em] shadow-xl shadow-primary/20 flex items-center gap-3">
-                  <Stethoscope className="h-4 w-4" />
-                  {t.nav.consultation}
-                </Button>
-                
-                <div className="grid grid-cols-2 gap-2">
-                  <Button variant="ghost" className="h-12 border bg-accent/30 text-[9px] font-bold uppercase tracking-widest flex items-center gap-2 rounded-none">
-                    <PhoneCall className="h-3 w-3" />
-                    Support
-                  </Button>
-                  <Button variant="ghost" className="h-12 border bg-accent/30 text-[9px] font-bold uppercase tracking-widest flex items-center gap-2 rounded-none">
-                    <ShieldCheck className="h-3 w-3" />
-                    Garantie
-                  </Button>
-                </div>
               </div>
             </motion.div>
           </>
