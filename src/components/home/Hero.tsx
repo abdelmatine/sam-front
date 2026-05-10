@@ -1,4 +1,3 @@
-
 "use client";
 
 import React from 'react';
@@ -8,9 +7,11 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { useTranslation } from '@/hooks/use-translation';
 import { ShieldCheck, Truck, PhoneCall, ArrowRight } from 'lucide-react';
+import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 const Hero = () => {
   const { t, isRTL } = useTranslation();
+  const heroImage = PlaceHolderImages.find(img => img.id === 'hero-cpap');
 
   const stats = [
     { icon: ShieldCheck, title: "CERTIFICATION ISO", desc: "Standard de gestion de qualité pour dispositifs médicaux." },
@@ -25,8 +26,8 @@ const Hero = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.3,
-        delayChildren: 0.2
+        staggerChildren: 0.2,
+        delayChildren: 0.1
       }
     }
   };
@@ -36,7 +37,7 @@ const Hero = () => {
     visible: { 
       opacity: 1, 
       x: 0,
-      transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1] }
+      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
     }
   };
 
@@ -47,7 +48,7 @@ const Hero = () => {
         <motion.div 
           initial={{ x: "-5%", opacity: 0 }}
           animate={{ x: 0, opacity: 0.8 }}
-          transition={{ duration: 2, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
           className="absolute inset-0 z-0"
         >
           <Image 
@@ -57,7 +58,7 @@ const Hero = () => {
             className="object-cover grayscale"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/60 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/40 to-transparent" />
         </motion.div>
 
         <div className="container mx-auto px-4 relative z-10">
@@ -74,23 +75,23 @@ const Hero = () => {
             
             <motion.h1 
               variants={itemVariants} 
-              className="text-3xl md:text-5xl font-bold text-foreground leading-[1.1] mb-6 tracking-tighter"
+              className="text-2xl md:text-5xl font-bold text-foreground leading-[1.1] mb-6 tracking-tight"
             >
               {t.hero.title}
             </motion.h1>
             
-            <motion.p variants={itemVariants} className="text-muted-foreground text-sm md:text-base mb-10 max-w-lg leading-relaxed font-medium italic">
+            <motion.p variants={itemVariants} className="text-muted-foreground text-xs md:text-sm mb-10 max-w-lg leading-relaxed font-medium italic">
               {t.hero.subtitle}
             </motion.p>
             
             <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4">
               <Link href="/shop">
-                <Button className="bg-primary text-white px-10 py-7 rounded-none text-xs font-bold uppercase tracking-widest hover:bg-primary/90 transition-all shadow-xl shadow-primary/20 w-full sm:w-auto">
+                <Button className="bg-primary text-white px-10 py-7 rounded-none text-[10px] font-bold uppercase tracking-widest hover:bg-primary/90 transition-all shadow-xl shadow-primary/20 w-full sm:w-auto">
                   {t.hero.cta_primary}
                 </Button>
               </Link>
               <Link href="/shop">
-                <Button variant="outline" className="px-10 py-7 rounded-none text-xs font-bold uppercase tracking-widest border-2 hover:bg-accent transition-colors flex items-center gap-2 w-full sm:w-auto">
+                <Button variant="outline" className="px-10 py-7 rounded-none text-[10px] font-bold uppercase tracking-widest border-2 hover:bg-accent transition-colors flex items-center gap-2 w-full sm:w-auto">
                   {t.hero.cta_secondary}
                   <ArrowRight className="h-4 w-4" />
                 </Button>
