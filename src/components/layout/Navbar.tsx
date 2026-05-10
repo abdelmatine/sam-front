@@ -76,8 +76,13 @@ const Navbar = () => {
       isScrolled ? "bg-background/95 backdrop-blur-md py-3 border-b clinical-shadow" : "bg-background py-5"
     )}>
       <div className="container mx-auto px-4 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 group">
-          <div className="p-1.5 bg-primary rounded-none transition-transform group-hover:scale-110">
+        <Link href="/" className="flex items-center gap-3 group">
+          <div className={cn(
+            "p-1.5 bg-primary rounded-none transition-all duration-300 group-hover:scale-110 group-hover:-translate-y-0.5",
+            "border-t border-l border-white/20",
+            "border-b-2 border-r-2 border-black/30",
+            "shadow-[0_4px_12px_rgba(0,77,64,0.4)] dark:shadow-[0_4px_15px_rgba(45,212,191,0.2)]"
+          )}>
             <Activity className="h-5 w-5 text-white" />
           </div>
           <span className="font-headline font-bold text-xl tracking-tighter text-foreground">
