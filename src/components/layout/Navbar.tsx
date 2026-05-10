@@ -23,6 +23,8 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileShopOpen, setMobileShopOpen] = useState(false);
+  const [isShopDropdownOpen, setIsShopDropdownOpen] = useState(false);
+  
   const cartQuantity = useSelector((state: RootState) => state.cart.totalQuantity);
   const wishlistCount = useSelector((state: RootState) => state.wishlist.items.length);
   const { t, lang, isRTL } = useTranslation();
@@ -89,30 +91,39 @@ const Navbar = () => {
           {menuItems.map((item) => (
             <div key={item.name} className="relative group">
               {item.hasDropdown ? (
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <button className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground hover:text-primary transition-all flex items-center gap-1">
-                      {t.nav[item.name as keyof typeof t.nav]}
-                      <ChevronDown className="h-3 w-3 transition-transform group-hover:rotate-180" />
-                    </button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="start" className="rounded-none border-primary/20 bg-background/95 backdrop-blur-md min-w-[200px]">
-                    {categories.map((cat) => (
-                      <DropdownMenuItem key={cat.value} asChild>
-                        <Link 
-                          href={`/shop?category=${cat.value}`}
-                          className="cursor-pointer rounded-none text-[10px] font-bold uppercase tracking-widest p-4 hover:bg-primary/5 transition-colors block"
-                        >
-                          {cat.label}
-                        </Link>
-                      </DropdownMenuItem>
-                    ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                <div 
+                  className="relative h-full py-2"
+                  onMouseEnter={() => setIsShopDropdownOpen(true)}
+                  onMouseLeave={() => setIsShopDropdownOpen(false)}
+                >
+                  <DropdownMenu open={isShopDropdownOpen} onOpenChange={setIsShopDropdownOpen}>
+                    <DropdownMenuTrigger asChild>
+                      <button className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground hover:text-primary transition-all flex items-center gap-1.5 focus:outline-none">
+                        {t.nav[item.name as keyof typeof t.nav]}
+                        <ChevronDown className={cn("h-3 w-3 transition-transform duration-300", isShopDropdownOpen && "rotate-180 text-primary")} />
+                      </button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent 
+                      align="start" 
+                      className="rounded-none border-primary/20 bg-background/95 backdrop-blur-xl min-w-[240px] p-1 shadow-2xl animate-in fade-in slide-in-from-top-2 duration-300"
+                    >
+                      {categories.map((cat) => (
+                        <DropdownMenuItem key={cat.value} asChild>
+                          <Link 
+                            href={`/shop?category=${cat.value}`}
+                            className="cursor-pointer rounded-none text-[10px] font-bold uppercase tracking-[0.15em] px-5 py-4 hover:bg-primary/5 hover:text-primary transition-all block border-b border-border/5 last:border-none"
+                          >
+                            {cat.label}
+                          </Link>
+                        </DropdownMenuItem>
+                      ))}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
               ) : (
                 <Link 
                   href={item.href} 
-                  className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground hover:text-primary transition-all relative"
+                  className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground hover:text-primary transition-all relative py-2"
                 >
                   {t.nav[item.name as keyof typeof t.nav]}
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
@@ -127,7 +138,7 @@ const Navbar = () => {
           <Button 
             variant="ghost" 
             size="icon" 
-            className="h-9 w-9 text-muted-foreground hidden sm:flex"
+            className="h-9 w-9 text-muted-foreground hidden sm:flex hover:bg-accent/50"
             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
           >
             {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
@@ -135,7 +146,7 @@ const Navbar = () => {
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-9 w-9 text-muted-foreground hidden sm:flex">
+              <Button variant="ghost" size="icon" className="h-9 w-9 text-muted-foreground hidden sm:flex hover:bg-accent/50">
                 <Languages className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
@@ -144,7 +155,10 @@ const Navbar = () => {
                 <DropdownMenuItem 
                   key={l.code} 
                   onClick={() => dispatch(setLanguage(l.code))}
-                  className={cn("cursor-pointer rounded-none text-xs font-bold uppercase tracking-widest", lang === l.code && "bg-primary text-primary-foreground")}
+                  className={cn(
+                    "cursor-pointer rounded-none text-[10px] font-bold uppercase tracking-widest p-3",
+                    lang === l.code && "bg-primary text-primary-foreground"
+                  )}
                 >
                   {l.label}
                 </DropdownMenuItem>
@@ -153,10 +167,10 @@ const Navbar = () => {
           </DropdownMenu>
 
           <Link href="/wishlist" className="hidden sm:block">
-            <Button variant="ghost" size="icon" className="relative h-9 w-9 text-muted-foreground">
-              <Heart className="h-4 w-4" />
+            <Button variant="ghost" size="icon" className="relative h-9 w-9 text-muted-foreground hover:bg-accent/50">
+              <Heart className={cn("h-4 w-4", wishlistCount > 0 && "fill-primary text-primary")} />
               {wishlistCount > 0 && (
-                <Badge className="absolute -top-1 -right-1 h-4 w-4 flex items-center justify-center p-0 text-[8px] bg-primary text-white rounded-full font-bold">
+                <Badge className="absolute -top-1 -right-1 h-4 w-4 flex items-center justify-center p-0 text-[8px] bg-primary text-white rounded-full font-bold border-none">
                   {wishlistCount}
                 </Badge>
               )}
@@ -164,7 +178,7 @@ const Navbar = () => {
           </Link>
 
           <Link href="/cart">
-            <Button variant="ghost" size="icon" className="relative h-9 w-9 text-muted-foreground">
+            <Button variant="ghost" size="icon" className="relative h-9 w-9 text-muted-foreground hover:bg-accent/50">
               <ShoppingCart className="h-4 w-4" />
               <AnimatePresence>
                 {cartQuantity > 0 && (
@@ -174,7 +188,7 @@ const Navbar = () => {
                     exit={{ scale: 0 }}
                     className="absolute -top-1 -right-1"
                   >
-                    <Badge className="h-4 w-4 flex items-center justify-center p-0 text-[8px] bg-primary text-white rounded-full font-bold">
+                    <Badge className="h-4 w-4 flex items-center justify-center p-0 text-[8px] bg-primary text-white rounded-full font-bold border-none">
                       {cartQuantity}
                     </Badge>
                   </motion.div>
@@ -186,7 +200,7 @@ const Navbar = () => {
           <Button 
             variant="ghost" 
             size="icon" 
-            className="lg:hidden text-foreground"
+            className="lg:hidden text-foreground hover:bg-accent/50"
             onClick={() => setMobileMenuOpen(true)}
           >
             <Menu className="h-6 w-6" />
@@ -238,7 +252,7 @@ const Navbar = () => {
                       <Link 
                         href={item.href} 
                         onClick={() => setMobileMenuOpen(false)}
-                        className="text-2xl font-bold hover:text-primary transition-colors uppercase tracking-tighter block"
+                        className="text-xl font-bold hover:text-primary transition-colors uppercase tracking-tighter block"
                       >
                         {t.nav[item.name as keyof typeof t.nav]}
                       </Link>
@@ -246,7 +260,7 @@ const Navbar = () => {
                         <Button 
                           variant="ghost" 
                           size="icon" 
-                          className="h-8 w-8"
+                          className="h-8 w-8 text-primary"
                           onClick={(e) => {
                             e.preventDefault();
                             setMobileShopOpen(!mobileShopOpen);
@@ -271,7 +285,7 @@ const Navbar = () => {
                                 key={cat.value}
                                 href={`/shop?category=${cat.value}`}
                                 onClick={() => setMobileMenuOpen(false)}
-                                className="text-sm font-bold uppercase tracking-widest text-muted-foreground hover:text-primary py-2"
+                                className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground hover:text-primary py-3 transition-colors"
                               >
                                 {cat.label}
                               </Link>
@@ -291,7 +305,7 @@ const Navbar = () => {
                 >
                   <Button 
                     variant="outline" 
-                    className="w-full h-14 rounded-none uppercase text-[10px] font-bold tracking-[0.2em] flex items-center justify-between px-6"
+                    className="w-full h-14 rounded-none uppercase text-[10px] font-bold tracking-[0.2em] flex items-center justify-between px-6 border-border"
                     onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
                   >
                     <span>{theme === 'dark' ? 'Mode Clair' : 'Mode Sombre'}</span>
@@ -300,17 +314,17 @@ const Navbar = () => {
 
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="outline" className="w-full h-14 rounded-none uppercase text-[10px] font-bold tracking-[0.2em] flex items-center justify-between px-6">
+                      <Button variant="outline" className="w-full h-14 rounded-none uppercase text-[10px] font-bold tracking-[0.2em] flex items-center justify-between px-6 border-border">
                         <span>Changer Langue</span>
                         <Languages className="h-4 w-4" />
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className="w-[290px] rounded-none">
+                    <DropdownMenuContent className="w-[290px] rounded-none bg-background/95 backdrop-blur-md">
                       {languages.map((l) => (
                         <DropdownMenuItem 
                           key={l.code} 
                           onClick={() => dispatch(setLanguage(l.code))}
-                          className="p-4 rounded-none text-xs font-bold uppercase tracking-widest"
+                          className="p-4 rounded-none text-[10px] font-bold uppercase tracking-widest hover:bg-primary/5"
                         >
                           {l.label}
                         </DropdownMenuItem>
@@ -327,11 +341,11 @@ const Navbar = () => {
                 </Button>
                 
                 <div className="grid grid-cols-2 gap-2">
-                  <Button variant="ghost" className="h-12 border bg-accent/30 text-[9px] font-bold uppercase tracking-widest flex items-center gap-2">
+                  <Button variant="ghost" className="h-12 border bg-accent/30 text-[9px] font-bold uppercase tracking-widest flex items-center gap-2 rounded-none">
                     <PhoneCall className="h-3 w-3" />
                     Support
                   </Button>
-                  <Button variant="ghost" className="h-12 border bg-accent/30 text-[9px] font-bold uppercase tracking-widest flex items-center gap-2">
+                  <Button variant="ghost" className="h-12 border bg-accent/30 text-[9px] font-bold uppercase tracking-widest flex items-center gap-2 rounded-none">
                     <ShieldCheck className="h-3 w-3" />
                     Garantie
                   </Button>
