@@ -70,28 +70,27 @@ const Navbar = () => {
     { name: 'contact', href: '/contact' }
   ];
 
-  // Animation variants for staggered dropdown items
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.08,
+        staggerChildren: 0.05,
         delayChildren: 0.05
       }
     }
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 10, scale: 0.98 },
+    hidden: { opacity: 0, y: 8, scale: 0.98 },
     visible: { 
       opacity: 1, 
       y: 0, 
       scale: 1,
       transition: {
         type: "spring",
-        stiffness: 300,
-        damping: 24
+        stiffness: 400,
+        damping: 30
       }
     }
   };
@@ -102,7 +101,6 @@ const Navbar = () => {
       isScrolled ? "bg-background/95 backdrop-blur-md py-3 border-b clinical-shadow" : "bg-background py-5"
     )}>
       <div className="container mx-auto px-4 flex items-center justify-between">
-        {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group">
           <div className="p-1.5 bg-primary rounded-none transition-transform group-hover:scale-110">
             <Activity className="h-5 w-5 text-white" />
@@ -112,10 +110,9 @@ const Navbar = () => {
           </span>
         </Link>
 
-        {/* Desktop Navigation */}
-        <div className="hidden lg:flex items-center gap-8">
+        <div className="hidden lg:flex items-center gap-10">
           {menuItems.map((item) => (
-            <div key={item.name} className="relative group">
+            <div key={item.name} className="relative">
               {item.hasDropdown ? (
                 <div 
                   className="relative h-full py-2"
@@ -124,14 +121,14 @@ const Navbar = () => {
                 >
                   <DropdownMenu open={isShopDropdownOpen} onOpenChange={setIsShopDropdownOpen}>
                     <DropdownMenuTrigger asChild>
-                      <button className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground hover:text-primary transition-all flex items-center gap-1.5 focus:outline-none">
+                      <button className="text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground hover:text-primary transition-all flex items-center gap-1.5 focus:outline-none">
                         {t.nav[item.name as keyof typeof t.nav]}
                         <ChevronDown className={cn("h-3 w-3 transition-transform duration-300", isShopDropdownOpen && "rotate-180 text-primary")} />
                       </button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent 
                       align="start" 
-                      className="rounded-none border-primary/20 bg-background/98 backdrop-blur-xl min-w-[260px] p-2 shadow-2xl border-t-4 border-t-primary"
+                      className="rounded-none border-primary/20 bg-background/98 backdrop-blur-xl min-w-[240px] p-2 shadow-2xl border-t-4 border-t-primary animate-none"
                     >
                       <motion.div
                         initial="hidden"
@@ -143,7 +140,7 @@ const Navbar = () => {
                             <DropdownMenuItem asChild>
                               <Link 
                                 href={`/shop?category=${cat.value}`}
-                                className="cursor-pointer rounded-none text-[10px] font-bold uppercase tracking-[0.15em] px-5 py-4 hover:bg-primary/5 hover:text-primary transition-all block border-b border-border/5 last:border-none"
+                                className="cursor-pointer rounded-none text-[10px] font-bold uppercase tracking-[0.12em] px-5 py-3.5 hover:bg-primary/5 hover:text-primary transition-all block border-b border-border/5 last:border-none"
                               >
                                 {cat.label}
                               </Link>
@@ -157,7 +154,7 @@ const Navbar = () => {
               ) : (
                 <Link 
                   href={item.href} 
-                  className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground hover:text-primary transition-all relative py-2"
+                  className="text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground hover:text-primary transition-all relative py-2 group"
                 >
                   {t.nav[item.name as keyof typeof t.nav]}
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
@@ -167,7 +164,6 @@ const Navbar = () => {
           ))}
         </div>
 
-        {/* Action Icons */}
         <div className="flex items-center gap-2 md:gap-4">
           <Button 
             variant="ghost" 
@@ -242,7 +238,6 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <>
@@ -286,7 +281,7 @@ const Navbar = () => {
                       <Link 
                         href={item.href} 
                         onClick={() => setMobileMenuOpen(false)}
-                        className="text-xl font-bold hover:text-primary transition-colors uppercase tracking-tighter block"
+                        className="text-lg font-bold hover:text-primary transition-colors uppercase tracking-tighter block"
                       >
                         {t.nav[item.name as keyof typeof t.nav]}
                       </Link>
