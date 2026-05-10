@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store';
 import { setLanguage, Language } from '@/store/slices/i18nSlice';
 import { useTranslation } from '@/hooks/use-translation';
-import { ShoppingCart, Menu, X, Languages, Activity, Sun, Moon, Heart, Stethoscope, PhoneCall, ShieldCheck, Plus, Minus, ChevronDown } from 'lucide-react';
+import { ShoppingCart, Menu, Activity, Sun, Moon, Heart, Languages, ChevronDown, Plus, Minus, X, Stethoscope, PhoneCall, ShieldCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
@@ -70,6 +70,32 @@ const Navbar = () => {
     { name: 'contact', href: '/contact' }
   ];
 
+  // Animation variants for staggered dropdown items
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.08,
+        delayChildren: 0.05
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 10, scale: 0.98 },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      scale: 1,
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 24
+      }
+    }
+  };
+
   return (
     <nav className={cn(
       "fixed top-0 left-0 right-0 z-[100] transition-all duration-500",
@@ -105,18 +131,26 @@ const Navbar = () => {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent 
                       align="start" 
-                      className="rounded-none border-primary/20 bg-background/95 backdrop-blur-xl min-w-[240px] p-1 shadow-2xl animate-in fade-in slide-in-from-top-2 duration-300"
+                      className="rounded-none border-primary/20 bg-background/98 backdrop-blur-xl min-w-[260px] p-2 shadow-2xl border-t-4 border-t-primary"
                     >
-                      {categories.map((cat) => (
-                        <DropdownMenuItem key={cat.value} asChild>
-                          <Link 
-                            href={`/shop?category=${cat.value}`}
-                            className="cursor-pointer rounded-none text-[10px] font-bold uppercase tracking-[0.15em] px-5 py-4 hover:bg-primary/5 hover:text-primary transition-all block border-b border-border/5 last:border-none"
-                          >
-                            {cat.label}
-                          </Link>
-                        </DropdownMenuItem>
-                      ))}
+                      <motion.div
+                        initial="hidden"
+                        animate={isShopDropdownOpen ? "visible" : "hidden"}
+                        variants={containerVariants}
+                      >
+                        {categories.map((cat) => (
+                          <motion.div key={cat.value} variants={itemVariants}>
+                            <DropdownMenuItem asChild>
+                              <Link 
+                                href={`/shop?category=${cat.value}`}
+                                className="cursor-pointer rounded-none text-[10px] font-bold uppercase tracking-[0.15em] px-5 py-4 hover:bg-primary/5 hover:text-primary transition-all block border-b border-border/5 last:border-none"
+                              >
+                                {cat.label}
+                              </Link>
+                            </DropdownMenuItem>
+                          </motion.div>
+                        ))}
+                      </motion.div>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </div>
