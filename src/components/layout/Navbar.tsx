@@ -78,9 +78,13 @@ const Navbar = () => {
       <div className="container mx-auto px-4 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-3">
           <div className={cn(
-            "p-2 rounded-none transition-all duration-500 hover:scale-110 hover:rotate-3",
-            "bg-primary shadow-lg border-2 border-primary/20",
-            "flex items-center justify-center relative overflow-hidden"
+            "p-2.5 rounded-none transition-all duration-500 hover:scale-110",
+            "bg-primary/90 backdrop-blur-md",
+            "border-4 border-primary/40",
+            "shadow-[0_8px_25px_-5px_hsl(var(--primary)/0.4)]",
+            "flex items-center justify-center relative overflow-hidden",
+            "before:absolute before:inset-0 before:border-t-2 before:border-white/20 before:rounded-none",
+            "after:absolute after:inset-0 after:border-b-2 after:border-black/30 after:rounded-none"
           )}>
             <Activity className="h-5 w-5 text-white relative z-10" />
           </div>
@@ -100,7 +104,7 @@ const Navbar = () => {
                 >
                   <DropdownMenu open={isShopDropdownOpen} onOpenChange={setIsShopDropdownOpen}>
                     <DropdownMenuTrigger asChild>
-                      <button className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground hover:text-primary transition-none flex items-center gap-1.5 focus:outline-none">
+                      <button className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground hover:text-primary focus:outline-none flex items-center gap-1.5">
                         {t.nav[item.name as keyof typeof t.nav]}
                         <ChevronDown className={cn("h-3 w-3 transition-transform duration-300", isShopDropdownOpen && "rotate-180 text-primary")} />
                       </button>
