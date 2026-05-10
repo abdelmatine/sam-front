@@ -77,20 +77,29 @@ const Navbar = () => {
     )}>
       <div className="container mx-auto px-4 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-3">
-          <div className={cn(
-            "p-2.5 rounded-none transition-all duration-500 hover:scale-110",
-            "bg-primary/90 backdrop-blur-md",
-            "border-4 border-primary/40",
-            "shadow-[0_8px_25px_-5px_hsl(var(--primary)/0.4)]",
-            "flex items-center justify-center relative overflow-hidden",
-            "before:absolute before:inset-0 before:border-t-2 before:border-white/20 before:rounded-none",
-            "after:absolute after:inset-0 after:border-b-2 after:border-black/30 after:rounded-none"
-          )}>
+          {/* Logo with Independent Hover - Circular 3D Glassmorphism */}
+          <motion.div 
+            whileHover={{ scale: 1.1 }}
+            className={cn(
+              "p-2.5 rounded-full transition-all duration-500",
+              "bg-primary/90 backdrop-blur-md",
+              "border-4 border-primary/40",
+              "shadow-[0_8px_25px_-5px_hsl(var(--primary)/0.4)]",
+              "flex items-center justify-center relative overflow-hidden",
+              "before:absolute before:inset-0 before:border-t-2 before:border-white/20 before:rounded-full",
+              "after:absolute after:inset-0 after:border-b-2 after:border-black/30 after:rounded-full"
+            )}
+          >
             <Activity className="h-5 w-5 text-white relative z-10" />
-          </div>
-          <span className="font-headline font-bold text-xl tracking-tighter text-foreground transition-all duration-500 hover:scale-105 hover:translate-x-1 inline-block">
+          </motion.div>
+          
+          {/* Brand Text with Independent Hover */}
+          <motion.span 
+            whileHover={{ scale: 1.05, x: 5 }}
+            className="font-headline font-bold text-xl tracking-tighter text-foreground transition-all duration-500 inline-block"
+          >
             SAM <span className="text-primary">Médicale</span>
-          </span>
+          </motion.span>
         </Link>
 
         <div className="hidden lg:flex items-center gap-10">
