@@ -7,9 +7,11 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent } from '@/components/ui/card';
 import { Phone, Mail, MapPin, MessageSquare, Clock, ShieldCheck } from 'lucide-react';
-import { toast } from '@/hooks/use-toast';
+import { useToast } from '@/hooks/use-toast';
 
 export default function ContactPage() {
+  const { toast } = useToast();
+  
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     toast({
@@ -34,7 +36,7 @@ export default function ContactPage() {
           <div className="grid lg:grid-cols-3 gap-12">
             {/* Contact Info */}
             <div className="lg:col-span-1 space-y-6">
-              <Card className="border-none medical-shadow bg-card">
+              <Card className="border-none bg-accent/5 rounded-none">
                 <CardContent className="p-8 space-y-8">
                   <div className="flex gap-4">
                     <div className="p-3 bg-primary/10 rounded-xl text-primary shrink-0">
@@ -70,48 +72,50 @@ export default function ContactPage() {
                 </CardContent>
               </Card>
 
-              <div className="bg-primary/5 border border-primary/20 rounded-3xl p-8 space-y-4">
-                <div className="flex items-center gap-2 text-primary font-bold">
-                  <ShieldCheck className="h-5 w-5" />
-                  Official Authorized Dealer
-                </div>
-                <p className="text-xs text-muted-foreground leading-relaxed">
-                  We are certified providers for ResMed, Philips, Fisher & Paykel, and more. All technical support is provided by factory-trained technicians.
-                </p>
-              </div>
+              <Card className="bg-primary/5 border-primary/20 border rounded-none">
+                <CardContent className="p-8 space-y-4">
+                  <div className="flex items-center gap-2 text-primary font-bold">
+                    <ShieldCheck className="h-5 w-5" />
+                    Official Authorized Dealer
+                  </div>
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    We are certified providers for ResMed, Philips, Fisher & Paykel, and more. All technical support is provided by factory-trained technicians.
+                  </p>
+                </CardContent>
+              </Card>
             </div>
 
             {/* Contact Form */}
             <div className="lg:col-span-2">
-              <Card className="border-none medical-shadow bg-card overflow-hidden rounded-3xl">
+              <Card className="border-none clinical-shadow bg-card overflow-hidden rounded-none">
                 <div className="bg-primary p-8 text-white">
                   <h3 className="text-2xl font-bold flex items-center gap-2">
                     <MessageSquare className="h-6 w-6" />
-                    Send a Secure Message
+                    Send a Message
                   </h3>
                   <p className="text-primary-foreground/80 mt-2">Required medical consultations can also be initiated here.</p>
                 </div>
                 <CardContent className="p-8">
                   <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <label className="text-sm font-bold">Full Name</label>
-                      <Input placeholder="John Doe" className="rounded-xl p-6" required />
+                      <label className="text-sm font-bold uppercase tracking-widest text-[10px]">Full Name</label>
+                      <Input placeholder="John Doe" className="rounded-none h-12" required />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-sm font-bold">Email Address</label>
-                      <Input type="email" placeholder="john@example.com" className="rounded-xl p-6" required />
+                      <label className="text-sm font-bold uppercase tracking-widest text-[10px]">Email Address</label>
+                      <Input type="email" placeholder="john@example.com" className="rounded-none h-12" required />
                     </div>
                     <div className="md:col-span-2 space-y-2">
-                      <label className="text-sm font-bold">Subject / Inquiry Type</label>
-                      <Input placeholder="Equipment Question, Prescription Review, etc." className="rounded-xl p-6" />
+                      <label className="text-sm font-bold uppercase tracking-widest text-[10px]">Subject / Inquiry Type</label>
+                      <Input placeholder="Equipment Question, Prescription Review, etc." className="rounded-none h-12" />
                     </div>
                     <div className="md:col-span-2 space-y-2">
-                      <label className="text-sm font-bold">Your Message</label>
-                      <Textarea placeholder="How can we assist you today?" className="min-h-[150px] rounded-2xl p-6" required />
+                      <label className="text-sm font-bold uppercase tracking-widest text-[10px]">Your Message</label>
+                      <Textarea placeholder="How can we assist you today?" className="min-h-[150px] rounded-none" required />
                     </div>
                     <div className="md:col-span-2 pt-4">
-                      <Button type="submit" className="w-full bg-primary text-white py-8 text-lg font-bold rounded-2xl shadow-lg medical-shadow hover:bg-primary/90 transition-all">
-                        Send Message
+                      <Button type="submit" className="w-full bg-primary text-white py-8 text-sm font-bold uppercase tracking-[0.2em] rounded-none hover:bg-primary/90">
+                        Send Secure Message
                       </Button>
                     </div>
                   </form>

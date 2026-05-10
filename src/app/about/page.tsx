@@ -2,6 +2,7 @@ import React from 'react';
 import Navbar from '@/components/layout/Navbar';
 import Image from 'next/image';
 import { CheckCircle2, Heart, Award, Users, ShieldCheck } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function AboutPage() {
   return (
@@ -22,7 +23,7 @@ export default function AboutPage() {
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div className="relative h-[400px] md:h-[600px] rounded-3xl overflow-hidden medical-shadow">
+            <div className="relative h-[400px] md:h-[600px] rounded-3xl overflow-hidden clinical-shadow">
               <Image 
                 src="https://picsum.photos/seed/about1/800/1000" 
                 alt="Our Medical Facility" 
@@ -49,17 +50,19 @@ export default function AboutPage() {
                   { icon: Heart, title: "Compassionate Care", desc: "We understand the importance of reliable equipment." },
                   { icon: ShieldCheck, title: "Trusted Globally", desc: "Partnerships with 500+ clinics worldwide." }
                 ].map((item, i) => (
-                  <div key={i} className="flex gap-4">
-                    <div className="shrink-0">
-                      <div className="p-2 bg-primary/10 rounded-lg text-primary">
-                        <item.icon className="h-5 w-5" />
+                  <Card key={i} className="border-none bg-accent/5 shadow-none rounded-none">
+                    <CardContent className="p-6 flex gap-4">
+                      <div className="shrink-0">
+                        <div className="p-2 bg-primary/10 rounded-lg text-primary">
+                          <item.icon className="h-5 w-5" />
+                        </div>
                       </div>
-                    </div>
-                    <div>
-                      <h4 className="font-bold mb-1">{item.title}</h4>
-                      <p className="text-xs text-muted-foreground">{item.desc}</p>
-                    </div>
-                  </div>
+                      <div>
+                        <h4 className="font-bold mb-1">{item.title}</h4>
+                        <p className="text-xs text-muted-foreground">{item.desc}</p>
+                      </div>
+                    </CardContent>
+                  </Card>
                 ))}
               </div>
             </div>

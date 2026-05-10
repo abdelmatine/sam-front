@@ -30,11 +30,11 @@ const AIExplainer = ({ content }: AIExplainerProps) => {
 
   return (
     <Card className="border rounded-none clinical-shadow bg-accent/20 overflow-hidden">
-      <CardHeader className="flex flex-row items-center gap-3 pb-2 border-b mb-4">
+      <CardHeader className="flex flex-row items-center gap-3 pb-4 border-b">
         <Sparkles className="h-4 w-4 text-primary" />
         <CardTitle className="text-xs font-bold uppercase tracking-[0.2em]">{t.product.ai_assistant}</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="pt-6">
         {!summary ? (
           <div className="flex flex-col gap-4">
             <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest leading-relaxed">
@@ -43,27 +43,28 @@ const AIExplainer = ({ content }: AIExplainerProps) => {
             <Button 
               onClick={handleExplain} 
               disabled={loading}
-              className="w-full bg-primary text-white hover:bg-primary/90 rounded-none text-[10px] font-bold uppercase tracking-[0.2em] py-5"
+              className="w-full bg-primary text-white hover:bg-primary/90 rounded-none text-[10px] font-bold uppercase tracking-[0.2em] py-6 h-auto"
             >
               {loading ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
+                <Loader2 className="h-4 w-4 animate-spin mr-2" />
               ) : (
-                'Expert Summary'
+                <Sparkles className="h-4 w-4 mr-2" />
               )}
+              Expert Clinical Summary
             </Button>
           </div>
         ) : (
           <div className="space-y-4 animate-in fade-in duration-1000">
-            <div className="flex gap-3 items-start text-[11px] bg-background p-4 border leading-relaxed border-primary/20">
-              <span className="shrink-0 p-1 bg-primary/5">
-                <Info className="h-4 w-4 text-primary" />
-              </span>
+            <div className="flex gap-4 items-start text-[11px] bg-background p-5 border leading-relaxed border-primary/20">
+              <div className="shrink-0 p-1.5 bg-primary/5 rounded-full mt-0.5">
+                <Info className="h-3.5 w-3.5 text-primary" />
+              </div>
               <div>{summary}</div>
             </div>
             <Button 
               variant="link" 
               onClick={() => setSummary(null)} 
-              className="text-primary p-0 h-auto text-[10px] uppercase font-bold tracking-widest"
+              className="text-primary p-0 h-auto text-[10px] uppercase font-bold tracking-widest hover:no-underline"
             >
               Request New Analysis
             </Button>
