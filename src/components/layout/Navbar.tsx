@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect } from 'react';
@@ -6,7 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store';
 import { setLanguage, Language } from '@/store/slices/i18nSlice';
 import { useTranslation } from '@/hooks/use-translation';
-import { ShoppingCart, Menu, Activity, Sun, Moon, Heart, Languages, ChevronDown, Plus, Minus, X, ShieldCheck, Globe } from 'lucide-react';
+import { ShoppingCart, Menu, Activity, Sun, Moon, Heart, ChevronDown, Plus, Minus, X, ShieldCheck, Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
@@ -24,7 +25,6 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileShopOpen, setMobileShopOpen] = useState(false);
-  const [isShopDropdownOpen, setIsShopDropdownOpen] = useState(false);
   
   const cartQuantity = useSelector((state: RootState) => state.cart.totalQuantity);
   const wishlistCount = useSelector((state: RootState) => state.wishlist.items.length);
@@ -40,16 +40,13 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Prevent body scroll when mobile menu is open
+  // Scroll Lock
   useEffect(() => {
     if (mobileMenuOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';
     }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
   }, [mobileMenuOpen]);
 
   if (!mounted) return null;
@@ -69,39 +66,17 @@ const Navbar = () => {
     { label: t.categories.others, value: 'others' },
   ];
 
-  const menuItems = [
-    { name: 'shop', href: '/shop', hasDropdown: true },
-    { name: 'about', href: '/about' },
-    { name: 'contact', href: '/contact' }
-  ];
-
-  // Animation variants
   const sidebarVariants = {
     closed: { x: isRTL ? '-100%' : '100%' },
     open: { 
       x: 0,
-      transition: { 
-        type: 'spring', 
-        damping: 30, 
-        stiffness: 300
-      }
+      transition: { type: 'spring', damping: 30, stiffness: 300 }
     }
   };
 
   const itemVariants = {
     closed: { opacity: 0, y: 15 },
     open: { opacity: 1, y: 0 }
-  };
-
-  const subItemVariants = {
-    closed: { height: 0, opacity: 0 },
-    open: { 
-      height: 'auto', 
-      opacity: 1,
-      transition: { 
-        height: { duration: 0.3 }
-      }
-    }
   };
 
   return (
@@ -115,16 +90,15 @@ const Navbar = () => {
             <motion.div 
               whileHover={{ scale: 1.1 }}
               transition={{ duration: 0.2 }}
-              className="p-2.5 rounded-full bg-primary/95 backdrop-blur-md border border-primary/20 shadow-[0_8px_25px_-5px_hsl(var(--primary)/0.4)] flex items-center justify-center relative overflow-hidden group/logo"
+              className="p-2.5 rounded-full bg-primary/95 backdrop-blur-md border border-primary/20 shadow-[0_8px_25px_-5px_hsl(var(--primary)/0.4)] flex items-center justify-center relative overflow-hidden before:absolute before:inset-0 before:border-t-2 before:border-white/20 before:rounded-full after:absolute after:inset-0 after:border-b-2 after:border-black/30 after:rounded-full"
             >
               <Activity className="h-5 w-5 text-white" />
-              <div className="absolute inset-0 bg-white/10 opacity-0 group-hover/logo:opacity-100 transition-opacity" />
             </motion.div>
           </Link>
           
           <Link href="/">
             <motion.span 
-              whileHover={{ scale: 1.05, x: 5 }}
+              whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.2 }}
               className="font-headline font-bold text-lg tracking-tighter text-foreground inline-block"
             >
@@ -135,59 +109,40 @@ const Navbar = () => {
 
         {/* Desktop Menu */}
         <div className="hidden lg:flex items-center gap-8 h-full">
-          {menuItems.map((item) => (
-            <div 
-              key={item.name} 
-              className="relative h-full flex items-center"
-              onMouseEnter={() => item.hasDropdown && setIsShopDropdownOpen(true)}
-              onMouseLeave={() => item.hasDropdown && setIsShopDropdownOpen(false)}
-            >
-              <Link 
-                href={item.href} 
-                className={cn(
-                  "text-[10px] font-bold uppercase tracking-[0.2em] transition-all py-2 group flex items-center gap-1.5",
-                  isShopDropdownOpen && item.hasDropdown ? "text-primary" : "text-muted-foreground hover:text-primary"
-                )}
-              >
-                {t.nav[item.name as keyof typeof t.nav]}
-                {item.hasDropdown && <ChevronDown className={cn("h-3 w-3 transition-transform duration-300", isShopDropdownOpen && "rotate-180")} />}
-                <span className={cn("absolute -bottom-0.5 left-0 h-0.5 bg-primary transition-all", isShopDropdownOpen && item.hasDropdown ? "w-full" : "w-0 group-hover:w-full")} />
-              </Link>
-
-              {item.hasDropdown && (
-                <AnimatePresence>
-                  {isShopDropdownOpen && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 0, scaleY: 0 }}
-                      animate={{ opacity: 1, y: 0, scaleY: 1 }}
-                      exit={{ opacity: 0, y: 0, scaleY: 0 }}
-                      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                      className="absolute top-full left-0 pt-0 min-w-[240px] origin-top z-50"
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground hover:text-primary gap-1.5 h-auto py-2">
+                {t.nav.shop}
+                <ChevronDown className="h-3 w-3" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start" className="z-[110] rounded-none border-primary/20 bg-background/98 backdrop-blur-xl min-w-[240px] p-2 shadow-2xl border-t-4 border-t-primary overflow-hidden">
+              {categories.map((cat, idx) => (
+                <motion.div
+                  key={cat.value}
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: idx * 0.05, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  <DropdownMenuItem asChild>
+                    <Link 
+                      href={`/shop?category=${cat.value}`}
+                      className="flex w-full px-4 py-3 text-[9px] font-bold uppercase tracking-[0.15em] hover:bg-primary/5 hover:text-primary transition-all border-b border-border/5 last:border-none cursor-pointer"
                     >
-                      <div className="bg-background/98 backdrop-blur-xl border border-primary/20 shadow-2xl border-t-4 border-t-primary p-2">
-                        {categories.map((cat, idx) => (
-                          <motion.div
-                            key={cat.value}
-                            initial={{ opacity: 0, y: -10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: idx * 0.05 }}
-                          >
-                            <Link 
-                              href={`/shop?category=${cat.value}`}
-                              onClick={() => setIsShopDropdownOpen(false)}
-                              className="block px-4 py-3 text-[9px] font-bold uppercase tracking-[0.15em] hover:bg-primary/5 hover:text-primary transition-all border-b border-border/5 last:border-none"
-                            >
-                              {cat.label}
-                            </Link>
-                          </motion.div>
-                        ))}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              )}
-            </div>
-          ))}
+                      {cat.label}
+                    </Link>
+                  </DropdownMenuItem>
+                </motion.div>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          <Link href="/about" className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground hover:text-primary transition-all">
+            {t.nav.about}
+          </Link>
+          <Link href="/contact" className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground hover:text-primary transition-all">
+            {t.nav.contact}
+          </Link>
         </div>
 
         <div className="flex items-center gap-2 md:gap-4">
@@ -203,7 +158,7 @@ const Navbar = () => {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="h-9 w-9 text-muted-foreground hidden sm:flex">
-                <Languages className="h-4 w-4" />
+                <Globe className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="rounded-none border-primary/20 bg-background/95 backdrop-blur-md">
@@ -278,9 +233,7 @@ const Navbar = () => {
             >
               <div className="flex justify-between items-center mb-10">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-primary rounded-full">
-                    <Activity className="h-4 w-4 text-white" />
-                  </div>
+                  <Activity className="h-5 w-5 text-primary" />
                   <span className="font-headline font-bold text-lg tracking-tighter uppercase">SAM Médicale</span>
                 </div>
                 <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(false)}>
@@ -288,12 +241,17 @@ const Navbar = () => {
                 </Button>
               </div>
 
-              <div className="flex flex-col gap-2 mb-10">
-                {menuItems.map((item, idx) => (
+              <div className="flex flex-col gap-2">
+                {[
+                  { name: t.nav.shop, href: '/shop', hasSub: true },
+                  { name: t.nav.about, href: '/about' },
+                  { name: t.nav.contact, href: '/contact' }
+                ].map((item, idx) => (
                   <motion.div 
-                    key={item.name} 
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    key={item.href} 
+                    variants={itemVariants}
+                    initial="closed"
+                    animate="open"
                     transition={{ delay: idx * 0.1 }}
                     className="flex flex-col"
                   >
@@ -303,27 +261,22 @@ const Navbar = () => {
                         onClick={() => setMobileMenuOpen(false)}
                         className="text-lg font-bold uppercase tracking-tight py-4 flex-1"
                       >
-                        {t.nav[item.name as keyof typeof t.nav]}
+                        {item.name}
                       </Link>
-                      {item.hasDropdown && (
-                        <Button 
-                          variant="ghost" 
-                          size="icon" 
-                          onClick={() => setMobileShopOpen(!mobileShopOpen)}
-                        >
+                      {item.hasSub && (
+                        <Button variant="ghost" size="icon" onClick={() => setMobileShopOpen(!mobileShopOpen)}>
                           {mobileShopOpen ? <Minus className="h-4 w-4 text-primary" /> : <Plus className="h-4 w-4" />}
                         </Button>
                       )}
                     </div>
                     
-                    {item.hasDropdown && (
+                    {item.hasSub && (
                       <AnimatePresence>
                         {mobileShopOpen && (
                           <motion.div 
-                            variants={subItemVariants}
-                            initial="closed"
-                            animate="open"
-                            exit="closed"
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
                             className="flex flex-col gap-1 pl-4 border-l-2 border-primary/20 overflow-hidden"
                           >
                             {categories.map((cat, catIdx) => (
@@ -351,7 +304,7 @@ const Navbar = () => {
                 ))}
               </div>
 
-              <div className="mt-auto pt-8 border-t border-border flex items-center justify-between">
+              <div className="mt-auto pt-8 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Button 
                     variant="outline" 

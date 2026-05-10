@@ -1,3 +1,4 @@
+
 "use client";
 
 import React from 'react';
@@ -7,11 +8,9 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { useTranslation } from '@/hooks/use-translation';
 import { ShieldCheck, Truck, PhoneCall, ArrowRight } from 'lucide-react';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 const Hero = () => {
   const { t, isRTL } = useTranslation();
-  const heroImage = PlaceHolderImages.find(img => img.id === 'hero-cpap');
 
   const stats = [
     { icon: ShieldCheck, title: "CERTIFICATION ISO", desc: "Standard de gestion de qualité pour dispositifs médicaux." },
@@ -43,7 +42,7 @@ const Hero = () => {
 
   return (
     <section className="relative w-full overflow-hidden hero-gradient">
-      <div className="relative h-[600px] md:h-[650px] flex items-center pt-10">
+      <div className="relative h-[600px] md:h-[650px] flex items-center pt-8">
         {/* Background Image */}
         <motion.div 
           initial={{ x: "-5%", opacity: 0 }}
@@ -75,7 +74,7 @@ const Hero = () => {
             
             <motion.h1 
               variants={itemVariants} 
-              className="text-2xl md:text-5xl font-bold text-foreground leading-[1.1] mb-6 tracking-tight"
+              className="text-3xl md:text-6xl font-bold text-foreground leading-[1.1] mb-6 tracking-tighter uppercase"
             >
               {t.hero.title}
             </motion.h1>
@@ -86,15 +85,19 @@ const Hero = () => {
             
             <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4">
               <Link href="/shop">
-                <Button className="bg-primary text-white px-10 py-7 rounded-none text-[10px] font-bold uppercase tracking-widest hover:bg-primary/90 transition-all shadow-xl shadow-primary/20 w-full sm:w-auto">
-                  {t.hero.cta_primary}
-                </Button>
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
+                  <Button className="bg-primary text-white px-10 py-7 rounded-none text-[10px] font-bold uppercase tracking-widest hover:bg-primary/90 transition-all shadow-xl shadow-primary/20 w-full sm:w-auto">
+                    {t.hero.cta_primary}
+                  </Button>
+                </motion.div>
               </Link>
               <Link href="/shop">
-                <Button variant="outline" className="px-10 py-7 rounded-none text-[10px] font-bold uppercase tracking-widest border-2 hover:bg-accent transition-colors flex items-center gap-2 w-full sm:w-auto">
-                  {t.hero.cta_secondary}
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
+                  <Button variant="outline" className="px-10 py-7 rounded-none text-[10px] font-bold uppercase tracking-widest border-2 hover:bg-accent transition-colors flex items-center gap-2 w-full sm:w-auto">
+                    {t.hero.cta_secondary}
+                    <ArrowRight className="h-4 w-4" />
+                  </Button>
+                </motion.div>
               </Link>
             </motion.div>
           </motion.div>
