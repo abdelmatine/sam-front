@@ -56,7 +56,7 @@ const Hero = () => {
               src={heroImage.imageUrl}
               alt={heroImage.description}
               fill
-              className="object-cover opacity-10 dark:opacity-20 grayscale"
+              className="object-cover opacity-50 dark:opacity-40 grayscale"
               priority
               data-ai-hint={heroImage.imageHint}
             />
