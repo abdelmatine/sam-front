@@ -1,4 +1,3 @@
-
 "use client";
 
 import React from 'react';
@@ -25,29 +24,29 @@ const Hero = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2,
+        staggerChildren: 0.15,
         delayChildren: 0.1
       }
     }
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, x: -20 },
+    hidden: { opacity: 0, x: -15 },
     visible: { 
       opacity: 1, 
       x: 0,
-      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
+      transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
     }
   };
 
   return (
-    <section className="relative w-full overflow-hidden hero-gradient">
-      <div className="relative h-[600px] md:h-[650px] flex items-center pt-8">
+    <section className="relative w-full overflow-hidden hero-gradient pt-16">
+      <div className="relative h-[550px] md:h-[600px] flex items-center">
         {/* Background Image */}
         <motion.div 
-          initial={{ x: "-5%", opacity: 0 }}
+          initial={{ x: "-3%", opacity: 0 }}
           animate={{ x: 0, opacity: 0.8 }}
-          transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
           className="absolute inset-0 z-0"
         >
           <Image 
@@ -57,7 +56,7 @@ const Hero = () => {
             className="object-cover grayscale"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/40 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/50 to-transparent" />
         </motion.div>
 
         <div className="container mx-auto px-4 relative z-10">
@@ -74,12 +73,12 @@ const Hero = () => {
             
             <motion.h1 
               variants={itemVariants} 
-              className="text-3xl md:text-6xl font-bold text-foreground leading-[1.1] mb-6 tracking-tighter uppercase"
+              className="text-3xl md:text-5xl font-bold text-foreground leading-tight mb-6 tracking-tighter uppercase"
             >
               {t.hero.title}
             </motion.h1>
             
-            <motion.p variants={itemVariants} className="text-muted-foreground text-xs md:text-sm mb-10 max-w-lg leading-relaxed font-medium italic">
+            <motion.p variants={itemVariants} className="text-muted-foreground text-[11px] md:text-xs mb-10 max-w-md leading-relaxed font-medium italic">
               {t.hero.subtitle}
             </motion.p>
             
