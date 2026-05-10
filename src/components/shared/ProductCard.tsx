@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store';
 import { addToCart } from '@/store/slices/cartSlice';
 import { toggleWishlist } from '@/store/slices/wishlistSlice';
-import { Star, Plus, Loader2, Heart } from 'lucide-react';
+import { Star, Plus, Loader2, Heart, Activity } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { toast } from '@/hooks/use-toast';
@@ -86,6 +86,7 @@ const ProductCard = ({ product }: { product: Product }) => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       whileHover={{ y: -5 }}
+      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       className="bg-card border rounded-none overflow-hidden group transition-all clinical-shadow flex flex-col h-full hover:border-primary/40"
     >
       <div className="relative h-64 overflow-hidden border-b cursor-pointer" onClick={handleNavigate}>

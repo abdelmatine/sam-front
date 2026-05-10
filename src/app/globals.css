@@ -59,7 +59,7 @@
   
   /* Global Heading Styles */
   h1 {
-    @apply font-headline text-3xl md:text-5xl font-bold tracking-tighter uppercase leading-[1.1];
+    @apply font-headline text-3xl md:text-5xl lg:text-6xl font-bold tracking-tighter uppercase leading-[1.1];
   }
   h2 {
     @apply font-headline text-2xl md:text-4xl font-bold tracking-tighter uppercase leading-tight;
@@ -68,7 +68,7 @@
     @apply font-headline text-xl md:text-2xl font-bold tracking-tight uppercase;
   }
   h4 {
-    @apply font-headline text-sm md:text-base font-bold tracking-widest uppercase;
+    @apply font-headline text-xs md:text-sm font-bold tracking-[0.2em] uppercase;
   }
 }
 

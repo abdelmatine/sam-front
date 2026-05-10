@@ -75,7 +75,12 @@ export default function ShopPage() {
         </motion.div>
 
         {/* Filters */}
-        <div className="flex flex-col lg:flex-row gap-6 mb-12 items-start justify-between">
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="flex flex-col lg:flex-row gap-6 mb-12 items-start justify-between"
+        >
           <div className="flex flex-wrap gap-2 w-full lg:w-auto">
             {categories.map((cat) => (
               <Button
@@ -116,7 +121,7 @@ export default function ShopPage() {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-        </div>
+        </motion.div>
 
         {/* Results */}
         <div className="min-h-[400px]">
