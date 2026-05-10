@@ -26,29 +26,29 @@ const Hero = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3
+        staggerChildren: 0.3,
+        delayChildren: 0.5
       }
     }
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, x: 50 },
+    hidden: { opacity: 0, x: -50 },
     visible: { 
       opacity: 1, 
       x: 0,
-      transition: { duration: 1, ease: [0.22, 1, 0.36, 1] }
+      transition: { duration: 1.5, ease: [0.22, 1, 0.36, 1] }
     }
   };
 
   return (
     <section className="relative w-full overflow-hidden hero-gradient pt-12 md:pt-14">
       <div className="relative h-[600px] md:h-[650px] flex items-center">
-        {/* Background Image Animation */}
+        {/* Background Image Animation - Now sliding from Left and Slower */}
         <motion.div 
-          initial={{ x: "100%", opacity: 0 }}
+          initial={{ x: "-100%", opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
-          transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 2.0, ease: [0.22, 1, 0.36, 1] }}
           className="absolute inset-0 z-0"
         >
           {heroImage && (
