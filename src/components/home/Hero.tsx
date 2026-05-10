@@ -44,11 +44,11 @@ const Hero = () => {
   return (
     <section className="relative w-full overflow-hidden hero-gradient pt-12 md:pt-14">
       <div className="relative h-[600px] md:h-[650px] flex items-center">
-        {/* Background Image Animation - Now sliding from Left and Slower */}
+        {/* Background Image Animation - sliding from Left */}
         <motion.div 
           initial={{ x: "-100%", opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
-          transition={{ duration: 2.0, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 2.5, ease: [0.22, 1, 0.36, 1] }}
           className="absolute inset-0 z-0"
         >
           {heroImage && (
@@ -75,7 +75,10 @@ const Hero = () => {
               <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-primary">{t.hero.badge}</span>
             </motion.div>
             
-            <motion.h1 variants={itemVariants} className="text-3xl md:text-5xl lg:text-6xl font-bold text-foreground leading-[1.1] mb-6 tracking-tighter">
+            <motion.h1 
+              variants={itemVariants} 
+              className="text-3xl md:text-5xl lg:text-5xl font-bold text-foreground leading-[1.1] mb-6 tracking-tighter"
+            >
               {t.hero.title}
             </motion.h1>
             
@@ -85,15 +88,19 @@ const Hero = () => {
             
             <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4">
               <Link href="/shop">
-                <Button className="bg-primary text-white px-10 py-7 rounded-none text-xs font-bold uppercase tracking-widest hover:bg-primary/90 transition-all shadow-xl shadow-primary/20">
-                  {t.hero.cta_primary}
-                </Button>
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <Button className="bg-primary text-white px-10 py-7 rounded-none text-xs font-bold uppercase tracking-widest hover:bg-primary/90 transition-all shadow-xl shadow-primary/20 w-full sm:w-auto">
+                    {t.hero.cta_primary}
+                  </Button>
+                </motion.div>
               </Link>
               <Link href="/shop">
-                <Button variant="outline" className="px-10 py-7 rounded-none text-xs font-bold uppercase tracking-widest border-2 hover:bg-accent transition-colors flex items-center gap-2">
-                  {t.hero.cta_secondary}
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <Button variant="outline" className="px-10 py-7 rounded-none text-xs font-bold uppercase tracking-widest border-2 hover:bg-accent transition-colors flex items-center gap-2 w-full sm:w-auto">
+                    {t.hero.cta_secondary}
+                    <ArrowRight className="h-4 w-4" />
+                  </Button>
+                </motion.div>
               </Link>
             </motion.div>
           </motion.div>

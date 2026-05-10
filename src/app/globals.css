@@ -58,16 +58,16 @@
   }
   
   h1 {
-    @apply font-headline text-3xl md:text-5xl lg:text-6xl font-bold tracking-tighter uppercase leading-[1.1];
+    @apply font-headline text-3xl md:text-5xl font-bold tracking-tighter uppercase leading-[1.1] text-foreground;
   }
   h2 {
-    @apply font-headline text-2xl md:text-4xl font-bold tracking-tighter uppercase leading-tight;
+    @apply font-headline text-2xl md:text-4xl font-bold tracking-tighter uppercase leading-tight text-foreground;
   }
   h3 {
-    @apply font-headline text-xl md:text-2xl font-bold tracking-tight uppercase;
+    @apply font-headline text-xl md:text-2xl font-bold tracking-tight uppercase text-foreground;
   }
   h4 {
-    @apply font-headline text-xs md:text-sm font-bold tracking-[0.2em] uppercase;
+    @apply font-headline text-xs md:text-sm font-bold tracking-[0.2em] uppercase text-foreground;
   }
 }
 
