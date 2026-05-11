@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect } from 'react';
@@ -17,7 +16,6 @@ import {
   ChevronDown, 
   Globe, 
   ShieldCheck,
-  Plus,
   Phone,
   Mail,
   MapPin
@@ -195,8 +193,8 @@ const Navbar = () => {
                 <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
-            <SheetContent side={isRTL ? "left" : "right"} className="w-[85%] max-w-[400px] p-0 flex flex-col">
-              <SheetHeader className="text-left p-8 pb-0">
+            <SheetContent side={isRTL ? "left" : "right"} className="w-[85%] max-w-[400px] p-0 flex flex-col h-full">
+              <SheetHeader className="text-left p-8 pb-4">
                 <SheetTitle className="flex items-center gap-3 font-headline font-bold text-xl tracking-tighter uppercase">
                   <Activity className="h-6 w-6 text-primary" />
                   SAM Médicale
@@ -205,15 +203,12 @@ const Navbar = () => {
 
               <div className="flex-1 overflow-y-auto px-8 py-6">
                 <Accordion type="single" collapsible className="w-full space-y-4">
-                  {/* Shop Section */}
                   <AccordionItem value="shop" className="border-none">
                     <div className="flex items-center justify-between py-2 border-b">
                       <Link href="/shop" className="text-lg font-bold uppercase tracking-tight flex-1">
                         {t.nav.shop}
                       </Link>
-                      <AccordionTrigger className="p-2 hover:no-underline [&[data-state=open]>svg]:rotate-45">
-                        <Plus className="h-5 w-5 text-primary transition-transform duration-200" />
-                      </AccordionTrigger>
+                      <AccordionTrigger className="p-2 hover:no-underline [&[data-state=open]>svg]:rotate-45" />
                     </div>
                     <AccordionContent className="pt-4 pl-4 pb-0">
                       <div className="grid grid-cols-1 gap-2">
@@ -236,15 +231,12 @@ const Navbar = () => {
                     </AccordionContent>
                   </AccordionItem>
 
-                  {/* Contact Section */}
                   <AccordionItem value="contact" className="border-none">
                     <div className="flex items-center justify-between py-2 border-b">
                       <Link href="/contact" className="text-lg font-bold uppercase tracking-tight flex-1">
                         {t.nav.contact}
                       </Link>
-                      <AccordionTrigger className="p-2 hover:no-underline [&[data-state=open]>svg]:rotate-45">
-                        <Plus className="h-5 w-5 text-primary transition-transform duration-200" />
-                      </AccordionTrigger>
+                      <AccordionTrigger className="p-2 hover:no-underline [&[data-state=open]>svg]:rotate-45" />
                     </div>
                     <AccordionContent className="pt-4 pl-4 pb-0">
                       <div className="space-y-4">
@@ -279,6 +271,7 @@ const Navbar = () => {
 
                   <ClinicalDropdown 
                     align="end"
+                    side="top"
                     trigger={
                       <Button variant="outline" size="icon" className="h-10 w-10 rounded-full border-primary/20 group">
                         <Globe className="h-4 w-4" />

@@ -23,14 +23,21 @@ interface ClinicalDropdownProps {
   trigger: React.ReactNode;
   items: DropdownItem[];
   align?: 'start' | 'end' | 'center';
+  side?: 'top' | 'bottom' | 'left' | 'right';
   className?: string;
   isHoverable?: boolean;
 }
 
-const ClinicalDropdown = ({ trigger, items, align = 'start', className, isHoverable = false }: ClinicalDropdownProps) => {
+const ClinicalDropdown = ({ 
+  trigger, 
+  items, 
+  align = 'start', 
+  side = 'bottom',
+  className, 
+  isHoverable = false 
+}: ClinicalDropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  // Hover logic for desktop only if enabled
   const handleMouseEnter = () => {
     if (isHoverable && typeof window !== 'undefined' && window.innerWidth >= 1024) {
       setIsOpen(true);
@@ -55,21 +62,21 @@ const ClinicalDropdown = ({ trigger, items, align = 'start', className, isHovera
         </DropdownMenuTrigger>
         <DropdownMenuContent 
           align={align} 
-          sideOffset={8}
+          side={side}
+          sideOffset={12}
           className={cn(
             "z-[160] rounded-none border-primary/20 bg-background/80 backdrop-blur-xl min-w-[220px] p-2 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200",
             className
           )}
         >
-          {/* Animated Top Bar */}
           <motion.div 
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1 }}
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute top-0 left-0 right-0 h-[3px] bg-primary origin-left"
+            className="absolute top-0 left-0 right-0 h-[3px] bg-primary origin-left z-20"
           />
 
-          <div className="pt-2 flex flex-col">
+          <div className="pt-2 flex flex-col relative z-10">
             {items.map((item, idx) => (
               <motion.div
                 key={item.value || item.label || idx}
