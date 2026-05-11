@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect } from 'react';
@@ -6,13 +7,26 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store';
 import { setLanguage, Language } from '@/store/slices/i18nSlice';
 import { useTranslation } from '@/hooks/use-translation';
-import { ShoppingCart, Menu, Activity, Sun, Moon, Heart, ChevronDown, Globe, ShieldCheck } from 'lucide-react';
+import { 
+  ShoppingCart, 
+  Menu, 
+  Activity, 
+  Sun, 
+  Moon, 
+  Heart, 
+  ChevronDown, 
+  Globe, 
+  ShieldCheck,
+  Plus,
+  Phone,
+  Mail,
+  MapPin
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 import { useTheme } from 'next-themes';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Separator } from '@/components/ui/separator';
+import { motion } from 'framer-motion';
 import {
   Sheet,
   SheetContent,
@@ -20,6 +34,12 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import ClinicalDropdown from '@/components/shared/ClinicalDropdown';
 
 const Navbar = () => {
@@ -75,14 +95,19 @@ const Navbar = () => {
     )}>
       <div className="container mx-auto px-4 flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <div className="group flex items-center gap-3">
             <Link href="/" className="relative">
               <motion.div 
                 whileHover={{ scale: 1.1 }}
                 transition={{ duration: 0.2 }}
-                className="p-2.5 rounded-full bg-primary/90 backdrop-blur-md border-4 border-primary/40 shadow-[0_8px_25px_-5px_hsl(var(--primary)/0.4)] flex items-center justify-center relative overflow-hidden"
+                className="p-2 rounded-full bg-primary/90 
+                backdrop-blur-md 
+                border border-white/20 shadow-xl
+                dark:border-white/10 dark:bg-white/90 
+                shadow-[0_8px_25px_-5px_hsl(var(--primary)/0.4)] 
+                flex items-center justify-center relative 
+                overflow-hidden"
               >
-                <Activity className="h-5 w-5 text-white" />
+                <Activity className="h-5 w-5 text-white dark:text-primary relative z-10" />
                 <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent" />
               </motion.div>
             </Link>
@@ -95,7 +120,6 @@ const Navbar = () => {
                 SAM <span className="text-primary">Médicale</span>
               </motion.span>
             </Link>
-          </div>
         </div>
 
         {/* Desktop Menu */}
@@ -171,45 +195,84 @@ const Navbar = () => {
                 <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
-            <SheetContent side={isRTL ? "left" : "right"} className="w-[85%] max-w-[400px] p-8 flex flex-col">
-              <SheetHeader className="text-left mb-12">
+            <SheetContent side={isRTL ? "left" : "right"} className="w-[85%] max-w-[400px] p-0 flex flex-col">
+              <SheetHeader className="text-left p-8 pb-0">
                 <SheetTitle className="flex items-center gap-3 font-headline font-bold text-xl tracking-tighter uppercase">
                   <Activity className="h-6 w-6 text-primary" />
                   SAM Médicale
                 </SheetTitle>
               </SheetHeader>
 
-              <div className="flex flex-col gap-6">
-                <Link href="/shop" className="text-lg font-bold uppercase tracking-tight py-2 border-b">
-                  {t.nav.shop}
-                </Link>
-                <div className="grid grid-cols-2 gap-2 pl-4">
-                  {categories.map((cat) => (
-                    <Link 
-                      key={cat.value} 
-                      href={`/shop?category=${cat.value}`}
-                      className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground py-2"
-                    >
-                      {cat.label}
-                    </Link>
-                  ))}
-                </div>
+              <div className="flex-1 overflow-y-auto px-8 py-6">
+                <Accordion type="single" collapsible className="w-full space-y-4">
+                  {/* Shop Section */}
+                  <AccordionItem value="shop" className="border-none">
+                    <div className="flex items-center justify-between py-2 border-b">
+                      <Link href="/shop" className="text-lg font-bold uppercase tracking-tight flex-1">
+                        {t.nav.shop}
+                      </Link>
+                      <AccordionTrigger className="p-2 hover:no-underline [&[data-state=open]>svg]:rotate-45">
+                        <Plus className="h-5 w-5 text-primary transition-transform duration-200" />
+                      </AccordionTrigger>
+                    </div>
+                    <AccordionContent className="pt-4 pl-4 pb-0">
+                      <div className="grid grid-cols-1 gap-2">
+                        {categories.map((cat, idx) => (
+                          <motion.div
+                            key={cat.value}
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: idx * 0.05 }}
+                          >
+                            <Link 
+                              href={`/shop?category=${cat.value}`}
+                              className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground py-2 block hover:text-primary"
+                            >
+                              {cat.label}
+                            </Link>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
 
-                <Link href="/about" className="text-lg font-bold uppercase tracking-tight py-2 border-b">
-                  {t.nav.about}
-                </Link>
-                <Link href="/contact" className="text-lg font-bold uppercase tracking-tight py-2 border-b">
-                  {t.nav.contact}
-                </Link>
+                  {/* Contact Section */}
+                  <AccordionItem value="contact" className="border-none">
+                    <div className="flex items-center justify-between py-2 border-b">
+                      <Link href="/contact" className="text-lg font-bold uppercase tracking-tight flex-1">
+                        {t.nav.contact}
+                      </Link>
+                      <AccordionTrigger className="p-2 hover:no-underline [&[data-state=open]>svg]:rotate-45">
+                        <Plus className="h-5 w-5 text-primary transition-transform duration-200" />
+                      </AccordionTrigger>
+                    </div>
+                    <AccordionContent className="pt-4 pl-4 pb-0">
+                      <div className="space-y-4">
+                        <div className="flex items-center gap-3">
+                          <Phone className="h-4 w-4 text-primary" />
+                          <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">+33 (0) 1 23 45 67 89</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <Mail className="h-4 w-4 text-primary" />
+                          <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">support@sam-medicale.fr</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <MapPin className="h-4 w-4 text-primary" />
+                          <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Paris, France</span>
+                        </div>
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
               </div>
 
-              <div className="mt-auto pt-10 flex items-center justify-between border-t">
+              <div className="mt-auto p-8 flex items-center justify-between border-t bg-accent/10">
                 <div className="flex items-center gap-4">
                   <Button 
                     variant="outline" 
                     size="icon"
                     onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                    className="h-10 w-10 rounded-full"
+                    className="h-10 w-10 rounded-full border-primary/20"
                   >
                     {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
                   </Button>
@@ -217,7 +280,7 @@ const Navbar = () => {
                   <ClinicalDropdown 
                     align="end"
                     trigger={
-                      <Button variant="outline" size="icon" className="h-10 w-10 rounded-full group">
+                      <Button variant="outline" size="icon" className="h-10 w-10 rounded-full border-primary/20 group">
                         <Globe className="h-4 w-4" />
                       </Button>
                     }
