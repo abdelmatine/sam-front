@@ -242,20 +242,20 @@ export default function Home() {
               <motion.div 
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
-                whileHover={{ scale: 1.03, zIndex: 30 }}
+                whileHover={{ scale: 1.05, zIndex: 30, transition: { duration: 0.3 } }}
                 viewport={{ once: true }}
-                transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-                className="absolute top-0 right-0 w-4/5 h-4/5 z-0 grayscale hover:grayscale-0 transition-all duration-700 border-8 border-white dark:border-slate-900 shadow-2xl overflow-hidden cursor-pointer"
+                transition={{ duration: 1.0, ease: [0.22, 1, 0.36, 1] }}
+                className="absolute top-0 right-0 w-4/5 h-4/5 z-0 grayscale hover:grayscale-0 transition-all duration-700 border-8 border-white dark:border-slate-900 shadow-2xl overflow-hidden cursor-pointer rounded-3xl"
               >
                 <Image src="https://picsum.photos/seed/med10/800/1000" alt="Laboratory" fill className="object-cover" data-ai-hint="medical laboratory" />
               </motion.div>
               <motion.div 
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                whileHover={{ scale: 1.03, zIndex: 30 }}
+                whileHover={{ scale: 1.05, zIndex: 30, transition: { duration: 0.3 } }}
                 viewport={{ once: true }}
-                transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-                className="absolute bottom-0 left-0 w-3/5 h-3/5 z-10 grayscale hover:grayscale-0 transition-all duration-700 border-8 border-white dark:border-slate-900 shadow-2xl overflow-hidden cursor-pointer"
+                transition={{ duration: 1.0, ease: [0.22, 1, 0.36, 1] }}
+                className="absolute bottom-0 left-0 w-3/5 h-3/5 z-10 grayscale hover:grayscale-0 transition-all duration-700 border-8 border-white dark:border-slate-900 shadow-2xl overflow-hidden cursor-pointer rounded-3xl"
               >
                 <Image src="https://picsum.photos/seed/med11/800/1000" alt="Medical Tech" fill className="object-cover" data-ai-hint="medical device technician" />
                 <div className="absolute inset-0 bg-primary/10 pointer-events-none" />
@@ -265,18 +265,9 @@ export default function Home() {
               <motion.div
                 initial={{ opacity: 0, x: 20, scale: 0.8 }}
                 whileInView={{ opacity: 1, x: 0, scale: 1 }}
-                animate={{ 
-                  scale: [1, 1.05, 1],
-                  opacity: [1, 0.9, 1]
-                }}
-                transition={{ 
-                  scale: { duration: 2, repeat: Infinity, ease: "easeInOut" },
-                  opacity: { duration: 2, repeat: Infinity, ease: "easeInOut" },
-                  initial: { duration: 0.8 },
-                  whileInView: { delay: 0.8 }
-                }}
+                transition={{ duration: 0.8, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
                 viewport={{ once: true }}
-                className="absolute -bottom-6 -right-6 bg-primary text-white p-8 z-20 hidden md:block shadow-xl"
+                className="absolute -bottom-6 -right-6 bg-primary text-white p-8 z-20 hidden md:block shadow-xl rounded-2xl"
               >
                 <div className="text-4xl font-bold tracking-tighter mb-1">98%</div>
                 <div className="text-[9px] font-bold uppercase tracking-widest opacity-80">Success Rate</div>
