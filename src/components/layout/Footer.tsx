@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useTranslation } from '@/hooks/use-translation';
 import { Activity, Mail, Facebook, Twitter, Instagram, ShieldCheck, MapPin, Phone } from 'lucide-react';
 import { motion } from 'framer-motion';
+import Logo from '@/components/shared/Logo';
 
 const Footer = () => {
   const { t } = useTranslation();
@@ -39,18 +40,7 @@ const Footer = () => {
         >
           {/* Brand Column */}
           <motion.div variants={itemVariants} className="space-y-8">
-            <Link href="/" className="flex items-center gap-2 group">
-              <motion.div 
-                whileHover={{ rotate: 180 }}
-                transition={{ duration: 0.5 }}
-                className="p-2 bg-primary rounded-none"
-              >
-                <Activity className="h-5 w-5 text-white" />
-              </motion.div>
-              <span className="font-headline font-bold text-xl tracking-tighter text-foreground">
-                SAM <span className="text-primary">Médicale</span>
-              </span>
-            </Link>
+            <Logo />
             <p className="text-[11px] text-muted-foreground leading-relaxed max-w-xs font-medium italic">
               Global provider of clinical respiratory solutions and specialized medical equipment. ISO 13485 certified for surgical precision in patient care.
             </p>

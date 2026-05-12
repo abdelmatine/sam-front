@@ -39,6 +39,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import ClinicalDropdown from '@/components/shared/ClinicalDropdown';
+import Logo from '@/components/shared/Logo';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -92,33 +93,7 @@ const Navbar = () => {
       isScrolled ? "bg-background/95 backdrop-blur-md py-2 border-b clinical-shadow" : "bg-background py-4"
     )}>
       <div className="container mx-auto px-4 flex items-center justify-between">
-        <div className="flex items-center gap-4">
-            <Link href="/" className="relative">
-              <motion.div 
-                whileHover={{ scale: 1.1 }}
-                transition={{ duration: 0.2 }}
-                className="p-2 rounded-full bg-primary/90 
-                backdrop-blur-md 
-                border border-white/20 shadow-xl
-                dark:border-white/10 dark:bg-white/90 
-                shadow-[0_8px_25px_-5px_hsl(var(--primary)/0.4)] 
-                flex items-center justify-center relative 
-                overflow-hidden"
-              >
-                <Activity className="h-5 w-5 text-white dark:text-primary relative z-10" />
-                <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent" />
-              </motion.div>
-            </Link>
-            <Link href="/">
-              <motion.span 
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.2 }}
-                className="font-headline font-bold text-lg tracking-tighter text-foreground hidden sm:inline-block"
-              >
-                SAM <span className="text-primary">Médicale</span>
-              </motion.span>
-            </Link>
-        </div>
+        <Logo textClassName="hidden sm:inline-block" />
 
         {/* Desktop Menu */}
         <div className="hidden lg:flex items-center gap-8 h-full">
@@ -194,9 +169,8 @@ const Navbar = () => {
             </SheetTrigger>
             <SheetContent side={isRTL ? "left" : "right"} className="w-[85%] max-w-[400px] p-0 flex flex-col h-full">
               <SheetHeader className="text-left p-8 pb-4">
-                <SheetTitle className="flex items-center gap-3 font-headline font-bold text-xl tracking-tighter uppercase">
-                  <Activity className="h-6 w-6 text-primary" />
-                  SAM Médicale
+                <SheetTitle>
+                  <Logo />
                 </SheetTitle>
               </SheetHeader>
 
