@@ -158,7 +158,6 @@ const Navbar = () => {
               trigger={
                 <Button variant="ghost" size="icon" className="h-9 w-9 text-muted-foreground group">
                   <Globe className="h-4 w-4" />
-                  <ChevronDown className="h-2.5 w-2.5 ml-0.5 transition-transform duration-300 group-data-[state=open]:rotate-180" />
                 </Button>
               }
               items={languageItems}
