@@ -95,8 +95,13 @@ export default function Home() {
                   key={product.id}
                   initial={{ opacity: 0, y: 50 }}
                   whileInView={{ opacity: 1, y: 0 }}
+                  whileHover={{ scale: 1.02 }}
                   viewport={{ once: true }}
-                  transition={{ delay: index * 0.2, duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ 
+                    opacity: { delay: index * 0.2, duration: 1.2, ease: [0.22, 1, 0.36, 1] },
+                    y: { delay: index * 0.2, duration: 1.2, ease: [0.22, 1, 0.36, 1] },
+                    scale: { duration: 0.3, ease: "easeOut" }
+                  }}
                   className="h-full"
                 >
                   <Card className="rounded-none border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 overflow-hidden group transition-all duration-700 hover:shadow-2xl hover:shadow-primary/5 h-full relative">
@@ -122,7 +127,7 @@ export default function Home() {
                           src={product.imageUrl} 
                           alt={product.name} 
                           fill 
-                          className="object-cover group-hover:scale-105 transition-all duration-1000"
+                          className="object-cover group-hover:scale-105 transition-all duration-700"
                         />
                         <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                       </div>
@@ -244,7 +249,7 @@ export default function Home() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 whileHover={{ scale: 1.05, zIndex: 30 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, ease: "easeOut" }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
                 className="absolute top-0 right-0 w-4/5 h-4/5 z-0 grayscale hover:grayscale-0 transition-all duration-300 border-8 border-white dark:border-slate-900 shadow-2xl overflow-hidden cursor-pointer rounded-3xl"
               >
                 <Image src="https://picsum.photos/seed/med10/800/1000" alt="Laboratory" fill className="object-cover" data-ai-hint="medical laboratory" />
@@ -254,7 +259,7 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 whileHover={{ scale: 1.05, zIndex: 30 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, ease: "easeOut" }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
                 className="absolute bottom-0 left-0 w-3/5 h-3/5 z-10 grayscale hover:grayscale-0 transition-all duration-300 border-8 border-white dark:border-slate-900 shadow-2xl overflow-hidden cursor-pointer rounded-3xl"
               >
                 <Image src="https://picsum.photos/seed/med11/800/1000" alt="Medical Tech" fill className="object-cover" data-ai-hint="medical device technician" />
@@ -265,7 +270,7 @@ export default function Home() {
               <motion.div
                 initial={{ opacity: 0, x: 20, scale: 0.8 }}
                 whileInView={{ opacity: 1, x: 0, scale: 1 }}
-                transition={{ duration: 1.2, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
                 viewport={{ once: true }}
                 className="absolute -bottom-6 -right-6 bg-primary text-white p-8 z-20 hidden md:block shadow-xl rounded-2xl"
               >
