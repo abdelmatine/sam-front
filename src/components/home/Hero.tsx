@@ -53,7 +53,7 @@ const Hero = () => {
             src="/hero.jpg"
             alt="Respiratory Medical Device"
             fill
-            className="object-cover grayscale"
+            className="object-cover"
             priority
           />
           <div className="absolute inset-0 bg-gradient-to-r from-background via-background/50 to-transparent" />
