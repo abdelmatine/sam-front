@@ -43,77 +43,80 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative w-full h-screen min-h-[700px] overflow-hidden hero-gradient flex flex-col pt-16">
-      {/* Background Image - Covers entire section */}
-      <motion.div 
-        initial={{ x: "-3%", opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute inset-0 z-0"
-      >
-        <Image 
-          src="/hero.jpg"
-          alt="Respiratory Medical Device"
-          fill
-          className="object-cover"
-          priority
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent" />
-      </motion.div>
+    <>
+      {/* Full Screen Hero Section */}
+      <section className="relative w-full h-screen min-h-[700px] overflow-hidden hero-gradient flex flex-col pt-16">
+        {/* Background Image - Covers entire section */}
+        <motion.div 
+          initial={{ x: "-3%", opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+          className="absolute inset-0 z-0"
+        >
+          <Image 
+            src="/hero.jpg"
+            alt="Respiratory Medical Device"
+            fill
+            className="object-cover"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent" />
+        </motion.div>
 
-      {/* Main Content Area - Vertically Centered */}
-      <div className="relative flex-1 flex items-center z-10">
-        <div className="container mx-auto px-4">
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            className="max-w-2xl"
-          >
-            <motion.div variants={itemVariants} className="inline-flex items-center gap-2 bg-primary/10 px-3 py-1.5 border border-primary/20 mb-6">
-              <div className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
-              <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-primary">{t.hero.badge}</span>
-            </motion.div>
-            
-            <motion.h1 
-              variants={itemVariants} 
-              className="text-3xl md:text-5xl font-bold text-foreground leading-tight mb-6 tracking-tighter uppercase drop-shadow-sm"
+        {/* Main Content Area - Vertically Centered */}
+        <div className="relative flex-1 flex items-center z-10">
+          <div className="container mx-auto px-4">
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+              className="max-w-2xl"
             >
-              {t.hero.title}
-            </motion.h1>
-            
-            <motion.p variants={itemVariants} className="text-foreground/90 text-sm md:text-base mb-10 max-w-md leading-relaxed font-bold italic drop-shadow-sm">
-              {t.hero.subtitle}
-            </motion.p>
-            
-            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4">
-              <Link href="/shop">
-                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
-                  <Button className="bg-primary text-white px-10 py-7 rounded-none text-[10px] font-bold uppercase tracking-widest hover:bg-primary/90 transition-all shadow-xl shadow-primary/20 w-full sm:w-auto">
-                    {t.hero.cta_primary}
-                  </Button>
-                </motion.div>
-              </Link>
-              <Link href="/shop">
-                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
-                  <Button variant="outline" className="px-10 py-7 rounded-none text-[10px] font-bold uppercase tracking-widest border-2 hover:bg-accent transition-colors flex items-center gap-2 w-full sm:w-auto">
-                    {t.hero.cta_secondary}
-                    <ArrowRight className="h-4 w-4" />
-                  </Button>
-                </motion.div>
-              </Link>
+              <motion.div variants={itemVariants} className="inline-flex items-center gap-2 bg-primary/10 px-3 py-1.5 border border-primary/20 mb-6">
+                <div className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
+                <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-primary">{t.hero.badge}</span>
+              </motion.div>
+              
+              <motion.h1 
+                variants={itemVariants} 
+                className="text-3xl md:text-5xl font-bold text-foreground leading-tight mb-6 tracking-tighter uppercase drop-shadow-sm"
+              >
+                {t.hero.title}
+              </motion.h1>
+              
+              <motion.p variants={itemVariants} className="text-foreground/90 text-sm md:text-base mb-10 max-w-md leading-relaxed font-bold italic drop-shadow-sm">
+                {t.hero.subtitle}
+              </motion.p>
+              
+              <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4">
+                <Link href="/shop">
+                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
+                    <Button className="bg-primary text-white px-10 py-7 rounded-none text-[10px] font-bold uppercase tracking-widest hover:bg-primary/90 transition-all shadow-xl shadow-primary/20 w-full sm:w-auto">
+                      {t.hero.cta_primary}
+                    </Button>
+                  </motion.div>
+                </Link>
+                <Link href="/shop">
+                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
+                    <Button variant="outline" className="px-10 py-7 rounded-none text-[10px] font-bold uppercase tracking-widest border-2 hover:bg-accent transition-colors flex items-center gap-2 w-full sm:w-auto">
+                      {t.hero.cta_secondary}
+                      <ArrowRight className="h-4 w-4" />
+                    </Button>
+                  </motion.div>
+                </Link>
+              </motion.div>
             </motion.div>
-          </motion.div>
+          </div>
         </div>
-      </div>
+      </section>
 
-      {/* Interactive Medical Ticker - Anchored at Bottom */}
+      {/* Interactive Medical Ticker - Appear After Scroll */}
       <motion.div 
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
-        transition={{ duration: 1, delay: 0.5 }}
-        className="relative z-10 border-y bg-background/50 backdrop-blur-sm py-8 overflow-hidden cursor-default"
+        transition={{ duration: 1 }}
+        className="relative z-10 border-y bg-background py-8 overflow-hidden cursor-default"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
@@ -159,7 +162,7 @@ const Hero = () => {
           </motion.div>
         </div>
       </motion.div>
-    </section>
+    </>
   );
 };
 
