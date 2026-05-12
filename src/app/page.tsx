@@ -56,6 +56,26 @@ export default function Home() {
     }));
   };
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2
+      }
+    }
+  };
+
+  const childVariants = {
+    hidden: { opacity: 0, x: -30 },
+    visible: { 
+      opacity: 1, 
+      x: 0,
+      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
+    }
+  };
+
   return (
     <main className="flex flex-col min-h-screen bg-white">
       <Navbar />
@@ -70,27 +90,40 @@ export default function Home() {
         />
         
         <div className="container mx-auto px-4 relative z-10">
-          <motion.div 
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-            className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6"
-          >
-            <div className="border-l-4 border-primary pl-6">
-              <div className="flex items-center gap-2 mb-2">
-                <Activity className="h-4 w-4 text-primary animate-pulse" />
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
+            <motion.div 
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="border-l-4 border-primary pl-6"
+            >
+              <motion.div variants={childVariants} className="flex items-center gap-2 mb-2">
+                <motion.div
+                  animate={{ opacity: [0.4, 1, 0.4] }}
+                  transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                >
+                  <Activity className="h-4 w-4 text-primary" />
+                </motion.div>
                 <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary">Top Tier Solutions</span>
-              </div>
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-2 uppercase tracking-tighter">Flagship Equipment</h2>
-              <p className="text-slate-500 text-sm italic font-medium">Our most trusted and highly-rated clinical solutions.</p>
-            </div>
-            <Link href="/shop">
-              <Button variant="ghost" className="text-primary text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 hover:bg-primary/5 rounded-none px-6 py-6 h-auto transition-all duration-300">
-                View All Products <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-              </Button>
-            </Link>
-          </motion.div>
+              </motion.div>
+              <motion.h2 variants={childVariants} className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-2 uppercase tracking-tighter">Flagship Equipment</motion.h2>
+              <motion.p variants={childVariants} className="text-slate-500 text-sm italic font-medium">Our most trusted and highly-rated clinical solutions.</motion.p>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+            >
+              <Link href="/shop">
+                <Button variant="ghost" className="text-primary text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 hover:bg-primary/5 rounded-none px-6 py-6 h-auto transition-all duration-300">
+                  View All Products <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </Link>
+            </motion.div>
+          </div>
           
           <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-10">
             {featuredProducts.map((product, index) => {
@@ -261,14 +294,14 @@ export default function Home() {
             >
               <motion.div 
                 whileHover={{ scale: 1.03, zIndex: 30 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.2 }}
                 className="absolute top-0 right-0 w-4/5 h-4/5 z-0 grayscale hover:grayscale-0 transition-all duration-300 border-8 border-white dark:border-slate-900 shadow-2xl overflow-hidden cursor-pointer rounded-3xl"
               >
                 <Image src="https://picsum.photos/seed/med10/800/1000" alt="Laboratory" fill className="object-cover" data-ai-hint="medical laboratory" />
               </motion.div>
               <motion.div 
                 whileHover={{ scale: 1.03, zIndex: 30 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.2 }}
                 className="absolute bottom-0 left-0 w-3/5 h-3/5 z-10 grayscale hover:grayscale-0 transition-all duration-300 border-8 border-white dark:border-slate-900 shadow-2xl overflow-hidden cursor-pointer rounded-3xl"
               >
                 <Image src="https://picsum.photos/seed/med11/800/1000" alt="Medical Tech" fill className="object-cover" data-ai-hint="medical device technician" />
