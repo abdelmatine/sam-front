@@ -196,10 +196,10 @@ export default function Home() {
                   <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-primary">Clinical Excellence</span>
                 </div>
                 <h2 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-8 leading-tight uppercase tracking-tighter">
-                  Why RespiraMed <br /> <span className="text-primary">Solutions?</span>
+                  Why SAM Médicale <br /> <span className="text-primary">Solutions?</span>
                 </h2>
                 <p className="text-slate-600 dark:text-slate-400 text-lg mb-12 leading-relaxed font-medium italic max-w-xl">
-                  RespiraMed is more than just a supplier. We are a technical partner committed to clinical excellence. Every device in our inventory undergoes a rigorous 15-point calibration check before shipping.
+                  SAM Médicale is more than just a supplier. We are a technical partner committed to clinical excellence. Every device in our inventory undergoes a rigorous 15-point calibration check before shipping.
                 </p>
                 
                 <div className="grid sm:grid-cols-1 gap-10">
@@ -242,20 +242,20 @@ export default function Home() {
               <motion.div 
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
-                whileHover={{ scale: 1.05, zIndex: 30, transition: { duration: 0.3 } }}
+                whileHover={{ scale: 1.05, zIndex: 30 }}
                 viewport={{ once: true }}
-                transition={{ duration: 1.0, ease: [0.22, 1, 0.36, 1] }}
-                className="absolute top-0 right-0 w-4/5 h-4/5 z-0 grayscale hover:grayscale-0 transition-all duration-700 border-8 border-white dark:border-slate-900 shadow-2xl overflow-hidden cursor-pointer rounded-3xl"
+                transition={{ duration: 0.6, ease: "easeOut" }}
+                className="absolute top-0 right-0 w-4/5 h-4/5 z-0 grayscale hover:grayscale-0 transition-all duration-300 border-8 border-white dark:border-slate-900 shadow-2xl overflow-hidden cursor-pointer rounded-3xl"
               >
                 <Image src="https://picsum.photos/seed/med10/800/1000" alt="Laboratory" fill className="object-cover" data-ai-hint="medical laboratory" />
               </motion.div>
               <motion.div 
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                whileHover={{ scale: 1.05, zIndex: 30, transition: { duration: 0.3 } }}
+                whileHover={{ scale: 1.05, zIndex: 30 }}
                 viewport={{ once: true }}
-                transition={{ duration: 1.0, ease: [0.22, 1, 0.36, 1] }}
-                className="absolute bottom-0 left-0 w-3/5 h-3/5 z-10 grayscale hover:grayscale-0 transition-all duration-700 border-8 border-white dark:border-slate-900 shadow-2xl overflow-hidden cursor-pointer rounded-3xl"
+                transition={{ duration: 0.6, ease: "easeOut" }}
+                className="absolute bottom-0 left-0 w-3/5 h-3/5 z-10 grayscale hover:grayscale-0 transition-all duration-300 border-8 border-white dark:border-slate-900 shadow-2xl overflow-hidden cursor-pointer rounded-3xl"
               >
                 <Image src="https://picsum.photos/seed/med11/800/1000" alt="Medical Tech" fill className="object-cover" data-ai-hint="medical device technician" />
                 <div className="absolute inset-0 bg-primary/10 pointer-events-none" />
@@ -265,7 +265,7 @@ export default function Home() {
               <motion.div
                 initial={{ opacity: 0, x: 20, scale: 0.8 }}
                 whileInView={{ opacity: 1, x: 0, scale: 1 }}
-                transition={{ duration: 0.8, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 1.2, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
                 viewport={{ once: true }}
                 className="absolute -bottom-6 -right-6 bg-primary text-white p-8 z-20 hidden md:block shadow-xl rounded-2xl"
               >
