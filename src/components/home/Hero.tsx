@@ -1,7 +1,7 @@
 
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
@@ -11,6 +11,7 @@ import { ShieldCheck, Truck, PhoneCall, ArrowRight } from 'lucide-react';
 
 const Hero = () => {
   const { t, isRTL } = useTranslation();
+  const [isPaused, setIsPaused] = useState(false);
 
   const stats = [
     { icon: ShieldCheck, title: "CERTIFICATION ISO", desc: "Standard de gestion de qualité pour dispositifs médicaux." },
@@ -46,7 +47,7 @@ const Hero = () => {
         {/* Background Image */}
         <motion.div 
           initial={{ x: "-3%", opacity: 0 }}
-          animate={{ x: 0, opacity: 0.8 }}
+          animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
           className="absolute inset-0 z-0"
         >
@@ -79,7 +80,7 @@ const Hero = () => {
               {t.hero.title}
             </motion.h1>
             
-            <motion.p variants={itemVariants} className="text-foreground/90 text-xs md:text-sm mb-10 max-w-md leading-relaxed font-bold italic drop-shadow-sm">
+            <motion.p variants={itemVariants} className="text-foreground/90 text-sm md:text-base mb-10 max-w-md leading-relaxed font-bold italic drop-shadow-sm">
               {t.hero.subtitle}
             </motion.p>
             
@@ -108,7 +109,9 @@ const Hero = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 0.5 }}
-        className="border-y bg-background/50 backdrop-blur-sm py-8 overflow-hidden relative"
+        className="border-y bg-background/50 backdrop-blur-sm py-8 overflow-hidden relative cursor-default"
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
       >
         <div className="flex items-center">
           <motion.div 
@@ -124,20 +127,24 @@ const Hero = () => {
                 ease: "linear",
               },
             }}
+            style={{ animationPlayState: isPaused ? 'paused' : 'running' }}
           >
             {tickerItems.map((stat, i) => (
               <div key={i} className="flex items-center">
-                <div className="flex items-start gap-4 px-12 md:px-24 min-w-[300px] md:min-w-[400px]">
-                  <div className="shrink-0 p-2 bg-primary/5 rounded-none border border-primary/10">
+                <motion.div 
+                  whileHover={{ scale: 1.05 }}
+                  className="flex items-start gap-4 px-12 md:px-24 min-w-[300px] md:min-w-[400px] cursor-pointer group"
+                >
+                  <div className="shrink-0 p-2 bg-primary/10 rounded-none border border-primary/20 group-hover:bg-primary/20 transition-colors">
                     <stat.icon className="h-5 w-5 text-primary" />
                   </div>
                   <div className="flex flex-col whitespace-normal">
-                    <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-foreground mb-1">{stat.title}</h4>
+                    <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-foreground mb-1 group-hover:text-primary transition-colors">{stat.title}</h4>
                     <p className="text-[10px] text-muted-foreground leading-relaxed italic max-w-[250px]">
                       {stat.desc}
                     </p>
                   </div>
-                </div>
+                </motion.div>
                 <div className="h-8 w-[1px] bg-primary/20 shrink-0" />
               </div>
             ))}
