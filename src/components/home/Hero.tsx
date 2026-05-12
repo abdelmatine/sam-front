@@ -1,26 +1,16 @@
 
 "use client";
 
-import React, { useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { useTranslation } from '@/hooks/use-translation';
-import { ShieldCheck, Truck, PhoneCall, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 const Hero = () => {
-  const { t, isRTL } = useTranslation();
-  const [isPaused, setIsPaused] = useState(false);
-
-  const stats = [
-    { icon: ShieldCheck, title: "CERTIFICATION ISO", desc: "Standard de gestion de qualité pour dispositifs médicaux." },
-    { icon: Truck, title: "LOGISTIQUE CLINIQUE", desc: "Expédition sécurisée de matériel sensible partout." },
-    { icon: PhoneCall, title: "SUPPORT TECHNIQUE", desc: "Assistance experte 24/7 pour le calibrage." }
-  ];
-
-  // Tripled for infinite seamless scrolling
-  const tickerItems = [...stats, ...stats, ...stats];
+  const { t } = useTranslation();
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -34,133 +24,77 @@ const Hero = () => {
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, x: -15 },
+    hidden: { opacity: 0, x: -30 },
     visible: { 
       opacity: 1, 
       x: 0,
-      transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
+      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
     }
   };
 
   return (
-    <>
-      {/* Full Screen Hero Section */}
-      <section className="relative w-full h-screen min-h-[700px] overflow-hidden hero-gradient flex flex-col pt-16">
-        {/* Background Image - Covers entire section */}
-        <motion.div 
-          initial={{ x: "-3%", opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-          className="absolute inset-0 z-0"
-        >
-          <Image 
-            src="/hero.jpg"
-            alt="Respiratory Medical Device"
-            fill
-            className="object-cover"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent" />
-        </motion.div>
-
-        {/* Main Content Area - Vertically Centered */}
-        <div className="relative flex-1 flex items-center z-10">
-          <div className="container mx-auto px-4">
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-              className="max-w-2xl"
-            >
-              <motion.div variants={itemVariants} className="inline-flex items-center gap-2 bg-primary/10 px-3 py-1.5 border border-primary/20 mb-6">
-                <div className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
-                <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-primary">{t.hero.badge}</span>
-              </motion.div>
-              
-              <motion.h1 
-                variants={itemVariants} 
-                className="text-3xl md:text-5xl font-bold text-foreground leading-tight mb-6 tracking-tighter uppercase drop-shadow-sm"
-              >
-                {t.hero.title}
-              </motion.h1>
-              
-              <motion.p variants={itemVariants} className="text-foreground/90 text-sm md:text-base mb-10 max-w-md leading-relaxed font-bold italic drop-shadow-sm">
-                {t.hero.subtitle}
-              </motion.p>
-              
-              <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4">
-                <Link href="/shop">
-                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
-                    <Button className="bg-primary text-white px-10 py-7 rounded-none text-[10px] font-bold uppercase tracking-widest hover:bg-primary/90 transition-all shadow-xl shadow-primary/20 w-full sm:w-auto">
-                      {t.hero.cta_primary}
-                    </Button>
-                  </motion.div>
-                </Link>
-                <Link href="/contact">
-                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
-                    <Button variant="outline" className="px-10 py-7 rounded-none text-[10px] font-bold uppercase tracking-widest border-2 hover:bg-accent transition-colors flex items-center gap-2 w-full sm:w-auto">
-                      {t.hero.cta_secondary}
-                      <ArrowRight className="h-4 w-4" />
-                    </Button>
-                  </motion.div>
-                </Link>
-              </motion.div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Interactive Medical Ticker - Appear After Scroll */}
+    <section className="relative w-full h-screen min-h-[700px] overflow-hidden hero-gradient flex flex-col pt-16">
+      {/* Background Image with Lateral Entrance */}
       <motion.div 
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1 }}
-        className="relative z-10 border-y bg-background py-8 overflow-hidden cursor-default"
-        onMouseEnter={() => setIsPaused(true)}
-        onMouseLeave={() => setIsPaused(false)}
+        initial={{ x: "5%", opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
+        className="absolute inset-0 z-0"
       >
-        <div className="flex items-center">
-          <motion.div 
-            className="flex items-center whitespace-nowrap"
-            animate={{
-              x: isRTL ? ["0%", "33.33%"] : ["0%", "-33.33%"]
-            }}
-            transition={{
-              x: {
-                repeat: Infinity,
-                repeatType: "loop",
-                duration: 40,
-                ease: "linear",
-              },
-            }}
-            style={{ animationPlayState: isPaused ? 'paused' : 'running' }}
+        <Image 
+          src="https://picsum.photos/seed/hero-cpap/1920/1080"
+          alt="Respiratory Medical Device"
+          fill
+          className="object-cover grayscale-[0.2]"
+          priority
+          data-ai-hint="medical device"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/85 to-transparent" />
+      </motion.div>
+
+      {/* Main Content Area */}
+      <div className="relative flex-1 flex items-center z-10">
+        <div className="container mx-auto px-4">
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="max-w-2xl"
           >
-            {tickerItems.map((stat, i) => (
-              <div key={i} className="flex items-center" onClick={() => setIsPaused(!isPaused)}>
-                <motion.div 
-                  whileHover={{ scale: 1.05 }}
-                  className="flex items-start gap-4 px-12 md:px-24 min-w-[300px] md:min-w-[400px] cursor-pointer group"
-                >
-                  <div className="shrink-0 p-2 bg-primary/10 rounded-none border border-primary/20 group-hover:bg-primary/20 transition-colors">
-                    <stat.icon className="h-5 w-5 text-primary" />
-                  </div>
-                  <div className="flex flex-col whitespace-normal">
-                    <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-foreground mb-1 group-hover:text-primary transition-colors">
-                      {stat.title}
-                    </h4>
-                    <p className="text-[10px] text-muted-foreground leading-relaxed italic max-w-[250px] group-hover:text-foreground transition-colors">
-                      {stat.desc}
-                    </p>
-                  </div>
-                </motion.div>
-                <div className="h-8 w-[1px] bg-primary/20 shrink-0" />
-              </div>
-            ))}
+            <motion.div variants={itemVariants} className="inline-flex items-center gap-2 bg-primary/10 px-4 py-2 border border-primary/20 mb-8">
+              <div className="h-2 w-2 rounded-full bg-primary animate-pulse" />
+              <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-primary">{t.hero.badge}</span>
+            </motion.div>
+            
+            <motion.h1 
+              variants={itemVariants} 
+              className="text-4xl md:text-6xl font-bold text-foreground leading-[1.1] mb-8 tracking-tighter uppercase"
+            >
+              SAM <span className="text-primary">Médicale</span><br />
+              <span className="text-2xl md:text-4xl opacity-90">{t.hero.title}</span>
+            </motion.h1>
+            
+            <motion.p variants={itemVariants} className="text-foreground/80 text-base md:text-lg mb-12 max-w-lg leading-relaxed font-medium italic">
+              {t.hero.subtitle}
+            </motion.p>
+            
+            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-5">
+              <Link href="/shop" className="w-full sm:w-auto">
+                <Button className="bg-primary text-white px-12 py-8 rounded-none text-[11px] font-bold uppercase tracking-[0.25em] hover:bg-primary/90 transition-all shadow-2xl shadow-primary/20 w-full">
+                  {t.hero.cta_primary}
+                </Button>
+              </Link>
+              <Link href="/contact" className="w-full sm:w-auto">
+                <Button variant="outline" className="px-12 py-8 rounded-none text-[11px] font-bold uppercase tracking-[0.25em] border-2 hover:bg-accent transition-colors flex items-center justify-center gap-3 w-full">
+                  {t.hero.cta_secondary}
+                  <ArrowRight className="h-4 w-4" />
+                </Button>
+              </Link>
+            </motion.div>
           </motion.div>
         </div>
-      </motion.div>
-    </>
+      </div>
+    </section>
   );
 };
 
