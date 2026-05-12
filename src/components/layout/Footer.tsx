@@ -115,7 +115,11 @@ const Footer = () => {
 
           {/* Certifications Column */}
           <motion.div variants={itemVariants}>
-            <div className="bg-primary/5 p-8 border border-primary/10 clinical-shadow relative group overflow-hidden">
+            <motion.div 
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="bg-primary/5 p-8 border border-primary/10 clinical-shadow relative group overflow-hidden cursor-default"
+            >
               <motion.div 
                 className="absolute top-0 right-0 p-2 opacity-10"
                 whileHover={{ rotate: 45, opacity: 0.2 }}
@@ -128,7 +132,7 @@ const Footer = () => {
               <p className="text-[10px] text-muted-foreground leading-relaxed italic font-medium relative z-10">
                 All equipment complies with European CE standards and ISO 13485:2016 quality management for medical devices. High-fidelity calibration guaranteed.
               </p>
-            </div>
+            </motion.div>
           </motion.div>
         </motion.div>
 
