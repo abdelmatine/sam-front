@@ -1,3 +1,4 @@
+
 "use client";
 
 import React from 'react';
@@ -56,7 +57,7 @@ const Hero = () => {
             className="object-cover"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/50 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent" />
         </motion.div>
 
         <div className="container mx-auto px-4 relative z-10">
@@ -73,12 +74,12 @@ const Hero = () => {
             
             <motion.h1 
               variants={itemVariants} 
-              className="text-3xl md:text-5xl font-bold text-foreground leading-tight mb-6 tracking-tighter uppercase"
+              className="text-3xl md:text-5xl font-bold text-foreground leading-tight mb-6 tracking-tighter uppercase drop-shadow-sm"
             >
               {t.hero.title}
             </motion.h1>
             
-            <motion.p variants={itemVariants} className="text-muted-foreground text-[11px] md:text-xs mb-10 max-w-md leading-relaxed font-medium italic">
+            <motion.p variants={itemVariants} className="text-foreground/90 text-xs md:text-sm mb-10 max-w-md leading-relaxed font-bold italic drop-shadow-sm">
               {t.hero.subtitle}
             </motion.p>
             
