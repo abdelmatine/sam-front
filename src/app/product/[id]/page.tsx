@@ -17,6 +17,7 @@ import Image from 'next/image';
 import { Star, ShoppingCart, ShieldCheck, Truck, RefreshCw, ArrowLeft, ArrowRight, Heart, Loader2 } from 'lucide-react';
 import { useTranslation } from '@/hooks/use-translation';
 import { motion } from 'framer-motion';
+import { cn } from '@/lib/utils';
 
 export default function ProductDetailPage() {
   const { id } = useParams();
