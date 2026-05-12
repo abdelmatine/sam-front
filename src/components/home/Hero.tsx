@@ -96,7 +96,7 @@ const Hero = () => {
                     </Button>
                   </motion.div>
                 </Link>
-                <Link href="/shop">
+                <Link href="/contact">
                   <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
                     <Button variant="outline" className="px-10 py-7 rounded-none text-[10px] font-bold uppercase tracking-widest border-2 hover:bg-accent transition-colors flex items-center gap-2 w-full sm:w-auto">
                       {t.hero.cta_secondary}
@@ -137,10 +137,9 @@ const Hero = () => {
             style={{ animationPlayState: isPaused ? 'paused' : 'running' }}
           >
             {tickerItems.map((stat, i) => (
-              <div key={i} className="flex items-center">
+              <div key={i} className="flex items-center" onClick={() => setIsPaused(!isPaused)}>
                 <motion.div 
                   whileHover={{ scale: 1.05 }}
-                  onClick={() => setIsPaused(!isPaused)}
                   className="flex items-start gap-4 px-12 md:px-24 min-w-[300px] md:min-w-[400px] cursor-pointer group"
                 >
                   <div className="shrink-0 p-2 bg-primary/10 rounded-none border border-primary/20 group-hover:bg-primary/20 transition-colors">
