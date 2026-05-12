@@ -103,7 +103,10 @@ export default function Home() {
                     <Button 
                       variant="ghost" 
                       size="icon" 
-                      onClick={() => handleWishlist(product)}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleWishlist(product);
+                      }}
                       className={cn(
                         "absolute top-6 right-6 z-20 rounded-none transition-all duration-300",
                         isWishlisted ? "text-destructive bg-destructive/5" : "text-slate-300 hover:text-primary hover:bg-primary/5"
@@ -119,13 +122,13 @@ export default function Home() {
                           src={product.imageUrl} 
                           alt={product.name} 
                           fill 
-                          className="object-contain p-8 grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-105"
+                          className="object-contain p-8 group-hover:scale-105 transition-all duration-1000"
                         />
                         <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                       </div>
 
                       {/* Content Side */}
-                      <div className="flex-1 p-8 md:p-10 flex flex-col justify-between border-t xl:border-t-0 xl:border-l border-slate-100 dark:border-white/5">
+                      <div className="flex-1 p-6 sm:p-8 md:p-10 flex flex-col justify-between border-t xl:border-t-0 xl:border-l border-slate-100 dark:border-white/5">
                         <div>
                           <div className="flex items-center gap-2 mb-4">
                             <ShieldCheck className="h-3.5 w-3.5 text-primary" />
@@ -140,22 +143,22 @@ export default function Home() {
                           </p>
                         </div>
 
-                        <div className="flex items-center justify-between mt-auto pt-6 border-t border-slate-50 dark:border-white/5">
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mt-auto pt-6 border-t border-slate-50 dark:border-white/5 gap-6">
                           <div className="flex flex-col">
                             <span className="text-[9px] text-slate-400 font-bold uppercase tracking-widest mb-1">MSRP Acquisition</span>
                             <span className="text-3xl font-bold text-slate-900 dark:text-white tracking-tighter">${product.price.toLocaleString()}.00</span>
                           </div>
                           
-                          <div className="flex gap-3">
-                            <Link href={`/product/${product.id}`}>
-                              <Button variant="outline" className="rounded-none h-14 px-8 text-[10px] font-bold uppercase tracking-widest border-2 hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                          <div className="flex gap-3 w-full sm:w-auto">
+                            <Link href={`/product/${product.id}`} className="flex-1 sm:flex-initial">
+                              <Button variant="outline" className="w-full sm:w-auto rounded-none h-14 px-6 text-[10px] font-bold uppercase tracking-widest border-2 hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
                                 Specifications
                               </Button>
                             </Link>
                             <Button 
                               onClick={() => handleAddToCart(product)}
                               disabled={addingId === product.id}
-                              className="bg-primary text-white h-14 w-14 p-0 rounded-none shadow-xl shadow-primary/20 transition-all active:scale-95 group/btn"
+                              className="bg-primary text-white h-14 w-14 p-0 rounded-none shadow-xl shadow-primary/20 transition-all active:scale-95 group/btn shrink-0"
                             >
                               {addingId === product.id ? <Loader2 className="h-5 w-5 animate-spin" /> : <ShoppingCart className="h-6 w-6 group-hover/btn:scale-110 transition-transform" />}
                             </Button>
