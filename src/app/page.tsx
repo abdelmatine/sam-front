@@ -1,3 +1,4 @@
+
 "use client";
 
 import Navbar from '@/components/layout/Navbar';
@@ -17,6 +18,7 @@ import { RootState } from '@/store';
 import { toast } from '@/hooks/use-toast';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
+import { Card, CardContent } from '@/components/ui/card';
 
 export default function Home() {
   const { t } = useTranslation();
@@ -61,25 +63,31 @@ export default function Home() {
       <CategoriesSection />
 
       {/* Flagship Equipment */}
-      <section className="py-24 bg-slate-50/50 overflow-hidden">
+      <section className="py-24 bg-slate-50/50 dark:bg-slate-950/50 overflow-hidden border-b">
         <div className="container mx-auto px-4">
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-            className="flex justify-between items-end mb-16"
+            className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6"
           >
-            <div>
-              <h2 className="text-3xl font-bold text-slate-900 mb-2 uppercase tracking-tighter">Flagship Equipment</h2>
-              <p className="text-slate-500 text-sm italic font-medium">Our most trusted and highly-rated solutions.</p>
+            <div className="border-l-4 border-primary pl-6">
+              <div className="flex items-center gap-2 mb-2">
+                <Activity className="h-4 w-4 text-primary animate-pulse" />
+                <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary">Top Tier Solutions</span>
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-2 uppercase tracking-tighter">Flagship Equipment</h2>
+              <p className="text-slate-500 text-sm italic font-medium">Our most trusted and highly-rated clinical solutions.</p>
             </div>
-            <Link href="/shop" className="text-primary text-[10px] font-bold uppercase tracking-widest flex items-center gap-1 hover:underline">
-              View All Products <ArrowRight className="h-4 w-4" />
+            <Link href="/shop">
+              <Button variant="ghost" className="text-primary text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 hover:bg-primary/5 rounded-none px-6 py-6 h-auto">
+                View All Products <ArrowRight className="h-4 w-4" />
+              </Button>
             </Link>
           </motion.div>
           
-          <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-10">
             {featuredProducts.map((product, index) => {
               const isWishlisted = wishlist.some(item => item.id === product.id);
               return (
@@ -89,55 +97,73 @@ export default function Home() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.2, duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-                  className="bg-white border p-6 md:p-8 flex flex-col xl:flex-row gap-6 md:gap-8 items-center group transition-shadow hover:shadow-2xl hover:shadow-slate-200/50 relative"
+                  className="h-full"
                 >
-                  <Button 
-                    variant="ghost" 
-                    size="icon" 
-                    onClick={() => handleWishlist(product)}
-                    className={cn(
-                      "absolute top-4 right-4 z-10 rounded-none transition-all",
-                      isWishlisted ? "text-destructive bg-destructive/5" : "text-slate-300 hover:text-primary"
-                    )}
-                  >
-                    <Heart className={cn("h-5 w-5", isWishlisted && "fill-destructive")} />
-                  </Button>
+                  <Card className="rounded-none border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 overflow-hidden group transition-all duration-700 hover:shadow-2xl hover:shadow-primary/5 h-full relative">
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      onClick={() => handleWishlist(product)}
+                      className={cn(
+                        "absolute top-6 right-6 z-20 rounded-none transition-all duration-300",
+                        isWishlisted ? "text-destructive bg-destructive/5" : "text-slate-300 hover:text-primary hover:bg-primary/5"
+                      )}
+                    >
+                      <Heart className={cn("h-5 w-5", isWishlisted && "fill-destructive")} />
+                    </Button>
 
-                  <div className="relative w-full xl:w-48 h-48 shrink-0 bg-slate-50 flex items-center justify-center">
-                    <Image 
-                      src={product.imageUrl} 
-                      alt={product.name} 
-                      fill 
-                      className="object-contain p-4 grayscale group-hover:grayscale-0 transition-all duration-1000"
-                    />
-                  </div>
-                  <div className="flex-1 w-full">
-                    <div className="flex items-center gap-2 mb-2">
-                      <ShieldCheck className="h-3 w-3 text-primary" />
-                      <span className="text-[9px] text-primary font-bold tracking-[0.2em] uppercase">ISO Certified Clinical Grade</span>
-                    </div>
-                    <h3 className="text-xl font-bold text-slate-900 mb-2 uppercase tracking-tight">{product.name}</h3>
-                    <p className="text-slate-500 text-xs mb-8 line-clamp-2 leading-relaxed font-medium italic">
-                      Ultra-quiet operation with advanced humidification and smart data tracking for clinical accuracy at home.
-                    </p>
-                    <div className="flex items-center justify-between mt-auto">
-                      <span className="text-2xl font-bold text-slate-900 tracking-tighter">${product.price.toLocaleString()}.00</span>
-                      <div className="flex gap-2">
-                        <Link href={`/product/${product.id}`}>
-                          <Button variant="outline" className="rounded-none h-11 px-6 text-[10px] font-bold uppercase tracking-widest">
-                            Details
-                          </Button>
-                        </Link>
-                        <Button 
-                          onClick={() => handleAddToCart(product)}
-                          disabled={addingId === product.id}
-                          className="bg-primary text-white h-11 w-11 p-0 rounded-none shadow-lg shadow-primary/20 transition-transform active:scale-95"
-                        >
-                          {addingId === product.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <ShoppingCart className="h-5 w-5" />}
-                        </Button>
+                    <CardContent className="p-0 flex flex-col xl:flex-row h-full">
+                      {/* Image Side */}
+                      <div className="relative w-full xl:w-72 h-72 xl:h-auto shrink-0 bg-slate-50 dark:bg-slate-800/50 flex items-center justify-center overflow-hidden">
+                        <Image 
+                          src={product.imageUrl} 
+                          alt={product.name} 
+                          fill 
+                          className="object-contain p-8 grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                       </div>
-                    </div>
-                  </div>
+
+                      {/* Content Side */}
+                      <div className="flex-1 p-8 md:p-10 flex flex-col justify-between border-t xl:border-t-0 xl:border-l border-slate-100 dark:border-white/5">
+                        <div>
+                          <div className="flex items-center gap-2 mb-4">
+                            <ShieldCheck className="h-3.5 w-3.5 text-primary" />
+                            <span className="text-[9px] text-primary font-bold tracking-[0.3em] uppercase">ISO Certified Clinical Grade</span>
+                          </div>
+                          
+                          <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-1 block">{product.brand}</span>
+                          <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4 uppercase tracking-tight leading-tight">{product.name}</h3>
+                          
+                          <p className="text-slate-500 dark:text-slate-400 text-xs mb-8 line-clamp-3 leading-relaxed font-medium italic">
+                            {product.description || "Ultra-quiet operation with advanced humidification and smart data tracking for clinical accuracy at home."}
+                          </p>
+                        </div>
+
+                        <div className="flex items-center justify-between mt-auto pt-6 border-t border-slate-50 dark:border-white/5">
+                          <div className="flex flex-col">
+                            <span className="text-[9px] text-slate-400 font-bold uppercase tracking-widest mb-1">MSRP Acquisition</span>
+                            <span className="text-3xl font-bold text-slate-900 dark:text-white tracking-tighter">${product.price.toLocaleString()}.00</span>
+                          </div>
+                          
+                          <div className="flex gap-3">
+                            <Link href={`/product/${product.id}`}>
+                              <Button variant="outline" className="rounded-none h-14 px-8 text-[10px] font-bold uppercase tracking-widest border-2 hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                                Specifications
+                              </Button>
+                            </Link>
+                            <Button 
+                              onClick={() => handleAddToCart(product)}
+                              disabled={addingId === product.id}
+                              className="bg-primary text-white h-14 w-14 p-0 rounded-none shadow-xl shadow-primary/20 transition-all active:scale-95 group/btn"
+                            >
+                              {addingId === product.id ? <Loader2 className="h-5 w-5 animate-spin" /> : <ShoppingCart className="h-6 w-6 group-hover/btn:scale-110 transition-transform" />}
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
                 </motion.div>
               );
             })}
@@ -146,7 +172,7 @@ export default function Home() {
       </section>
 
       {/* Why Us Section */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-white dark:bg-slate-950">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <motion.div 
@@ -154,10 +180,10 @@ export default function Home() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
-              className="bg-slate-50 p-8 md:p-12 lg:p-20 border"
+              className="bg-slate-50 dark:bg-slate-900 p-8 md:p-12 lg:p-20 border dark:border-white/5"
             >
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-8 leading-tight uppercase tracking-tighter">Why RespiraMed Solutions?</h2>
-              <p className="text-slate-600 mb-10 leading-relaxed font-medium italic">
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-8 leading-tight uppercase tracking-tighter">Why RespiraMed Solutions?</h2>
+              <p className="text-slate-600 dark:text-slate-400 mb-10 leading-relaxed font-medium italic">
                 RespiraMed is more than just a supplier. We are a technical partner committed to clinical excellence. Every device in our inventory undergoes a rigorous 15-point calibration check before shipping.
               </p>
               <div className="space-y-8">
@@ -166,8 +192,8 @@ export default function Home() {
                     <Activity className="h-6 w-6 text-primary" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-slate-900 mb-1 uppercase text-xs tracking-widest">Precision Calibration</h4>
-                    <p className="text-xs text-slate-500 leading-relaxed">In-house laboratory ensures every machine meets original manufacturer specs.</p>
+                    <h4 className="font-bold text-slate-900 dark:text-white mb-1 uppercase text-xs tracking-widest">Precision Calibration</h4>
+                    <p className="text-xs text-slate-500 dark:text-slate-500 leading-relaxed">In-house laboratory ensures every machine meets original manufacturer specs.</p>
                   </div>
                 </div>
                 <div className="flex gap-6">
@@ -175,8 +201,8 @@ export default function Home() {
                     <ShieldCheck className="h-6 w-6 text-primary" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-slate-900 mb-1 uppercase text-xs tracking-widest">Compliance First</h4>
-                    <p className="text-xs text-slate-500 leading-relaxed">Fully compliant with ISO 13485:2016 quality management standards.</p>
+                    <h4 className="font-bold text-slate-900 dark:text-white mb-1 uppercase text-xs tracking-widest">Compliance First</h4>
+                    <p className="text-xs text-slate-500 dark:text-slate-500 leading-relaxed">Fully compliant with ISO 13485:2016 quality management standards.</p>
                   </div>
                 </div>
               </div>
@@ -187,7 +213,7 @@ export default function Home() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
-                className="relative h-full bg-slate-100"
+                className="relative h-full bg-slate-100 dark:bg-slate-800"
               >
                 <Image src="https://picsum.photos/seed/med10/600/800" alt="Laboratory" fill className="object-cover grayscale hover:grayscale-0 transition-all duration-1000" data-ai-hint="medical laboratory" />
               </motion.div>
@@ -196,7 +222,7 @@ export default function Home() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.3, duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
-                className="relative h-full bg-slate-100"
+                className="relative h-full bg-slate-100 dark:bg-slate-800"
               >
                 <Image src="https://picsum.photos/seed/med11/600/800" alt="Medical Tech" fill className="object-cover grayscale hover:grayscale-0 transition-all duration-1000" data-ai-hint="medical device technician" />
               </motion.div>
