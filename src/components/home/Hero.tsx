@@ -43,26 +43,27 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative w-full overflow-hidden hero-gradient pt-16">
-      <div className="relative h-[550px] md:h-[600px] flex items-center">
-        {/* Background Image with optimized full color */}
-        <motion.div 
-          initial={{ x: "-3%", opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-          className="absolute inset-0 z-0"
-        >
-          <Image 
-            src="/hero.jpg"
-            alt="Respiratory Medical Device"
-            fill
-            className="object-cover"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/85 to-transparent" />
-        </motion.div>
+    <section className="relative w-full h-screen min-h-[700px] overflow-hidden hero-gradient flex flex-col pt-16">
+      {/* Background Image - Covers entire section */}
+      <motion.div 
+        initial={{ x: "-3%", opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+        className="absolute inset-0 z-0"
+      >
+        <Image 
+          src="/hero.jpg"
+          alt="Respiratory Medical Device"
+          fill
+          className="object-cover"
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent" />
+      </motion.div>
 
-        <div className="container mx-auto px-4 relative z-10">
+      {/* Main Content Area - Vertically Centered */}
+      <div className="relative flex-1 flex items-center z-10">
+        <div className="container mx-auto px-4">
           <motion.div
             variants={containerVariants}
             initial="hidden"
@@ -106,13 +107,13 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Interactive Medical Ticker */}
+      {/* Interactive Medical Ticker - Anchored at Bottom */}
       <motion.div 
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 1, delay: 0.5 }}
-        className="border-y bg-background/50 backdrop-blur-sm py-8 overflow-hidden relative cursor-default"
+        className="relative z-10 border-y bg-background/50 backdrop-blur-sm py-8 overflow-hidden cursor-default"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
