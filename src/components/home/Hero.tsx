@@ -19,6 +19,7 @@ const Hero = () => {
     { icon: PhoneCall, title: "SUPPORT TECHNIQUE", desc: "Assistance experte 24/7 pour le calibrage." }
   ];
 
+  // Tripled for infinite seamless scrolling
   const tickerItems = [...stats, ...stats, ...stats];
 
   const containerVariants = {
@@ -44,7 +45,7 @@ const Hero = () => {
   return (
     <section className="relative w-full overflow-hidden hero-gradient pt-16">
       <div className="relative h-[550px] md:h-[600px] flex items-center">
-        {/* Background Image */}
+        {/* Background Image with optimized full color */}
         <motion.div 
           initial={{ x: "-3%", opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
@@ -58,7 +59,7 @@ const Hero = () => {
             className="object-cover"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/85 to-transparent" />
         </motion.div>
 
         <div className="container mx-auto px-4 relative z-10">
@@ -105,9 +106,11 @@ const Hero = () => {
         </div>
       </div>
 
+      {/* Interactive Medical Ticker */}
       <motion.div 
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
         transition={{ duration: 1, delay: 0.5 }}
         className="border-y bg-background/50 backdrop-blur-sm py-8 overflow-hidden relative cursor-default"
         onMouseEnter={() => setIsPaused(true)}
@@ -131,20 +134,24 @@ const Hero = () => {
           >
             {tickerItems.map((stat, i) => (
               <div key={i} className="flex items-center">
-                <motion.div 
-                  whileHover={{ scale: 1.05 }}
-                  className="flex items-start gap-4 px-12 md:px-24 min-w-[300px] md:min-w-[400px] cursor-pointer group"
-                >
-                  <div className="shrink-0 p-2 bg-primary/10 rounded-none border border-primary/20 group-hover:bg-primary/20 transition-colors">
-                    <stat.icon className="h-5 w-5 text-primary" />
-                  </div>
-                  <div className="flex flex-col whitespace-normal">
-                    <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-foreground mb-1 group-hover:text-primary transition-colors">{stat.title}</h4>
-                    <p className="text-[10px] text-muted-foreground leading-relaxed italic max-w-[250px]">
-                      {stat.desc}
-                    </p>
-                  </div>
-                </motion.div>
+                <Link href="/shop" className="flex items-center">
+                  <motion.div 
+                    whileHover={{ scale: 1.05 }}
+                    className="flex items-start gap-4 px-12 md:px-24 min-w-[300px] md:min-w-[400px] cursor-pointer group"
+                  >
+                    <div className="shrink-0 p-2 bg-primary/10 rounded-none border border-primary/20 group-hover:bg-primary/20 transition-colors">
+                      <stat.icon className="h-5 w-5 text-primary" />
+                    </div>
+                    <div className="flex flex-col whitespace-normal">
+                      <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-foreground mb-1 group-hover:text-primary transition-colors">
+                        {stat.title}
+                      </h4>
+                      <p className="text-[10px] text-muted-foreground leading-relaxed italic max-w-[250px] group-hover:text-foreground transition-colors">
+                        {stat.desc}
+                      </p>
+                    </div>
+                  </motion.div>
+                </Link>
                 <div className="h-8 w-[1px] bg-primary/20 shrink-0" />
               </div>
             ))}
