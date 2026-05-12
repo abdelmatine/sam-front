@@ -117,12 +117,12 @@ export default function Home() {
 
                     <CardContent className="p-0 flex flex-col xl:flex-row h-full">
                       {/* Image Side */}
-                      <div className="relative w-full xl:w-72 h-72 xl:h-auto shrink-0 bg-slate-50 dark:bg-slate-800/50 flex items-center justify-center overflow-hidden">
+                      <div className="relative w-full xl:w-72 h-72 xl:h-auto shrink-0 bg-slate-50 dark:bg-slate-800/50 overflow-hidden">
                         <Image 
                           src={product.imageUrl} 
                           alt={product.name} 
                           fill 
-                          className="object-contain p-8 group-hover:scale-105 transition-all duration-1000"
+                          className="object-cover group-hover:scale-105 transition-all duration-1000"
                         />
                         <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                       </div>
