@@ -129,7 +129,7 @@ const Navbar = () => {
               trigger={
                 <Link href="/shop">
                   <Button variant="ghost" className="text-[10px] font-bold uppercase tracking-[0.25em] text-muted-foreground hover:text-primary gap-1.5 h-auto py-2 group">
-                    {t.nav.shop}
+                    {t.nav.catalogue}
                     <ChevronDown className="h-3 w-3 transition-transform duration-300 group-data-[state=open]:rotate-180" />
                   </Button>
                 </Link>
@@ -246,7 +246,7 @@ const Navbar = () => {
                       <X className="h-6 w-6 text-primary transition-transform group-hover/close:rotate-90" />
                     </Button>
                   </SheetClose>
-                  <SheetTitle className="sr-only">Menu Clinique</SheetTitle>
+                  <SheetTitle className="sr-only">{t.nav.menu_title}</SheetTitle>
                 </SheetHeader>
 
                 <motion.div 
@@ -259,7 +259,7 @@ const Navbar = () => {
                     <motion.div variants={itemVariants}>
                       <AccordionItem value="shop" className="border-none">
                         <AccordionTrigger className="flex-row-reverse gap-4 p-0 hover:no-underline font-headline font-bold text-2xl uppercase tracking-tighter text-foreground">
-                          <span className="flex-1 text-left">{t.nav.shop}</span>
+                          <span className="flex-1 text-left">{t.nav.catalogue}</span>
                         </AccordionTrigger>
                         <AccordionContent className="pt-6 pl-4 space-y-4">
                           <Link 
@@ -297,7 +297,6 @@ const Navbar = () => {
                     </div>
                   </Accordion>
 
-                  {/* Mobile Action Section (Wishlist & Cart) */}
                   <motion.div variants={itemVariants} className="mt-12 space-y-4">
                     <Separator className="bg-primary/5" />
                     <div className="grid grid-cols-2 gap-4 pt-4">
@@ -305,7 +304,7 @@ const Navbar = () => {
                         <Button variant="outline" className="w-full rounded-none h-16 flex flex-col items-center justify-center gap-2 border-primary/10 hover:bg-primary/5 group">
                           <Heart className={cn("h-5 w-5", wishlistCount > 0 && "fill-primary text-primary")} />
                           <div className="flex items-center gap-2">
-                            <span className="text-[9px] font-bold uppercase tracking-widest">Wishlist</span>
+                            <span className="text-[9px] font-bold uppercase tracking-widest">{t.nav.wishlist}</span>
                             {wishlistCount > 0 && <Badge className="h-4 w-4 p-0 flex items-center justify-center text-[8px] bg-primary text-white rounded-full border-none">{wishlistCount}</Badge>}
                           </div>
                         </Button>
@@ -325,18 +324,18 @@ const Navbar = () => {
 
                   <motion.div variants={itemVariants} className="mt-12 space-y-8">
                     <div className="space-y-4">
-                      <h4 className="text-[10px] font-bold uppercase tracking-widest text-primary">Support Clinique</h4>
+                      <h4 className="text-[10px] font-bold uppercase tracking-widest text-primary">{t.contact_info.support_title}</h4>
                       <div className="flex items-center gap-4 text-sm font-medium text-muted-foreground">
                         <div className="p-2.5 bg-primary/5 rounded-none border border-primary/10">
                           <Phone className="h-4 w-4 text-primary" />
                         </div>
-                        +33 (0) 1 23 45 67 89
+                        {t.contact_info.phone}
                       </div>
                       <div className="flex items-center gap-4 text-sm font-medium text-muted-foreground">
                         <div className="p-2.5 bg-primary/5 rounded-none border border-primary/10">
                           <Mail className="h-4 w-4 text-primary" />
                         </div>
-                        support@sam-medicale.fr
+                        {t.contact_info.email}
                       </div>
                     </div>
                   </motion.div>
@@ -354,7 +353,6 @@ const Navbar = () => {
                         {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
                       </Button>
                       
-                      {/* Mobile Language Selector */}
                       <div className="flex items-center border border-primary/10 bg-background">
                         {languages.map((l, i) => (
                           <React.Fragment key={l.code}>
@@ -375,7 +373,7 @@ const Navbar = () => {
 
                     <div className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.2em] text-primary/60">
                       <ShieldCheck className="h-4 w-4" />
-                      Grade Médical
+                      {t.common.grade_medical}
                     </div>
                   </div>
                 </div>

@@ -1,3 +1,4 @@
+
 "use client";
 
 import React from 'react';
@@ -102,7 +103,7 @@ const Footer = () => {
 
           <motion.div variants={itemVariants}>
             <h4 className="font-bold text-foreground mb-10 uppercase tracking-[0.25em] text-[10px] border-l-4 border-primary pl-5">
-              {t.footer.support}
+              {t.contact_info.support_title}
             </h4>
             <ul className="space-y-6 text-[10px] text-muted-foreground font-bold uppercase tracking-widest">
               <motion.li 
@@ -113,7 +114,7 @@ const Footer = () => {
                 <div className="p-2.5 bg-accent/50 group-hover:bg-primary/10 border border-primary/5 transition-colors">
                   <MapPin className="h-4 w-4 text-primary" />
                 </div>
-                {t.footer.location}
+                {t.contact_info.location}
               </motion.li>
               <motion.li 
                 whileHover={{ x: 8, color: 'hsl(var(--primary))' }}
@@ -123,7 +124,7 @@ const Footer = () => {
                 <div className="p-2.5 bg-accent/50 group-hover:bg-primary/10 border border-primary/5 transition-colors">
                   <Phone className="h-4 w-4 text-primary" />
                 </div>
-                +33 (0) 1 23 45 67 89
+                {t.contact_info.phone}
               </motion.li>
               <motion.li 
                 whileHover={{ x: 8, color: 'hsl(var(--primary))' }}
@@ -133,7 +134,7 @@ const Footer = () => {
                 <div className="p-2.5 bg-accent/50 group-hover:bg-primary/10 border border-primary/5 transition-colors">
                   <Mail className="h-4 w-4 text-primary" />
                 </div>
-                support@sam-medicale.fr
+                {t.contact_info.email}
               </motion.li>
             </ul>
           </motion.div>

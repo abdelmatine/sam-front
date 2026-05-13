@@ -1,9 +1,10 @@
+
 'use client';
 
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Loader2 } from 'lucide-react';
+import { Activity } from 'lucide-react';
 
 export default function PageLoader() {
   const pathname = usePathname();
@@ -52,29 +53,41 @@ export default function PageLoader() {
           transition={{ duration: 0.4, ease: "easeInOut" }}
           className="fixed inset-0 bg-background/95 backdrop-blur-xl z-[200] flex flex-col items-center justify-center gap-6 pointer-events-none"
         >
-          <div className="relative flex flex-col items-center">
-            {/* Clinical Core Container */}
+          <div className="relative flex flex-col items-center overflow-hidden w-full max-w-xs">
+            {/* Clinical Core Glide Container */}
             <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              className="relative flex items-center justify-center"
+              initial={{ x: "-100%", opacity: 0 }}
+              animate={{ 
+                x: ["-100%", "100%", "-100%"], 
+                opacity: 1 
+              }}
+              transition={{ 
+                x: { repeat: Infinity, duration: 4, ease: "easeInOut" },
+                opacity: { duration: 0.5 }
+              }}
+              className="relative flex items-center justify-center p-12"
             >
               {/* Inner Pulsing Glow */}
               <motion.div 
                 animate={{ 
-                  scale: [1, 1.2, 1],
-                  opacity: [0.3, 0.6, 0.3]
+                  scale: [1, 1.4, 1],
+                  opacity: [0.2, 0.6, 0.2]
                 }}
                 transition={{ 
                   repeat: Infinity, 
                   duration: 2, 
                   ease: "easeInOut" 
                 }}
-                className="absolute inset-0 bg-primary/20 rounded-full blur-3xl" 
+                className="absolute inset-0 bg-primary/30 rounded-full blur-3xl" 
               />
               
-              {/* Main Clinical Spinner */}
-              <Loader2 className="h-14 w-14 text-primary animate-spin relative z-10" />
+              {/* Main Clinical Core */}
+              <motion.div
+                animate={{ scale: [1, 1.1, 1] }}
+                transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+              >
+                <Activity className="h-14 w-14 text-primary relative z-10" />
+              </motion.div>
             </motion.div>
           </div>
           
