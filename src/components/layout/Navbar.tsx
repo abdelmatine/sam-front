@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect } from 'react';
@@ -168,10 +167,12 @@ const Navbar = () => {
               </AnimatePresence>
             </Button>
 
-            {/* Elegant Language Switcher with same animation as Shop */}
+            {/* Elegant Compact Language Switcher */}
             <ClinicalDropdown
               isHoverable={true}
               align="end"
+              variant="compact"
+              className="min-w-[120px]"
               trigger={
                 <Button variant="ghost" size="icon" className="h-9 w-9 text-muted-foreground hover:text-primary hover:bg-primary/5 transition-all group">
                   <Globe className="h-4 w-4 transition-transform duration-500 group-hover:rotate-12" />

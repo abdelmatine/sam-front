@@ -28,6 +28,7 @@ interface ClinicalDropdownProps {
   className?: string;
   isHoverable?: boolean;
   modal?: boolean;
+  variant?: 'default' | 'compact';
 }
 
 const ClinicalDropdown = ({ 
@@ -37,7 +38,8 @@ const ClinicalDropdown = ({
   side = 'bottom',
   className, 
   isHoverable = false,
-  modal
+  modal,
+  variant = 'default'
 }: ClinicalDropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -85,7 +87,7 @@ const ClinicalDropdown = ({
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 5 }}
                   transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
-                  className="relative overflow-hidden border border-primary/10 bg-white/95 dark:bg-zinc-950/95 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] ring-1 ring-black/5"
+                  className="relative overflow-hidden border border-primary/10 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] ring-1 ring-black/5"
                 >
                   {/* Premium Accent Line */}
                   <motion.div 
@@ -101,7 +103,8 @@ const ClinicalDropdown = ({
                         key={item.value || item.label || idx} 
                         item={item} 
                         idx={idx} 
-                        closeMenu={() => setIsOpen(false)} 
+                        closeMenu={() => setIsOpen(false)}
+                        variant={variant}
                       />
                     ))}
                   </div>
@@ -115,10 +118,21 @@ const ClinicalDropdown = ({
   );
 };
 
-const DropdownItemRow = ({ item, idx, closeMenu }: { item: DropdownItem, idx: number, closeMenu: () => void }) => {
+const DropdownItemRow = ({ 
+  item, 
+  idx, 
+  closeMenu,
+  variant 
+}: { 
+  item: DropdownItem, 
+  idx: number, 
+  closeMenu: () => void,
+  variant: 'default' | 'compact'
+}) => {
   const contentClasses = cn(
-    "group relative flex w-full items-center px-6 py-4 text-[10px] font-bold uppercase tracking-[0.25em] transition-colors outline-none",
+    "group relative flex w-full items-center transition-colors outline-none font-bold uppercase tracking-[0.25em]",
     "border-b border-primary/[0.03] last:border-none",
+    variant === 'compact' ? "px-4 py-2.5 text-[9px]" : "px-6 py-4 text-[10px]",
     item.isActive 
       ? "bg-primary text-white" 
       : "text-muted-foreground hover:bg-primary/[0.02]"
