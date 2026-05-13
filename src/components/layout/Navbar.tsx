@@ -226,12 +226,15 @@ const Navbar = () => {
                   <Menu className="h-6 w-6" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side={isRTL ? "left" : "right"} className="w-full sm:max-w-md p-0 flex flex-col h-full bg-background/95 backdrop-blur-xl border-primary/10 group">
+              <SheetContent 
+                side={isRTL ? "left" : "right"} 
+                className="w-full sm:max-w-md p-0 flex flex-col h-full bg-background/95 backdrop-blur-xl border-primary/10 group [&>button]:hidden"
+              >
                 <SheetHeader className="p-8 pb-4 border-b border-primary/5 flex flex-row items-center justify-between">
                   <Logo />
                   <SheetClose asChild>
-                    <Button variant="ghost" size="icon" className="h-10 w-10 rounded-none hover:bg-primary/5">
-                      <X className="h-6 w-6 text-primary" />
+                    <Button variant="ghost" size="icon" className="h-10 w-10 rounded-none hover:bg-primary/5 group/close">
+                      <X className="h-6 w-6 text-primary transition-transform group-hover/close:rotate-90" />
                     </Button>
                   </SheetClose>
                   <SheetTitle className="sr-only">Menu Clinique</SheetTitle>
@@ -315,7 +318,6 @@ const Navbar = () => {
                         {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
                       </Button>
                       
-                      {/* Mobile Language Selector (Simple list instead of dropdown for reliability) */}
                       <div className="flex items-center border border-primary/10 bg-background">
                         {languages.map((l, i) => (
                           <React.Fragment key={l.code}>
