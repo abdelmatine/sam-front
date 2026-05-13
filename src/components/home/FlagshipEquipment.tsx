@@ -71,7 +71,7 @@ export default function FlagshipEquipment() {
   };
 
   return (
-    <section className="py-24 bg-slate-50/50 dark:bg-slate-950/50 overflow-hidden border-b relative">
+    <section className="py-24 bg-slate-50/50 dark:bg-slate-900/50 overflow-hidden border-b relative">
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
         style={{ backgroundImage: 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)', backgroundSize: '60px 60px' }} 
       />
