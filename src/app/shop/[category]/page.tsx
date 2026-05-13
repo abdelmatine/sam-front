@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -92,8 +91,8 @@ export default function CategoryPage() {
             {menuCategories.map((cat) => (
               <Button
                 key={cat.value}
-                variant={activeCategory === cat.value ? "default" : "outline"}
-                onClick={() => router.push(`/shop/${cat.value}`)}
+                variant={(activeCategory === cat.value || (activeCategory === 'all' && cat.value === 'all')) ? "default" : "outline"}
+                onClick={() => router.push(cat.value === 'all' ? '/shop/all' : `/shop/${cat.value}`)}
                 className="rounded-none text-[9px] font-bold uppercase tracking-widest h-9 px-5 transition-all"
               >
                 {cat.label}

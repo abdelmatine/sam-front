@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState } from 'react';
@@ -72,7 +71,7 @@ export default function FlagshipEquipment() {
   };
 
   return (
-    <section className="py-24 bg-slate-50 dark:bg-slate-900/50 overflow-hidden border-b relative">
+    <section className="py-24 bg-slate-50 dark:bg-slate-900 overflow-hidden border-b relative">
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
       />
       
@@ -104,9 +103,9 @@ export default function FlagshipEquipment() {
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            <Link href="/shop/all">
+            <Link href="/shop">
               <Button variant="ghost" className="text-primary text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 hover:bg-primary/5 rounded-none px-6 py-6 h-auto transition-all duration-300">
-                View All Products <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                View All Categories <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
           </motion.div>

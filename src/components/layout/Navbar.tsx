@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect } from 'react';
@@ -68,7 +67,7 @@ const Navbar = () => {
   ];
 
   const categories = [
-    { label: t.categories.view_all, value: 'all' },
+    { label: t.categories.view_all, value: '' }, // Empty value points to /shop grid
     { label: t.categories.respiratory, value: 'respiratory' },
     { label: t.categories.oxygen, value: 'oxygen' },
     { label: t.categories.accessories, value: 'accessories' },
@@ -78,7 +77,7 @@ const Navbar = () => {
 
   const categoryItems = categories.map(cat => ({
     label: cat.label,
-    href: `/shop/${cat.value}`,
+    href: cat.value ? `/shop/${cat.value}` : '/shop',
     value: cat.value
   }));
 
@@ -123,10 +122,12 @@ const Navbar = () => {
             <ClinicalDropdown 
               isHoverable={true}
               trigger={
-                <Button variant="ghost" className="text-[10px] font-bold uppercase tracking-[0.25em] text-muted-foreground hover:text-primary gap-1.5 h-auto py-2 group">
-                  {t.nav.shop}
-                  <ChevronDown className="h-3 w-3 transition-transform duration-300 group-data-[state=open]:rotate-180" />
-                </Button>
+                <Link href="/shop">
+                  <Button variant="ghost" className="text-[10px] font-bold uppercase tracking-[0.25em] text-muted-foreground hover:text-primary gap-1.5 h-auto py-2 group">
+                    {t.nav.shop}
+                    <ChevronDown className="h-3 w-3 transition-transform duration-300 group-data-[state=open]:rotate-180" />
+                  </Button>
+                </Link>
               }
               items={categoryItems}
             />
@@ -195,7 +196,7 @@ const Navbar = () => {
 
           <div className="hidden lg:block h-6 w-[1px] bg-primary/10 mx-1" />
 
-          <Link href="/cart" className="hidden lg:block">
+          <Link href="/cart">
             <Button 
               className="relative h-11 px-7 bg-primary text-white rounded-none text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-primary/90 transition-all shadow-xl shadow-primary/20 flex items-center gap-3 active:scale-95"
             >
@@ -255,7 +256,14 @@ const Navbar = () => {
                           <span className="flex-1 text-left">{t.nav.shop}</span>
                         </AccordionTrigger>
                         <AccordionContent className="pt-6 pl-4 space-y-4">
-                          {categories.map((cat, idx) => (
+                          <Link 
+                            href="/shop"
+                            className="text-xs font-bold uppercase tracking-widest text-primary py-2 block hover:opacity-80 transition-opacity flex items-center gap-3"
+                          >
+                            <div className="h-1.5 w-1.5 bg-primary rounded-full" />
+                            {t.categories.view_all}
+                          </Link>
+                          {categories.filter(c => c.value !== '').map((cat, idx) => (
                             <Link 
                               key={cat.value}
                               href={`/shop/${cat.value}`}

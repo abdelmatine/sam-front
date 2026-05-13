@@ -1,4 +1,3 @@
-
 "use client";
 
 import React from 'react';
@@ -32,10 +31,10 @@ const Footer = () => {
   };
 
   const footerLinks = [
-    { label: 'CPAP & BPAP', href: '/shop?category=respiratory' },
-    { label: "Concentrateurs d'Oxygène", href: '/shop?category=oxygen' },
-    { label: 'Interfaces & Masques', href: '/shop?category=accessories' },
-    { label: 'Monitoring Clinical', href: '/shop?category=monitoring' }
+    { label: 'CPAP & BPAP', href: '/shop/respiratory' },
+    { label: "Concentrateurs d'Oxygène", href: '/shop/oxygen' },
+    { label: 'Interfaces & Masques', href: '/shop/accessories' },
+    { label: 'Monitoring Clinical', href: '/shop/monitoring' }
   ];
 
   return (
@@ -72,9 +71,11 @@ const Footer = () => {
 
           {/* Navigation Column */}
           <motion.div variants={itemVariants}>
-            <h4 className="font-bold text-foreground mb-10 uppercase tracking-[0.25em] text-[10px] border-l-4 border-primary pl-5">
-              {t.categories.title}
-            </h4>
+            <Link href="/shop">
+              <h4 className="font-bold text-foreground mb-10 uppercase tracking-[0.25em] text-[10px] border-l-4 border-primary pl-5 hover:text-primary transition-colors cursor-pointer">
+                {t.categories.title}
+              </h4>
+            </Link>
             <ul className="space-y-5 text-[10px] text-muted-foreground font-bold uppercase tracking-widest">
               {footerLinks.map((link) => (
                 <motion.li 
