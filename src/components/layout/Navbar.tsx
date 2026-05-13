@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect } from 'react';
@@ -17,7 +18,8 @@ import {
   ShieldCheck,
   Phone,
   Mail,
-  Activity
+  Activity,
+  X
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -30,6 +32,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
+  SheetClose,
 } from "@/components/ui/sheet";
 import {
   Accordion,
@@ -59,9 +62,9 @@ const Navbar = () => {
   if (!mounted) return null;
 
   const languages: { label: string; code: Language }[] = [
-    { label: 'Français', code: 'fr' },
-    { label: 'English', code: 'en' },
-    { label: 'العربية', code: 'ar' },
+    { label: 'FR', code: 'fr' },
+    { label: 'EN', code: 'en' },
+    { label: 'AR', code: 'ar' },
   ];
 
   const categories = [
@@ -85,6 +88,21 @@ const Navbar = () => {
     isActive: lang === l.code,
     value: l.code
   }));
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, x: -20 },
+    show: { opacity: 1, x: 0 }
+  };
 
   return (
     <nav className={cn(
@@ -208,55 +226,65 @@ const Navbar = () => {
                   <Menu className="h-6 w-6" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side={isRTL ? "left" : "right"} className="w-full sm:max-w-md p-0 flex flex-col h-full bg-background/95 backdrop-blur-xl border-primary/10">
-                <SheetHeader className="p-8 pb-4 border-b border-primary/5">
-                  <div className="flex items-center justify-between">
-                    <Logo />
-                    <SheetTitle className="sr-only">Menu Clinique</SheetTitle>
-                  </div>
+              <SheetContent side={isRTL ? "left" : "right"} className="w-full sm:max-w-md p-0 flex flex-col h-full bg-background/95 backdrop-blur-xl border-primary/10 group">
+                <SheetHeader className="p-8 pb-4 border-b border-primary/5 flex flex-row items-center justify-between">
+                  <Logo />
+                  <SheetClose asChild>
+                    <Button variant="ghost" size="icon" className="h-10 w-10 rounded-none hover:bg-primary/5">
+                      <X className="h-6 w-6 text-primary" />
+                    </Button>
+                  </SheetClose>
+                  <SheetTitle className="sr-only">Menu Clinique</SheetTitle>
                 </SheetHeader>
 
-                <div className="flex-1 overflow-y-auto px-8 py-10">
+                <motion.div 
+                  variants={containerVariants}
+                  initial="hidden"
+                  animate="show"
+                  className="flex-1 overflow-y-auto px-8 py-10"
+                >
                   <Accordion type="single" collapsible className="w-full space-y-6">
-                    <AccordionItem value="shop" className="border-none">
-                      <AccordionTrigger className="flex-row-reverse gap-4 p-0 hover:no-underline font-headline font-bold text-2xl uppercase tracking-tighter text-foreground">
-                        <span className="flex-1 text-left">{t.nav.shop}</span>
-                      </AccordionTrigger>
-                      <AccordionContent className="pt-6 pl-4 space-y-4">
-                        {categories.map((cat, idx) => (
-                          <motion.div
-                            key={cat.value}
-                            initial={{ opacity: 0, x: -10 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: idx * 0.05 }}
-                          >
+                    <motion.div variants={itemVariants}>
+                      <AccordionItem value="shop" className="border-none">
+                        <AccordionTrigger className="flex-row-reverse gap-4 p-0 hover:no-underline font-headline font-bold text-2xl uppercase tracking-tighter text-foreground">
+                          <span className="flex-1 text-left">{t.nav.shop}</span>
+                        </AccordionTrigger>
+                        <AccordionContent className="pt-6 pl-4 space-y-4">
+                          {categories.map((cat, idx) => (
                             <Link 
+                              key={cat.value}
                               href={`/shop?category=${cat.value}`}
                               className="text-xs font-bold uppercase tracking-widest text-muted-foreground py-2 block hover:text-primary transition-colors flex items-center gap-3"
                             >
                               <div className="h-1.5 w-1.5 bg-primary/20 rounded-full" />
                               {cat.label}
                             </Link>
-                          </motion.div>
-                        ))}
-                      </AccordionContent>
-                    </AccordionItem>
+                          ))}
+                        </AccordionContent>
+                      </AccordionItem>
+                    </motion.div>
 
                     <div className="space-y-6 pt-2">
-                      <Link href="/about" className="block text-2xl font-headline font-bold uppercase tracking-tighter text-foreground hover:text-primary transition-colors">
-                        {t.nav.about}
-                      </Link>
-                      <Link href="/contact" className="block text-2xl font-headline font-bold uppercase tracking-tighter text-foreground hover:text-primary transition-colors">
-                        {t.nav.contact}
-                      </Link>
-                      <Link href="/wishlist" className="block text-2xl font-headline font-bold uppercase tracking-tighter text-foreground hover:text-primary transition-colors flex items-center justify-between">
-                        Wishlist
-                        {wishlistCount > 0 && <Badge className="rounded-full bg-primary/10 text-primary border-none font-bold">{wishlistCount}</Badge>}
-                      </Link>
+                      <motion.div variants={itemVariants}>
+                        <Link href="/about" className="block text-2xl font-headline font-bold uppercase tracking-tighter text-foreground hover:text-primary transition-colors">
+                          {t.nav.about}
+                        </Link>
+                      </motion.div>
+                      <motion.div variants={itemVariants}>
+                        <Link href="/contact" className="block text-2xl font-headline font-bold uppercase tracking-tighter text-foreground hover:text-primary transition-colors">
+                          {t.nav.contact}
+                        </Link>
+                      </motion.div>
+                      <motion.div variants={itemVariants}>
+                        <Link href="/wishlist" className="block text-2xl font-headline font-bold uppercase tracking-tighter text-foreground hover:text-primary transition-colors flex items-center justify-between">
+                          Wishlist
+                          {wishlistCount > 0 && <Badge className="rounded-full bg-primary/10 text-primary border-none font-bold">{wishlistCount}</Badge>}
+                        </Link>
+                      </motion.div>
                     </div>
                   </Accordion>
 
-                  <div className="mt-16 space-y-8 pt-8 border-t border-primary/5">
+                  <motion.div variants={itemVariants} className="mt-16 space-y-8 pt-8 border-t border-primary/5">
                     <div className="space-y-4">
                       <h4 className="text-[10px] font-bold uppercase tracking-widest text-primary">Support Clinique</h4>
                       <div className="flex items-center gap-4 text-sm font-medium text-muted-foreground">
@@ -272,36 +300,44 @@ const Navbar = () => {
                         support@sam-medicale.fr
                       </div>
                     </div>
-                  </div>
-                </div>
+                  </motion.div>
+                </motion.div>
 
-                <div className="p-8 bg-accent/20 border-t border-primary/5 flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <Button 
-                      variant="outline" 
-                      size="icon"
-                      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                      className="h-10 w-10 rounded-none border-primary/10 bg-background"
-                    >
-                      {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-                    </Button>
+                <div className="p-8 bg-accent/20 border-t border-primary/5 flex flex-col gap-6">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Button 
+                        variant="outline" 
+                        size="icon"
+                        onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                        className="h-10 w-10 rounded-none border-primary/10 bg-background"
+                      >
+                        {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+                      </Button>
+                      
+                      {/* Mobile Language Selector (Simple list instead of dropdown for reliability) */}
+                      <div className="flex items-center border border-primary/10 bg-background">
+                        {languages.map((l, i) => (
+                          <React.Fragment key={l.code}>
+                            <button
+                              onClick={() => dispatch(setLanguage(l.code))}
+                              className={cn(
+                                "h-10 px-3 text-[10px] font-bold transition-all",
+                                lang === l.code ? "bg-primary text-white" : "text-muted-foreground hover:bg-primary/5"
+                              )}
+                            >
+                              {l.label}
+                            </button>
+                            {i < languages.length - 1 && <div className="h-4 w-[1px] bg-primary/10" />}
+                          </React.Fragment>
+                        ))}
+                      </div>
+                    </div>
 
-                    <ClinicalDropdown 
-                      align="start"
-                      side="top"
-                      trigger={
-                        <Button variant="outline" size="icon" className="h-10 w-10 rounded-none border-primary/10 bg-background">
-                          <Globe className="h-4 w-4" />
-                        </Button>
-                      }
-                      items={languageItems}
-                      modal={false}
-                    />
-                  </div>
-                  
-                  <div className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.2em] text-primary/60">
-                    <ShieldCheck className="h-4 w-4" />
-                    Grade Médical
+                    <div className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.2em] text-primary/60">
+                      <ShieldCheck className="h-4 w-4" />
+                      Grade Médical
+                    </div>
                   </div>
                 </div>
               </SheetContent>

@@ -41,7 +41,6 @@ const ClinicalDropdown = ({
 }: ClinicalDropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  // For hoverable behavior on desktop only
   const handleMouseEnter = () => {
     if (isHoverable && typeof window !== 'undefined' && window.innerWidth >= 1024) {
       setIsOpen(true);
@@ -58,7 +57,7 @@ const ClinicalDropdown = ({
     <div 
       onMouseEnter={handleMouseEnter} 
       onMouseLeave={handleMouseLeave}
-      className="relative"
+      className="relative inline-block"
     >
       <DropdownMenu 
         open={isOpen} 
@@ -66,66 +65,104 @@ const ClinicalDropdown = ({
         modal={modal !== undefined ? modal : !isHoverable}
       >
         <DropdownMenuTrigger asChild>
-          {trigger}
+          <div className="cursor-pointer">{trigger}</div>
         </DropdownMenuTrigger>
+        
         <DropdownMenuPortal>
           <DropdownMenuContent 
             align={align} 
             side={side}
-            sideOffset={12}
+            sideOffset={8}
+            // Logic: we use asChild so we can let Framer Motion handle the entry/exit if desired,
+            // but here we keep the Shadcn classes for alignment.
             className={cn(
-              "z-[160] rounded-none border border-primary/10 bg-background/95 backdrop-blur-xl min-w-[220px] p-2 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200",
+              "z-[160] min-w-[240px] overflow-hidden rounded-none border-none bg-transparent p-0 shadow-none",
               className
             )}
           >
-            <motion.div 
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute top-0 left-0 right-0 h-[3px] bg-primary origin-left z-20"
-            />
-
-            <div className="pt-2 flex flex-col relative z-10">
-              {items.map((item, idx) => (
+            <AnimatePresence>
+              {isOpen && (
                 <motion.div
-                  key={item.value || item.label || idx}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: idx * 0.04, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                  initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 5 }}
+                  transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
+                  className="relative overflow-hidden border border-primary/10 bg-white/90 dark:bg-zinc-950/90 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] ring-1 ring-black/5"
                 >
-                  <DropdownMenuItem asChild className="p-0 outline-none">
-                    {item.href ? (
-                      <Link 
-                        href={item.href}
-                        className={cn(
-                          "flex w-full px-5 py-3.5 text-[9px] font-bold uppercase tracking-[0.25em] transition-all border-b border-primary/5 last:border-none cursor-pointer outline-none",
-                          item.isActive ? "bg-primary text-white" : "hover:bg-primary/5 hover:text-primary"
-                        )}
-                      >
-                        {item.label}
-                      </Link>
-                    ) : (
-                      <div 
-                        onClick={() => {
-                          item.onClick?.();
-                          setIsOpen(false);
-                        }}
-                        className={cn(
-                          "flex w-full px-5 py-3.5 text-[9px] font-bold uppercase tracking-[0.25em] transition-all border-b border-primary/5 last:border-none cursor-pointer outline-none",
-                          item.isActive ? "bg-primary text-white" : "hover:bg-primary/5 hover:text-primary"
-                        )}
-                      >
-                        {item.label}
-                      </div>
-                    )}
-                  </DropdownMenuItem>
+                  {/* Premium Accent Line */}
+                  <motion.div 
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: 1 }}
+                    transition={{ duration: 0.6, delay: 0.1 }}
+                    className="absolute top-0 left-0 right-0 h-[2px] bg-primary origin-left z-30"
+                  />
+
+                  <div className="py-1 flex flex-col relative z-10">
+                    {items.map((item, idx) => (
+                      <DropdownItemRow 
+                        key={item.value || item.label || idx} 
+                        item={item} 
+                        idx={idx} 
+                        closeMenu={() => setIsOpen(false)} 
+                      />
+                    ))}
+                  </div>
                 </motion.div>
-              ))}
-            </div>
+              )}
+            </AnimatePresence>
           </DropdownMenuContent>
         </DropdownMenuPortal>
       </DropdownMenu>
     </div>
+  );
+};
+
+// Extracted Sub-component for cleaner mapping and hover states
+const DropdownItemRow = ({ item, idx, closeMenu }: { item: DropdownItem, idx: number, closeMenu: () => void }) => {
+  const contentClasses = cn(
+    "group relative flex w-full items-center px-5 py-4 text-[10px] font-bold uppercase tracking-[0.3em] transition-all outline-none",
+    "border-b border-primary/[0.03] last:border-none",
+    item.isActive 
+      ? "bg-primary text-white" 
+      : "text-muted-foreground hover:text-primary hover:bg-primary/[0.02]"
+  );
+
+  const InnerContent = () => (
+    <>
+      {/* Animated Left Border Highlight */}
+      {!item.isActive && (
+        <span className="absolute left-0 top-0 bottom-0 w-[0px] bg-primary transition-all duration-300 group-hover:w-[3px]" />
+      )}
+      <span className="relative z-10 transition-transform duration-300 group-hover:translate-x-1">
+        {item.label}
+      </span>
+    </>
+  );
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: -8 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ delay: idx * 0.03 + 0.1 }}
+    >
+      <DropdownMenuItem asChild className="p-0 focus:bg-transparent focus:text-inherit">
+        {item.href ? (
+          <Link href={item.href} className={contentClasses} onClick={closeMenu}>
+            <InnerContent />
+          </Link>
+        ) : (
+          <button 
+            onClick={() => {
+              item.onClick?.();
+              closeMenu();
+            }} 
+            className={contentClasses}
+          >
+            <InnerContent />
+          </button>
+        )}
+      </DropdownMenuItem>
+    </motion.div>
   );
 };
 
