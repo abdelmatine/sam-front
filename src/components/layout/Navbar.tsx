@@ -9,7 +9,6 @@ import { useTranslation } from '@/hooks/use-translation';
 import { 
   ShoppingCart, 
   Menu, 
-  Activity, 
   Sun, 
   Moon, 
   Heart, 
@@ -18,7 +17,6 @@ import {
   ShieldCheck,
   Phone,
   Mail,
-  MapPin,
   X
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -93,14 +91,17 @@ const Navbar = () => {
       "fixed top-0 left-0 right-0 z-[100] transition-all duration-500",
       isScrolled 
         ? "bg-background/90 backdrop-blur-xl py-3 border-b border-primary/10 clinical-shadow" 
-        : "bg-background py-6"
+        : "bg-background py-5"
     )}>
-      <div className="container mx-auto px-4 flex items-center justify-between">
-        <Logo />
+      <div className="container mx-auto px-4 flex items-center">
+        {/* Left: Branding */}
+        <div className="flex-1 flex justify-start">
+          <Logo />
+        </div>
 
-        {/* Desktop Navigation */}
-        <div className="hidden lg:flex items-center gap-10">
-          <nav className="flex items-center gap-8">
+        {/* Center: Main Navigation */}
+        <div className="hidden lg:flex flex-1 justify-center">
+          <nav className="flex items-center gap-10">
             <ClinicalDropdown 
               isHoverable={true}
               trigger={
@@ -126,10 +127,11 @@ const Navbar = () => {
               <span className="absolute -bottom-1 left-0 w-0 h-[1.5px] bg-primary transition-all duration-300 group-hover:w-full" />
             </Link>
           </nav>
+        </div>
 
-          <div className="h-6 w-[1px] bg-primary/10 mx-2" />
-
-          <div className="flex items-center gap-2">
+        {/* Right: Actions */}
+        <div className="hidden lg:flex flex-1 justify-end items-center gap-3">
+          <div className="flex items-center gap-1">
             <Button 
               variant="ghost" 
               size="icon" 
@@ -164,31 +166,33 @@ const Navbar = () => {
               <Button variant="ghost" size="icon" className="relative h-9 w-9 text-muted-foreground hover:text-primary hover:bg-primary/5">
                 <Heart className={cn("h-4 w-4 transition-all", wishlistCount > 0 && "fill-primary text-primary")} />
                 {wishlistCount > 0 && (
-                  <Badge className="absolute -top-1 -right-1 h-4 w-4 flex items-center justify-center p-0 text-[8px] bg-primary text-white rounded-full font-bold border-none">
+                  <Badge className="absolute -top-1 -right-1 h-3.5 w-3.5 flex items-center justify-center p-0 text-[7px] bg-primary text-white rounded-full font-black border-none ring-2 ring-background">
                     {wishlistCount}
                   </Badge>
                 )}
               </Button>
             </Link>
-
-            <Link href="/cart">
-              <Button 
-                className="relative h-11 px-6 bg-primary text-white rounded-none text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-primary/90 transition-all shadow-xl shadow-primary/20 flex items-center gap-3"
-              >
-                <ShoppingCart className="h-4 w-4" />
-                {t.nav.cart}
-                {cartQuantity > 0 && (
-                  <span className="ml-1 bg-white text-primary rounded-full px-2 py-0.5 text-[8px] font-black">
-                    {cartQuantity}
-                  </span>
-                )}
-              </Button>
-            </Link>
           </div>
+
+          <div className="h-6 w-[1px] bg-primary/10 mx-1" />
+
+          <Link href="/cart">
+            <Button 
+              className="relative h-11 px-7 bg-primary text-white rounded-none text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-primary/90 transition-all shadow-xl shadow-primary/20 flex items-center gap-3 active:scale-95"
+            >
+              <ShoppingCart className="h-4 w-4" />
+              {t.nav.cart}
+              {cartQuantity > 0 && (
+                <span className="bg-white text-primary rounded-full px-2 py-0.5 text-[8px] font-black">
+                  {cartQuantity}
+                </span>
+              )}
+            </Button>
+          </Link>
         </div>
 
         {/* Mobile Navigation Trigger */}
-        <div className="flex lg:hidden items-center gap-3">
+        <div className="flex lg:hidden items-center gap-3 ml-auto">
           <Link href="/cart">
             <Button variant="ghost" size="icon" className="relative h-10 w-10 text-muted-foreground">
               <ShoppingCart className="h-5 w-5" />
