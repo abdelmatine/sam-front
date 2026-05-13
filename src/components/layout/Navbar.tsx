@@ -199,7 +199,8 @@ const Navbar = () => {
 
           <div className="hidden lg:block h-6 w-[1px] bg-primary/10 mx-1" />
 
-          <Link href="/cart">
+          {/* Desktop Only: Large Cart Button */}
+          <Link href="/cart" className="hidden lg:block">
             <Button 
               className="relative h-11 px-7 bg-primary text-white rounded-none text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-primary/90 transition-all shadow-xl shadow-primary/20 flex items-center gap-3 active:scale-95"
             >
@@ -282,6 +283,11 @@ const Navbar = () => {
 
                     <div className="space-y-6 pt-2">
                       <motion.div variants={itemVariants}>
+                        <Link href="/shop" className="block text-2xl font-headline font-bold uppercase tracking-tighter text-foreground hover:text-primary transition-colors">
+                          {t.nav.shop}
+                        </Link>
+                      </motion.div>
+                      <motion.div variants={itemVariants}>
                         <Link href="/about" className="block text-2xl font-headline font-bold uppercase tracking-tighter text-foreground hover:text-primary transition-colors">
                           {t.nav.about}
                         </Link>
@@ -289,6 +295,12 @@ const Navbar = () => {
                       <motion.div variants={itemVariants}>
                         <Link href="/contact" className="block text-2xl font-headline font-bold uppercase tracking-tighter text-foreground hover:text-primary transition-colors">
                           {t.nav.contact}
+                        </Link>
+                      </motion.div>
+                      <motion.div variants={itemVariants}>
+                        <Link href="/cart" className="block text-2xl font-headline font-bold uppercase tracking-tighter text-foreground hover:text-primary transition-colors flex items-center justify-between">
+                          {t.nav.cart}
+                          {cartQuantity > 0 && <Badge className="rounded-full bg-primary/10 text-primary border-none font-bold">{cartQuantity}</Badge>}
                         </Link>
                       </motion.div>
                       <motion.div variants={itemVariants}>
