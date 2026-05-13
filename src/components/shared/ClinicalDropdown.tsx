@@ -73,8 +73,6 @@ const ClinicalDropdown = ({
             align={align} 
             side={side}
             sideOffset={8}
-            // Logic: we use asChild so we can let Framer Motion handle the entry/exit if desired,
-            // but here we keep the Shadcn classes for alignment.
             className={cn(
               "z-[160] min-w-[240px] overflow-hidden rounded-none border-none bg-transparent p-0 shadow-none",
               className
@@ -87,7 +85,7 @@ const ClinicalDropdown = ({
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 5 }}
                   transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
-                  className="relative overflow-hidden border border-primary/10 bg-white/90 dark:bg-zinc-950/90 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] ring-1 ring-black/5"
+                  className="relative overflow-hidden border border-primary/10 bg-white/95 dark:bg-zinc-950/95 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] ring-1 ring-black/5"
                 >
                   {/* Premium Accent Line */}
                   <motion.div 
@@ -117,26 +115,13 @@ const ClinicalDropdown = ({
   );
 };
 
-// Extracted Sub-component for cleaner mapping and hover states
 const DropdownItemRow = ({ item, idx, closeMenu }: { item: DropdownItem, idx: number, closeMenu: () => void }) => {
   const contentClasses = cn(
-    "group relative flex w-full items-center px-5 py-4 text-[10px] font-bold uppercase tracking-[0.3em] transition-all outline-none",
+    "group relative flex w-full items-center px-6 py-4 text-[10px] font-bold uppercase tracking-[0.25em] transition-colors outline-none",
     "border-b border-primary/[0.03] last:border-none",
     item.isActive 
       ? "bg-primary text-white" 
-      : "text-muted-foreground hover:text-primary hover:bg-primary/[0.02]"
-  );
-
-  const InnerContent = () => (
-    <>
-      {/* Animated Left Border Highlight */}
-      {!item.isActive && (
-        <span className="absolute left-0 top-0 bottom-0 w-[0px] bg-primary transition-all duration-300 group-hover:w-[3px]" />
-      )}
-      <span className="relative z-10 transition-transform duration-300 group-hover:translate-x-1">
-        {item.label}
-      </span>
-    </>
+      : "text-muted-foreground hover:bg-primary/[0.02]"
   );
 
   return (
@@ -146,24 +131,45 @@ const DropdownItemRow = ({ item, idx, closeMenu }: { item: DropdownItem, idx: nu
       transition={{ delay: idx * 0.03 + 0.1 }}
     >
       <DropdownMenuItem asChild className="p-0 focus:bg-transparent focus:text-inherit">
-        {item.href ? (
-          <Link href={item.href} className={contentClasses} onClick={closeMenu}>
-            <InnerContent />
-          </Link>
-        ) : (
-          <button 
-            onClick={() => {
-              item.onClick?.();
-              closeMenu();
-            }} 
-            className={contentClasses}
-          >
-            <InnerContent />
-          </button>
-        )}
+        <motion.div
+          whileHover={{ x: 8, color: 'hsl(var(--primary))' }}
+          transition={{ type: "spring", stiffness: 400, damping: 20 }}
+          className="w-full cursor-pointer"
+        >
+          {item.href ? (
+            <Link href={item.href} className={contentClasses} onClick={closeMenu}>
+               <ItemInner item={item} />
+            </Link>
+          ) : (
+            <button 
+              onClick={() => {
+                item.onClick?.();
+                closeMenu();
+              }} 
+              className={contentClasses}
+            >
+               <ItemInner item={item} />
+            </button>
+          )}
+        </motion.div>
       </DropdownMenuItem>
     </motion.div>
   );
 };
+
+const ItemInner = ({ item }: { item: DropdownItem }) => (
+  <div className="flex items-center gap-4">
+    <motion.div 
+      className={cn(
+        "h-1.5 w-1.5 rounded-full transition-colors",
+        item.isActive ? "bg-white" : "bg-primary/30 group-hover:bg-primary"
+      )}
+      whileHover={{ scale: 2 }}
+    />
+    <span className="relative z-10 transition-colors">
+      {item.label}
+    </span>
+  </div>
+);
 
 export default ClinicalDropdown;
