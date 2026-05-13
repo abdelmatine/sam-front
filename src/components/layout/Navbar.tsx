@@ -18,13 +18,14 @@ import {
   ShieldCheck,
   Phone,
   Mail,
-  MapPin
+  MapPin,
+  X
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 import { useTheme } from 'next-themes';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   Sheet,
   SheetContent,
@@ -89,70 +90,108 @@ const Navbar = () => {
 
   return (
     <nav className={cn(
-      "fixed top-0 left-0 right-0 z-[100] transition-all duration-300",
-      isScrolled ? "bg-background/95 backdrop-blur-md py-2 border-b clinical-shadow" : "bg-background py-4"
+      "fixed top-0 left-0 right-0 z-[100] transition-all duration-500",
+      isScrolled 
+        ? "bg-background/90 backdrop-blur-xl py-3 border-b border-primary/10 clinical-shadow" 
+        : "bg-background py-6"
     )}>
       <div className="container mx-auto px-4 flex items-center justify-between">
-        <Logo textClassName="hidden sm:inline-block" />
+        <Logo />
 
-        {/* Desktop Menu */}
-        <div className="hidden lg:flex items-center gap-8 h-full">
-          <ClinicalDropdown 
-            isHoverable={true}
-            trigger={
-              <Button variant="ghost" className="text-[10px] font-bold uppercase tracking-[0.25em] text-muted-foreground hover:text-primary gap-1.5 h-auto py-2 outline-none group">
-                {t.nav.shop}
-                <ChevronDown className="h-3 w-3 transition-transform duration-300 group-data-[state=open]:rotate-180" />
-              </Button>
-            }
-            items={categoryItems}
-          />
+        {/* Desktop Navigation */}
+        <div className="hidden lg:flex items-center gap-10">
+          <nav className="flex items-center gap-8">
+            <ClinicalDropdown 
+              isHoverable={true}
+              trigger={
+                <Button variant="ghost" className="text-[10px] font-bold uppercase tracking-[0.25em] text-muted-foreground hover:text-primary gap-1.5 h-auto py-2 group">
+                  {t.nav.shop}
+                  <ChevronDown className="h-3 w-3 transition-transform duration-300 group-data-[state=open]:rotate-180" />
+                </Button>
+              }
+              items={categoryItems}
+            />
+            <Link 
+              href="/about" 
+              className="text-[10px] font-bold uppercase tracking-[0.25em] text-muted-foreground hover:text-primary transition-all relative group"
+            >
+              {t.nav.about}
+              <span className="absolute -bottom-1 left-0 w-0 h-[1.5px] bg-primary transition-all duration-300 group-hover:w-full" />
+            </Link>
+            <Link 
+              href="/contact" 
+              className="text-[10px] font-bold uppercase tracking-[0.25em] text-muted-foreground hover:text-primary transition-all relative group"
+            >
+              {t.nav.contact}
+              <span className="absolute -bottom-1 left-0 w-0 h-[1.5px] bg-primary transition-all duration-300 group-hover:w-full" />
+            </Link>
+          </nav>
 
-          <Link href="/about" className="text-[10px] font-bold uppercase tracking-[0.25em] text-muted-foreground hover:text-primary transition-all">
-            {t.nav.about}
-          </Link>
-          <Link href="/contact" className="text-[10px] font-bold uppercase tracking-[0.25em] text-muted-foreground hover:text-primary transition-all">
-            {t.nav.contact}
-          </Link>
-        </div>
+          <div className="h-6 w-[1px] bg-primary/10 mx-2" />
 
-        <div className="flex items-center gap-2 md:gap-4">
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            className="h-9 w-9 text-muted-foreground hidden sm:flex"
-            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-          >
-            {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="h-9 w-9 text-muted-foreground hover:text-primary hover:bg-primary/5 transition-all"
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+            >
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={theme}
+                  initial={{ y: 10, opacity: 0, rotate: -45 }}
+                  animate={{ y: 0, opacity: 1, rotate: 0 }}
+                  exit={{ y: -10, opacity: 0, rotate: 45 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+                </motion.div>
+              </AnimatePresence>
+            </Button>
 
-          <div className="hidden sm:flex">
             <ClinicalDropdown 
               isHoverable={true}
               align="end"
               trigger={
-                <Button variant="ghost" size="icon" className="h-9 w-9 text-muted-foreground group">
+                <Button variant="ghost" size="icon" className="h-9 w-9 text-muted-foreground hover:text-primary hover:bg-primary/5 group">
                   <Globe className="h-4 w-4" />
                 </Button>
               }
               items={languageItems}
             />
+
+            <Link href="/wishlist">
+              <Button variant="ghost" size="icon" className="relative h-9 w-9 text-muted-foreground hover:text-primary hover:bg-primary/5">
+                <Heart className={cn("h-4 w-4 transition-all", wishlistCount > 0 && "fill-primary text-primary")} />
+                {wishlistCount > 0 && (
+                  <Badge className="absolute -top-1 -right-1 h-4 w-4 flex items-center justify-center p-0 text-[8px] bg-primary text-white rounded-full font-bold border-none">
+                    {wishlistCount}
+                  </Badge>
+                )}
+              </Button>
+            </Link>
+
+            <Link href="/cart">
+              <Button 
+                className="relative h-11 px-6 bg-primary text-white rounded-none text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-primary/90 transition-all shadow-xl shadow-primary/20 flex items-center gap-3"
+              >
+                <ShoppingCart className="h-4 w-4" />
+                {t.nav.cart}
+                {cartQuantity > 0 && (
+                  <span className="ml-1 bg-white text-primary rounded-full px-2 py-0.5 text-[8px] font-black">
+                    {cartQuantity}
+                  </span>
+                )}
+              </Button>
+            </Link>
           </div>
+        </div>
 
-          <Link href="/wishlist">
-            <Button variant="ghost" size="icon" className="relative h-9 w-9 text-muted-foreground">
-              <Heart className={cn("h-4 w-4", wishlistCount > 0 && "fill-primary text-primary")} />
-              {wishlistCount > 0 && (
-                <Badge className="absolute -top-1 -right-1 h-4 w-4 flex items-center justify-center p-0 text-[8px] bg-primary text-white rounded-full font-bold border-none">
-                  {wishlistCount}
-                </Badge>
-              )}
-            </Button>
-          </Link>
-
+        {/* Mobile Navigation Trigger */}
+        <div className="flex lg:hidden items-center gap-3">
           <Link href="/cart">
-            <Button variant="ghost" size="icon" className="relative h-9 w-9 text-muted-foreground">
-              <ShoppingCart className="h-4 w-4" />
+            <Button variant="ghost" size="icon" className="relative h-10 w-10 text-muted-foreground">
+              <ShoppingCart className="h-5 w-5" />
               {cartQuantity > 0 && (
                 <Badge className="absolute -top-1 -right-1 h-4 w-4 flex items-center justify-center p-0 text-[8px] bg-primary text-white rounded-full font-bold border-none">
                   {cartQuantity}
@@ -163,98 +202,102 @@ const Navbar = () => {
 
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="lg:hidden">
+              <Button variant="ghost" size="icon" className="h-10 w-10 border border-primary/10">
                 <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
-            <SheetContent side={isRTL ? "left" : "right"} className="w-[85%] max-w-[400px] p-0 flex flex-col h-full">
-              <SheetHeader className="text-left p-8 pb-4">
-                <SheetTitle>
+            <SheetContent side={isRTL ? "left" : "right"} className="w-full sm:max-w-md p-0 flex flex-col h-full bg-background/95 backdrop-blur-xl border-primary/10">
+              <SheetHeader className="p-8 pb-4 border-b border-primary/5">
+                <div className="flex items-center justify-between">
                   <Logo />
-                </SheetTitle>
+                  <SheetTitle className="sr-only">Menu Clinique</SheetTitle>
+                </div>
               </SheetHeader>
 
-              <div className="flex-1 overflow-y-auto px-8 py-6">
-                <Accordion type="single" collapsible className="w-full space-y-4">
+              <div className="flex-1 overflow-y-auto px-8 py-10">
+                <Accordion type="single" collapsible className="w-full space-y-6">
                   <AccordionItem value="shop" className="border-none">
-                    <div className="flex items-center justify-between py-2 border-b">
-                      <Link href="/shop" className="text-lg font-bold uppercase tracking-tight flex-1">
-                        {t.nav.shop}
-                      </Link>
-                      <AccordionTrigger className="p-2 hover:no-underline [&[data-state=open]>svg]:rotate-45" />
-                    </div>
-                    <AccordionContent className="pt-4 pl-4 pb-0">
-                      <div className="grid grid-cols-1 gap-2">
-                        {categories.map((cat, idx) => (
-                          <motion.div
-                            key={cat.value}
-                            initial={{ opacity: 0, x: -10 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: idx * 0.05 }}
+                    <AccordionTrigger className="flex-row-reverse gap-4 p-0 hover:no-underline font-headline font-bold text-2xl uppercase tracking-tighter text-foreground">
+                      <span className="flex-1 text-left">{t.nav.shop}</span>
+                    </AccordionTrigger>
+                    <AccordionContent className="pt-6 pl-4 space-y-4">
+                      {categories.map((cat, idx) => (
+                        <motion.div
+                          key={cat.value}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: idx * 0.05 }}
+                        >
+                          <Link 
+                            href={`/shop?category=${cat.value}`}
+                            className="text-xs font-bold uppercase tracking-widest text-muted-foreground py-2 block hover:text-primary transition-colors flex items-center gap-3"
                           >
-                            <Link 
-                              href={`/shop?category=${cat.value}`}
-                              className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground py-2 block hover:text-primary"
-                            >
-                              {cat.label}
-                            </Link>
-                          </motion.div>
-                        ))}
-                      </div>
+                            <div className="h-1.5 w-1.5 bg-primary/20 rounded-full" />
+                            {cat.label}
+                          </Link>
+                        </motion.div>
+                      ))}
                     </AccordionContent>
                   </AccordionItem>
 
-                  <AccordionItem value="contact" className="border-none">
-                    <div className="flex items-center justify-between py-2 border-b">
-                      <Link href="/contact" className="text-lg font-bold uppercase tracking-tight flex-1">
-                        {t.nav.contact}
-                      </Link>
-                      <AccordionTrigger className="p-2 hover:no-underline [&[data-state=open]>svg]:rotate-45" />
-                    </div>
-                    <AccordionContent className="pt-4 pl-4 pb-0">
-                      <div className="space-y-4">
-                        <div className="flex items-center gap-3">
-                          <Phone className="h-4 w-4 text-primary" />
-                          <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">+33 (0) 1 23 45 67 89</span>
-                        </div>
-                        <div className="flex items-center gap-3">
-                          <Mail className="h-4 w-4 text-primary" />
-                          <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">support@sam-medicale.fr</span>
-                        </div>
-                        <div className="flex items-center gap-3">
-                          <MapPin className="h-4 w-4 text-primary" />
-                          <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Paris, France</span>
-                        </div>
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
+                  <div className="space-y-6 pt-2">
+                    <Link href="/about" className="block text-2xl font-headline font-bold uppercase tracking-tighter text-foreground hover:text-primary transition-colors">
+                      {t.nav.about}
+                    </Link>
+                    <Link href="/contact" className="block text-2xl font-headline font-bold uppercase tracking-tighter text-foreground hover:text-primary transition-colors">
+                      {t.nav.contact}
+                    </Link>
+                    <Link href="/wishlist" className="block text-2xl font-headline font-bold uppercase tracking-tighter text-foreground hover:text-primary transition-colors flex items-center justify-between">
+                      Wishlist
+                      {wishlistCount > 0 && <Badge className="rounded-full bg-primary/10 text-primary border-none font-bold">{wishlistCount}</Badge>}
+                    </Link>
+                  </div>
                 </Accordion>
+
+                <div className="mt-16 space-y-8 pt-8 border-t border-primary/5">
+                  <div className="space-y-4">
+                    <h4 className="text-[10px] font-bold uppercase tracking-widest text-primary">Support Clinique</h4>
+                    <div className="flex items-center gap-4 text-sm font-medium text-muted-foreground">
+                      <div className="p-2.5 bg-primary/5 rounded-none border border-primary/10">
+                        <Phone className="h-4 w-4 text-primary" />
+                      </div>
+                      +33 (0) 1 23 45 67 89
+                    </div>
+                    <div className="flex items-center gap-4 text-sm font-medium text-muted-foreground">
+                      <div className="p-2.5 bg-primary/5 rounded-none border border-primary/10">
+                        <Mail className="h-4 w-4 text-primary" />
+                      </div>
+                      support@sam-medicale.fr
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              <div className="mt-auto p-8 flex items-center justify-between border-t bg-accent/10">
-                <div className="flex items-center gap-4">
+              <div className="p-8 bg-accent/20 border-t border-primary/5 flex items-center justify-between">
+                <div className="flex items-center gap-3">
                   <Button 
                     variant="outline" 
                     size="icon"
                     onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                    className="h-10 w-10 rounded-full border-primary/20"
+                    className="h-10 w-10 rounded-none border-primary/10 bg-background"
                   >
                     {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
                   </Button>
 
                   <ClinicalDropdown 
-                    align="end"
+                    align="start"
                     side="top"
                     trigger={
-                      <Button variant="outline" size="icon" className="h-10 w-10 rounded-full border-primary/20 group">
+                      <Button variant="outline" size="icon" className="h-10 w-10 rounded-none border-primary/10 bg-background">
                         <Globe className="h-4 w-4" />
                       </Button>
                     }
                     items={languageItems}
                   />
                 </div>
-                <div className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-widest opacity-60">
-                  <ShieldCheck className="h-4 w-4 text-primary" />
+                
+                <div className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.2em] text-primary/60">
+                  <ShieldCheck className="h-4 w-4" />
                   Grade Médical
                 </div>
               </div>
