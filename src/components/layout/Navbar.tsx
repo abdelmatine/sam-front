@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect } from 'react';
@@ -39,6 +40,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Separator } from "@/components/ui/separator";
 import ClinicalDropdown from '@/components/shared/ClinicalDropdown';
 import Logo from '@/components/shared/Logo';
 
@@ -283,11 +285,6 @@ const Navbar = () => {
 
                     <div className="space-y-6 pt-2">
                       <motion.div variants={itemVariants}>
-                        <Link href="/shop" className="block text-2xl font-headline font-bold uppercase tracking-tighter text-foreground hover:text-primary transition-colors">
-                          {t.nav.shop}
-                        </Link>
-                      </motion.div>
-                      <motion.div variants={itemVariants}>
                         <Link href="/about" className="block text-2xl font-headline font-bold uppercase tracking-tighter text-foreground hover:text-primary transition-colors">
                           {t.nav.about}
                         </Link>
@@ -297,22 +294,36 @@ const Navbar = () => {
                           {t.nav.contact}
                         </Link>
                       </motion.div>
-                      <motion.div variants={itemVariants}>
-                        <Link href="/cart" className="block text-2xl font-headline font-bold uppercase tracking-tighter text-foreground hover:text-primary transition-colors flex items-center justify-between">
-                          {t.nav.cart}
-                          {cartQuantity > 0 && <Badge className="rounded-full bg-primary/10 text-primary border-none font-bold">{cartQuantity}</Badge>}
-                        </Link>
-                      </motion.div>
-                      <motion.div variants={itemVariants}>
-                        <Link href="/wishlist" className="block text-2xl font-headline font-bold uppercase tracking-tighter text-foreground hover:text-primary transition-colors flex items-center justify-between">
-                          Wishlist
-                          {wishlistCount > 0 && <Badge className="rounded-full bg-primary/10 text-primary border-none font-bold">{wishlistCount}</Badge>}
-                        </Link>
-                      </motion.div>
                     </div>
                   </Accordion>
 
-                  <motion.div variants={itemVariants} className="mt-16 space-y-8 pt-8 border-t border-primary/5">
+                  {/* Mobile Action Section (Wishlist & Cart) */}
+                  <motion.div variants={itemVariants} className="mt-12 space-y-4">
+                    <Separator className="bg-primary/5" />
+                    <div className="grid grid-cols-2 gap-4 pt-4">
+                      <Link href="/wishlist" className="w-full">
+                        <Button variant="outline" className="w-full rounded-none h-16 flex flex-col items-center justify-center gap-2 border-primary/10 hover:bg-primary/5 group">
+                          <Heart className={cn("h-5 w-5", wishlistCount > 0 && "fill-primary text-primary")} />
+                          <div className="flex items-center gap-2">
+                            <span className="text-[9px] font-bold uppercase tracking-widest">Wishlist</span>
+                            {wishlistCount > 0 && <Badge className="h-4 w-4 p-0 flex items-center justify-center text-[8px] bg-primary text-white rounded-full border-none">{wishlistCount}</Badge>}
+                          </div>
+                        </Button>
+                      </Link>
+                      <Link href="/cart" className="w-full">
+                        <Button variant="default" className="w-full rounded-none h-16 flex flex-col items-center justify-center gap-2 shadow-none">
+                          <ShoppingCart className="h-5 w-5" />
+                          <div className="flex items-center gap-2">
+                            <span className="text-[9px] font-bold uppercase tracking-widest">{t.nav.cart}</span>
+                            {cartQuantity > 0 && <Badge className="h-4 w-4 p-0 flex items-center justify-center text-[8px] bg-white text-primary rounded-full border-none">{cartQuantity}</Badge>}
+                          </div>
+                        </Button>
+                      </Link>
+                    </div>
+                    <Separator className="bg-primary/5" />
+                  </motion.div>
+
+                  <motion.div variants={itemVariants} className="mt-12 space-y-8">
                     <div className="space-y-4">
                       <h4 className="text-[10px] font-bold uppercase tracking-widest text-primary">Support Clinique</h4>
                       <div className="flex items-center gap-4 text-sm font-medium text-muted-foreground">
