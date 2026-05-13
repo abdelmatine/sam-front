@@ -1,5 +1,42 @@
 
 {
+  "categories": [
+    {
+      "id": "respiratory",
+      "name": "Respiratory Care",
+      "slug": "respiratory",
+      "imageUrl": "https://picsum.photos/seed/cat-resp/800/600",
+      "description": "Advanced CPAP, BPAP, and ventilation solutions for clinical home therapy."
+    },
+    {
+      "id": "oxygen",
+      "name": "Oxygen Therapy",
+      "slug": "oxygen",
+      "imageUrl": "https://picsum.photos/seed/cat-oxy/800/600",
+      "description": "Portable and stationary oxygen concentrators for reliable saturation support."
+    },
+    {
+      "id": "accessories",
+      "name": "Interfaces & Masks",
+      "slug": "accessories",
+      "imageUrl": "https://picsum.photos/seed/cat-acc/800/600",
+      "description": "Surgical-grade masks, tubing, and comfort interfaces for optimal therapy."
+    },
+    {
+      "id": "monitoring",
+      "name": "Vital Monitoring",
+      "slug": "monitoring",
+      "imageUrl": "https://picsum.photos/seed/cat-mon/800/600",
+      "description": "High-precision pulse oximeters and diagnostic monitoring tools."
+    },
+    {
+      "id": "others",
+      "name": "Medical Supplies",
+      "slug": "others",
+      "imageUrl": "https://picsum.photos/seed/cat-other/800/600",
+      "description": "Essential consumables, filters, and calibration kits for medical devices."
+    }
+  ],
   "products": [
     {
       "id": "1",

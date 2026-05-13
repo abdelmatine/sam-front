@@ -6,7 +6,7 @@ import { useParams, useRouter } from 'next/navigation';
 import Navbar from '@/components/layout/Navbar';
 import ProductCard from '@/components/shared/ProductCard';
 import { ShopSkeleton } from '@/components/shared/ProductSkeleton';
-import { products } from '@/lib/products';
+import { products, categories } from '@/lib/products';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Search, SlidersHorizontal, ChevronDown, FilterX, ArrowLeft } from 'lucide-react';
@@ -34,14 +34,12 @@ export default function CategoryPage() {
     return () => clearTimeout(timer);
   }, []);
 
-  const categories = [
+  const menuCategories = [
     { label: t.categories.view_all, value: 'all' },
-    { label: t.categories.respiratory, value: 'respiratory' },
-    { label: t.categories.oxygen, value: 'oxygen' },
-    { label: t.categories.accessories, value: 'accessories' },
-    { label: t.categories.monitoring, value: 'monitoring' },
-    { label: t.categories.others, value: 'others' },
+    ...categories.map(c => ({ label: c.name, value: c.slug }))
   ];
+
+  const categoryData = categories.find(c => c.slug === activeCategory);
 
   const filteredProducts = useMemo(() => {
     return products
@@ -64,24 +62,23 @@ export default function CategoryPage() {
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.0, ease: [0.22, 1, 0.36, 1] }}
           className="mb-12 border-l-4 border-primary pl-6 flex flex-col md:flex-row md:items-end justify-between gap-6"
         >
           <div>
             <h1 className="text-3xl font-headline font-bold mb-2 uppercase tracking-tight">
-              {activeCategory === 'all' ? t.shop.title : categories.find(c => c.value === activeCategory)?.label}
+              {activeCategory === 'all' ? t.shop.title : categoryData?.name}
             </h1>
             <p className="text-muted-foreground text-sm max-w-2xl font-medium italic">
-              {t.shop.subtitle}
+              {activeCategory === 'all' ? t.shop.subtitle : categoryData?.description}
             </p>
           </div>
           <Button 
             variant="ghost" 
-            onClick={() => router.push('/')}
+            onClick={() => router.push('/shop')}
             className="rounded-none text-[10px] font-bold uppercase tracking-widest h-auto py-2 group"
           >
             <ArrowLeft className="mr-2 h-3.5 w-3.5 group-hover:-translate-x-1 transition-transform" />
-            Home
+            Categories
           </Button>
         </motion.div>
 
@@ -89,11 +86,10 @@ export default function CategoryPage() {
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.3, duration: 1.2 }}
           className="flex flex-col lg:flex-row gap-6 mb-12 items-start justify-between"
         >
           <div className="flex flex-wrap gap-2 w-full lg:w-auto">
-            {categories.map((cat) => (
+            {menuCategories.map((cat) => (
               <Button
                 key={cat.value}
                 variant={activeCategory === cat.value ? "default" : "outline"}

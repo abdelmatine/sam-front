@@ -76,6 +76,7 @@ const ProductCard = ({ product }: { product: Product }) => {
   const handleNavigate = (e: React.MouseEvent) => {
     e.preventDefault();
     setIsNavigating(true);
+    // Real-world structured path: /shop/[categorySlug]/[productId]
     router.push(`/shop/${product.category}/${product.id}`);
   };
 
