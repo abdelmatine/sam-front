@@ -1,3 +1,4 @@
+
 "use client";
 
 import React from 'react';
@@ -15,14 +16,14 @@ const Footer = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15,
+        staggerChildren: 0.1,
         delayChildren: 0.2,
       }
     }
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
+    hidden: { opacity: 0, y: 20 },
     visible: { 
       opacity: 1, 
       y: 0,
@@ -60,10 +61,10 @@ const Footer = () => {
               {[Facebook, Twitter, Instagram].map((Icon, idx) => (
                 <motion.div
                   key={idx}
-                  whileHover={{ scale: 1.2, color: 'hsl(var(--primary))' }}
+                  whileHover={{ scale: 1.2, color: 'hsl(var(--primary))', y: -2 }}
                   className="text-muted-foreground cursor-pointer transition-colors"
                 >
-                  <Icon className="h-4.5 w-4.5" />
+                  <Icon className="h-5 w-5" />
                 </motion.div>
               ))}
             </div>
@@ -71,18 +72,22 @@ const Footer = () => {
 
           {/* Navigation Column */}
           <motion.div variants={itemVariants}>
-            <h4 className="font-bold text-foreground mb-10 uppercase tracking-[0.25em] text-[10px] border-l-3 border-primary pl-5">
+            <h4 className="font-bold text-foreground mb-10 uppercase tracking-[0.25em] text-[10px] border-l-4 border-primary pl-5">
               {t.categories.title}
             </h4>
             <ul className="space-y-5 text-[10px] text-muted-foreground font-bold uppercase tracking-widest">
               {footerLinks.map((link) => (
                 <motion.li 
                   key={link.label}
-                  whileHover={{ x: 6, color: 'hsl(var(--primary))' }}
-                  className="transition-all flex items-center gap-3"
+                  whileHover={{ x: 8, color: 'hsl(var(--primary))' }}
+                  transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                  className="flex items-center gap-3 cursor-pointer group"
                 >
-                  <div className="h-1 w-1 bg-primary/30 rounded-full" />
-                  <Link href={link.href} className="hover:text-primary transition-colors">
+                  <motion.div 
+                    className="h-1 w-1 bg-primary/30 rounded-full transition-colors group-hover:bg-primary" 
+                    whileHover={{ scale: 2 }}
+                  />
+                  <Link href={link.href} className="transition-colors">
                     {link.label}
                   </Link>
                 </motion.li>
@@ -92,23 +97,35 @@ const Footer = () => {
 
           {/* Contact Column */}
           <motion.div variants={itemVariants}>
-            <h4 className="font-bold text-foreground mb-10 uppercase tracking-[0.25em] text-[10px] border-l-3 border-primary pl-5">
+            <h4 className="font-bold text-foreground mb-10 uppercase tracking-[0.25em] text-[10px] border-l-4 border-primary pl-5">
               Clinical Support
             </h4>
             <ul className="space-y-6 text-[10px] text-muted-foreground font-bold uppercase tracking-widest">
-              <motion.li whileHover={{ x: 6 }} className="flex items-center gap-5 group cursor-default">
+              <motion.li 
+                whileHover={{ x: 8, color: 'hsl(var(--primary))' }}
+                transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                className="flex items-center gap-5 group cursor-pointer"
+              >
                 <div className="p-2.5 bg-accent/50 group-hover:bg-primary/10 border border-primary/5 transition-colors">
                   <MapPin className="h-4 w-4 text-primary" />
                 </div>
                 Paris Headquarters, France
               </motion.li>
-              <motion.li whileHover={{ x: 6 }} className="flex items-center gap-5 group cursor-default">
+              <motion.li 
+                whileHover={{ x: 8, color: 'hsl(var(--primary))' }}
+                transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                className="flex items-center gap-5 group cursor-pointer"
+              >
                 <div className="p-2.5 bg-accent/50 group-hover:bg-primary/10 border border-primary/5 transition-colors">
                   <Phone className="h-4 w-4 text-primary" />
                 </div>
                 +33 (0) 1 23 45 67 89
               </motion.li>
-              <motion.li whileHover={{ x: 6 }} className="flex items-center gap-5 group cursor-default">
+              <motion.li 
+                whileHover={{ x: 8, color: 'hsl(var(--primary))' }}
+                transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                className="flex items-center gap-5 group cursor-pointer"
+              >
                 <div className="p-2.5 bg-accent/50 group-hover:bg-primary/10 border border-primary/5 transition-colors">
                   <Mail className="h-4 w-4 text-primary" />
                 </div>
@@ -144,7 +161,7 @@ const Footer = () => {
         <motion.div 
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          transition={{ delay: 0.8, duration: 1.2 }}
+          transition={{ delay: 0.6, duration: 1.2 }}
           className="pt-12 border-t flex flex-col md:flex-row justify-between items-center gap-8"
         >
           <div className="flex items-center gap-3">
