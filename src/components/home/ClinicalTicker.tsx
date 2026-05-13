@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState } from 'react';
@@ -7,16 +6,15 @@ import { ShieldCheck, Truck, PhoneCall } from 'lucide-react';
 import { useTranslation } from '@/hooks/use-translation';
 
 const ClinicalTicker = () => {
-  const { isRTL } = useTranslation();
+  const { t, isRTL } = useTranslation();
   const [isPaused, setIsPaused] = useState(false);
 
   const stats = [
-    { icon: ShieldCheck, title: "CERTIFICATION ISO", desc: "Standard de gestion de qualité pour dispositifs médicaux." },
-    { icon: Truck, title: "LOGISTIQUE CLINIQUE", desc: "Expédition sécurisée de matériel sensible partout." },
-    { icon: PhoneCall, title: "SUPPORT TECHNIQUE", desc: "Assistance experte 24/7 pour le calibrage." }
+    { icon: ShieldCheck, title: t.ticker.iso.title, desc: t.ticker.iso.desc },
+    { icon: Truck, title: t.ticker.logistics.title, desc: t.ticker.logistics.desc },
+    { icon: PhoneCall, title: t.ticker.support.title, desc: t.ticker.support.desc }
   ];
 
-  // Tripled for infinite seamless scrolling
   const tickerItems = [...stats, ...stats, ...stats];
 
   return (

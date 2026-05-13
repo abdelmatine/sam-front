@@ -33,7 +33,6 @@ const Hero = () => {
 
   return (
     <section className="relative w-full h-screen min-h-[700px] overflow-hidden hero-gradient flex flex-col pt-16">
-      {/* Background Image with Lateral Entrance */}
       <motion.div 
         initial={{ x: "5%", opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
@@ -46,12 +45,10 @@ const Hero = () => {
           fill
           className="object-cover grayscale-[0.2]"
           priority
-          data-ai-hint="medical device"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-background via-background/85 to-transparent" />
       </motion.div>
 
-      {/* Main Content Area */}
       <div className="relative flex-1 flex items-center z-10">
         <div className="container mx-auto px-4">
           <motion.div

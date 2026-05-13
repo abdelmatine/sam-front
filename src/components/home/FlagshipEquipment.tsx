@@ -14,8 +14,10 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { toast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
+import { useTranslation } from '@/hooks/use-translation';
 
 export default function FlagshipEquipment() {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const wishlist = useSelector((state: RootState) => state.wishlist.items);
   const [addingId, setAddingId] = useState<string | null>(null);
@@ -72,9 +74,6 @@ export default function FlagshipEquipment() {
 
   return (
     <section className="py-24 bg-slate-50 dark:bg-slate-900 overflow-hidden border-b relative">
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
-      />
-      
       <div className="container mx-auto px-4 relative z-10">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
           <motion.div 
@@ -93,8 +92,12 @@ export default function FlagshipEquipment() {
               </motion.div>
               <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary">Top Tier Solutions</span>
             </motion.div>
-            <motion.h2 variants={childVariants} className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-2 uppercase tracking-tighter">Flagship Equipment</motion.h2>
-            <motion.p variants={childVariants} className="text-slate-500 text-sm italic font-medium">Our most trusted and highly-rated clinical solutions.</motion.p>
+            <motion.h2 variants={childVariants} className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-2 uppercase tracking-tighter">
+              {t.flagship.title}
+            </motion.h2>
+            <motion.p variants={childVariants} className="text-slate-500 text-sm italic font-medium">
+              {t.flagship.subtitle}
+            </motion.p>
           </motion.div>
           
           <motion.div
@@ -105,7 +108,7 @@ export default function FlagshipEquipment() {
           >
             <Link href="/shop">
               <Button variant="ghost" className="text-primary text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 hover:bg-primary/5 rounded-none px-6 py-6 h-auto transition-all duration-300">
-                View All Categories <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                {t.categories.view_all} <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
           </motion.div>
@@ -154,34 +157,33 @@ export default function FlagshipEquipment() {
                           fill 
                           className="object-cover group-hover:scale-105 transition-all duration-700"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                       </div>
 
                       <div className="flex-1 p-6 md:p-10 flex flex-col justify-between border-t xl:border-t-0 xl:border-l border-slate-100 dark:border-white/5">
                         <div>
                           <div className="flex items-center gap-2 mb-4">
                             <ShieldCheck className="h-3.5 w-3.5 text-primary" />
-                            <span className="text-[9px] text-primary font-bold tracking-[0.3em] uppercase">ISO Certified Clinical Grade</span>
+                            <span className="text-[9px] text-primary font-bold tracking-[0.3em] uppercase">{t.flagship.certified}</span>
                           </div>
                           
                           <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-1 block">{product.brand}</span>
                           <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4 uppercase tracking-tight leading-tight">{product.name}</h3>
                           
                           <p className="text-slate-500 dark:text-slate-400 text-xs mb-8 line-clamp-3 leading-relaxed font-medium italic">
-                            {product.description || "Ultra-quiet operation with advanced humidification and smart data tracking for clinical accuracy at home."}
+                            {product.description}
                           </p>
                         </div>
 
                         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mt-auto pt-6 border-t border-slate-50 dark:border-white/5 gap-6">
                           <div className="flex flex-col">
-                            <span className="text-[9px] text-slate-400 font-bold uppercase tracking-widest mb-1">MSRP Acquisition</span>
+                            <span className="text-[9px] text-slate-400 font-bold uppercase tracking-widest mb-1">{t.flagship.msrp}</span>
                             <span className="text-3xl font-bold text-slate-900 dark:text-white tracking-tighter">${product.price.toLocaleString()}.00</span>
                           </div>
                           
                           <div className="flex gap-3 w-full sm:w-auto">
                             <Link href={`/shop/${product.category}/${product.id}`} className="flex-1 sm:flex-initial">
                               <Button variant="outline" className="w-full sm:w-auto rounded-none h-14 px-6 text-[10px] font-bold uppercase tracking-widest border-2 hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
-                                Specifications
+                                {t.flagship.specs}
                               </Button>
                             </Link>
                             <Button 
