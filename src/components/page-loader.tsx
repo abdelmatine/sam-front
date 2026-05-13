@@ -3,7 +3,7 @@
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Activity } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 
 export default function PageLoader() {
   const pathname = usePathname();
@@ -55,23 +55,26 @@ export default function PageLoader() {
           <div className="relative flex flex-col items-center">
             {/* Clinical Core Container */}
             <motion.div
-              animate={{ 
-                x: [-30, 30, -30],
-                scale: [1, 1.1, 1],
-                opacity: [0.7, 1, 0.7]
-              }}
-              transition={{ 
-                repeat: Infinity, 
-                duration: 2.5, 
-                ease: "easeInOut" 
-              }}
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
               className="relative flex items-center justify-center"
             >
               {/* Inner Pulsing Glow */}
-              <div className="absolute inset-0 bg-primary/20 rounded-full blur-3xl" />
+              <motion.div 
+                animate={{ 
+                  scale: [1, 1.2, 1],
+                  opacity: [0.3, 0.6, 0.3]
+                }}
+                transition={{ 
+                  repeat: Infinity, 
+                  duration: 2, 
+                  ease: "easeInOut" 
+                }}
+                className="absolute inset-0 bg-primary/20 rounded-full blur-3xl" 
+              />
               
-              {/* Main Clinical Icon */}
-              <Activity className="h-16 w-16 text-primary relative z-10" />
+              {/* Main Clinical Spinner */}
+              <Loader2 className="h-14 w-14 text-primary animate-spin relative z-10" />
             </motion.div>
           </div>
           
@@ -84,7 +87,7 @@ export default function PageLoader() {
             >
               SAM MÉDICALE
             </motion.span>
-            <div className="h-[2px] w-32 bg-primary/10 relative overflow-hidden">
+            <div className="h-[2px] w-32 bg-primary/10 relative overflow-hidden mt-1">
               <motion.div 
                 className="absolute inset-0 bg-primary"
                 animate={{ x: ["-100%", "100%"] }}
