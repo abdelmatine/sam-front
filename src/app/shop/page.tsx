@@ -54,9 +54,9 @@ export default function ShopRootPage() {
             <Activity className="h-4 w-4 text-primary" />
             <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary">Classification Technique</span>
           </div>
-          <h1 className="text-4xl font-headline font-bold uppercase tracking-tight">{t.shop.title}</h1>
+          <h1 className="text-4xl font-headline font-bold uppercase tracking-tight">{t.catalogue.title}</h1>
           <p className="text-muted-foreground text-sm max-w-2xl font-medium italic mt-2">
-            Sélectionnez une catégorie spécialisée pour parcourir les solutions cliniques de précision.
+            {t.catalogue.subtitle}
           </p>
         </motion.div>
 

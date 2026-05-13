@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -65,10 +66,10 @@ export default function CategoryPage() {
         >
           <div>
             <h1 className="text-3xl font-headline font-bold mb-2 uppercase tracking-tight">
-              {activeCategory === 'all' ? t.shop.title : categoryData?.name}
+              {activeCategory === 'all' ? t.catalogue.title : categoryData?.name}
             </h1>
             <p className="text-muted-foreground text-sm max-w-2xl font-medium italic">
-              {activeCategory === 'all' ? t.shop.subtitle : categoryData?.description}
+              {activeCategory === 'all' ? t.catalogue.subtitle : categoryData?.description}
             </p>
           </div>
           <Button 
@@ -77,7 +78,7 @@ export default function CategoryPage() {
             className="rounded-none text-[10px] font-bold uppercase tracking-widest h-auto py-2 group"
           >
             <ArrowLeft className="mr-2 h-3.5 w-3.5 group-hover:-translate-x-1 transition-transform" />
-            Categories
+            {t.catalogue.categories_btn}
           </Button>
         </motion.div>
 
@@ -104,7 +105,7 @@ export default function CategoryPage() {
             <div className="relative flex-1 lg:w-72">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
               <Input 
-                placeholder={t.shop.search} 
+                placeholder={t.catalogue.search} 
                 className="pl-10 rounded-none h-10 border-border text-xs focus-visible:ring-primary/20"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -153,7 +154,7 @@ export default function CategoryPage() {
                 >
                   <FilterX className="h-10 w-10 text-primary/40" />
                   <div>
-                    <h3 className="text-lg font-bold mb-1 uppercase tracking-tighter">{t.shop.no_results}</h3>
+                    <h3 className="text-lg font-bold mb-1 uppercase tracking-tighter">{t.catalogue.no_results}</h3>
                     <p className="text-xs text-muted-foreground">Adjust filters or search parameters.</p>
                   </div>
                   <Button 
@@ -161,7 +162,7 @@ export default function CategoryPage() {
                     onClick={() => { router.push('/shop/all'); setSearchQuery(''); }}
                     className="text-primary font-bold uppercase text-[10px] tracking-[0.2em]"
                   >
-                    {t.shop.reset}
+                    {t.catalogue.reset}
                   </Button>
                 </motion.div>
               )}
