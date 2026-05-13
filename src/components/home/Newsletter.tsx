@@ -1,12 +1,30 @@
-
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, ShieldCheck } from 'lucide-react';
+import { Mail, ShieldCheck, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { toast } from '@/hooks/use-toast';
 
 export default function Newsletter() {
+  const [isSubscribing, setIsSubscribing] = useState(false);
+  const [email, setEmail] = useState('');
+
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+
+    setIsSubscribing(true);
+    setTimeout(() => {
+      toast({
+        title: "Registration Confirmed",
+        description: "Your clinical update profile has been activated.",
+      });
+      setIsSubscribing(false);
+      setEmail('');
+    }, 1500);
+  };
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -88,20 +106,28 @@ export default function Newsletter() {
         </div>
         
         {/* Subscription coming from Right */}
-        <motion.div 
+        <motion.form 
+          onSubmit={handleSubscribe}
           variants={rightVariants}
           className="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto relative"
         >
           <div className="absolute -inset-1 bg-primary/5 blur-xl pointer-events-none" />
           <input 
             type="email" 
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             placeholder="Medical Email Address" 
             className="flex-1 bg-white/5 border border-white/10 px-8 py-5 outline-none focus:border-primary focus:bg-white/10 transition-all text-xs font-bold uppercase tracking-widest text-white placeholder:text-slate-500 rounded-none relative z-10"
           />
-          <Button className="bg-primary text-white font-bold px-12 h-auto rounded-none hover:bg-primary/90 transition-all uppercase tracking-widest text-[11px] py-5 active:scale-95 shadow-xl shadow-primary/20 relative z-10">
-            Subscribe
+          <Button 
+            type="submit"
+            disabled={isSubscribing}
+            className="bg-primary text-white font-bold px-12 h-auto rounded-none hover:bg-primary/90 transition-all uppercase tracking-widest text-[11px] py-5 active:scale-95 shadow-xl shadow-primary/20 relative z-10 min-w-[150px]"
+          >
+            {isSubscribing ? <Loader2 className="h-5 w-5 animate-spin" /> : "Subscribe"}
           </Button>
-        </motion.div>
+        </motion.form>
         
         {/* Compliance Footer */}
         <motion.div 

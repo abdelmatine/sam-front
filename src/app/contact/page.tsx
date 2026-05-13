@@ -1,23 +1,30 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import Navbar from '@/components/layout/Navbar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent } from '@/components/ui/card';
-import { Phone, Mail, MapPin, MessageSquare, Clock, ShieldCheck } from 'lucide-react';
+import { Phone, Mail, MapPin, MessageSquare, Clock, ShieldCheck, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 export default function ContactPage() {
   const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Message Sent",
-      description: "Our medical specialists will contact you shortly.",
-    });
+    setIsSubmitting(true);
+    
+    setTimeout(() => {
+      toast({
+        title: "Message Sent",
+        description: "Our medical specialists will contact you shortly.",
+      });
+      setIsSubmitting(false);
+      // Reset form logic would go here
+    }, 1500);
   };
 
   return (
@@ -114,8 +121,12 @@ export default function ContactPage() {
                       <Textarea placeholder="How can we assist you today?" className="min-h-[150px] rounded-none" required />
                     </div>
                     <div className="md:col-span-2 pt-4">
-                      <Button type="submit" className="w-full bg-primary text-white py-8 text-sm font-bold uppercase tracking-[0.2em] rounded-none hover:bg-primary/90">
-                        Send Secure Message
+                      <Button 
+                        type="submit" 
+                        disabled={isSubmitting}
+                        className="w-full bg-primary text-white py-8 text-sm font-bold uppercase tracking-[0.2em] rounded-none hover:bg-primary/90 transition-all flex items-center justify-center"
+                      >
+                        {isSubmitting ? <Loader2 className="h-5 w-5 animate-spin" /> : "Send Secure Message"}
                       </Button>
                     </div>
                   </form>

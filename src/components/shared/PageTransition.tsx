@@ -10,13 +10,8 @@ const PageTransition = ({ children }: { children: React.ReactNode }) => {
   const [isPageLoading, setIsPageLoading] = useState(false);
 
   useEffect(() => {
-    // Basic navigation loader effect
-    const handleStart = () => setIsPageLoading(true);
-    const handleComplete = () => setIsPageLoading(false);
-
-    // Trigger on pathname change
-    handleStart();
-    const timeout = setTimeout(handleComplete, 600);
+    setIsPageLoading(true);
+    const timeout = setTimeout(() => setIsPageLoading(false), 800);
     return () => clearTimeout(timeout);
   }, [pathname]);
 
@@ -29,32 +24,52 @@ const PageTransition = ({ children }: { children: React.ReactNode }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-background/80 backdrop-blur-md z-[200] flex flex-col items-center justify-center gap-4"
+            className="fixed inset-0 bg-background/95 backdrop-blur-xl z-[200] flex flex-col items-center justify-center gap-6"
           >
-            <motion.div 
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              className="relative"
-            >
-              <Activity className="h-10 w-10 text-primary animate-pulse" />
-              <Loader2 className="h-16 w-16 text-primary/20 animate-spin absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
-            </motion.div>
-            <motion.span 
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-[10px] font-bold uppercase tracking-[0.4em] text-primary animate-pulse"
-            >
-              SAM MÉDICALE
-            </motion.span>
+            <div className="relative">
+              {/* Inner Pulsing Core */}
+              <motion.div
+                animate={{ scale: [1, 1.2, 1], opacity: [0.3, 1, 0.3] }}
+                transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+                className="absolute inset-0 bg-primary/20 rounded-full blur-2xl"
+              />
+              {/* Main Clinical Icon */}
+              <motion.div 
+                animate={{ scale: [1, 1.1, 1] }}
+                transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+                className="relative z-10"
+              >
+                <Activity className="h-12 w-12 text-primary" />
+              </motion.div>
+              {/* Surgical Spinner */}
+              <Loader2 className="h-20 w-20 text-primary/10 animate-spin absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+            </div>
+            
+            <div className="flex flex-col items-center gap-2">
+              <motion.span 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-[11px] font-bold uppercase tracking-[0.5em] text-primary"
+              >
+                SAM MÉDICALE
+              </motion.span>
+              <div className="h-[2px] w-24 bg-primary/10 relative overflow-hidden">
+                <motion.div 
+                  className="absolute inset-0 bg-primary"
+                  animate={{ x: ["-100%", "100%"] }}
+                  transition={{ repeat: Infinity, duration: 1.2, ease: "linear" }}
+                />
+              </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
 
       <motion.div
         key={pathname}
-        initial={{ opacity: 0, y: 10 }}
+        initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         className="flex flex-col min-h-screen"
       >
         {children}

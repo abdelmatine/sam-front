@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import Navbar from '@/components/layout/Navbar';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store';
@@ -9,18 +9,32 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Trash2, Minus, Plus, ShoppingBag, ArrowLeft, ArrowRight, ShieldCheck } from 'lucide-react';
+import { Trash2, Minus, Plus, ShoppingBag, ArrowLeft, ArrowRight, ShieldCheck, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from '@/hooks/use-translation';
+import { toast } from '@/hooks/use-toast';
 
 export default function CartPage() {
   const { items, totalAmount } = useSelector((state: RootState) => state.cart);
   const dispatch = useDispatch();
   const { t, isRTL } = useTranslation();
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
 
   const handleQuantityChange = (id: string, currentQty: number, delta: number) => {
     const newQty = Math.max(1, currentQty + delta);
     dispatch(updateQuantity({ id, quantity: newQty }));
+  };
+
+  const handleCheckout = () => {
+    setIsCheckingOut(true);
+    setTimeout(() => {
+      toast({
+        title: "Clinical Portal Access",
+        description: "Redirecting to secure payment processor...",
+      });
+      // In a real app, logic for checkout would go here
+      setIsCheckingOut(false);
+    }, 1500);
   };
 
   return (
@@ -141,9 +155,19 @@ export default function CartPage() {
                     </div>
                   </div>
 
-                  <Button className="w-full bg-primary text-white py-8 rounded-none text-sm font-bold uppercase tracking-[0.2em] hover:bg-primary/90 transition-all">
-                    {t.cart.checkout}
-                    {isRTL ? <ArrowLeft className="ml-2 h-5 w-5" /> : <ArrowRight className="ml-2 h-5 w-5" />}
+                  <Button 
+                    onClick={handleCheckout}
+                    disabled={isCheckingOut}
+                    className="w-full bg-primary text-white py-8 rounded-none text-sm font-bold uppercase tracking-[0.2em] hover:bg-primary/90 transition-all flex items-center justify-center"
+                  >
+                    {isCheckingOut ? (
+                      <Loader2 className="h-5 w-5 animate-spin mr-3" />
+                    ) : (
+                      <>
+                        {t.cart.checkout}
+                        {isRTL ? <ArrowLeft className="ml-2 h-5 w-5" /> : <ArrowRight className="ml-2 h-5 w-5" />}
+                      </>
+                    )}
                   </Button>
 
                   <div className="mt-8 flex items-center justify-center gap-2 text-muted-foreground text-[9px] uppercase font-bold tracking-widest">
