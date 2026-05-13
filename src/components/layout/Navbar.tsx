@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect } from 'react';
@@ -77,7 +78,7 @@ const Navbar = () => {
 
   const categoryItems = categories.map(cat => ({
     label: cat.label,
-    href: `/shop?category=${cat.value}`,
+    href: `/shop/${cat.value}`,
     value: cat.value
   }));
 
@@ -167,7 +168,6 @@ const Navbar = () => {
               </AnimatePresence>
             </Button>
 
-            {/* Elegant Compact Language Switcher */}
             <ClinicalDropdown
               isHoverable={true}
               align="end"
@@ -258,7 +258,7 @@ const Navbar = () => {
                           {categories.map((cat, idx) => (
                             <Link 
                               key={cat.value}
-                              href={`/shop?category=${cat.value}`}
+                              href={`/shop/${cat.value}`}
                               className="text-xs font-bold uppercase tracking-widest text-muted-foreground py-2 block hover:text-primary transition-colors flex items-center gap-3"
                             >
                               <div className="h-1.5 w-1.5 bg-primary/20 rounded-full" />

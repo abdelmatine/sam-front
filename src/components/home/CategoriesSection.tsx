@@ -81,7 +81,7 @@ const CategoriesSection = () => {
             whileHover={{ scale: 1.005 }}
             className="lg:col-span-7 relative group overflow-hidden border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 clinical-shadow rounded-none"
           >
-            <Link href="/shop?category=respiratory" className="block h-full min-h-[450px]">
+            <Link href="/shop/respiratory" className="block h-full min-h-[450px]">
               {respiratoryImage && (
                 <Image 
                   src={respiratoryImage.imageUrl}
@@ -115,7 +115,7 @@ const CategoriesSection = () => {
               whileHover={{ scale: 1.01 }}
               className="relative group overflow-hidden border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 clinical-shadow rounded-none"
             >
-              <Link href="/shop?category=others" className="block h-full min-h-[280px]">
+              <Link href="/shop/others" className="block h-full min-h-[280px]">
                 {accessoriesImage && (
                   <Image 
                     src={accessoriesImage.imageUrl}
@@ -140,7 +140,7 @@ const CategoriesSection = () => {
               whileHover={{ scale: 1.01 }}
               className="relative group overflow-hidden border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 clinical-shadow rounded-none"
             >
-              <Link href="/shop?category=accessories" className="block h-full min-h-[280px]">
+              <Link href="/shop/accessories" className="block h-full min-h-[280px]">
                 {monitoringImage && (
                   <Image 
                     src={monitoringImage.imageUrl}

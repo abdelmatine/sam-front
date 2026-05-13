@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState } from 'react';
@@ -75,7 +76,7 @@ const ProductCard = ({ product }: { product: Product }) => {
   const handleNavigate = (e: React.MouseEvent) => {
     e.preventDefault();
     setIsNavigating(true);
-    router.push(`/product/${product.id}`);
+    router.push(`/shop/${product.category}/${product.id}`);
   };
 
   return (
