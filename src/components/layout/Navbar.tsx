@@ -67,11 +67,14 @@ const Navbar = () => {
   ];
 
   const categories = [
-    { label: t.categories.view_all, value: '' }, // Empty value points to /shop grid
-    { label: t.categories.respiratory, value: 'respiratory' },
+    { label: t.categories.view_all, value: '' },
+    { label: t.categories.cpap, value: 'cpap' },
+    { label: t.categories.bpap, value: 'bpap' },
     { label: t.categories.oxygen, value: 'oxygen' },
+    { label: t.categories.masks, value: 'masks' },
     { label: t.categories.accessories, value: 'accessories' },
     { label: t.categories.monitoring, value: 'monitoring' },
+    { label: t.categories.consumables, value: 'consumables' },
     { label: t.categories.others, value: 'others' },
   ];
 
@@ -263,7 +266,7 @@ const Navbar = () => {
                             <div className="h-1.5 w-1.5 bg-primary rounded-full" />
                             {t.categories.view_all}
                           </Link>
-                          {categories.filter(c => c.value !== '').map((cat, idx) => (
+                          {categories.filter(c => c.value !== '').map((cat) => (
                             <Link 
                               key={cat.value}
                               href={`/shop/${cat.value}`}

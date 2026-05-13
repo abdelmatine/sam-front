@@ -31,10 +31,11 @@ const Footer = () => {
   };
 
   const footerLinks = [
-    { label: 'CPAP & BPAP', href: '/shop/respiratory' },
-    { label: "Concentrateurs d'Oxygène", href: '/shop/oxygen' },
-    { label: 'Interfaces & Masques', href: '/shop/accessories' },
-    { label: 'Monitoring Clinical', href: '/shop/monitoring' }
+    { label: t.categories.cpap, href: '/shop/cpap' },
+    { label: t.categories.bpap, href: '/shop/bpap' },
+    { label: t.categories.oxygen, href: '/shop/oxygen' },
+    { label: t.categories.masks, href: '/shop/masks' },
+    { label: t.categories.monitoring, href: '/shop/monitoring' }
   ];
 
   return (

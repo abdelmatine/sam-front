@@ -1,40 +1,60 @@
-
 {
   "categories": [
     {
-      "id": "respiratory",
-      "name": "Respiratory Care",
-      "slug": "respiratory",
-      "imageUrl": "https://picsum.photos/seed/cat-resp/800/600",
-      "description": "Advanced CPAP, BPAP, and ventilation solutions for clinical home therapy."
+      "id": "cpap",
+      "name": "CPAP",
+      "slug": "cpap",
+      "imageUrl": "https://picsum.photos/seed/cat-cpap/800/600",
+      "description": "Continuous Positive Airway Pressure devices for obstructive sleep apnea."
+    },
+    {
+      "id": "bpap",
+      "name": "BPAP",
+      "slug": "bpap",
+      "imageUrl": "https://picsum.photos/seed/cat-bpap/800/600",
+      "description": "Bilevel Positive Airway Pressure solutions for complex respiratory needs."
     },
     {
       "id": "oxygen",
-      "name": "Oxygen Therapy",
+      "name": "Concentrateurs d'Oxygène",
       "slug": "oxygen",
       "imageUrl": "https://picsum.photos/seed/cat-oxy/800/600",
       "description": "Portable and stationary oxygen concentrators for reliable saturation support."
     },
     {
+      "id": "masks",
+      "name": "Masques",
+      "slug": "masks",
+      "imageUrl": "https://picsum.photos/seed/cat-masks/800/600",
+      "description": "Surgical-grade interfaces and masks for optimal clinical therapy."
+    },
+    {
       "id": "accessories",
-      "name": "Interfaces & Masks",
+      "name": "Accessoires",
       "slug": "accessories",
       "imageUrl": "https://picsum.photos/seed/cat-acc/800/600",
-      "description": "Surgical-grade masks, tubing, and comfort interfaces for optimal therapy."
+      "description": "Essential tubing, filters, and replacement parts for medical devices."
     },
     {
       "id": "monitoring",
-      "name": "Vital Monitoring",
+      "name": "Monitorage Vital",
       "slug": "monitoring",
       "imageUrl": "https://picsum.photos/seed/cat-mon/800/600",
       "description": "High-precision pulse oximeters and diagnostic monitoring tools."
     },
     {
+      "id": "consumables",
+      "name": "Consommables",
+      "slug": "consumables",
+      "imageUrl": "https://picsum.photos/seed/cat-cons/800/600",
+      "description": "Medical-grade consumables and surgical hygiene products."
+    },
+    {
       "id": "others",
-      "name": "Medical Supplies",
+      "name": "Autres",
       "slug": "others",
       "imageUrl": "https://picsum.photos/seed/cat-other/800/600",
-      "description": "Essential consumables, filters, and calibration kits for medical devices."
+      "description": "Specialized clinical tools and peripheral medical equipment."
     }
   ],
   "products": [
@@ -44,7 +64,7 @@
       "price": 899,
       "brand": "SAM Médicale",
       "imageUrl": "https://picsum.photos/seed/med-cpap1/600/600",
-      "category": "respiratory",
+      "category": "cpap",
       "rating": 4.8,
       "inStock": true,
       "isNew": true,
@@ -59,7 +79,7 @@
       "category": "oxygen",
       "rating": 4.9,
       "inStock": true,
-      "description": "Le SimplyGo Mini est le concentrateur d'oxygène portable le plus petit et le plus léger développé par Philips. Conçu pour les patients actifs, il allie fiabilité clinique et portabilité extrême."
+      "description": "Le SimplyGo Mini est le concentrateur d'oxygène portable le plus klein et le plus léger développé par Philips. Conçu pour les patients actifs, il allie fiabilité clinique et portabilité extrême."
     },
     {
       "id": "3",
@@ -67,7 +87,7 @@
       "price": 109,
       "brand": "SAM Médicale",
       "imageUrl": "https://picsum.photos/seed/med-mask1/600/600",
-      "category": "accessories",
+      "category": "masks",
       "rating": 4.5,
       "inStock": true,
       "description": "Le masque nasal SAM SoftFit utilise une silicone de grade chirurgical pour un confort optimal. Sa conception légère offre une liberté de mouvement maximale pendant le sommeil."

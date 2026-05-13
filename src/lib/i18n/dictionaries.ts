@@ -1,7 +1,7 @@
 export const dictionaries = {
   fr: {
     nav: {
-      shop: "Boutique",
+      shop: "Catalogue",
       about: "Notre Mission",
       contact: "Contact",
       cart: "Panier",
@@ -21,11 +21,14 @@ export const dictionaries = {
       title: "Spécialités Médicales",
       subtitle: "Équipements de pointe sélectionnés pour leur fiabilité et leur excellence clinique.",
       view_all: "Voir Tout",
-      respiratory: "Appareils Respiratoires",
-      oxygen: "Oxygénothérapie",
-      accessories: "Interfaces & Masques",
+      cpap: "CPAP",
+      bpap: "BPAP",
+      oxygen: "Concentrateurs d'Oxygène",
+      masks: "Masques",
+      accessories: "Accessoires",
       monitoring: "Monitorage Vital",
-      others: "Consommables"
+      consumables: "Consommables",
+      others: "Autres"
     },
     shop: {
       title: "Catalogue de Précision",
@@ -74,7 +77,7 @@ export const dictionaries = {
   },
   en: {
     nav: {
-      shop: "Shop",
+      shop: "Catalogue",
       about: "Our Mission",
       contact: "Contact",
       cart: "Cart",
@@ -94,11 +97,14 @@ export const dictionaries = {
       title: "Medical Specialties",
       subtitle: "Cutting-edge equipment selected for reliability and clinical excellence.",
       view_all: "View All",
-      respiratory: "Respiratory Devices",
-      oxygen: "Oxygen Therapy",
-      accessories: "Interfaces & Masks",
+      cpap: "CPAP",
+      bpap: "BPAP",
+      oxygen: "Oxygen Concentrators",
+      masks: "Masks",
+      accessories: "Accessories",
       monitoring: "Vital Monitoring",
-      others: "Medical Supplies"
+      consumables: "Consumables",
+      others: "Others"
     },
     shop: {
       title: "Precision Catalogue",
@@ -147,7 +153,7 @@ export const dictionaries = {
   },
   ar: {
     nav: {
-      shop: "المتجر",
+      shop: "الكتالوج",
       about: "مهمتنا",
       contact: "اتصل بنا",
       cart: "السلة",
@@ -167,11 +173,14 @@ export const dictionaries = {
       title: "التخصصات الطبية",
       subtitle: "معدات متطورة تم اختيارها لموثوقيتها وتميزها السريري.",
       view_all: "عرض الكل",
-      respiratory: "أجهزة التنفس",
-      oxygen: "العلاج بالأكسجين",
-      accessories: "الواجهات والأقنعة",
+      cpap: "CPAP",
+      bpap: "BPAP",
+      oxygen: "مكثفات الأكسجين",
+      masks: "أقنعة",
+      accessories: "إكسسوارات",
       monitoring: "المراقبة الحيوية",
-      others: "المستلزمات الطبية"
+      consumables: "المواد الاستهلاكية",
+      others: "أخرى"
     },
     shop: {
       title: "كتالوج الدقة",
