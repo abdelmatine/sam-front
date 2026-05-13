@@ -14,11 +14,11 @@ interface LogoProps {
 
 const Logo = ({ className, textClassName, iconOnly = false }: LogoProps) => {
   return (
-    <div className={cn("flex items-center gap-4", className)}>
-      <Link href="/" className="relative">
+    <div className={cn("inline-block", className)}>
+      <Link href="/" className="flex items-center gap-4 group">
         <motion.div 
           whileHover={{ scale: 1.1 }}
-          transition={{ duration: 0.2 }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
           className="p-2 rounded-full bg-primary/90 
           backdrop-blur-md 
           border border-white/20 shadow-xl
@@ -30,21 +30,20 @@ const Logo = ({ className, textClassName, iconOnly = false }: LogoProps) => {
           <Activity className="h-5 w-5 text-white dark:text-primary relative z-10" />
           <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent" />
         </motion.div>
-      </Link>
-      {!iconOnly && (
-        <Link href="/">
+        
+        {!iconOnly && (
           <motion.span 
             whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
             className={cn(
-              "font-headline font-bold text-lg tracking-tighter text-foreground",
+              "font-headline font-bold text-lg tracking-tighter text-foreground origin-left",
               textClassName
             )}
           >
             SAM <span className="text-primary">Médicale</span>
           </motion.span>
-        </Link>
-      )}
+        )}
+      </Link>
     </div>
   );
 };
