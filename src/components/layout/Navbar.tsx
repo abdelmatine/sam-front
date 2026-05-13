@@ -40,6 +40,12 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import ClinicalDropdown from '@/components/shared/ClinicalDropdown';
 import Logo from '@/components/shared/Logo';
 
@@ -80,13 +86,6 @@ const Navbar = () => {
     label: cat.label,
     href: `/shop?category=${cat.value}`,
     value: cat.value
-  }));
-
-  const languageItems = languages.map(l => ({
-    label: l.label,
-    onClick: () => dispatch(setLanguage(l.code)),
-    isActive: lang === l.code,
-    value: l.code
   }));
 
   const containerVariants = {
@@ -148,7 +147,7 @@ const Navbar = () => {
 
         {/* Right: Actions */}
         <div className="flex justify-end items-center gap-3">
-          <div className="hidden lg:flex items-center gap-1">
+          <div className="hidden lg:flex items-center gap-2">
             <Button 
               variant="ghost" 
               size="icon" 
@@ -168,16 +167,43 @@ const Navbar = () => {
               </AnimatePresence>
             </Button>
 
-            <ClinicalDropdown 
-              isHoverable={true}
-              align="end"
-              trigger={
-                <Button variant="ghost" size="icon" className="h-9 w-9 text-muted-foreground hover:text-primary hover:bg-primary/5 group">
-                  <Globe className="h-4 w-4" />
+            {/* Elegant Language Switcher */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="h-9 w-9 text-muted-foreground hover:text-primary hover:bg-primary/5 transition-all group">
+                  <Globe className="h-4 w-4 transition-transform duration-500 group-hover:rotate-12" />
                 </Button>
-              }
-              items={languageItems}
-            />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent 
+                align="end" 
+                sideOffset={12}
+                className="w-32 p-1 rounded-none border-primary/10 bg-background/80 backdrop-blur-2xl shadow-2xl animate-in fade-in zoom-in-95 duration-200"
+              >
+                <div className="flex flex-col gap-0.5">
+                  {languages.map((l) => (
+                    <DropdownMenuItem
+                      key={l.code}
+                      onClick={() => dispatch(setLanguage(l.code))}
+                      className={cn(
+                        "relative flex items-center justify-between px-4 py-3 text-[10px] font-bold uppercase tracking-[0.2em] cursor-pointer rounded-none transition-all outline-none",
+                        lang === l.code 
+                          ? "text-primary bg-primary/5" 
+                          : "text-muted-foreground hover:bg-primary/5 hover:text-primary"
+                      )}
+                    >
+                      {l.label}
+                      {lang === l.code && (
+                        <motion.div 
+                          layoutId="lang-active-line"
+                          className="absolute left-0 w-[2px] h-3 bg-primary"
+                        />
+                      )}
+                      {lang === l.code && <Activity className="h-3.5 w-3.5 text-primary animate-pulse" />}
+                    </DropdownMenuItem>
+                  ))}
+                </div>
+              </DropdownMenuContent>
+            </DropdownMenu>
 
             <Link href="/wishlist">
               <Button variant="ghost" size="icon" className="relative h-9 w-9 text-muted-foreground hover:text-primary hover:bg-primary/5">
@@ -228,7 +254,7 @@ const Navbar = () => {
               </SheetTrigger>
               <SheetContent 
                 side={isRTL ? "left" : "right"} 
-                className="w-full sm:max-w-md p-0 flex flex-col h-full bg-background/95 backdrop-blur-xl border-primary/10 group [&>button]:hidden"
+                className="w-full sm:max-w-md p-0 flex flex-col h-full bg-background/95 backdrop-blur-xl border-primary/10 group z-[160] [&>button]:hidden"
               >
                 <SheetHeader className="p-8 pb-4 border-b border-primary/5 flex flex-row items-center justify-between">
                   <Logo />
@@ -318,13 +344,14 @@ const Navbar = () => {
                         {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
                       </Button>
                       
+                      {/* Mobile Language Selector */}
                       <div className="flex items-center border border-primary/10 bg-background">
                         {languages.map((l, i) => (
                           <React.Fragment key={l.code}>
                             <button
                               onClick={() => dispatch(setLanguage(l.code))}
                               className={cn(
-                                "h-10 px-3 text-[10px] font-bold transition-all",
+                                "h-10 px-4 text-[10px] font-bold transition-all",
                                 lang === l.code ? "bg-primary text-white" : "text-muted-foreground hover:bg-primary/5"
                               )}
                             >
