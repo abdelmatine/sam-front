@@ -76,7 +76,6 @@ const ProductCard = ({ product }: { product: Product }) => {
   const handleNavigate = (e: React.MouseEvent) => {
     e.preventDefault();
     setIsNavigating(true);
-    // Real-world structured path: /shop/[categorySlug]/[productId]
     router.push(`/shop/${product.category}/${product.id}`);
   };
 
@@ -106,8 +105,8 @@ const ProductCard = ({ product }: { product: Product }) => {
           <div className="absolute inset-0 bg-primary/5 group-hover:bg-transparent transition-colors" />
           
           {isNavigating && (
-            <div className="absolute inset-0 bg-background/40 backdrop-blur-sm flex items-center justify-center">
-              <Activity className="h-8 w-8 text-primary animate-pulse" />
+            <div className="absolute inset-0 bg-background/60 backdrop-blur-sm flex items-center justify-center z-20">
+              <Loader2 className="h-10 w-10 text-primary animate-spin" />
             </div>
           )}
 
