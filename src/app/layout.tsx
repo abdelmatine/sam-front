@@ -4,7 +4,8 @@ import { Providers } from './providers';
 import { Toaster } from "@/components/ui/toaster";
 import { LanguageHandler } from '@/components/layout/LanguageHandler';
 import Footer from '@/components/layout/Footer';
-import PageTransition from '@/components/shared/PageTransition';
+import PageLoader from '@/components/page-loader';
+import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'SAM Médicale | Solutions Respiratoires Avancées',
@@ -26,12 +27,13 @@ export default function RootLayout({
       <body className="antialiased min-h-screen flex flex-col">
         <Providers>
           <LanguageHandler />
-          <PageTransition>
-            <div className="flex-1">
-              {children}
-            </div>
-            <Footer />
-          </PageTransition>
+          <Suspense fallback={null}>
+            <PageLoader />
+          </Suspense>
+          <div className="flex-1">
+            {children}
+          </div>
+          <Footer />
           <Toaster />
         </Providers>
       </body>
