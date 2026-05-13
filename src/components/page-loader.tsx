@@ -3,7 +3,7 @@
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Activity, Loader2 } from 'lucide-react';
+import { Activity } from 'lucide-react';
 
 export default function PageLoader() {
   const pathname = usePathname();
@@ -52,26 +52,31 @@ export default function PageLoader() {
           transition={{ duration: 0.4, ease: "easeInOut" }}
           className="fixed inset-0 bg-background/95 backdrop-blur-xl z-[200] flex flex-col items-center justify-center gap-6 pointer-events-none"
         >
-          <div className="relative">
-            {/* Inner Pulsing Core */}
+          <div className="relative flex flex-col items-center">
+            {/* Clinical Core Container */}
             <motion.div
-              animate={{ scale: [1, 1.2, 1], opacity: [0.3, 1, 0.3] }}
-              transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-              className="absolute inset-0 bg-primary/20 rounded-full blur-2xl"
-            />
-            {/* Main Clinical Icon */}
-            <motion.div 
-              animate={{ scale: [1, 1.1, 1] }}
-              transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-              className="relative z-10"
+              animate={{ 
+                x: [-30, 30, -30],
+                scale: [1, 1.1, 1],
+                opacity: [0.7, 1, 0.7]
+              }}
+              transition={{ 
+                repeat: Infinity, 
+                duration: 2.5, 
+                ease: "easeInOut" 
+              }}
+              className="relative flex items-center justify-center"
             >
-              <Activity className="h-12 w-12 text-primary" />
+              {/* Inner Pulsing Glow */}
+              <div className="absolute inset-0 bg-primary/20 rounded-full blur-3xl" />
+              
+              {/* Main Clinical Icon */}
+              <Activity className="h-16 w-16 text-primary relative z-10" />
             </motion.div>
-            {/* Surgical Spinner */}
-            <Loader2 className="h-20 w-20 text-primary/10 animate-spin absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
           </div>
           
-          <div className="flex flex-col items-center gap-2">
+          {/* Branding */}
+          <div className="flex flex-col items-center gap-2 mt-4">
             <motion.span 
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -79,11 +84,11 @@ export default function PageLoader() {
             >
               SAM MÉDICALE
             </motion.span>
-            <div className="h-[2px] w-24 bg-primary/10 relative overflow-hidden">
+            <div className="h-[2px] w-32 bg-primary/10 relative overflow-hidden">
               <motion.div 
                 className="absolute inset-0 bg-primary"
                 animate={{ x: ["-100%", "100%"] }}
-                transition={{ repeat: Infinity, duration: 1.2, ease: "linear" }}
+                transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
               />
             </div>
           </div>
