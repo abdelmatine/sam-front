@@ -16,7 +16,7 @@ interface CategoryCardProps {
   slug: string;
   title: string;
   description: string;
-  imageUrl?: string;
+  imageUrl: string;
   badgeText: string;
   className?: string;
   isLarge?: boolean;
@@ -27,7 +27,11 @@ const CategoryCard = ({ slug, title, description, imageUrl, badgeText, className
   const [isNavigating, setIsNavigating] = useState(false);
 
   return (
-    <Link href={`/shop/${slug}`} onClick={() => setIsNavigating(true)} className={cn("block h-full", className)}>
+    <Link 
+      href={`/shop/${slug}`} 
+      onClick={() => setIsNavigating(true)} 
+      className={cn("block h-full min-h-[350px] lg:min-h-0", className)}
+    >
       <Card className="h-full rounded-none overflow-hidden group border border-slate-200 dark:border-white/10 clinical-shadow bg-card relative">
         {/* Top Accent Line */}
         <div className="absolute top-0 left-0 h-1 w-0 bg-primary group-hover:w-full transition-all duration-700 z-30" />
@@ -47,23 +51,27 @@ const CategoryCard = ({ slug, title, description, imageUrl, badgeText, className
           )}
         </AnimatePresence>
 
-        {imageUrl && (
-          <Image 
-            src={imageUrl}
-            alt={title}
-            fill
-            className={cn(
-              "object-cover transition-all duration-1000 group-hover:scale-105 group-hover:grayscale-0",
-              isLarge ? "grayscale-[0.4]" : "grayscale-[0.6]"
-            )}
-          />
-        )}
+        {/* Background Visual */}
+        <Image 
+          src={imageUrl}
+          alt={title}
+          fill
+          className={cn(
+            "object-cover transition-all duration-1000 group-hover:scale-105 group-hover:grayscale-0",
+            isLarge ? "grayscale-[0.4]" : "grayscale-[0.6]"
+          )}
+        />
         
+        {/* Atmospheric Gradient */}
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent opacity-90" />
         
-        <CardContent className={cn("absolute left-10 right-10 p-0", isLarge ? "bottom-12" : "bottom-10")}>
+        {/* Technical Data Content */}
+        <CardContent className={cn(
+          "absolute left-8 right-8 p-0 z-20", 
+          isLarge ? "bottom-12 md:left-12 md:right-12" : "bottom-8"
+        )}>
           <div className="flex items-center justify-between mb-6">
-            {/* Animated Middle Line */}
+            {/* Animated Middle Line (The Sam-Medicale Signature) */}
             <div className="h-[2px] w-12 bg-primary group-hover:w-24 group-hover:bg-primary transition-all duration-700" />
             <Badge className="bg-primary text-white rounded-none text-[10px] uppercase font-bold tracking-[0.2em] px-4 py-2 border-none shadow-xl shadow-primary/20">
               {badgeText}
@@ -79,14 +87,17 @@ const CategoryCard = ({ slug, title, description, imageUrl, badgeText, className
           
           <p className={cn(
             "text-white/80 font-medium italic leading-relaxed",
-            isLarge ? "text-sm md:text-base mb-10 max-w-lg" : "text-xs mb-6"
+            isLarge ? "text-sm md:text-base mb-10 max-w-lg" : "text-xs mb-6 line-clamp-2"
           )}>
             {description}
           </p>
           
-          <div className="flex items-center gap-4 text-primary group-hover:gap-8 transition-all duration-500">
+          <div className="flex items-center gap-4 text-primary">
             <div className="h-[1px] w-8 bg-primary/40 group-hover:w-16 group-hover:bg-primary transition-all duration-500" />
-            <ArrowRight className={cn("transition-transform duration-500", isLarge ? "h-6 w-6" : "h-5 w-5 group-hover:translate-x-3")} />
+            <ArrowRight className={cn(
+              "transition-transform duration-500", 
+              isLarge ? "h-6 w-6 group-hover:translate-x-4" : "h-5 w-5 group-hover:translate-x-3"
+            )} />
           </div>
         </CardContent>
       </Card>
@@ -119,6 +130,7 @@ const CategoriesSection = () => {
 
   return (
     <section className="py-32 bg-slate-50/50 dark:bg-slate-950 text-foreground overflow-hidden relative border-y">
+      {/* Background Clinical Grid */}
       <div className="absolute top-0 right-0 w-1/3 h-full bg-primary/5 -skew-x-12 translate-x-1/4 z-0" />
       
       <div className="container mx-auto px-4 relative z-10">
@@ -156,6 +168,7 @@ const CategoriesSection = () => {
           </motion.div>
         </div>
 
+        {/* Clinical Module Grid */}
         <motion.div 
           variants={containerVariants}
           initial="hidden"
@@ -163,8 +176,8 @@ const CategoriesSection = () => {
           viewport={{ once: true, margin: "-100px" }}
           className="grid lg:grid-cols-12 gap-8 h-auto lg:h-[750px]"
         >
-          {/* Main Category: Respiratory Care */}
-          <motion.div variants={itemVariants} className="lg:col-span-7 h-full">
+          {/* Main Module: Respiratory Care */}
+          <motion.div variants={itemVariants} className="lg:col-span-7">
             <CategoryCard 
               slug="cpap"
               title="Soin Respiratoire"
@@ -175,23 +188,23 @@ const CategoriesSection = () => {
             />
           </motion.div>
 
-          {/* Side Categories */}
-          <div className="lg:col-span-5 grid grid-rows-2 gap-8">
-            <motion.div variants={itemVariants} className="h-full">
+          {/* Auxiliary Modules Grid */}
+          <div className="lg:col-span-5 grid grid-rows-1 lg:grid-rows-2 gap-8">
+            <motion.div variants={itemVariants}>
               <CategoryCard 
                 slug="others"
                 title="Autres"
-                description="Équipements et Accessoires Divers"
+                description="Équipements et Accessoires Divers pour le soutien quotidien."
                 imageUrl="https://picsum.photos/seed/cat4/400/300"
                 badgeText="Technologie Annexe"
               />
             </motion.div>
 
-            <motion.div variants={itemVariants} className="h-full">
+            <motion.div variants={itemVariants}>
               <CategoryCard 
                 slug="accessories"
                 title="Accessoires"
-                description="Kits de Calibration et Filtres"
+                description="Kits de Calibration, Filtres et tubulures de grade chirurgical."
                 imageUrl="https://picsum.photos/seed/cat2/400/300"
                 badgeText="Support Médical"
               />
