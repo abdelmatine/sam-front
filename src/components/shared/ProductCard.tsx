@@ -43,6 +43,7 @@ const ProductCard = ({ product, layout = 'grid' }: ProductCardProps) => {
   const { toast } = useToast();
   const [isAdding, setIsAdding] = useState(false);
   const [isNavigating, setIsNavigating] = useState(false);
+  const [isImageLoading, setIsImageLoading] = useState(true);
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -87,8 +88,8 @@ const ProductCard = ({ product, layout = 'grid' }: ProductCardProps) => {
   return (
     <motion.div
       layout
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, scale: 0.98, y: 20 }}
+      whileInView={{ opacity: 1, scale: 1, y: 0 }}
       viewport={{ once: true }}
       whileHover={!isNavigating ? { y: -8, scale: isList ? 1.01 : 1.02 } : {}}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
@@ -116,15 +117,43 @@ const ProductCard = ({ product, layout = 'grid' }: ProductCardProps) => {
 
           {/* Product Image Section */}
           <div className={cn(
-            "relative overflow-hidden border-border/40 bg-muted/30 shrink-0",
+            "relative overflow-hidden border-border/40 bg-muted/30 shrink-0 flex items-center justify-center",
             isList ? "w-full md:w-64 h-64 md:h-auto border-b md:border-b-0 md:border-r" : "h-64 border-b"
           )}>
-            <Image 
-              src={product.imageUrl}
-              alt={product.name}
-              fill
-              className="object-cover transition-transform duration-1000 group-hover:scale-110 grayscale-[0.3] group-hover:grayscale-0"
-            />
+            <AnimatePresence mode="wait">
+              {isImageLoading && (
+                <motion.div 
+                  key="loader"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="absolute inset-0 z-10 flex items-center justify-center bg-accent/5"
+                >
+                  <div className="relative">
+                    <Loader2 className="h-8 w-8 text-primary/20 animate-spin" />
+                    <Activity className="h-4 w-4 text-primary absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            <motion.div
+              animate={{ opacity: isImageLoading ? 0 : 1, scale: isImageLoading ? 0.95 : 1 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="w-full h-full"
+            >
+              <Image 
+                src={product.imageUrl}
+                alt={product.name}
+                fill
+                className={cn(
+                  "object-cover transition-transform duration-1000 group-hover:scale-110 grayscale-[0.3] group-hover:grayscale-0",
+                  isImageLoading ? "opacity-0" : "opacity-100"
+                )}
+                onLoad={() => setIsImageLoading(false)}
+              />
+            </motion.div>
+            
             <div className="absolute inset-0 bg-gradient-to-t from-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
             
             <div className="absolute top-4 left-4 flex flex-col gap-2 z-20">
