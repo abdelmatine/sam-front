@@ -3,7 +3,7 @@
 
 import React, { use, useState, useEffect } from 'react';
 import Navbar from '@/components/layout/Navbar';
-import { products } from '@/lib/products';
+import { products, getBrandById } from '@/lib/products';
 import { useTranslation } from '@/hooks/use-translation';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store';
@@ -46,6 +46,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
   
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const product = products.find(p => p.id === productId);
+  const brand = product ? getBrandById(product.brandId) : null;
   const isWishlisted = wishlist.some(item => item.id === productId);
   
   const [selectedImage, setSelectedImage] = useState<string>(product?.imageUrl || '');
@@ -78,7 +79,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
       price: product.price,
       quantity: 1,
       imageUrl: product.imageUrl,
-      brand: product.brand
+      brand: brand?.name || product.brandId
     }));
     toast({
       title: t.product.selection_updated,
@@ -93,7 +94,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
       name: product.name,
       price: product.price,
       imageUrl: product.imageUrl,
-      brand: product.brand
+      brand: brand?.name || product.brandId
     }));
   };
 
@@ -193,7 +194,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
   const techSpecs = [
     { label: t.product.tech_ref, value: `SAM-PRD-${product.id}v2.5` },
     { label: t.product.classification, value: product.category.toUpperCase() },
-    { label: t.product.origin, value: product.brand },
+    { label: t.product.origin, value: brand?.name || product.brandId },
     { label: t.product.logistics, value: product.inStock ? t.product.ready : t.product.out_of_stock },
     { label: t.product.clinical_protocol, value: "Verified v4.0" },
     { label: t.product.compliance, value: "ISO 13485:2016" }
@@ -319,7 +320,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
                 <div className="p-1.5 bg-primary/10 rounded-sm">
                   <Database className="h-3.5 w-3.5 text-primary" />
                 </div>
-                <span className="text-[10px] text-primary font-bold uppercase tracking-[0.4em]">{t.catalogue.tech_id}: {product.brand.toUpperCase()}-v2</span>
+                <span className="text-[10px] text-primary font-bold uppercase tracking-[0.4em]">{t.catalogue.tech_id}: {product.brandId.toUpperCase()}-v2</span>
               </motion.div>
               
               <motion.h1 variants={rightToLeftVariants} className="text-4xl md:text-5xl font-bold uppercase tracking-tighter leading-[0.9] mb-6">{product.name}</motion.h1>
@@ -612,4 +613,3 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
     </main>
   );
 }
-
