@@ -23,7 +23,7 @@ import {
   ChevronDown,
   Info
 } from 'lucide-react';
-import Link from 'next/link';
+import Link from 'link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -262,7 +262,12 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
               </motion.div>
 
               <motion.div variants={rightToLeftVariants} className="flex flex-col sm:flex-row gap-4 relative z-10">
-                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="flex-1">
+                <motion.div 
+                  whileHover={{ scale: 1.02 }} 
+                  whileTap={{ scale: 0.98 }} 
+                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  className="flex-1"
+                >
                   <Button 
                     onClick={handleAddToCart}
                     disabled={!product.inStock}
@@ -272,7 +277,11 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
                     {product.inStock ? t.product.add_to_cart : t.product.out_of_stock}
                   </Button>
                 </motion.div>
-                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <motion.div 
+                  whileHover={{ scale: 1.05 }} 
+                  whileTap={{ scale: 0.95 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                >
                   <Button 
                     variant="outline" 
                     onClick={handleWishlist}
@@ -355,7 +364,9 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
                 className="flex gap-8 items-start bg-accent/5 p-10 border border-primary/10"
               >
                 <div className="p-4 bg-primary/10 rounded-none border border-primary/20">
-                  <Info className="h-8 w-8 text-primary" />
+                  <div className="p-4 bg-primary/10 rounded-none border border-primary/20">
+                    <Info className="h-8 w-8 text-primary" />
+                  </div>
                 </div>
                 <p className="text-sm leading-relaxed text-muted-foreground font-medium italic">
                   {t.footer.quality_desc}
