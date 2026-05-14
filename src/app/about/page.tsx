@@ -4,7 +4,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import Navbar from '@/components/layout/Navbar';
 import Image from 'next/image';
-import { Award, Users, Heart, ShieldCheck, Database, Activity } from 'lucide-react';
+import { Award, Users, Heart, ShieldCheck, Database, Activity, BadgeCheck } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { motion, animate, useInView } from 'framer-motion';
 import { useTranslation } from '@/hooks/use-translation';
@@ -210,20 +210,50 @@ export default function AboutPage() {
           </div>
         </motion.section>
 
-        {/* Compliance Footer */}
-        <motion.div 
+        {/* Global Standards Registry */}
+        <motion.section 
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.4 }}
           variants={sectionVariants}
-          className="py-20 flex flex-wrap items-center justify-center gap-12 grayscale opacity-30 border-t border-primary/5"
+          className="py-32 border-t border-primary/5 bg-background relative overflow-hidden"
         >
-          <motion.div variants={itemVariants} className="text-[10px] font-bold uppercase tracking-[0.6em]">{t.catalogue.standards.iso}</motion.div>
-          <motion.div variants={itemVariants} className="h-4 w-[1px] bg-primary/20" />
-          <motion.div variants={itemVariants} className="text-[10px] font-bold uppercase tracking-[0.6em]">{t.catalogue.standards.ce}</motion.div>
-          <motion.div variants={itemVariants} className="h-4 w-[1px] bg-primary/20" />
-          <motion.div variants={itemVariants} className="text-[10px] font-bold uppercase tracking-[0.6em]">{t.catalogue.standards.fda}</motion.div>
-        </motion.div>
+          <div className="container mx-auto px-4">
+            <div className="flex flex-col items-center text-center">
+              <motion.div variants={itemVariants} className="flex items-center gap-3 mb-16 opacity-40">
+                <div className="h-[1px] w-12 bg-primary" />
+                <span className="text-[9px] font-bold uppercase tracking-[0.5em] text-primary">{isRTL ? "معايير الجودة العالمية" : "Global Quality Registry"}</span>
+                <div className="h-[1px] w-12 bg-primary" />
+              </motion.div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-32">
+                {[
+                  { icon: ShieldCheck, label: t.catalogue.standards.iso, detail: isRTL ? "إدارة الجودة" : "Quality Management" },
+                  { icon: Award, label: t.catalogue.standards.ce, detail: isRTL ? "الصحة والسلامة" : "Clinical Health & Safety" },
+                  { icon: BadgeCheck, label: t.catalogue.standards.fda, detail: isRTL ? "الامتثال التنظيمي" : "Regulatory Compliance" }
+                ].map((std, i) => (
+                  <motion.div 
+                    key={i} 
+                    variants={itemVariants}
+                    whileHover={{ y: -5 }}
+                    className="flex flex-col items-center gap-6 group"
+                  >
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-primary/20 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                      <div className="relative p-6 bg-primary/5 border border-primary/10 rounded-full text-primary/40 group-hover:text-primary group-hover:border-primary/30 transition-all duration-500">
+                        <std.icon className="h-8 w-8" />
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <h4 className="text-xs font-bold uppercase tracking-[0.3em] text-foreground group-hover:text-primary transition-colors">{std.label}</h4>
+                      <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60">{std.detail}</p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </motion.section>
       </div>
     </main>
   );
