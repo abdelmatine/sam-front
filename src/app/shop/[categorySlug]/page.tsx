@@ -56,28 +56,31 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
+        staggerChildren: 0.15, // Slower stagger for a more resolving, premium feel
         delayChildren: 0.2
       }
     }
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, x: -20 },
+    hidden: { opacity: 0, x: -30 },
     visible: { 
       opacity: 1, 
       x: 0,
-      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
+      transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1] } // Significantly smoother header entrance
     }
   };
 
   const cardVariants = {
-    hidden: { opacity: 0, y: 30, scale: 0.95 },
+    hidden: { opacity: 0, y: 40, scale: 0.98 },
     visible: { 
       opacity: 1, 
       y: 0, 
       scale: 1,
-      transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
+      transition: { 
+        duration: 1.0, // Slower card resolution for surgical precision feel
+        ease: [0.22, 1, 0.36, 1] 
+      }
     }
   };
 
