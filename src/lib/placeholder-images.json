@@ -47,6 +47,12 @@
       "description": "Other medical supplies",
       "imageUrl": "https://picsum.photos/seed/cat4/400/300",
       "imageHint": "medical supplies"
+    },
+    {
+      "id": "about-clinical",
+      "description": "Clinical Research Facility",
+      "imageUrl": "https://picsum.photos/seed/about-clinical/800/1000",
+      "imageHint": "medical laboratory"
     }
   ]
 }

@@ -4,12 +4,17 @@
 import React, { useRef, useState, useEffect } from 'react';
 import Navbar from '@/components/layout/Navbar';
 import Image from 'next/image';
-import { Award, Users, Heart, ShieldCheck, Database, Activity, BadgeCheck } from 'lucide-react';
+import { Award, Users, Heart, ShieldCheck, Activity, BadgeCheck } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
-import { motion, animate, useInView } from 'framer-motion';
+import { motion, animate, useInView, Variants } from 'framer-motion';
 import { useTranslation } from '@/hooks/use-translation';
 import { cn } from '@/lib/utils';
+import { PlaceHolderImages } from '@/lib/placeholder-images';
 
+/**
+ * StatCounter Component
+ * Handles the high-fidelity numerical count-up sequence for clinical statistics.
+ */
 const StatCounter = ({ value }: { value: string }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -34,32 +39,34 @@ const StatCounter = ({ value }: { value: string }) => {
   return <span ref={ref}>{displayValue}</span>;
 };
 
+// Animation Variants
+const sectionVariants: Variants = {
+  hidden: { opacity: 0, y: 40 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 1,
+      ease: [0.22, 1, 0.36, 1],
+      staggerChildren: 0.15,
+      delayChildren: 0.1
+    }
+  }
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 30, scale: 0.98 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    scale: 1,
+    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
+  }
+};
+
 export default function AboutPage() {
   const { t, isRTL } = useTranslation();
-
-  const sectionVariants = {
-    hidden: { opacity: 0, y: 40 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 1,
-        ease: [0.22, 1, 0.36, 1],
-        staggerChildren: 0.15,
-        delayChildren: 0.1
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30, scale: 0.98 },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
-      scale: 1,
-      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
-    }
-  };
+  const aboutImage = PlaceHolderImages.find(img => img.id === 'about-clinical');
 
   const valueIcons = [Award, Users, Heart, ShieldCheck];
 
@@ -87,7 +94,7 @@ export default function AboutPage() {
           <div className="container mx-auto px-4 text-center">
             <motion.h1 variants={itemVariants} className="text-4xl md:text-7xl font-headline font-bold mb-8 uppercase tracking-tighter leading-[0.9]">
               {t.about.hero.title}
-              <span className="text-primary">{isRTL ? "نفس" : "Breath"}</span>
+              <span className="text-primary">{t.about.hero.highlight}</span>
             </motion.h1>
             
             <motion.p variants={itemVariants} className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto leading-relaxed font-medium italic">
@@ -108,11 +115,11 @@ export default function AboutPage() {
             <div className="grid lg:grid-cols-2 gap-20 items-center">
               <motion.div variants={itemVariants} className="relative h-[500px] md:h-[700px] rounded-none overflow-hidden clinical-shadow border border-primary/10 group">
                 <Image 
-                  src="https://picsum.photos/seed/about-clinical/800/1000" 
-                  alt="Clinical Research Facility" 
+                  src={aboutImage?.imageUrl || "https://picsum.photos/seed/about-clinical/800/1000"} 
+                  alt={aboutImage?.description || "Clinical Research Facility"} 
                   fill 
                   className="object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 scale-105 group-hover:scale-100"
-                  data-ai-hint="medical laboratory"
+                  data-ai-hint={aboutImage?.imageHint || "medical laboratory"}
                 />
                 <div className="absolute inset-0 bg-primary/10 opacity-40 group-hover:opacity-0 transition-opacity duration-1000" />
               </motion.div>
@@ -126,7 +133,7 @@ export default function AboutPage() {
                 >
                   <h2 className="text-4xl md:text-5xl font-headline font-bold uppercase tracking-tighter leading-none">
                     {t.about.story.title}
-                    <span className="text-primary">{isRTL ? "الصحة" : "Health"}</span>
+                    <span className="text-primary">{t.about.story.highlight}</span>
                   </h2>
                   
                   <p className="text-muted-foreground text-sm md:text-base leading-relaxed font-medium italic">
@@ -145,7 +152,7 @@ export default function AboutPage() {
                   className="grid sm:grid-cols-2 gap-6"
                 >
                   {Object.entries(t.about.values).map(([key, value], i) => {
-                    const Icon = valueIcons[i];
+                    const Icon = valueIcons[i] || ShieldCheck;
                     return (
                       <motion.div 
                         key={key} 
@@ -193,7 +200,7 @@ export default function AboutPage() {
               }}
               className="grid grid-cols-2 lg:grid-cols-4 gap-16 text-center"
             >
-              {Object.entries(t.about.stats).map(([key, stat], i) => (
+              {Object.entries(t.about.stats).map(([key, stat]) => (
                 <motion.div key={key} variants={itemVariants} className="space-y-4">
                   <div className="text-5xl md:text-6xl font-bold tracking-tighter mb-2">
                     <StatCounter value={stat.val} />
@@ -217,15 +224,17 @@ export default function AboutPage() {
             <div className="flex flex-col items-center text-center">
               <motion.div variants={itemVariants} className="flex items-center gap-3 mb-16 opacity-40">
                 <div className="h-[1px] w-12 bg-primary" />
-                <span className="text-[9px] font-bold uppercase tracking-[0.5em] text-primary">{isRTL ? "معايير الجودة العالمية" : "Global Quality Registry"}</span>
+                <span className="text-[9px] font-bold uppercase tracking-[0.5em] text-primary">
+                  {t.about.registry.badge}
+                </span>
                 <div className="h-[1px] w-12 bg-primary" />
               </motion.div>
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-32">
                 {[
-                  { icon: ShieldCheck, label: t.catalogue.standards.iso, detail: isRTL ? "إدارة الجودة" : "Quality Management" },
-                  { icon: Award, label: t.catalogue.standards.ce, detail: isRTL ? "الصحة والسلامة" : "Clinical Health & Safety" },
-                  { icon: BadgeCheck, label: t.catalogue.standards.fda, detail: isRTL ? "الامتثال التنظيمي" : "Regulatory Compliance" }
+                  { icon: ShieldCheck, label: t.catalogue.standards.iso, detail: t.about.registry.iso_detail },
+                  { icon: Award, label: t.catalogue.standards.ce, detail: t.about.registry.ce_detail },
+                  { icon: BadgeCheck, label: t.catalogue.standards.fda, detail: t.about.registry.fda_detail }
                 ].map((std, i) => (
                   <motion.div 
                     key={i} 
@@ -253,4 +262,3 @@ export default function AboutPage() {
     </main>
   );
 }
-

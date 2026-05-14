@@ -18,14 +18,15 @@ export const fr = {
   },
   about: {
     hero: {
-      badge: "Déclaration de Mission v1.0",
       title: "Notre Mission est le ",
+      highlight: "Souffle",
       subtitle: "Chez SAM Médicale, nous comblons l'écart entre l'excellence clinique et les soins à domicile. Nous nous dédions à fournir une technologie respiratoire de pointe à ceux qui en ont le plus besoin."
     },
     story: {
       title: "Leader de la ",
+      highlight: "Santé",
       p1: "Fondée par une équipe de spécialistes en pneumologie et d'ingénieurs médicaux, SAM Médicale a commencé avec un objectif simple : rendre l'équipement d'oxygénothérapie et de sommeil accessible, fiable et facile à utiliser.",
-      p2: "Aujourd'hui, nous servons plus de 15 000 patients, en partenariat avec des marques de classe mondiale pour garantir que chaque appareil répond aux normes cliniques les plus strictes."
+      p2: " Aujourd'hui, nous servons plus de 15 000 patients, en partenariat avec des marques de classe mondiale pour garantir que chaque appareil répond aux normes cliniques les plus strictes."
     },
     values: {
       v1: { title: "Certifié FDA", desc: "Tous nos produits sont rigoureusement testés et approuvés." },
@@ -38,6 +39,12 @@ export const fr = {
       s2: { val: "12+", label: "Années d'Expérience" },
       s3: { val: "500+", label: "Partenaires Cliniques" },
       s4: { val: "98%", label: "Satisfaction Patient" }
+    },
+    registry: {
+      badge: "Registre Qualité Mondial",
+      iso_detail: "Gestion de la Qualité",
+      ce_detail: "Santé et Sécurité Clinique",
+      fda_detail: "Conformité Réglementaire"
     }
   },
   services: {
