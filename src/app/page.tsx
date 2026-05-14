@@ -1,4 +1,3 @@
-
 "use client";
 
 import Navbar from '@/components/layout/Navbar';
@@ -15,10 +14,12 @@ export default function Home() {
       <Navbar />
       <Hero />
       <ClinicalTicker />
-      <CategoriesSection />
-      <FlagshipEquipment />
-      <WhyUs />
-      <Newsletter />
+      <div className="space-y-20 md:space-y-32">
+        <CategoriesSection />
+        <FlagshipEquipment />
+        <WhyUs />
+        <Newsletter />
+      </div>
     </main>
   );
 }

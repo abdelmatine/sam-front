@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState } from 'react';
@@ -98,27 +97,25 @@ const ProductCard = ({ product, layout = 'grid' }: ProductCardProps) => {
       <Link href={`/shop/${product.category}/${product.id}`} onClick={handleLinkClick} className="block h-full">
         <Card className={cn(
           "rounded-none overflow-hidden group transition-all border border-border/40 clinical-shadow flex bg-card relative",
-          isList ? "flex-col md:flex-row h-auto min-h-[220px]" : "flex-col h-full hover:border-primary/40"
+          isList ? "flex-col md:flex-row h-auto min-h-[180px]" : "flex-col h-full hover:border-primary/40"
         )}>
-          {/* Navigation Overlay */}
           <AnimatePresence>
             {isNavigating && (
               <motion.div 
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="absolute inset-0 z-50 bg-background/80 backdrop-blur-sm flex flex-col items-center justify-center gap-3"
+                className="absolute inset-0 z-50 bg-background/80 backdrop-blur-sm flex flex-col items-center justify-center gap-2"
               >
-                <Loader2 className="h-8 w-8 text-primary animate-spin" />
-                <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-primary">{t.common.loading}</span>
+                <Loader2 className="h-6 w-6 text-primary animate-spin" />
+                <span className="text-[8px] font-bold uppercase tracking-[0.3em] text-primary">{t.common.loading}</span>
               </motion.div>
             )}
           </AnimatePresence>
 
-          {/* Product Image Section */}
           <div className={cn(
             "relative overflow-hidden border-border/40 bg-muted/30 shrink-0 flex items-center justify-center",
-            isList ? "w-full md:w-64 h-64 md:h-auto border-b md:border-b-0 md:border-r" : "h-64 border-b"
+            isList ? "w-full md:w-52 h-52 md:h-auto border-b md:border-b-0 md:border-r" : "h-52 border-b"
           )}>
             <AnimatePresence mode="wait">
               {isImageLoading && (
@@ -130,8 +127,8 @@ const ProductCard = ({ product, layout = 'grid' }: ProductCardProps) => {
                   className="absolute inset-0 z-10 flex items-center justify-center bg-accent/5"
                 >
                   <div className="relative">
-                    <Loader2 className="h-8 w-8 text-primary/20 animate-spin" />
-                    <Activity className="h-4 w-4 text-primary absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+                    <Loader2 className="h-6 w-6 text-primary/20 animate-spin" />
+                    <Activity className="h-3 w-3 text-primary absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
                   </div>
                 </motion.div>
               )}
@@ -154,86 +151,83 @@ const ProductCard = ({ product, layout = 'grid' }: ProductCardProps) => {
               />
             </motion.div>
             
-            <div className="absolute inset-0 bg-gradient-to-t from-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-            
-            <div className="absolute top-4 left-4 flex flex-col gap-2 z-20">
+            <div className="absolute top-3 left-3 flex flex-col gap-1.5 z-20">
               {product.isNew && (
-                <Badge className="bg-primary text-white border-none rounded-none text-[8px] uppercase tracking-widest px-2 py-1 shadow-lg shadow-primary/20">
+                <Badge className="bg-primary text-white border-none rounded-none text-[7px] uppercase tracking-widest px-1.5 py-0.5 shadow-lg">
                   {t.common.new}
                 </Badge>
               )}
               {!product.inStock && (
-                <Badge variant="destructive" className="rounded-none text-[8px] uppercase tracking-widest px-2 py-1 shadow-lg shadow-destructive/20">
+                <Badge variant="destructive" className="rounded-none text-[7px] uppercase tracking-widest px-1.5 py-0.5 shadow-lg">
                   {t.common.stock_out}
                 </Badge>
               )}
             </div>
 
             <motion.div 
-              initial={{ opacity: 0, y: -10 }}
+              initial={{ opacity: 0, y: -5 }}
               whileInView={{ opacity: 1, y: 0 }}
-              className="absolute top-4 right-4 z-20"
+              className="absolute top-3 right-3 z-20"
             >
               <Button 
                 variant="ghost" 
                 size="icon" 
                 onClick={handleWishlist}
                 className={cn(
-                  "bg-white/90 backdrop-blur-sm transition-all rounded-none h-10 w-10 shadow-sm",
+                  "bg-white/90 backdrop-blur-sm transition-all rounded-none h-8 w-8 shadow-sm",
                   isWishlisted ? "text-destructive hover:bg-destructive/10" : "text-muted-foreground hover:text-primary hover:bg-primary/5"
                 )}
               >
-                <Heart className={cn("h-4.5 w-4.5 transition-all", isWishlisted && "fill-destructive animate-pulse")} />
+                <Heart className={cn("h-3.5 w-3.5 transition-all", isWishlisted && "fill-destructive animate-pulse")} />
               </Button>
             </motion.div>
           </div>
 
-          {/* Product Info Section */}
           <CardContent className={cn(
-            "p-6 flex flex-col flex-1 gap-1 relative",
+            "p-5 flex flex-col flex-1 gap-0.5 relative",
             isList ? "justify-center" : "justify-between"
           )}>
             <div className="absolute top-0 left-0 w-[2px] h-0 bg-primary group-hover:h-full transition-all duration-700" />
             
-            <div className={cn("flex flex-col", isList && "md:flex-row md:items-start md:justify-between gap-4")}>
+            <div className={cn("flex flex-col", isList && "md:flex-row md:items-start md:justify-between gap-3")}>
               <div className="flex-1">
-                <div className="flex items-center gap-2 mb-1">
-                  <Activity className="h-3 w-3 text-primary/40" />
-                  <span className="text-[9px] text-primary font-bold uppercase tracking-[0.2em]">{product.brand}</span>
+                <div className="flex items-center gap-1.5 mb-0.5">
+                  <Activity className="h-2.5 w-2.5 text-primary/40" />
+                  <span className="text-[8px] text-primary font-bold uppercase tracking-[0.15em]">{product.brand}</span>
                 </div>
                 <h3 className={cn(
-                  "font-bold group-hover:text-primary transition-colors line-clamp-1 mb-2 uppercase tracking-tight",
-                  isList ? "text-xl md:text-2xl" : "text-base"
+                  "font-bold group-hover:text-primary transition-colors line-clamp-1 mb-1 uppercase tracking-tight",
+                  isList ? "text-lg md:text-xl" : "text-sm"
                 )}>
                   {product.name}
                 </h3>
 
                 {isList && product.description && (
-                  <p className="text-xs text-muted-foreground line-clamp-2 mb-4 italic font-medium max-w-2xl">
+                  <p className="text-[10px] text-muted-foreground line-clamp-2 mb-3 italic font-medium max-w-xl">
                     {product.description}
                   </p>
                 )}
 
-                <div className="flex items-center gap-1 mb-4">
+                <div className="flex items-center gap-1 mb-3">
                   {[...Array(5)].map((_, i) => (
                     <Star 
                       key={i} 
-                      className={cn("h-3 w-3", i < Math.floor(product.rating) ? "fill-primary text-primary" : "text-muted")} 
+                      className={cn("h-2.5 w-2.5", i < Math.floor(product.rating) ? "fill-primary text-primary" : "text-muted")} 
                     />
                   ))}
-                  <span className="text-[9px] text-muted-foreground ml-1 font-bold">({product.rating})</span>
+                  <span className="text-[8px] text-muted-foreground ml-1 font-bold">({product.rating})</span>
                 </div>
               </div>
 
               <div className={cn(
                 "flex items-center justify-between",
-                isList ? "md:flex-col md:items-end md:justify-center md:gap-4" : "mt-auto pt-4 border-t border-border/40"
+                isList ? "md:flex-col md:items-end md:justify-center md:gap-3" : "mt-auto pt-3 border-t border-border/40"
               )}>
                 <div className="flex flex-col">
-                  {isList && <span className="text-[8px] font-bold uppercase tracking-widest text-muted-foreground mb-0.5">Acquisition MSRP</span>}
+                  {isList && <span className="text-[7px] font-bold uppercase tracking-widest text-muted-foreground mb-0.5">Acquisition MSRP</span>}
                   <span className={cn(
                     "font-bold tracking-tighter text-foreground",
-                    isList ? "text-3xl" : "text-xl"
+                    isList ? "text-2xl" : "text-lg"
                   )}>
                     ${product.price.toLocaleString()}
                   </span>
@@ -244,20 +238,20 @@ const ProductCard = ({ product, layout = 'grid' }: ProductCardProps) => {
                     onClick={handleAddToCart}
                     disabled={!product.inStock || isAdding}
                     className={cn(
-                      "bg-primary hover:bg-primary/90 rounded-none transition-all shadow-lg shadow-primary/20 border-none",
-                      isList ? "h-14 px-10 text-[11px] font-bold uppercase tracking-[0.2em] flex items-center gap-3" : "h-11 w-11 p-0"
+                      "bg-primary hover:bg-primary/90 rounded-none transition-all shadow-md border-none",
+                      isList ? "h-11 px-8 text-[9px] font-bold uppercase tracking-[0.15em] flex items-center gap-2.5" : "h-9 w-9 p-0"
                     )}
                   >
                     {isAdding ? (
-                      <Loader2 className="h-5 w-5 animate-spin" />
+                      <Loader2 className="h-4 w-4 animate-spin" />
                     ) : (
                       isList ? (
                         <>
-                          <ShoppingCart className="h-4.5 w-4.5" />
+                          <ShoppingCart className="h-3.5 w-3.5" />
                           {t.product.add_to_cart}
                         </>
                       ) : (
-                        <Plus className="h-6 w-6" />
+                        <Plus className="h-5 w-5" />
                       )
                     )}
                   </Button>

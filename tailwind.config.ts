@@ -21,8 +21,8 @@ export default {
     extend: {
       fontFamily: {
         // Globalized Professional Font Families
-        body: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
-        headline: ['Manrope', 'Poppins', 'sans-serif'],
+        body: ['Inter', 'sans-serif'],
+        headline: ['Outfit', 'sans-serif'],
         arabic: ['"Noto Sans Arabic"', 'sans-serif'],
         code: ['monospace'],
       },

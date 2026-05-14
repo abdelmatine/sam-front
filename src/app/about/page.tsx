@@ -10,10 +10,6 @@ import { useTranslation } from '@/hooks/use-translation';
 import { cn } from '@/lib/utils';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 
-/**
- * StatCounter Component
- * Handles the high-fidelity numerical count-up sequence for clinical statistics.
- */
 const StatCounter = ({ value }: { value: string }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -38,7 +34,6 @@ const StatCounter = ({ value }: { value: string }) => {
   return <span ref={ref}>{displayValue}</span>;
 };
 
-// Surgical Resolve Animation Variants
 const sectionVariants: Variants = {
   hidden: { opacity: 0, y: 60 },
   visible: {
@@ -72,7 +67,6 @@ export default function AboutPage() {
     <main className="min-h-screen bg-background relative overflow-hidden flex flex-col">
       <Navbar />
       
-      {/* Background Clinical Grid Accent */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute inset-0 opacity-[0.02] dark:opacity-[0.05]" 
           style={{ backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)', backgroundSize: '40px 40px' }} 
@@ -81,7 +75,6 @@ export default function AboutPage() {
       </div>
       
       <div className="relative z-10 flex-1">
-        {/* Hero Header */}
         <motion.section 
           initial="hidden"
           whileInView="visible"
@@ -90,18 +83,17 @@ export default function AboutPage() {
           className="pt-40 pb-24 hero-gradient"
         >
           <div className="container px-4 text-center">
-            <motion.h1 variants={itemVariants} className="text-4xl md:text-7xl font-headline font-bold mb-8 uppercase tracking-tighter leading-[0.9]">
+            <motion.h1 variants={itemVariants} className="text-3xl md:text-5xl font-headline font-bold mb-6 uppercase tracking-tighter leading-[0.9]">
               {t.about.hero.title}
               <span className="text-primary">{t.about.hero.highlight}</span>
             </motion.h1>
             
-            <motion.p variants={itemVariants} className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto leading-relaxed font-medium italic">
+            <motion.p variants={itemVariants} className="text-muted-foreground text-sm md:text-base max-w-2xl mx-auto leading-relaxed font-medium italic">
               {t.about.hero.subtitle}
             </motion.p>
           </div>
         </motion.section>
 
-        {/* Story Section */}
         <motion.section 
           initial="hidden"
           whileInView="visible"
@@ -111,7 +103,7 @@ export default function AboutPage() {
         >
           <div className="container px-4">
             <div className="grid lg:grid-cols-2 gap-20 items-center">
-              <motion.div variants={itemVariants} className="relative h-[500px] md:h-[700px] rounded-none overflow-hidden clinical-shadow border border-primary/10 group">
+              <motion.div variants={itemVariants} className="relative h-[400px] md:h-[600px] rounded-none overflow-hidden clinical-shadow border border-primary/10 group">
                 <Image 
                   src={aboutImage?.imageUrl || "https://picsum.photos/seed/about-clinical/800/1000"} 
                   alt={aboutImage?.description || "Clinical Research Facility"} 
@@ -122,21 +114,21 @@ export default function AboutPage() {
                 <div className="absolute inset-0 bg-primary/10 opacity-40 group-hover:opacity-0 transition-opacity duration-1000" />
               </motion.div>
               
-              <div className="space-y-16">
+              <div className="space-y-12">
                 <motion.div 
                   variants={itemVariants}
-                  className={cn("space-y-8 border-primary", isRTL ? "border-r-4 pr-10" : "border-l-4 pl-10")}
+                  className={cn("space-y-6 border-primary", isRTL ? "border-r-4 pr-10" : "border-l-4 pl-10")}
                 >
-                  <h2 className="text-4xl md:text-5xl font-headline font-bold uppercase tracking-tighter leading-none">
+                  <h2 className="text-3xl md:text-4xl font-headline font-bold uppercase tracking-tighter leading-none">
                     {t.about.story.title}
                     <span className="text-primary">{t.about.story.highlight}</span>
                   </h2>
                   
-                  <p className="text-muted-foreground text-sm md:text-base leading-relaxed font-medium italic">
+                  <p className="text-muted-foreground text-xs md:text-sm leading-relaxed font-medium italic">
                     {t.about.story.p1}
                   </p>
                   
-                  <p className="text-muted-foreground text-sm md:text-base leading-relaxed font-medium italic">
+                  <p className="text-muted-foreground text-xs md:text-sm leading-relaxed font-medium italic">
                     {t.about.story.p2}
                   </p>
                 </motion.div>
@@ -145,7 +137,7 @@ export default function AboutPage() {
                   variants={{
                     visible: { transition: { staggerChildren: 0.2, delayChildren: 0.4 } }
                   }}
-                  className="grid sm:grid-cols-2 gap-6"
+                  className="grid sm:grid-cols-2 gap-4"
                 >
                   {Object.entries(t.about.values).map(([key, value], i) => {
                     const Icon = valueIcons[i] || ShieldCheck;
@@ -157,15 +149,15 @@ export default function AboutPage() {
                         transition={{ type: "spring", stiffness: 400, damping: 30 }}
                       >
                         <Card className="rounded-none bg-accent/5 border-primary/10 clinical-shadow group hover:bg-primary/[0.03] transition-all h-full">
-                          <CardContent className="p-8 flex flex-col gap-6">
+                          <CardContent className="p-6 flex flex-col gap-4">
                             <div className="shrink-0 w-fit">
-                              <div className="p-4 bg-primary/10 rounded-none text-primary group-hover:bg-primary group-hover:text-white transition-all duration-700 border border-primary/10">
-                                <Icon className="h-6 w-6" />
+                              <div className="p-3 bg-primary/10 rounded-none text-primary group-hover:bg-primary group-hover:text-white transition-all duration-700 border border-primary/10">
+                                <Icon className="h-5 w-5" />
                               </div>
                             </div>
-                            <div className="space-y-2">
-                              <h4 className="font-bold uppercase text-[10px] tracking-[0.3em] text-primary/80">{value.title}</h4>
-                              <p className="text-[11px] text-muted-foreground font-medium italic leading-relaxed">{value.desc}</p>
+                            <div className="space-y-1">
+                              <h4 className="font-bold uppercase text-[9px] tracking-[0.3em] text-primary/80">{value.title}</h4>
+                              <p className="text-[10px] text-muted-foreground font-medium italic leading-relaxed">{value.desc}</p>
                             </div>
                           </CardContent>
                         </Card>
@@ -178,13 +170,12 @@ export default function AboutPage() {
           </div>
         </motion.section>
 
-        {/* Stats Section */}
         <motion.section 
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
           variants={sectionVariants} 
-          className="py-24 bg-primary text-white relative overflow-hidden"
+          className="py-20 bg-primary text-white relative overflow-hidden"
         >
           <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2" />
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/10 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/2" />
@@ -194,39 +185,38 @@ export default function AboutPage() {
               variants={{
                 visible: { transition: { staggerChildren: 0.15 } }
               }}
-              className="grid grid-cols-2 lg:grid-cols-4 gap-16 text-center"
+              className="grid grid-cols-2 lg:grid-cols-4 gap-12 text-center"
             >
               {Object.entries(t.about.stats).map(([key, stat]) => (
-                <motion.div key={key} variants={itemVariants} className="space-y-4">
-                  <div className="text-5xl md:text-6xl font-bold tracking-tighter mb-2">
+                <motion.div key={key} variants={itemVariants} className="space-y-3">
+                  <div className="text-4xl md:text-5xl font-bold tracking-tighter mb-1">
                     <StatCounter value={stat.val} />
                   </div>
-                  <div className="text-primary-foreground/60 text-[10px] font-bold uppercase tracking-[0.5em]">{stat.label}</div>
+                  <div className="text-primary-foreground/60 text-[9px] font-bold uppercase tracking-[0.5em]">{stat.label}</div>
                 </motion.div>
               ))}
             </motion.div>
           </div>
         </motion.section>
 
-        {/* Global Standards Registry */}
         <motion.section 
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.4 }}
           variants={sectionVariants}
-          className="py-32 border-t border-primary/5 bg-background relative overflow-hidden"
+          className="py-24 border-t border-primary/5 bg-background relative overflow-hidden"
         >
           <div className="container px-4">
             <div className="flex flex-col items-center text-center">
-              <motion.div variants={itemVariants} className="flex items-center gap-3 mb-16 opacity-40">
-                <div className="h-[1px] w-12 bg-primary" />
-                <span className="text-[9px] font-bold uppercase tracking-[0.5em] text-primary">
+              <motion.div variants={itemVariants} className="flex items-center gap-3 mb-12 opacity-40">
+                <div className="h-[1px] w-10 bg-primary" />
+                <span className="text-[8px] font-bold uppercase tracking-[0.5em] text-primary">
                   {t.about.registry.badge}
                 </span>
-                <div className="h-[1px] w-12 bg-primary" />
+                <div className="h-[1px] w-10 bg-primary" />
               </motion.div>
               
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-32">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-24">
                 {[
                   { icon: ShieldCheck, label: t.catalogue.standards.iso, detail: t.about.registry.iso_detail },
                   { icon: Award, label: t.catalogue.standards.ce, detail: t.about.registry.ce_detail },
@@ -238,17 +228,17 @@ export default function AboutPage() {
                       key={i} 
                       variants={itemVariants}
                       whileHover={{ y: -8 }}
-                      className="flex flex-col items-center gap-6 group"
+                      className="flex flex-col items-center gap-4 group"
                     >
                       <div className="relative">
                         <div className="absolute inset-0 bg-primary/20 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                        <div className="relative p-6 bg-primary/5 border border-primary/10 rounded-full text-primary/40 group-hover:text-primary group-hover:border-primary/30 transition-all duration-700">
-                          <Icon className="h-8 w-8" />
+                        <div className="relative p-5 bg-primary/5 border border-primary/10 rounded-full text-primary/40 group-hover:text-primary group-hover:border-primary/30 transition-all duration-700">
+                          <Icon className="h-7 w-7" />
                         </div>
                       </div>
-                      <div className="space-y-2">
-                        <h4 className="text-xs font-bold uppercase tracking-[0.3em] text-foreground group-hover:text-primary transition-colors duration-500">{std.label}</h4>
-                        <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60">{std.detail}</p>
+                      <div className="space-y-1">
+                        <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-foreground group-hover:text-primary transition-colors duration-500">{std.label}</h4>
+                        <p className="text-[8px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60">{std.detail}</p>
                       </div>
                     </motion.div>
                   );
