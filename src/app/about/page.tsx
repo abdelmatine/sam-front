@@ -100,7 +100,9 @@ export default function AboutPage() {
               
               <div className="space-y-16">
                 <motion.div 
+                  id="clinical-story-content"
                   variants={itemVariants}
+                  transition={{ delay: 0.4 }}
                   className={cn("space-y-8 border-primary", isRTL ? "border-r-4 pr-10" : "border-l-4 pl-10")}
                 >
                   <h2 className="text-4xl md:text-5xl font-headline font-bold uppercase tracking-tighter leading-none">
