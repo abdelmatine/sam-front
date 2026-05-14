@@ -21,7 +21,10 @@ import {
   Package,
   Database,
   ChevronDown,
-  Info
+  Info,
+  PhoneCall,
+  Mail,
+  ShieldAlert
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -30,7 +33,6 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
-import AIExplainer from '@/components/shared/AIExplainer';
 import ProductCard from '@/components/shared/ProductCard';
 import { motion } from 'framer-motion';
 import ClinicalDropdown from '@/components/shared/ClinicalDropdown';
@@ -80,7 +82,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15,
+        staggerChildren: 0.1,
         delayChildren: 0.2
       }
     }
@@ -110,7 +112,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15,
+        staggerChildren: 0.1,
         delayChildren: 0.4
       }
     }
@@ -188,13 +190,6 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
                   </Badge>
                 </div>
               )}
-              
-              <div className="absolute bottom-8 right-8 hidden md:flex gap-3">
-                <Badge variant="outline" className="bg-background/80 backdrop-blur-md rounded-none border-primary/20 text-[9px] uppercase font-bold tracking-widest px-3 py-1.5">
-                  <Activity className="h-3 w-3 mr-2 text-primary" />
-                  Signal: Active
-                </Badge>
-              </div>
             </div>
             
             <div className="grid grid-cols-4 gap-4">
@@ -317,7 +312,41 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
               ))}
             </motion.div>
 
-            <AIExplainer content={product.description} />
+            <motion.div 
+              variants={staggerDetails}
+              initial="hidden"
+              animate="visible"
+              className="border border-primary/10 bg-accent/5 p-8 rounded-none clinical-shadow relative overflow-hidden group"
+            >
+              <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full -translate-y-1/2 translate-x-1/2" />
+              <motion.h4 variants={rightToLeftVariants} className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary mb-6 flex items-center gap-2">
+                <ShieldAlert className="h-4 w-4" />
+                {t.contact_info.support_title}
+              </motion.h4>
+              <motion.div variants={rightToLeftVariants} className="space-y-4">
+                <Link href="/contact" className="flex items-center gap-4 p-4 border border-primary/5 bg-background/50 hover:bg-primary/5 transition-all group">
+                  <div className="p-2 bg-primary/10 rounded-sm">
+                    <PhoneCall className="h-4 w-4 text-primary" />
+                  </div>
+                  <div>
+                    <div className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest mb-0.5">Assistance Technique</div>
+                    <div className="text-xs font-bold tracking-tight">{t.contact_info.phone}</div>
+                  </div>
+                </Link>
+                <Link href="/contact" className="flex items-center gap-4 p-4 border border-primary/5 bg-background/50 hover:bg-primary/5 transition-all group">
+                  <div className="p-2 bg-primary/10 rounded-sm">
+                    <Mail className="h-4 w-4 text-primary" />
+                  </div>
+                  <div>
+                    <div className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest mb-0.5">Email Support</div>
+                    <div className="text-xs font-bold tracking-tight">{t.contact_info.email}</div>
+                  </div>
+                </Link>
+              </motion.div>
+              <motion.p variants={rightToLeftVariants} className="mt-6 text-[9px] text-muted-foreground font-medium italic leading-relaxed">
+                * Nos spécialistes cliniques sont disponibles 24/7 pour toute assistance technique ou demande de calibration.
+              </motion.p>
+            </motion.div>
           </motion.div>
         </div>
 
