@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState } from 'react';
@@ -32,6 +31,8 @@ export default function ProductDetailPage() {
   const product = products.find(p => p.id === productId);
   const category = categories.find(c => c.slug === categorySlug);
   const isWishlisted = wishlist.some(item => item.id === product?.id);
+
+  const localizedCategoryName = category ? (t.categories as any)[category.slug] || category.name : '';
 
   if (!product) {
     return (
@@ -82,11 +83,11 @@ export default function ProductDetailPage() {
           animate={{ opacity: 1, y: 0 }}
           className="flex items-center gap-2 mb-8 text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground"
         >
-          <Link href="/" className="hover:text-primary transition-colors">SAM MÉDICALE</Link>
+          <Link href="/" className="hover:text-primary transition-colors">{t.catalogue.brand}</Link>
           <ChevronRight className="h-3 w-3" />
           <Link href="/shop" className="hover:text-primary transition-colors">{t.nav.catalogue}</Link>
           <ChevronRight className="h-3 w-3" />
-          <Link href={`/shop/${categorySlug}`} className="hover:text-primary transition-colors">{category?.name}</Link>
+          <Link href={`/shop/${categorySlug}`} className="hover:text-primary transition-colors">{localizedCategoryName}</Link>
           <ChevronRight className="h-3 w-3" />
           <span className="text-primary">{product.name}</span>
         </motion.div>
@@ -175,20 +176,20 @@ export default function ProductDetailPage() {
               {/* Specification Grid */}
               <div className="grid grid-cols-2 gap-4 mt-8 pt-8 border-t border-border/40">
                 <div className="space-y-1">
-                  <span className="text-[9px] text-muted-foreground uppercase font-bold tracking-widest">Référence Technique</span>
+                  <span className="text-[9px] text-muted-foreground uppercase font-bold tracking-widest">{t.product.tech_ref}</span>
                   <p className="text-xs font-bold uppercase tracking-tight">SAM-{product.id}-CLINICAL</p>
                 </div>
                 <div className="space-y-1">
-                  <span className="text-[9px] text-muted-foreground uppercase font-bold tracking-widest">Classification</span>
-                  <p className="text-xs font-bold uppercase tracking-tight">{category?.name}</p>
+                  <span className="text-[9px] text-muted-foreground uppercase font-bold tracking-widest">{t.product.classification}</span>
+                  <p className="text-xs font-bold uppercase tracking-tight">{localizedCategoryName}</p>
                 </div>
                 <div className="space-y-1">
-                  <span className="text-[9px] text-muted-foreground uppercase font-bold tracking-widest">Origine Manufacture</span>
+                  <span className="text-[9px] text-muted-foreground uppercase font-bold tracking-widest">{t.product.origin}</span>
                   <p className="text-xs font-bold uppercase tracking-tight">{product.brand}</p>
                 </div>
                 <div className="space-y-1">
-                  <span className="text-[9px] text-muted-foreground uppercase font-bold tracking-widest">Statut Logistique</span>
-                  <p className="text-xs font-bold uppercase tracking-tight text-primary">Prêt pour Expédition</p>
+                  <span className="text-[9px] text-muted-foreground uppercase font-bold tracking-widest">{t.product.logistics}</span>
+                  <p className="text-xs font-bold uppercase tracking-tight text-primary">{t.product.ready}</p>
                 </div>
               </div>
             </div>

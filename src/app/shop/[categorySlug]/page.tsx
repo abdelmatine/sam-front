@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -37,10 +36,15 @@ export default function CategoryPage() {
 
   const menuCategories = [
     { label: t.categories.view_all, value: 'all' },
-    ...categories.map(c => ({ label: c.name, value: c.slug }))
+    ...categories.map(c => ({ 
+      label: (t.categories as any)[c.slug] || c.name, 
+      value: c.slug 
+    }))
   ];
 
   const categoryData = categories.find(c => c.slug === activeCategory);
+  const localizedCategoryName = categoryData ? (t.categories as any)[categoryData.slug] || categoryData.name : '';
+  const localizedCategoryDesc = categoryData ? (t.categories as any)[`${categoryData.slug}_desc`] || categoryData.description : '';
 
   const filteredProducts = useMemo(() => {
     return products
@@ -65,11 +69,11 @@ export default function CategoryPage() {
           animate={{ opacity: 1, y: 0 }}
           className="flex items-center gap-2 mb-8 text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground"
         >
-          <Link href="/" className="hover:text-primary transition-colors">SAM MÉDICALE</Link>
+          <Link href="/" className="hover:text-primary transition-colors">{t.catalogue.brand}</Link>
           <ChevronRight className="h-3 w-3" />
           <Link href="/shop" className="hover:text-primary transition-colors">{t.nav.catalogue}</Link>
           <ChevronRight className="h-3 w-3" />
-          <span className="text-primary">{activeCategory === 'all' ? t.categories.view_all : categoryData?.name}</span>
+          <span className="text-primary">{activeCategory === 'all' ? t.categories.view_all : localizedCategoryName}</span>
         </motion.div>
 
         {/* Header */}
@@ -80,10 +84,10 @@ export default function CategoryPage() {
         >
           <div>
             <h1 className="text-3xl font-headline font-bold mb-2 uppercase tracking-tight">
-              {activeCategory === 'all' ? t.catalogue.title : categoryData?.name}
+              {activeCategory === 'all' ? t.catalogue.title : localizedCategoryName}
             </h1>
             <p className="text-muted-foreground text-sm max-w-2xl font-medium italic">
-              {activeCategory === 'all' ? t.catalogue.subtitle : categoryData?.description}
+              {activeCategory === 'all' ? t.catalogue.subtitle : localizedCategoryDesc}
             </p>
           </div>
           <Button 

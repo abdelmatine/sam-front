@@ -62,7 +62,7 @@ export default function CatalogueRootPage() {
           animate={{ opacity: 1, y: 0 }}
           className="flex items-center gap-2 mb-10 text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground/60"
         >
-          <Link href="/" className="hover:text-primary transition-colors">SAM MÉDICALE</Link>
+          <Link href="/" className="hover:text-primary transition-colors">{t.catalogue.brand}</Link>
           <ChevronRight className="h-2.5 w-2.5" />
           <span className="text-primary/80">{t.nav.catalogue}</span>
         </motion.div>
@@ -110,7 +110,6 @@ export default function CatalogueRootPage() {
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
           {categories.map((category, index) => {
-            // lookup translated name and desc by slug from the categories dictionary
             const localizedName = (t.categories as any)[category.slug] || category.name;
             const localizedDesc = (t.categories as any)[`${category.slug}_desc`] || category.description;
 
@@ -216,11 +215,11 @@ export default function CatalogueRootPage() {
           animate={{ opacity: 0.3 }}
           className="mt-24 pt-12 border-t flex items-center justify-center gap-10 grayscale"
         >
-          <div className="text-[9px] font-bold uppercase tracking-[0.5em]">ISO 13485:2016</div>
+          <div className="text-[9px] font-bold uppercase tracking-[0.5em]">{t.catalogue.standards.iso}</div>
           <div className="h-4 w-[1px] bg-border" />
-          <div className="text-[9px] font-bold uppercase tracking-[0.5em]">CE MEDICAL GRADE</div>
+          <div className="text-[9px] font-bold uppercase tracking-[0.5em]">{t.catalogue.standards.ce}</div>
           <div className="h-4 w-[1px] bg-border" />
-          <div className="text-[9px] font-bold uppercase tracking-[0.5em]">FDA COMPLIANT</div>
+          <div className="text-[9px] font-bold uppercase tracking-[0.5em]">{t.catalogue.standards.fda}</div>
         </motion.div>
       </div>
     </main>

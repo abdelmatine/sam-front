@@ -95,7 +95,13 @@ export const dictionaries = {
       explore_range: "Explorer la Gamme",
       global_inventory: "Inventaire Global",
       all_devices_desc: "Tous les dispositifs cliniques",
-      access_grid: "Accéder à la Grille"
+      access_grid: "Accéder à la Grille",
+      brand: "SAM MÉDICALE",
+      standards: {
+        iso: "ISO 13485:2016",
+        ce: "CE GRADE MÉDICAL",
+        fda: "CONFORME FDA"
+      }
     },
     cart: {
       title: "Votre Sélection Clinique",
@@ -123,7 +129,12 @@ export const dictionaries = {
       specs: "Spécifications Techniques",
       warranty: "Garantie 2 ans",
       returns: "Retours 14j",
-      delivery: "Livraison Sécurisée"
+      delivery: "Livraison Sécurisée",
+      tech_ref: "Référence Technique",
+      classification: "Classification",
+      origin: "Origine Manufacture",
+      logistics: "Statut Logistique",
+      ready: "Prêt pour Expédition"
     },
     common: {
       new: "Nouveau",
@@ -233,7 +244,13 @@ export const dictionaries = {
       explore_range: "Explore the Range",
       global_inventory: "Global Inventory",
       all_devices_desc: "All clinical devices",
-      access_grid: "Access the Grid"
+      access_grid: "Access the Grid",
+      brand: "SAM MÉDICALE",
+      standards: {
+        iso: "ISO 13485:2016",
+        ce: "CE MEDICAL GRADE",
+        fda: "FDA COMPLIANT"
+      }
     },
     cart: {
       title: "Your Clinical Selection",
@@ -261,7 +278,12 @@ export const dictionaries = {
       specs: "Technical Specifications",
       warranty: "2y Warranty",
       returns: "14d Returns",
-      delivery: "Secure Delivery"
+      delivery: "Secure Delivery",
+      tech_ref: "Technical Reference",
+      classification: "Classification",
+      origin: "Manufacturer Origin",
+      logistics: "Logistics Status",
+      ready: "Ready for Shipment"
     },
     common: {
       new: "New",
@@ -371,7 +393,13 @@ export const dictionaries = {
       explore_range: "استكشف المجموعة",
       global_inventory: "المخزون العالمي",
       all_devices_desc: "جميع الأجهزة السريرية",
-      access_grid: "الوصول إلى الشبكة"
+      access_grid: "الوصول إلى الشبكة",
+      brand: "سام الطبية",
+      standards: {
+        iso: "ISO 13485:2016",
+        ce: "CE درجة طبية",
+        fda: "متوافق مع FDA"
+      }
     },
     cart: {
       title: "اختيارك السريري",
@@ -399,7 +427,12 @@ export const dictionaries = {
       specs: "المواصفات الفنية",
       warranty: "ضمان سنتين",
       returns: "إرجاع 14 يوم",
-      delivery: "توصيل آمن"
+      delivery: "توصيل آمن",
+      tech_ref: "المرجع الفني",
+      classification: "التصنيف",
+      origin: "المنشأ المصنع",
+      logistics: "الحالة اللوجستية",
+      ready: "جاهز للشحن"
     },
     common: {
       new: "جديد",
