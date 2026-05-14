@@ -16,34 +16,8 @@ export default function PageLoader() {
     setLoading(false);
   }, [pathname, searchParams]);
 
-  // Intercept all internal navigation clicks to trigger the global pulse
-  useEffect(() => {
-    const handleAnchorClick = (event: MouseEvent) => {
-      const target = event.target as HTMLElement;
-      const anchor = target.closest('a');
-
-      if (
-        anchor &&
-        anchor instanceof HTMLAnchorElement &&
-        anchor.href &&
-        anchor.href.startsWith(window.location.origin) &&
-        !anchor.href.includes('#') &&
-        anchor.target !== '_blank' &&
-        anchor.getAttribute('download') === null
-      ) {
-        const currentUrl = window.location.href;
-        const targetUrl = anchor.href;
-
-        // Only trigger if we are navigating to a new clinical path
-        if (currentUrl !== targetUrl) {
-          setLoading(true);
-        }
-      }
-    };
-
-    document.addEventListener('click', handleAnchorClick);
-    return () => document.removeEventListener('click', handleAnchorClick);
-  }, []);
+  // Note: Global click interception removed to allow for snappier, localized loading states.
+  // The full page loader is now only used for initial mounts or explicit state triggers.
 
   return (
     <AnimatePresence mode="wait">
