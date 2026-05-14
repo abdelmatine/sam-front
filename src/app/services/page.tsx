@@ -12,7 +12,6 @@ import {
   GraduationCap, 
   ShieldAlert, 
   Activity, 
-  Database,
   ArrowRight,
   ShieldCheck,
   Award,
@@ -98,14 +97,14 @@ export default function ServicesPage() {
         <motion.section 
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: true, amount: 0.1 }}
           variants={sectionVariants}
           className="py-24"
         >
           <div className="container mx-auto px-4">
             <motion.div 
               variants={{
-                visible: { transition: { staggerChildren: 0.1 } }
+                visible: { transition: { staggerChildren: 0.2, delayChildren: 0.1 } }
               }}
               className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
             >
@@ -207,25 +206,28 @@ export default function ServicesPage() {
                   { icon: ShieldCheck, label: t.catalogue.standards.iso, detail: t.about.registry.iso_detail },
                   { icon: Award, label: t.catalogue.standards.ce, detail: t.about.registry.ce_detail },
                   { icon: BadgeCheck, label: t.catalogue.standards.fda, detail: t.about.registry.fda_detail }
-                ].map((std, i) => (
-                  <motion.div 
-                    key={i} 
-                    variants={itemVariants}
-                    whileHover={{ y: -5 }}
-                    className="flex flex-col items-center gap-6 group"
-                  >
-                    <div className="relative">
-                      <div className="absolute inset-0 bg-primary/20 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                      <div className="relative p-6 bg-primary/5 border border-primary/10 rounded-full text-primary/40 group-hover:text-primary group-hover:border-primary/30 transition-all duration-500">
-                        <std.icon className="h-8 w-8" />
+                ].map((std, i) => {
+                  const Icon = std.icon;
+                  return (
+                    <motion.div 
+                      key={i} 
+                      variants={itemVariants}
+                      whileHover={{ y: -5 }}
+                      className="flex flex-col items-center gap-6 group"
+                    >
+                      <div className="relative">
+                        <div className="absolute inset-0 bg-primary/20 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                        <div className="relative p-6 bg-primary/5 border border-primary/10 rounded-full text-primary/40 group-hover:text-primary group-hover:border-primary/30 transition-all duration-500">
+                          <Icon className="h-8 w-8" />
+                        </div>
                       </div>
-                    </div>
-                    <div className="space-y-2">
-                      <h4 className="text-xs font-bold uppercase tracking-[0.3em] text-foreground group-hover:text-primary transition-colors">{std.label}</h4>
-                      <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60">{std.detail}</p>
-                    </div>
-                  </motion.div>
-                ))}
+                      <div className="space-y-2">
+                        <h4 className="text-xs font-bold uppercase tracking-[0.3em] text-foreground group-hover:text-primary transition-colors">{std.label}</h4>
+                        <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60">{std.detail}</p>
+                      </div>
+                    </motion.div>
+                  );
+                })}
               </div>
             </div>
           </div>
