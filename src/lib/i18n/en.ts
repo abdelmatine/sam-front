@@ -148,5 +148,10 @@ export const en = {
     free: "Free",
     grade_medical: "Medical Grade",
     loading: "Initializing..."
+  },
+  error: {
+    not_found_title: "404 - Signal Lost",
+    not_found_desc: "The device or technical classification you are looking for cannot be found in our clinical database.",
+    back_home: "Recalibrate to Home"
   }
 };

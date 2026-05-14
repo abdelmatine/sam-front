@@ -148,5 +148,10 @@ export const fr = {
     free: "Gratuit",
     grade_medical: "Grade Médical",
     loading: "Initialisation..."
+  },
+  error: {
+    not_found_title: "404 - Signal Perdu",
+    not_found_desc: "Le dispositif ou la classification technique que vous recherchez est introuvable dans notre base de données clinique.",
+    back_home: "Recalibrer vers l'Accueil"
   }
 };
