@@ -50,7 +50,7 @@ export const ar = {
     stats: "معدل الرضا"
   },
   flagship: {
-    title: "المعدات الرائدة",
+    title: "الأكثر مبيعاً",
     subtitle: "حلولنا السريرية الأكثر موثوقية والأعلى تقييمًا.",
     certified: "درجة سريرية معتمدة من ISO",
     msrp: "اقتناء MSRP",

@@ -50,7 +50,7 @@ export const en = {
     stats: "Satisfaction rate"
   },
   flagship: {
-    title: "Flagship Equipment",
+    title: "Our Best-Sellers",
     subtitle: "Our most trusted and highly-rated clinical solutions.",
     certified: "ISO Certified Clinical Grade",
     msrp: "MSRP Acquisition",

@@ -50,7 +50,7 @@ export const fr = {
     stats: "Taux de satisfaction"
   },
   flagship: {
-    title: "Équipement Phare",
+    title: "Nos Best-Sellers",
     subtitle: "Nos solutions cliniques les plus fiables et les mieux notées.",
     certified: "Grade Clinique Certifié ISO",
     msrp: "Acquisition MSRP",
