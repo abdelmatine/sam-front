@@ -15,6 +15,7 @@ export interface Product {
   name: string;
   price: number;
   brand: string;
+  brandTagline: string;
   imageUrl: string;
   category: string;
   rating: number;

@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState } from 'react';
@@ -7,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store';
 import { addToCart } from '@/store/slices/cartSlice';
 import { toggleWishlist } from '@/store/slices/wishlistSlice';
-import { Star, Plus, Loader2, Heart, ShoppingCart, Activity, Hash } from 'lucide-react';
+import { Star, Plus, Loader2, Heart, ShoppingCart, Activity, ArrowRight, ShieldCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
@@ -21,6 +22,7 @@ interface Product {
   name: string;
   price: number;
   brand: string;
+  brandTagline?: string;
   imageUrl: string;
   category: string;
   rating: number;
@@ -97,11 +99,11 @@ const ProductCard = ({ product, layout = 'grid' }: ProductCardProps) => {
       <Link href={`/shop/${product.category}/${product.id}`} onClick={handleLinkClick} className="block h-full">
         <Card className={cn(
           "rounded-none overflow-hidden group transition-all border border-border/40 clinical-shadow flex bg-card relative",
-          isList ? "flex-col md:flex-row h-auto min-h-[200px]" : "flex-col h-full hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5"
+          isList ? "flex-col md:flex-row h-auto min-h-[220px]" : "flex-col h-full hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5"
         )}>
           {/* Clinical Lateral Accent */}
           <div className={cn(
-            "absolute top-0 w-[2px] h-0 bg-primary group-hover:h-full transition-all duration-700 z-30",
+            "absolute top-0 w-[2.5px] h-0 bg-primary group-hover:h-full transition-all duration-700 z-30",
             isRTL ? "right-0" : "left-0"
           )} />
 
@@ -111,7 +113,7 @@ const ProductCard = ({ product, layout = 'grid' }: ProductCardProps) => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="absolute inset-0 z-50 bg-background/90 backdrop-blur-sm flex flex-col items-center justify-center gap-3"
+                className="absolute inset-0 z-50 bg-background/80 backdrop-blur-sm flex flex-col items-center justify-center gap-3"
               >
                 <Loader2 className="h-6 w-6 text-primary animate-spin" />
                 <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-primary">{t.common.loading}</span>
@@ -121,8 +123,8 @@ const ProductCard = ({ product, layout = 'grid' }: ProductCardProps) => {
 
           {/* Image Sector */}
           <div className={cn(
-            "relative overflow-hidden bg-accent/[0.02] shrink-0 flex items-center justify-center transition-colors",
-            isList ? "w-full md:w-60 h-60 md:h-auto border-b md:border-b-0 md:border-r border-border/40" : "h-52 border-b border-border/40"
+            "relative overflow-hidden bg-accent/[0.01] shrink-0 flex items-center justify-center transition-colors border-border/40",
+            isList ? "w-full md:w-64 h-64 md:h-auto border-b md:border-b-0 md:border-r" : "h-56 border-b"
           )}>
             <AnimatePresence mode="wait">
               {isImageLoading && (
@@ -138,23 +140,19 @@ const ProductCard = ({ product, layout = 'grid' }: ProductCardProps) => {
               )}
             </AnimatePresence>
 
-            {/* Diagnostic Scanner focus effect */}
-            <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 z-10 pointer-events-none" />
-            <div className="absolute inset-0 opacity-0 group-hover:opacity-[0.03] pointer-events-none transition-opacity duration-1000 z-20" 
-              style={{ backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)', backgroundSize: '20px 20px' }} 
-            />
-
+            <div className="absolute inset-0 bg-primary/[0.02] opacity-0 group-hover:opacity-100 transition-opacity duration-1000 z-10 pointer-events-none" />
+            
             <motion.div
               animate={{ opacity: isImageLoading ? 0 : 1 }}
               transition={{ duration: 0.5 }}
-              className="w-full h-full relative p-8"
+              className="w-full h-full relative p-10"
             >
               <Image 
                 src={product.imageUrl}
                 alt={product.name}
                 fill
                 className={cn(
-                  "object-contain p-4 transition-all duration-1000 group-hover:scale-105",
+                  "object-contain p-6 transition-all duration-1000 group-hover:scale-105",
                   "grayscale-[0.3] group-hover:grayscale-0"
                 )}
                 onLoad={() => setIsImageLoading(false)}
@@ -163,16 +161,16 @@ const ProductCard = ({ product, layout = 'grid' }: ProductCardProps) => {
             
             {/* Status Badges */}
             <div className={cn(
-              "absolute top-4 flex flex-col gap-2 z-30",
-              isRTL ? "right-4" : "left-4"
+              "absolute top-5 flex flex-col gap-2 z-30",
+              isRTL ? "right-5" : "left-5"
             )}>
               {product.isNew && (
-                <Badge className="bg-primary text-white border-none rounded-none text-[8px] font-black uppercase tracking-[0.3em] px-2.5 py-1.5 shadow-xl shadow-primary/20">
+                <Badge className="bg-primary text-white border-none rounded-none text-[8px] font-black uppercase tracking-[0.35em] px-3 py-2 shadow-2xl shadow-primary/30">
                   {t.common.new}
                 </Badge>
               )}
               {!product.inStock && (
-                <Badge variant="destructive" className="rounded-none text-[8px] font-black uppercase tracking-[0.3em] px-2.5 py-1.5 shadow-xl shadow-destructive/20">
+                <Badge variant="destructive" className="rounded-none text-[8px] font-black uppercase tracking-[0.35em] px-3 py-2 shadow-2xl shadow-destructive/30">
                   {t.common.stock_out}
                 </Badge>
               )}
@@ -180,84 +178,97 @@ const ProductCard = ({ product, layout = 'grid' }: ProductCardProps) => {
 
             {/* Wishlist Toggle */}
             <div className={cn(
-              "absolute top-4 z-30 opacity-0 group-hover:opacity-100 transition-all translate-y-[-5px] group-hover:translate-y-0",
-              isRTL ? "left-4" : "right-4"
+              "absolute top-5 z-30 opacity-0 group-hover:opacity-100 transition-all translate-y-[-8px] group-hover:translate-y-0",
+              isRTL ? "left-5" : "right-5"
             )}>
               <Button 
                 variant="ghost" 
                 size="icon" 
                 onClick={handleWishlist}
                 className={cn(
-                  "bg-background/80 backdrop-blur-md transition-all rounded-none h-9 w-9 border border-border/40 hover:bg-primary/5",
+                  "bg-background/90 backdrop-blur-md transition-all rounded-none h-10 w-10 border border-border/40 hover:bg-primary/5 shadow-sm",
                   isWishlisted ? "text-destructive" : "text-muted-foreground hover:text-primary"
                 )}
               >
-                <Heart className={cn("h-4 w-4 transition-all", isWishlisted && "fill-destructive")} />
+                <Heart className={cn("h-4.5 w-4.5 transition-all", isWishlisted && "fill-destructive")} />
               </Button>
             </div>
 
             {/* Serial Trace */}
             <div className={cn(
-              "absolute bottom-3 text-[6px] font-black text-primary/10 uppercase tracking-[0.5em] z-20 transition-colors group-hover:text-primary/30",
-              isRTL ? "right-4" : "left-4"
+              "absolute bottom-4 text-[7px] font-black text-primary/10 uppercase tracking-[0.6em] z-20 transition-colors group-hover:text-primary/40",
+              isRTL ? "right-5" : "left-5"
             )}>
-              SN: FS-REF-{product.id.padStart(4, '0')}
+              ID-MTRX: {product.id.padStart(4, '0')}
             </div>
           </div>
 
           {/* Content Sector */}
           <CardContent className={cn(
-            "p-6 flex flex-col flex-1 relative",
+            "p-8 flex flex-col flex-1 relative bg-gradient-to-br from-transparent to-accent/[0.02]",
             isList ? "justify-center" : "justify-between"
           )}>
             <div className="flex flex-col h-full">
               <div className="flex-1">
-                <div className="flex items-center gap-2 mb-3">
-                  <span className="text-[8px] text-primary font-bold uppercase tracking-[0.4em] bg-primary/5 px-2 py-0.5 border border-primary/10">
-                    {product.brand}
-                  </span>
+                {/* Brand & Tagline Header */}
+                <div className="flex flex-col gap-1 mb-5">
+                  <div className="flex items-center gap-3">
+                    <span className="text-[9px] text-primary font-black uppercase tracking-[0.4em]">
+                      {product.brand}
+                    </span>
+                    <div className="h-[1px] w-6 bg-primary/20" />
+                  </div>
+                  {product.brandTagline && (
+                    <span className="text-[8px] text-muted-foreground/60 font-bold uppercase tracking-[0.3em] italic">
+                      {product.brandTagline}
+                    </span>
+                  )}
                 </div>
                 
                 <h3 className={cn(
-                  "font-headline font-bold group-hover:text-primary transition-colors mb-3 uppercase tracking-tight leading-[1.1]",
-                  isList ? "text-xl md:text-2xl" : "text-[14px] line-clamp-2"
+                  "font-headline font-bold group-hover:text-primary transition-colors mb-4 uppercase tracking-tighter leading-[0.95]",
+                  isList ? "text-2xl md:text-3xl" : "text-[16px] line-clamp-2"
                 )}>
                   {product.name}
                 </h3>
 
                 {isList && product.description && (
-                  <p className="text-[11px] text-muted-foreground line-clamp-2 mb-6 italic font-medium max-w-xl leading-relaxed">
+                  <p className="text-[11px] text-muted-foreground line-clamp-2 mb-8 italic font-medium max-w-xl leading-relaxed">
                     {product.description}
                   </p>
                 )}
 
-                <div className="flex items-center gap-3 mb-6">
+                <div className="flex items-center gap-4 mb-8">
                   <div className="flex items-center gap-0.5">
                     {[...Array(5)].map((_, i) => (
                       <Star 
                         key={i} 
-                        className={cn("h-2.5 w-2.5", i < Math.floor(product.rating) ? "fill-primary text-primary" : "text-muted/20")} 
+                        className={cn("h-3 w-3", i < Math.floor(product.rating) ? "fill-primary text-primary" : "text-muted/10")} 
                       />
                     ))}
                   </div>
-                  <span className="text-[8px] text-muted-foreground font-black tracking-widest tabular-nums opacity-60">
-                    DIAGNOSTIC: {product.rating}
+                  <div className="h-3 w-[1px] bg-border/40" />
+                  <span className="text-[8px] text-muted-foreground/60 font-black tracking-[0.2em] tabular-nums">
+                    VAL: {product.rating}
                   </span>
                 </div>
               </div>
 
               {/* Price & Action Section */}
               <div className={cn(
-                "flex items-center justify-between mt-auto",
-                isList ? "md:border-t-0 md:pt-0" : "pt-5 border-t border-border/20"
+                "flex items-center justify-between mt-auto border-t border-border/15 pt-6",
+                isList ? "md:border-t-0 md:pt-0" : ""
               )}>
-                <div className="flex flex-col gap-0.5">
-                  <span className="text-[7px] font-black uppercase tracking-[0.4em] text-muted-foreground/50">MSRP_VAL</span>
+                <div className="flex flex-col gap-1">
+                  <div className="flex items-center gap-1.5 opacity-40">
+                    <ShieldCheck className="h-2.5 w-2.5 text-primary" />
+                    <span className="text-[7px] font-black uppercase tracking-[0.4em]">Acquisition_MSRP</span>
+                  </div>
                   <span className={cn(
                     "font-headline font-bold tracking-tighter text-foreground flex items-baseline gap-0.5",
-                    isList ? "text-3xl" : "text-xl"
+                    isList ? "text-4xl" : "text-2xl"
                   )}>
-                    <span className="text-[10px] font-medium opacity-40">$</span>
+                    <span className="text-[11px] font-medium opacity-40">$</span>
                     {product.price.toLocaleString()}
                   </span>
                 </div>
@@ -267,22 +278,23 @@ const ProductCard = ({ product, layout = 'grid' }: ProductCardProps) => {
                     onClick={handleAddToCart}
                     disabled={!product.inStock || isAdding}
                     className={cn(
-                      "bg-primary text-white hover:bg-primary/90 rounded-none transition-all shadow-xl shadow-primary/10 border-none group/btn relative overflow-hidden",
-                      isList ? "h-14 px-10 text-[10px] font-black uppercase tracking-[0.3em] flex items-center gap-4" : "h-11 w-11 p-0"
+                      "bg-primary text-white hover:bg-primary/90 rounded-none transition-all shadow-2xl shadow-primary/20 border-none group/btn relative overflow-hidden",
+                      isList ? "h-16 px-12 text-[10px] font-black uppercase tracking-[0.4em] flex items-center gap-5" : "h-12 w-12 p-0"
                     )}
                   >
                     {isAdding ? (
-                      <Loader2 className="h-4 w-4 animate-spin" />
+                      <Loader2 className="h-5 w-5 animate-spin" />
                     ) : (
                       isList ? (
                         <>
-                          <ShoppingCart className="h-4 w-4 group-hover/btn:translate-x-1 transition-transform duration-500" />
+                          <ShoppingCart className="h-5 w-5 group-hover/btn:translate-x-1.5 transition-transform duration-700" />
                           {t.product.add_to_cart}
+                          <ArrowRight className="h-4 w-4 opacity-0 group-hover/btn:opacity-100 group-hover/btn:translate-x-1 transition-all duration-700" />
                         </>
                       ) : (
                         <div className="relative flex items-center justify-center">
-                          <Plus className="h-5 w-5 group-hover/btn:rotate-90 transition-transform duration-500" />
-                          <div className="absolute inset-0 bg-white/20 rounded-full scale-0 group-hover/btn:scale-150 transition-transform duration-700 opacity-0 group-hover/btn:opacity-100" />
+                          <Plus className="h-6 w-6 group-hover/btn:rotate-90 transition-transform duration-700" />
+                          <div className="absolute inset-0 bg-white/10 rounded-full scale-0 group-hover/btn:scale-150 transition-transform duration-1000 opacity-0 group-hover/btn:opacity-100" />
                         </div>
                       )
                     )}
