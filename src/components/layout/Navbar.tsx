@@ -18,7 +18,10 @@ import {
   Phone,
   Mail,
   Activity,
-  X
+  X,
+  Database,
+  ArrowRight,
+  Headset
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -39,6 +42,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Separator } from "@/components/ui/separator";
 import ClinicalDropdown from '@/components/shared/ClinicalDropdown';
 import Logo from '@/components/shared/Logo';
 
@@ -232,30 +236,152 @@ const Navbar = () => {
                     </Button>
                   </SheetClose>
                 </SheetHeader>
+                
                 <div className="flex-1 overflow-y-auto px-6 py-8">
-                  <Accordion type="single" collapsible className="w-full space-y-4">
-                    <AccordionItem value="shop" className="border-none">
-                      <AccordionTrigger className="p-0 hover:no-underline font-headline font-bold text-xl uppercase tracking-tighter">
-                        {t.nav.catalogue}
-                      </AccordionTrigger>
-                      <AccordionContent className="pt-4 pl-4 space-y-3 border-l border-primary/10">
-                        {categories.map((cat) => (
-                          <Link 
-                            key={cat.value}
-                            href={cat.value ? `/shop/${cat.value}` : '/shop'}
-                            className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground block py-1"
-                          >
-                            {cat.label}
-                          </Link>
-                        ))}
-                      </AccordionContent>
-                    </AccordionItem>
-                    <div className="space-y-6 pt-2">
-                      <Link href="/services" className="block text-xl font-headline font-bold uppercase tracking-tighter">{t.nav.services}</Link>
-                      <Link href="/about" className="block text-xl font-headline font-bold uppercase tracking-tighter">{t.nav.about}</Link>
-                      <Link href="/contact" className="block text-xl font-headline font-bold uppercase tracking-tighter">{t.nav.contact}</Link>
+                  {/* Navigation Section */}
+                  <div className="mb-8">
+                    <div className="flex items-center gap-2 mb-4 opacity-40">
+                      <Database className="h-3 w-3 text-primary" />
+                      <span className="text-[8px] font-black uppercase tracking-[0.4em]">{t.nav.menu_title}</span>
                     </div>
-                  </Accordion>
+                    
+                    <Accordion type="single" collapsible className="w-full space-y-4">
+                      <AccordionItem value="shop" className="border-none">
+                        <AccordionTrigger className="p-0 hover:no-underline font-headline font-bold text-xl uppercase tracking-tighter">
+                          {t.nav.catalogue}
+                        </AccordionTrigger>
+                        <AccordionContent className="pt-4 pl-4 space-y-3 border-l border-primary/10">
+                          {categories.map((cat) => (
+                            <SheetClose asChild key={cat.value}>
+                              <Link 
+                                href={cat.value ? `/shop/${cat.value}` : '/shop'}
+                                className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground block py-1"
+                              >
+                                {cat.label}
+                              </Link>
+                            </SheetClose>
+                          ))}
+                        </AccordionContent>
+                      </AccordionItem>
+                      <div className="space-y-6 pt-2">
+                        <SheetClose asChild>
+                          <Link href="/services" className="block text-xl font-headline font-bold uppercase tracking-tighter">{t.nav.services}</Link>
+                        </SheetClose>
+                        <SheetClose asChild>
+                          <Link href="/about" className="block text-xl font-headline font-bold uppercase tracking-tighter">{t.nav.about}</Link>
+                        </SheetClose>
+                        <SheetClose asChild>
+                          <Link href="/contact" className="block text-xl font-headline font-bold uppercase tracking-tighter">{t.nav.contact}</Link>
+                        </SheetClose>
+                      </div>
+                    </Accordion>
+                  </div>
+
+                  <Separator className="bg-primary/10 mb-8" />
+
+                  {/* Actions Section */}
+                  <div className="space-y-4 mb-8">
+                    <div className="flex items-center gap-2 mb-4 opacity-40">
+                      <Activity className="h-3 w-3 text-primary" />
+                      <span className="text-[8px] font-black uppercase tracking-[0.4em]">Actions_Module</span>
+                    </div>
+                    
+                    <div className="grid grid-cols-2 gap-3">
+                      <SheetClose asChild>
+                        <Link href="/cart">
+                          <Button variant="outline" className="w-full h-16 rounded-none flex flex-col items-center justify-center gap-1 border-primary/10 bg-accent/5">
+                            <div className="relative">
+                              <ShoppingCart className="h-4 w-4 text-primary" />
+                              {cartQuantity > 0 && (
+                                <Badge className="absolute -top-2 -right-2 h-3.5 w-3.5 p-0 flex items-center justify-center bg-primary text-white text-[7px] border-none rounded-full">
+                                  {cartQuantity}
+                                </Badge>
+                              )}
+                            </div>
+                            <span className="text-[8px] font-bold uppercase tracking-widest">{t.nav.cart}</span>
+                          </Button>
+                        </Link>
+                      </SheetClose>
+                      
+                      <SheetClose asChild>
+                        <Link href="/wishlist">
+                          <Button variant="outline" className="w-full h-16 rounded-none flex flex-col items-center justify-center gap-1 border-primary/10 bg-accent/5">
+                            <div className="relative">
+                              <Heart className={cn("h-4 w-4 text-primary", wishlistCount > 0 && "fill-primary")} />
+                              {wishlistCount > 0 && (
+                                <Badge className="absolute -top-2 -right-2 h-3.5 w-3.5 p-0 flex items-center justify-center bg-primary text-white text-[7px] border-none rounded-full">
+                                  {wishlistCount}
+                                </Badge>
+                              )}
+                            </div>
+                            <span className="text-[8px] font-bold uppercase tracking-widest">{t.nav.wishlist}</span>
+                          </Button>
+                        </Link>
+                      </SheetClose>
+                    </div>
+                  </div>
+
+                  <Separator className="bg-primary/10 mb-8" />
+
+                  {/* Contact Info Section */}
+                  <div className="space-y-4 mb-8">
+                    <div className="flex items-center gap-2 mb-4 opacity-40">
+                      <Headset className="h-3 w-3 text-primary" />
+                      <span className="text-[8px] font-black uppercase tracking-[0.4em]">{t.contact_info.support_title}</span>
+                    </div>
+                    
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-4 p-4 border border-primary/5 bg-accent/5">
+                        <Phone className="h-4 w-4 text-primary" />
+                        <div>
+                          <p className="text-[7px] font-black text-muted-foreground uppercase tracking-widest">Support_Line</p>
+                          <p className="text-[10px] font-bold tracking-tight">{t.contact_info.phone}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-4 p-4 border border-primary/5 bg-accent/5">
+                        <Mail className="h-4 w-4 text-primary" />
+                        <div>
+                          <p className="text-[7px] font-black text-muted-foreground uppercase tracking-widest">Support_Email</p>
+                          <p className="text-[10px] font-bold tracking-tight">{t.contact_info.email}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <Separator className="bg-primary/10 mb-8" />
+
+                  {/* Language Section */}
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-2 mb-4 opacity-40">
+                      <Globe className="h-3 w-3 text-primary" />
+                      <span className="text-[8px] font-black uppercase tracking-[0.4em]">Region_Protocol</span>
+                    </div>
+                    
+                    <div className="flex gap-2">
+                      {languages.map((l) => (
+                        <Button 
+                          key={l.code}
+                          variant={lang === l.code ? "default" : "outline"}
+                          size="sm"
+                          onClick={() => dispatch(setLanguage(l.code))}
+                          className={cn(
+                            "flex-1 rounded-none text-[9px] font-black uppercase tracking-[0.2em] h-10",
+                            lang === l.code ? "bg-primary text-white" : "border-primary/10"
+                          )}
+                        >
+                          {l.label}
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-6 bg-accent/5 border-t border-primary/10 flex items-center justify-between grayscale opacity-40">
+                  <span className="text-[7px] font-black uppercase tracking-[0.4em]">SAM_MEDICALE_v4.2</span>
+                  <div className="flex gap-4">
+                    <span className="text-[7px] font-black uppercase tracking-[0.4em]">ISO-13485</span>
+                    <span className="text-[7px] font-black uppercase tracking-[0.4em]">FDA_COMP</span>
+                  </div>
                 </div>
               </SheetContent>
             </Sheet>
