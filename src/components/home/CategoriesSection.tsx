@@ -166,9 +166,14 @@ const CategoriesSection = () => {
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent" />
                   <CardContent className="absolute bottom-10 left-10 p-0">
+                    <Badge className="bg-primary/20 text-white mb-4 rounded-none text-[9px] uppercase font-bold tracking-[0.2em] px-3 py-1 border-none backdrop-blur-md">
+                      Technologie Annexe
+                    </Badge>
                     <h3 className="text-3xl font-bold mb-3 uppercase tracking-tight text-white">Autres</h3>
-                    <p className="text-white/70 text-sm mb-8 font-medium italic">Équipements et Accessoires Divers</p>
-                    <div className="h-[3px] w-16 bg-primary group-hover:w-32 transition-all duration-700" />
+                    <p className="text-white/70 text-sm mb-6 font-medium italic">Équipements et Accessoires Divers</p>
+                    <div className="flex items-center gap-3 text-primary font-bold uppercase text-[10px] tracking-[0.3em] group-hover:gap-5 transition-all">
+                      Voir la Gamme <ArrowRight className="h-4 w-4" />
+                    </div>
                   </CardContent>
                 </Card>
               </Link>
@@ -201,9 +206,14 @@ const CategoriesSection = () => {
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent" />
                   <CardContent className="absolute bottom-10 left-10 p-0">
+                    <Badge className="bg-primary/20 text-white mb-4 rounded-none text-[9px] uppercase font-bold tracking-[0.2em] px-3 py-1 border-none backdrop-blur-md">
+                      Support Médical
+                    </Badge>
                     <h3 className="text-3xl font-bold mb-3 uppercase tracking-tight text-white">Accessoires</h3>
-                    <p className="text-white/70 text-sm mb-8 font-medium italic">Kits de Calibration et Filtres</p>
-                    <div className="h-[3px] w-16 bg-primary group-hover:w-32 transition-all duration-700" />
+                    <p className="text-white/70 text-sm mb-6 font-medium italic">Kits de Calibration et Filtres</p>
+                    <div className="flex items-center gap-3 text-primary font-bold uppercase text-[10px] tracking-[0.3em] group-hover:gap-5 transition-all">
+                      Voir la Gamme <ArrowRight className="h-4 w-4" />
+                    </div>
                   </CardContent>
                 </Card>
               </Link>
