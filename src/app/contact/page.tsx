@@ -49,6 +49,15 @@ export default function ContactPage() {
     }
   };
 
+  const formGroupVariants = {
+    hidden: { opacity: 0, x: -20 },
+    visible: { 
+      opacity: 1, 
+      x: 0,
+      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
+    }
+  };
+
   const contactInfos = [
     { 
       icon: Phone, 
@@ -161,42 +170,74 @@ export default function ContactPage() {
                   </p>
                 </div>
               </div>
+              
               <CardContent className="p-10">
-                <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div className="space-y-3">
-                    <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary/60 ml-1">Nom Complet</label>
-                    <Input placeholder="John Doe" className="rounded-none h-14 bg-accent/5 border-primary/10 focus-visible:ring-primary/20 text-sm font-medium" required />
-                  </div>
-                  <div className="space-y-3">
-                    <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary/60 ml-1">Email Professionnel</label>
-                    <Input type="email" placeholder="john@clinique.com" className="rounded-none h-14 bg-accent/5 border-primary/10 focus-visible:ring-primary/20 text-sm font-medium" required />
-                  </div>
-                  <div className="md:col-span-2 space-y-3">
-                    <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary/60 ml-1">Type de Demande</label>
-                    <Input placeholder="Spécifications, Calibration, Revue de Prescription..." className="rounded-none h-14 bg-accent/5 border-primary/10 focus-visible:ring-primary/20 text-sm font-medium" />
-                  </div>
-                  <div className="md:col-span-2 space-y-3">
-                    <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary/60 ml-1">Message Diagnostic</label>
-                    <Textarea placeholder="Comment nos spécialistes peuvent-ils vous assister aujourd'hui?" className="min-h-[160px] rounded-none bg-accent/5 border-primary/10 focus-visible:ring-primary/20 text-sm font-medium resize-none" required />
-                  </div>
-                  <div className="md:col-span-2 pt-6">
-                    <motion.div whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.98 }}>
-                      <Button 
-                        type="submit" 
-                        disabled={isSubmitting}
-                        className="w-full bg-primary text-white h-20 text-[11px] font-bold uppercase tracking-[0.3em] rounded-none hover:bg-primary/90 transition-all flex items-center justify-center gap-4 shadow-2xl shadow-primary/20"
-                      >
-                        {isSubmitting ? (
-                          <Loader2 className="h-6 w-6 animate-spin" />
-                        ) : (
-                          <>
-                            Synchroniser le Signal
-                            <Send className="h-4 w-4" />
-                          </>
-                        )}
-                      </Button>
+                <form onSubmit={handleSubmit}>
+                  <motion.div 
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                    variants={{
+                      visible: { transition: { staggerChildren: 0.1 } }
+                    }}
+                    className="grid grid-cols-1 md:grid-cols-2 gap-8"
+                  >
+                    <motion.div variants={formGroupVariants} className="space-y-3">
+                      <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary/60 ml-1">Nom Complet</label>
+                      <Input placeholder="John Doe" className="rounded-none h-14 bg-accent/5 border-primary/10 focus-visible:ring-primary/20 text-sm font-medium transition-all" required />
                     </motion.div>
-                  </div>
+                    
+                    <motion.div variants={formGroupVariants} className="space-y-3">
+                      <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary/60 ml-1">Email Professionnel</label>
+                      <Input type="email" placeholder="john@clinique.com" className="rounded-none h-14 bg-accent/5 border-primary/10 focus-visible:ring-primary/20 text-sm font-medium transition-all" required />
+                    </motion.div>
+                    
+                    <motion.div variants={formGroupVariants} className="md:col-span-2 space-y-3">
+                      <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary/60 ml-1">Type de Demande</label>
+                      <Input placeholder="Spécifications, Calibration, Revue de Prescription..." className="rounded-none h-14 bg-accent/5 border-primary/10 focus-visible:ring-primary/20 text-sm font-medium transition-all" />
+                    </motion.div>
+                    
+                    <motion.div variants={formGroupVariants} className="md:col-span-2 space-y-3">
+                      <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary/60 ml-1">Message Diagnostic</label>
+                      <Textarea placeholder="Comment nos spécialistes peuvent-ils vous assister aujourd'hui?" className="min-h-[160px] rounded-none bg-accent/5 border-primary/10 focus-visible:ring-primary/20 text-sm font-medium resize-none transition-all" required />
+                    </motion.div>
+                    
+                    <motion.div variants={formGroupVariants} className="md:col-span-2 pt-6">
+                      <motion.div whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.98 }}>
+                        <Button 
+                          type="submit" 
+                          disabled={isSubmitting}
+                          className="w-full bg-primary text-white h-20 text-[11px] font-bold uppercase tracking-[0.3em] rounded-none hover:bg-primary/90 transition-all flex items-center justify-center gap-4 shadow-2xl shadow-primary/20 overflow-hidden relative"
+                        >
+                          <AnimatePresence mode="wait">
+                            {isSubmitting ? (
+                              <motion.div 
+                                key="submitting"
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -10 }}
+                                className="flex items-center gap-3"
+                              >
+                                <Loader2 className="h-6 w-6 animate-spin" />
+                                Synchronisation...
+                              </motion.div>
+                            ) : (
+                              <motion.div 
+                                key="idle"
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -10 }}
+                                className="flex items-center gap-4"
+                              >
+                                Synchroniser le Signal
+                                <Send className="h-4 w-4" />
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </Button>
+                      </motion.div>
+                    </motion.div>
+                  </motion.div>
                 </form>
               </CardContent>
             </Card>
@@ -218,4 +259,3 @@ export default function ContactPage() {
     </main>
   );
 }
-
