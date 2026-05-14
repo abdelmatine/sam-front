@@ -97,6 +97,7 @@ const CategoriesSection = () => {
           >
             <Link href="/shop/cpap" onClick={() => handleLinkClick('cpap')} className="block h-full min-h-[450px]">
               <Card className="h-full rounded-none overflow-hidden group border border-slate-200 dark:border-white/10 clinical-shadow bg-card relative">
+                <div className="absolute top-0 left-0 h-1 w-0 bg-primary group-hover:w-full transition-all duration-700 z-30" />
                 <AnimatePresence>
                   {navigatingSlug === 'cpap' && (
                     <motion.div 
@@ -122,15 +123,19 @@ const CategoriesSection = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent opacity-90" />
                 
                 <CardContent className="absolute bottom-12 left-12 right-12 p-0">
-                  <Badge className="bg-primary text-white mb-8 rounded-none text-[11px] uppercase font-bold tracking-[0.25em] px-5 py-2.5 border-none shadow-xl shadow-primary/20">
-                    Choix Professionnel
-                  </Badge>
-                  <h3 className="text-4xl md:text-5xl font-bold mb-6 uppercase tracking-tight text-white">Soin Respiratoire</h3>
+                  <div className="flex items-center justify-between mb-8">
+                    <div className="h-[2px] w-12 bg-primary group-hover:w-24 group-hover:bg-primary transition-all duration-700" />
+                    <Badge className="bg-primary text-white rounded-none text-[11px] uppercase font-bold tracking-[0.25em] px-5 py-2.5 border-none shadow-xl shadow-primary/20">
+                      Choix Professionnel
+                    </Badge>
+                  </div>
+                  <h3 className="text-4xl md:text-5xl font-bold mb-6 uppercase tracking-tight text-white group-hover:text-primary transition-colors duration-300">Soin Respiratoire</h3>
                   <p className="text-white/80 text-sm md:text-base mb-10 max-w-lg font-medium italic leading-relaxed">
                     CPAP, BPAP et Concentrateurs d'Oxygène avancés conçus pour la thérapie à domicile et le soutien clinique.
                   </p>
-                  <div className="flex items-center gap-3 text-primary font-bold uppercase text-[11px] tracking-[0.4em] group-hover:gap-6 transition-all">
-                    Explorer la Sélection <ArrowRight className="h-5 w-5" />
+                  <div className="flex items-center gap-4 text-primary group-hover:gap-8 transition-all duration-500">
+                    <div className="h-[1px] w-8 bg-primary/40 group-hover:w-16 group-hover:bg-primary transition-all duration-500" />
+                    <ArrowRight className="h-6 w-6" />
                   </div>
                 </CardContent>
               </Card>
@@ -142,6 +147,7 @@ const CategoriesSection = () => {
             <motion.div variants={itemVariants} className="h-full">
               <Link href="/shop/others" onClick={() => handleLinkClick('others')} className="block h-full min-h-[280px]">
                 <Card className="h-full rounded-none overflow-hidden group border border-slate-200 dark:border-white/10 clinical-shadow bg-card relative">
+                  <div className="absolute top-0 left-0 h-1 w-0 bg-primary group-hover:w-full transition-all duration-700 z-30" />
                   <AnimatePresence>
                     {navigatingSlug === 'others' && (
                       <motion.div 
@@ -165,15 +171,16 @@ const CategoriesSection = () => {
                     />
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent" />
-                  <CardContent className="absolute bottom-10 left-10 p-0">
-                    <Badge className="bg-primary/20 text-white mb-4 rounded-none text-[9px] uppercase font-bold tracking-[0.2em] px-3 py-1 border-none backdrop-blur-md">
-                      Technologie Annexe
-                    </Badge>
-                    <h3 className="text-3xl font-bold mb-3 uppercase tracking-tight text-white">Autres</h3>
-                    <p className="text-white/70 text-sm mb-6 font-medium italic">Équipements et Accessoires Divers</p>
-                    <div className="flex items-center gap-3 text-primary font-bold uppercase text-[10px] tracking-[0.3em] group-hover:gap-5 transition-all">
-                      Voir la Gamme <ArrowRight className="h-4 w-4" />
+                  <CardContent className="absolute bottom-10 left-10 right-10 p-0">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="h-[2px] w-8 bg-primary/40 group-hover:w-16 group-hover:bg-primary transition-all duration-500" />
+                      <Badge className="bg-primary/20 text-white rounded-none text-[9px] uppercase font-bold tracking-[0.2em] px-3 py-1 border-none backdrop-blur-md">
+                        Technologie Annexe
+                      </Badge>
                     </div>
+                    <h3 className="text-3xl font-bold mb-3 uppercase tracking-tight text-white group-hover:text-primary transition-colors">Autres</h3>
+                    <p className="text-white/70 text-sm mb-6 font-medium italic">Équipements et Accessoires Divers</p>
+                    <ArrowRight className="h-5 w-5 text-primary group-hover:translate-x-3 transition-transform duration-500" />
                   </CardContent>
                 </Card>
               </Link>
@@ -182,6 +189,7 @@ const CategoriesSection = () => {
             <motion.div variants={itemVariants} className="h-full">
               <Link href="/shop/accessories" onClick={() => handleLinkClick('accessories')} className="block h-full min-h-[280px]">
                 <Card className="h-full rounded-none overflow-hidden group border border-slate-200 dark:border-white/10 clinical-shadow bg-card relative">
+                  <div className="absolute top-0 left-0 h-1 w-0 bg-primary group-hover:w-full transition-all duration-700 z-30" />
                   <AnimatePresence>
                     {navigatingSlug === 'accessories' && (
                       <motion.div 
@@ -205,15 +213,16 @@ const CategoriesSection = () => {
                     />
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent" />
-                  <CardContent className="absolute bottom-10 left-10 p-0">
-                    <Badge className="bg-primary/20 text-white mb-4 rounded-none text-[9px] uppercase font-bold tracking-[0.2em] px-3 py-1 border-none backdrop-blur-md">
-                      Support Médical
-                    </Badge>
-                    <h3 className="text-3xl font-bold mb-3 uppercase tracking-tight text-white">Accessoires</h3>
-                    <p className="text-white/70 text-sm mb-6 font-medium italic">Kits de Calibration et Filtres</p>
-                    <div className="flex items-center gap-3 text-primary font-bold uppercase text-[10px] tracking-[0.3em] group-hover:gap-5 transition-all">
-                      Voir la Gamme <ArrowRight className="h-4 w-4" />
+                  <CardContent className="absolute bottom-10 left-10 right-10 p-0">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="h-[2px] w-8 bg-primary/40 group-hover:w-16 group-hover:bg-primary transition-all duration-500" />
+                      <Badge className="bg-primary/20 text-white rounded-none text-[9px] uppercase font-bold tracking-[0.2em] px-3 py-1 border-none backdrop-blur-md">
+                        Support Médical
+                      </Badge>
                     </div>
+                    <h3 className="text-3xl font-bold mb-3 uppercase tracking-tight text-white group-hover:text-primary transition-colors">Accessoires</h3>
+                    <p className="text-white/70 text-sm mb-6 font-medium italic">Kits de Calibration et Filtres</p>
+                    <ArrowRight className="h-5 w-5 text-primary group-hover:translate-x-3 transition-transform duration-500" />
                   </CardContent>
                 </Card>
               </Link>
