@@ -15,7 +15,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { useTranslation } from '@/hooks/use-translation';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 interface Product {
   id: string;
@@ -31,7 +31,6 @@ interface Product {
 
 const ProductCard = ({ product }: { product: Product }) => {
   const dispatch = useDispatch();
-  const router = useRouter();
   const wishlist = useSelector((state: RootState) => state.wishlist.items);
   const isWishlisted = wishlist.some(item => item.id === product.id);
   const { t } = useTranslation();
@@ -73,9 +72,8 @@ const ProductCard = ({ product }: { product: Product }) => {
     }));
   };
 
-  const handleNavigation = () => {
+  const handleLinkClick = () => {
     setIsNavigating(true);
-    router.push(`/shop/${product.category}/${product.id}`);
   };
 
   return (
@@ -87,7 +85,7 @@ const ProductCard = ({ product }: { product: Product }) => {
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       className="h-full"
     >
-      <div onClick={handleNavigation} className="block h-full cursor-pointer">
+      <Link href={`/shop/${product.category}/${product.id}`} onClick={handleLinkClick} className="block h-full">
         <Card className="rounded-none overflow-hidden group transition-all border border-border/40 clinical-shadow flex flex-col h-full hover:border-primary/40 bg-card relative">
           {/* Navigation Overlay */}
           <AnimatePresence>
@@ -171,7 +169,7 @@ const ProductCard = ({ product }: { product: Product }) => {
             </div>
           </CardContent>
         </Card>
-      </div>
+      </Link>
     </motion.div>
   );
 };

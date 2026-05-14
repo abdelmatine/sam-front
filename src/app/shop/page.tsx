@@ -10,16 +10,13 @@ import { ArrowRight, Activity, ChevronRight, Hash, Database, Loader2 } from 'luc
 import { Card, CardContent } from '@/components/ui/card';
 import { useTranslation } from '@/hooks/use-translation';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 
 export default function CatalogueRootPage() {
   const { t } = useTranslation();
-  const router = useRouter();
   const [navigatingSlug, setNavigatingSlug] = useState<string | null>(null);
 
-  const handleNavigation = (slug: string) => {
+  const handleLinkClick = (slug: string) => {
     setNavigatingSlug(slug);
-    router.push(slug === 'all' ? '/shop/all' : `/shop/${slug}`);
   };
 
   const containerVariants = {
@@ -114,9 +111,8 @@ export default function CatalogueRootPage() {
                 whileHover={!isNavigating ? { scale: 1.03, y: -8 } : {}}
                 transition={{ duration: 0.4, ease: "easeOut" }}
               >
-                <div onClick={() => handleNavigation(category.slug)} className="cursor-pointer h-full">
+                <Link href={`/shop/${category.slug}`} onClick={() => handleLinkClick(category.slug)} className="block h-full">
                   <Card className="rounded-none overflow-hidden group border border-border/40 hover:border-primary/40 clinical-shadow bg-card/60 backdrop-blur-sm h-full relative">
-                    {/* Navigation Overlay */}
                     <AnimatePresence>
                       {isNavigating && (
                         <motion.div 
@@ -168,7 +164,7 @@ export default function CatalogueRootPage() {
                       </div>
                     </CardContent>
                   </Card>
-                </div>
+                </Link>
               </motion.div>
             );
           })}
@@ -179,7 +175,7 @@ export default function CatalogueRootPage() {
             whileHover={navigatingSlug !== 'all' ? { scale: 1.03, y: -8 } : {}}
             transition={{ duration: 0.4, ease: "easeOut" }}
           >
-            <div onClick={() => handleNavigation('all')} className="cursor-pointer h-full">
+            <Link href="/shop/all" onClick={() => handleLinkClick('all')} className="block h-full">
               <Card className="rounded-none overflow-hidden group border-2 border-dashed border-primary/20 bg-primary/5 h-full flex items-center justify-center min-h-[450px] cursor-pointer relative">
                 <AnimatePresence>
                   {navigatingSlug === 'all' && (
@@ -206,7 +202,7 @@ export default function CatalogueRootPage() {
                   </div>
                 </CardContent>
               </Card>
-            </div>
+            </Link>
           </motion.div>
         </motion.div>
 
