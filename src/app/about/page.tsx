@@ -13,13 +13,16 @@ import { cn } from '@/lib/utils';
 export default function AboutPage() {
   const { t, isRTL } = useTranslation();
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
+  const sectionVariants = {
+    hidden: { opacity: 0, y: 40 },
     visible: {
       opacity: 1,
+      y: 0,
       transition: {
+        duration: 1,
+        ease: [0.22, 1, 0.36, 1],
         staggerChildren: 0.15,
-        delayChildren: 0.2
+        delayChildren: 0.1
       }
     }
   };
@@ -30,7 +33,7 @@ export default function AboutPage() {
       opacity: 1, 
       y: 0, 
       scale: 1,
-      transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1] }
+      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
     }
   };
 
@@ -48,14 +51,15 @@ export default function AboutPage() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] h-[60%] bg-primary/5 rounded-full blur-[120px] animate-pulse" />
       </div>
       
-      <motion.div 
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        className="relative z-10"
-      >
+      <div className="relative z-10">
         {/* Hero Header */}
-        <section className="pt-40 pb-24 hero-gradient">
+        <motion.section 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={sectionVariants}
+          className="pt-40 pb-24 hero-gradient"
+        >
           <div className="container mx-auto px-4 text-center">
             <motion.div variants={itemVariants} className="flex items-center justify-center gap-3 mb-8">
               <Database className="h-4 w-4 text-primary/40" />
@@ -63,18 +67,24 @@ export default function AboutPage() {
             </motion.div>
             
             <motion.h1 variants={itemVariants} className="text-4xl md:text-7xl font-headline font-bold mb-8 uppercase tracking-tighter leading-[0.9]">
-              {t.about.hero.title.split('{breath}')[0]}
-              <span className="text-primary">{isRTL ? "نفس" : (t.about.hero.title.includes('{breath}') ? "Breath" : "Souffle")}</span>
+              {t.about.hero.title}
+              <span className="text-primary">{isRTL ? "نفس" : "Breath"}</span>
             </motion.h1>
             
             <motion.p variants={itemVariants} className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto leading-relaxed font-medium italic">
               {t.about.hero.subtitle}
             </motion.p>
           </div>
-        </section>
+        </motion.section>
 
         {/* Story Section */}
-        <section className="py-24">
+        <motion.section 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={sectionVariants}
+          className="py-24"
+        >
           <div className="container mx-auto px-4">
             <div className="grid lg:grid-cols-2 gap-20 items-center">
               <motion.div variants={itemVariants} className="relative h-[500px] md:h-[700px] rounded-none overflow-hidden clinical-shadow border border-primary/10 group">
@@ -89,20 +99,23 @@ export default function AboutPage() {
               </motion.div>
               
               <div className="space-y-16">
-                <div className={cn("space-y-8 border-primary", isRTL ? "border-r-4 pr-10" : "border-l-4 pl-10")}>
-                  <motion.h2 variants={itemVariants} className="text-4xl md:text-5xl font-headline font-bold uppercase tracking-tighter leading-none">
-                    {t.about.story.title.split('{health}')[0]}
-                    <span className="text-primary">{isRTL ? "الصحة" : (t.about.story.title.includes('{health}') ? "Health" : "Santé")}</span>
-                  </motion.h2>
+                <motion.div 
+                  variants={itemVariants}
+                  className={cn("space-y-8 border-primary", isRTL ? "border-r-4 pr-10" : "border-l-4 pl-10")}
+                >
+                  <h2 className="text-4xl md:text-5xl font-headline font-bold uppercase tracking-tighter leading-none">
+                    {t.about.story.title}
+                    <span className="text-primary">{isRTL ? "الصحة" : "Health"}</span>
+                  </h2>
                   
-                  <motion.p variants={itemVariants} className="text-muted-foreground text-sm md:text-base leading-relaxed font-medium italic">
+                  <p className="text-muted-foreground text-sm md:text-base leading-relaxed font-medium italic">
                     {t.about.story.p1}
-                  </motion.p>
+                  </p>
                   
-                  <motion.p variants={itemVariants} className="text-muted-foreground text-sm md:text-base leading-relaxed font-medium italic">
+                  <p className="text-muted-foreground text-sm md:text-base leading-relaxed font-medium italic">
                     {t.about.story.p2}
-                  </motion.p>
-                </div>
+                  </p>
+                </motion.div>
 
                 <div className="grid sm:grid-cols-2 gap-6">
                   {Object.entries(t.about.values).map(([key, value], i) => {
@@ -134,11 +147,14 @@ export default function AboutPage() {
               </div>
             </div>
           </div>
-        </section>
+        </motion.section>
 
         {/* Stats Section */}
         <motion.section 
-          variants={itemVariants} 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={sectionVariants} 
           className="py-24 bg-primary text-white relative overflow-hidden"
         >
           <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2" />
@@ -147,10 +163,10 @@ export default function AboutPage() {
           <div className="container mx-auto px-4 relative z-10">
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-16 text-center">
               {Object.entries(t.about.stats).map(([key, stat], i) => (
-                <div key={key} className="space-y-4">
+                <motion.div key={key} variants={itemVariants} className="space-y-4">
                   <div className="text-5xl md:text-6xl font-bold tracking-tighter mb-2">{stat.val}</div>
                   <div className="text-primary-foreground/60 text-[10px] font-bold uppercase tracking-[0.5em]">{stat.label}</div>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
@@ -158,16 +174,19 @@ export default function AboutPage() {
 
         {/* Compliance Footer */}
         <motion.div 
-          variants={itemVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={sectionVariants}
           className="py-20 flex flex-wrap items-center justify-center gap-12 grayscale opacity-30 border-t border-primary/5"
         >
-          <div className="text-[10px] font-bold uppercase tracking-[0.6em]">{t.catalogue.standards.iso}</div>
-          <div className="h-4 w-[1px] bg-primary/20" />
-          <div className="text-[10px] font-bold uppercase tracking-[0.6em]">{t.catalogue.standards.ce}</div>
-          <div className="h-4 w-[1px] bg-primary/20" />
-          <div className="text-[10px] font-bold uppercase tracking-[0.6em]">{t.catalogue.standards.fda}</div>
+          <motion.div variants={itemVariants} className="text-[10px] font-bold uppercase tracking-[0.6em]">{t.catalogue.standards.iso}</motion.div>
+          <motion.div variants={itemVariants} className="h-4 w-[1px] bg-primary/20" />
+          <motion.div variants={itemVariants} className="text-[10px] font-bold uppercase tracking-[0.6em]">{t.catalogue.standards.ce}</motion.div>
+          <motion.div variants={itemVariants} className="h-4 w-[1px] bg-primary/20" />
+          <motion.div variants={itemVariants} className="text-[10px] font-bold uppercase tracking-[0.6em]">{t.catalogue.standards.fda}</motion.div>
         </motion.div>
-      </motion.div>
+      </div>
     </main>
   );
 }
