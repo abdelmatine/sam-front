@@ -197,24 +197,32 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
         animate="visible"
         className="container mx-auto px-4 relative z-10"
       >
-        <motion.div variants={itemVariants} className="flex items-center gap-2 mb-10 text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground/60">
-          <Link href="/" className="hover:text-primary transition-colors">{t.catalogue.brand}</Link>
-          <ChevronRight className={cn("h-2.5 w-2.5", isRTL && "rotate-180")} />
-          <ClinicalDropdown 
-            isHoverable={true}
-            variant="compact"
-            trigger={
-              <div className="hover:text-primary transition-colors flex items-center gap-1 cursor-pointer">
-                {t.nav.catalogue}
-                <ChevronDown className="h-2.5 w-2.5" />
-              </div>
-            }
-            items={categoryItems}
-          />
-          <ChevronRight className={cn("h-2.5 w-2.5", isRTL && "rotate-180")} />
-          <Link href={`/shop/${categorySlug}`} className="hover:text-primary transition-colors">{categoryName}</Link>
-          <ChevronRight className={cn("h-2.5 w-2.5", isRTL && "rotate-180")} />
-          <span className="text-primary/80">{product.name}</span>
+        <motion.div 
+          variants={itemVariants} 
+          className="flex flex-wrap items-center gap-x-2 gap-y-3 mb-10 text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground/60"
+        >
+          <Link href="/" className="hover:text-primary transition-colors shrink-0">{t.catalogue.brand}</Link>
+          <ChevronRight className={cn("h-2.5 w-2.5 shrink-0", isRTL && "rotate-180")} />
+          <div className="shrink-0">
+            <ClinicalDropdown 
+              isHoverable={true}
+              variant="compact"
+              trigger={
+                <div className="hover:text-primary transition-colors flex items-center gap-1 cursor-pointer">
+                  {t.nav.catalogue}
+                  <ChevronDown className="h-2.5 w-2.5" />
+                </div>
+              }
+              items={categoryItems}
+            />
+          </div>
+          <ChevronRight className={cn("h-2.5 w-2.5 shrink-0", isRTL && "rotate-180")} />
+          <Link href={`/shop/${categorySlug}`} className="hover:text-primary transition-colors shrink-0">{categoryName}</Link>
+          
+          <div className="flex items-center gap-2 w-full md:w-auto">
+            <ChevronRight className={cn("h-2.5 w-2.5 shrink-0", isRTL && "rotate-180")} />
+            <span className="text-primary/80 truncate max-w-[250px] md:max-w-none">{product.name}</span>
+          </div>
         </motion.div>
 
         <div className="grid lg:grid-cols-12 gap-16 mb-24">
