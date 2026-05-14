@@ -3,6 +3,7 @@ export const en = {
   nav: {
     catalogue: "Catalogue",
     about: "Our Mission",
+    services: "Services",
     contact: "Contact",
     cart: "Cart",
     wishlist: "Wishlist",
@@ -39,6 +40,26 @@ export const en = {
       s4: { val: "98%", label: "Patient Satisfaction" }
     }
   },
+  services: {
+    hero: {
+      badge: "Technical Assistance v2.5",
+      title: "Expertise {Surgical}",
+      subtitle: "Beyond equipment provision, we offer comprehensive clinical support to ensure the maximum efficiency of your respiratory therapy."
+    },
+    list: {
+      calibration: { title: "Precision Calibration", desc: "Preventive maintenance and high-precision calibration for all your CPAP and BPAP devices according to ISO standards." },
+      consultation: { title: "Medical Consultation", desc: "Access to pulmonary specialists for adjusting your treatment parameters and monitoring your data." },
+      delivery: { title: "Specialized Logistics", desc: "Secure delivery and home installation by certified technicians for optimal setup." },
+      support: { title: "24/7 Technical Support", desc: "Continuous technical assistance to answer all operational emergencies and maintenance questions." },
+      training: { title: "Clinical Training", desc: "Training programs for patients and caregivers on the correct use of respiratory equipment." },
+      hygiene: { title: "Hygiene Protocols", desc: "Surgical-grade disinfection services and regular replacement of consumables for total safety." }
+    },
+    cta: {
+      title: "Ready for Technical Analysis?",
+      subtitle: "Contact our specialists for a review of your current setup.",
+      button: "Request Intervention"
+    }
+  },
   categories: {
     title: "Medical Specialties",
     subtitle: "Cutting-edge equipment selected for reliability and clinical excellence.",
@@ -55,7 +76,7 @@ export const en = {
     accessories_desc: "Essential tubing, filters, and replacement parts for medical devices.",
     monitoring: "Vital Monitoring",
     monitoring_desc: "High-precision pulse oximeters and diagnostic monitoring tools.",
-    consumables: "Consumables",
+    consumables: "Consommables",
     consumables_desc: "Medical-grade consumables and surgical hygiene products.",
     others: "Others",
     others_desc: "Specialized clinical tools and peripheral medical equipment."
@@ -150,7 +171,7 @@ export const en = {
     categories_btn: "Categories",
     tech_id: "Technical Classification v2.5",
     index_total: "Total Index",
-    sectors: "Sectors",
+    sectors: "Secteurs",
     clinical_sector: "Clinical Sector",
     explore_range: "Explore the Range",
     global_inventory: "Global Inventory",

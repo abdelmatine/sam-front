@@ -142,6 +142,7 @@ const Navbar = () => {
               items={categoryItems}
             />
             {[
+              { label: t.nav.services, href: '/services' },
               { label: t.nav.about, href: '/about' },
               { label: t.nav.contact, href: '/contact' }
             ].map((link) => (
@@ -311,6 +312,11 @@ const Navbar = () => {
                     </motion.div>
 
                     <div className="space-y-8 pt-4">
+                      <motion.div variants={itemVariants}>
+                        <Link href="/services" className="block text-3xl font-headline font-bold uppercase tracking-tighter text-foreground hover:text-primary transition-all hover:translate-x-2">
+                          {t.nav.services}
+                        </Link>
+                      </motion.div>
                       <motion.div variants={itemVariants}>
                         <Link href="/about" className="block text-3xl font-headline font-bold uppercase tracking-tighter text-foreground hover:text-primary transition-all hover:translate-x-2">
                           {t.nav.about}

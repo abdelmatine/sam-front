@@ -36,7 +36,7 @@ const Footer = () => {
     { label: t.categories.bpap, href: '/shop/bpap' },
     { label: t.categories.oxygen, href: '/shop/oxygen' },
     { label: t.categories.masks, href: '/shop/masks' },
-    { label: t.categories.monitoring, href: '/shop/monitoring' }
+    { label: t.nav.services, href: '/services' }
   ];
 
   const legalLinks = [

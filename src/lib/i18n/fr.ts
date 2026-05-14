@@ -3,6 +3,7 @@ export const fr = {
   nav: {
     catalogue: "Catalogue",
     about: "Notre Mission",
+    services: "Services",
     contact: "Contact",
     cart: "Panier",
     wishlist: "Wishlist",
@@ -37,6 +38,26 @@ export const fr = {
       s2: { val: "12+", label: "Années d'Expérience" },
       s3: { val: "500+", label: "Partenaires Cliniques" },
       s4: { val: "98%", label: "Satisfaction Patient" }
+    }
+  },
+  services: {
+    hero: {
+      badge: "Assistance Technique v2.5",
+      title: "Expertise {Surgical}",
+      subtitle: "Au-delà de la fourniture d'équipement, nous offrons un accompagnement clinique complet pour garantir l'efficacité maximale de votre thérapie respiratoire."
+    },
+    list: {
+      calibration: { title: "Calibration Précise", desc: "Maintenance préventive et calibration de haute précision pour tous vos dispositifs CPAP et BPAP selon les normes ISO." },
+      consultation: { title: "Consultation Médicale", desc: "Accès à des spécialistes en pneumologie pour l'ajustement de vos paramètres de traitement et le suivi de vos données." },
+      delivery: { title: "Logistique Spécialisée", desc: "Livraison sécurisée et installation à domicile par des techniciens certifiés pour une mise en service optimale." },
+      support: { title: "Support Technique 24/7", desc: "Une assistance technique continue pour répondre à toutes vos urgences opérationnelles et questions de maintenance." },
+      training: { title: "Formation Clinique", desc: "Programmes de formation pour les patients et les aidants sur l'utilisation correcte des équipements respiratoires." },
+      hygiene: { title: "Protocoles d'Hygiène", desc: "Services de désinfection de grade chirurgical et remplacement régulier des consommables pour une sécurité totale." }
+    },
+    cta: {
+      title: "Prêt pour une Analyse Technique ?",
+      subtitle: "Contactez nos spécialistes pour une revue de votre configuration actuelle.",
+      button: "Demander une Intervention"
     }
   },
   categories: {
