@@ -3,8 +3,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store';
 import { addToCart } from '@/store/slices/cartSlice';
@@ -16,6 +15,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { useTranslation } from '@/hooks/use-translation';
+import { useRouter } from 'next/navigation';
 
 interface Product {
   id: string;
@@ -31,11 +31,13 @@ interface Product {
 
 const ProductCard = ({ product }: { product: Product }) => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const wishlist = useSelector((state: RootState) => state.wishlist.items);
   const isWishlisted = wishlist.some(item => item.id === product.id);
   const { t } = useTranslation();
   const { toast } = useToast();
   const [isAdding, setIsAdding] = useState(false);
+  const [isNavigating, setIsNavigating] = useState(false);
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -71,17 +73,37 @@ const ProductCard = ({ product }: { product: Product }) => {
     }));
   };
 
+  const handleNavigation = () => {
+    setIsNavigating(true);
+    router.push(`/shop/${product.category}/${product.id}`);
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      whileHover={{ y: -8, scale: 1.02 }}
+      whileHover={!isNavigating ? { y: -8, scale: 1.02 } : {}}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       className="h-full"
     >
-      <Link href={`/shop/${product.category}/${product.id}`} className="block h-full">
-        <Card className="rounded-none overflow-hidden group transition-all border border-border/40 clinical-shadow flex flex-col h-full hover:border-primary/40 bg-card">
+      <div onClick={handleNavigation} className="block h-full cursor-pointer">
+        <Card className="rounded-none overflow-hidden group transition-all border border-border/40 clinical-shadow flex flex-col h-full hover:border-primary/40 bg-card relative">
+          {/* Navigation Overlay */}
+          <AnimatePresence>
+            {isNavigating && (
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="absolute inset-0 z-50 bg-background/80 backdrop-blur-sm flex flex-col items-center justify-center gap-3"
+              >
+                <Loader2 className="h-8 w-8 text-primary animate-spin" />
+                <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-primary">{t.common.loading}</span>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
           <div className="relative h-64 overflow-hidden border-b border-border/40 bg-muted/30">
             <Image 
               src={product.imageUrl}
@@ -149,7 +171,7 @@ const ProductCard = ({ product }: { product: Product }) => {
             </div>
           </CardContent>
         </Card>
-      </Link>
+      </div>
     </motion.div>
   );
 };

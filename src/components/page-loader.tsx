@@ -11,33 +11,9 @@ export default function PageLoader() {
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
 
-  // This effect starts the loading process on link click
-  useEffect(() => {
-    const handleLinkClick = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      const anchor = target.closest('a');
-
-      // Check if it's a valid internal navigation link
-      if (anchor && anchor.href && anchor.getAttribute('href')?.startsWith('/') && anchor.getAttribute('target') !== '_blank') {
-        // Standard click (no modifier keys)
-        if (!e.metaKey && !e.ctrlKey && !e.shiftKey && e.button === 0) {
-          const targetPathname = new URL(anchor.href).pathname;
-          // Only trigger if the pathname is different to avoid reloading same page
-          if (pathname !== targetPathname) {
-            setLoading(true);
-          }
-        }
-      }
-    };
-    
-    document.addEventListener('click', handleLinkClick);
-    
-    return () => {
-      document.removeEventListener('click', handleLinkClick);
-    };
-  }, [pathname]);
-
-  // This effect stops the loading process when URL changes
+  // We only show the global loader when the pathname actually changes
+  // and we want a global transition. We've removed the manual click interceptor
+  // to prefer localized card-level loading states.
   useEffect(() => {
     setLoading(false);
   }, [pathname, searchParams]);
@@ -54,7 +30,6 @@ export default function PageLoader() {
           className="fixed inset-0 bg-background/95 backdrop-blur-xl z-[200] flex flex-col items-center justify-center gap-6 pointer-events-none"
         >
           <div className="relative flex flex-col items-center overflow-hidden w-full max-w-xs">
-            {/* Clinical Core Glide Container */}
             <motion.div
               initial={{ x: "-100%", opacity: 0 }}
               animate={{ 
@@ -67,7 +42,6 @@ export default function PageLoader() {
               }}
               className="relative flex items-center justify-center p-12"
             >
-              {/* Inner Pulsing Glow */}
               <motion.div 
                 animate={{ 
                   scale: [1, 1.4, 1],
@@ -81,7 +55,6 @@ export default function PageLoader() {
                 className="absolute inset-0 bg-primary/30 rounded-full blur-3xl" 
               />
               
-              {/* Main Clinical Core */}
               <motion.div
                 animate={{ scale: [1, 1.1, 1] }}
                 transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
@@ -91,7 +64,6 @@ export default function PageLoader() {
             </motion.div>
           </div>
           
-          {/* Branding */}
           <div className="flex flex-col items-center gap-2 mt-4">
             <motion.span 
               initial={{ opacity: 0, y: 10 }}

@@ -1,18 +1,26 @@
 
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import Navbar from '@/components/layout/Navbar';
 import Image from 'next/image';
 import { categories } from '@/lib/products';
-import { motion } from 'framer-motion';
-import { ArrowRight, Activity, ChevronRight, Hash, Database } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowRight, Activity, ChevronRight, Hash, Database, Loader2 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { useTranslation } from '@/hooks/use-translation';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function CatalogueRootPage() {
   const { t } = useTranslation();
+  const router = useRouter();
+  const [navigatingSlug, setNavigatingSlug] = useState<string | null>(null);
+
+  const handleNavigation = (slug: string) => {
+    setNavigatingSlug(slug);
+    router.push(slug === 'all' ? '/shop/all' : `/shop/${slug}`);
+  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -97,16 +105,32 @@ export default function CatalogueRootPage() {
           {categories.map((category, index) => {
             const localizedName = (t.categories as any)[category.slug] || category.name;
             const localizedDesc = (t.categories as any)[`${category.slug}_desc`] || category.description;
+            const isNavigating = navigatingSlug === category.slug;
 
             return (
               <motion.div 
                 key={category.id} 
                 variants={itemVariants}
-                whileHover={{ scale: 1.03, y: -8 }}
+                whileHover={!isNavigating ? { scale: 1.03, y: -8 } : {}}
                 transition={{ duration: 0.4, ease: "easeOut" }}
               >
-                <Link href={`/shop/${category.slug}`}>
-                  <Card className="rounded-none overflow-hidden group border border-border/40 hover:border-primary/40 clinical-shadow bg-card/60 backdrop-blur-sm h-full cursor-pointer relative">
+                <div onClick={() => handleNavigation(category.slug)} className="cursor-pointer h-full">
+                  <Card className="rounded-none overflow-hidden group border border-border/40 hover:border-primary/40 clinical-shadow bg-card/60 backdrop-blur-sm h-full relative">
+                    {/* Navigation Overlay */}
+                    <AnimatePresence>
+                      {isNavigating && (
+                        <motion.div 
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          className="absolute inset-0 z-50 bg-background/80 backdrop-blur-sm flex flex-col items-center justify-center gap-3"
+                        >
+                          <Loader2 className="h-8 w-8 text-primary animate-spin" />
+                          <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-primary">{t.common.loading}</span>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+
                     <div className="absolute top-6 right-6 z-20 flex items-center gap-1.5 px-2.5 py-1 bg-black/40 backdrop-blur-xl border border-white/10 rounded-none transform translate-y-[-5px] opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
                       <Hash className="h-2.5 w-2.5 text-primary" />
                       <span className="text-[10px] font-black text-white uppercase tracking-widest">IDX-0{index + 1}</span>
@@ -144,7 +168,7 @@ export default function CatalogueRootPage() {
                       </div>
                     </CardContent>
                   </Card>
-                </Link>
+                </div>
               </motion.div>
             );
           })}
@@ -152,11 +176,25 @@ export default function CatalogueRootPage() {
           {/* Global Inventory Entry */}
           <motion.div 
             variants={itemVariants}
-            whileHover={{ scale: 1.03, y: -8 }}
+            whileHover={navigatingSlug !== 'all' ? { scale: 1.03, y: -8 } : {}}
             transition={{ duration: 0.4, ease: "easeOut" }}
           >
-            <Link href="/shop/all">
+            <div onClick={() => handleNavigation('all')} className="cursor-pointer h-full">
               <Card className="rounded-none overflow-hidden group border-2 border-dashed border-primary/20 bg-primary/5 h-full flex items-center justify-center min-h-[450px] cursor-pointer relative">
+                <AnimatePresence>
+                  {navigatingSlug === 'all' && (
+                    <motion.div 
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="absolute inset-0 z-50 bg-background/80 backdrop-blur-sm flex flex-col items-center justify-center gap-3"
+                    >
+                      <Loader2 className="h-8 w-8 text-primary animate-spin" />
+                      <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-primary">{t.common.loading}</span>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
                 <CardContent className="text-center p-10">
                   <div className="p-7 bg-primary/10 rounded-full inline-block mb-8 group-hover:bg-primary group-hover:text-white group-hover:shadow-[0_0_30px_rgba(0,121,107,0.3)] transition-all duration-500">
                     <Activity className="h-12 w-12" />
@@ -168,7 +206,7 @@ export default function CatalogueRootPage() {
                   </div>
                 </CardContent>
               </Card>
-            </Link>
+            </div>
           </motion.div>
         </motion.div>
 
