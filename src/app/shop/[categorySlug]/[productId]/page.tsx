@@ -115,6 +115,15 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
     }
   };
 
+  const leftToRightVariants = {
+    hidden: { opacity: 0, x: -60 },
+    visible: { 
+      opacity: 1, 
+      x: 0,
+      transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1] }
+    }
+  };
+
   const staggerDetails = {
     hidden: { opacity: 0 },
     visible: {
@@ -483,27 +492,43 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
         </motion.div>
 
         {relatedProducts.length > 0 && (
-          <motion.section variants={itemVariants} className="pt-24 border-t border-primary/10">
-            <div className="flex items-center justify-between mb-16 px-4">
-              <div className="flex items-center gap-4 border-l-4 border-primary pl-8">
+          <motion.section 
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            className="pt-24 border-t border-primary/10"
+          >
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-16 px-4 gap-6">
+              <motion.div 
+                variants={leftToRightVariants}
+                className="flex items-center gap-4 border-l-4 border-primary pl-8"
+              >
                 <Activity className="h-6 w-6 text-primary animate-pulse" />
                 <div>
                   <h2 className="text-3xl font-bold uppercase tracking-tighter">Équipements Complémentaires</h2>
                   <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-[0.4em] mt-1">Secteur: {categoryName}</p>
                 </div>
-              </div>
-              <Link href={`/shop/${categorySlug}`}>
-                <Button variant="ghost" className="text-primary text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 hover:bg-primary/5 h-12 px-8">
-                  Tout Voir <ChevronRight className="h-4 w-4" />
-                </Button>
-              </Link>
+              </motion.div>
+              
+              <motion.div variants={rightToLeftVariants}>
+                <Link href={`/shop/${categorySlug}`}>
+                  <Button variant="ghost" className="text-primary text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 hover:bg-primary/5 h-12 px-8 rounded-none border border-transparent hover:border-primary/10 transition-all">
+                    Tout Voir <ChevronRight className="h-4 w-4" />
+                  </Button>
+                </Link>
+              </motion.div>
             </div>
             
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 px-4">
+            <motion.div 
+              variants={containerVariants}
+              className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 px-4"
+            >
               {relatedProducts.map((p) => (
-                <ProductCard key={p.id} product={p as any} />
+                <motion.div key={p.id} variants={itemVariants}>
+                  <ProductCard product={p as any} />
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </motion.section>
         )}
       </motion.div>
