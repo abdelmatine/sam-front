@@ -316,7 +316,9 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
               variants={staggerDetails}
               initial="hidden"
               animate="visible"
-              className="border border-primary/10 bg-accent/5 p-8 rounded-none clinical-shadow relative overflow-hidden group"
+              whileHover={{ scale: 1.02 }}
+              transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              className="border border-primary/10 bg-accent/5 p-8 rounded-none clinical-shadow relative overflow-hidden group cursor-default"
             >
               <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full -translate-y-1/2 translate-x-1/2" />
               <motion.h4 variants={rightToLeftVariants} className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary mb-6 flex items-center gap-2">
