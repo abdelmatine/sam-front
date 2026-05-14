@@ -119,7 +119,12 @@ export default function AboutPage() {
                   </p>
                 </motion.div>
 
-                <div className="grid sm:grid-cols-2 gap-6">
+                <motion.div 
+                  variants={{
+                    visible: { transition: { staggerChildren: 0.2, delayChildren: 0.6 } }
+                  }}
+                  className="grid sm:grid-cols-2 gap-6"
+                >
                   {Object.entries(t.about.values).map(([key, value], i) => {
                     const Icon = valueIcons[i];
                     return (
@@ -145,7 +150,7 @@ export default function AboutPage() {
                       </motion.div>
                     );
                   })}
-                </div>
+                </motion.div>
               </div>
             </div>
           </div>
