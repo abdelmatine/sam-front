@@ -37,6 +37,10 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
     ? t.catalogue.global_inventory 
     : (t.categories as any)[categorySlug] || currentCategory?.name || categorySlug;
 
+  const categoryDescription = categorySlug === 'all'
+    ? t.catalogue.all_devices_desc
+    : (t.categories as any)[`${categorySlug}_desc`] || currentCategory?.description || t.catalogue.subtitle;
+
   useEffect(() => {
     setIsLoading(true);
     setVisibleCount(8);
@@ -166,7 +170,7 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
                   <div className="p-1.5 bg-primary/10 rounded-sm">
                     <Database className="h-3.5 w-3.5 text-primary" />
                   </div>
-                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-primary/70">Module: {categorySlug.toUpperCase()}</span>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-primary/70">{t.catalogue.tech_id}: {categorySlug.toUpperCase()}</span>
                 </motion.div>
                 
                 <motion.h1 
@@ -180,7 +184,7 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
                   variants={itemVariants}
                   className="text-muted-foreground text-sm max-w-xl font-medium italic leading-relaxed"
                 >
-                  {currentCategory?.description || t.catalogue.subtitle}
+                  {categoryDescription}
                 </motion.p>
               </div>
 
@@ -199,7 +203,7 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
                   <div className="flex items-stretch gap-1 p-1 bg-primary/5">
                     <Button variant="ghost" className="h-14 px-8 rounded-none text-[10px] font-bold uppercase tracking-widest hover:bg-primary hover:text-white transition-all">
                       <Filter className="h-3.5 w-3.5 mr-3" />
-                      {t.common.sort}
+                      {t.catalogue.sort}
                     </Button>
                     <div className="w-[1px] bg-primary/10" />
                     <div className="flex items-center bg-background px-2">
@@ -218,12 +222,12 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
                 <div className="flex items-center gap-4">
                   <Activity className="h-4 w-4 text-primary/40 animate-pulse" />
                   <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground">
-                    {filteredProducts.length} {t.catalogue.no_results !== '0' ? 'Appareils Identifiés' : t.catalogue.no_results}
+                    {filteredProducts.length} {t.catalogue.identified_devices}
                   </div>
                 </div>
                 <div className="hidden md:flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.4em] opacity-30">
                   <Hash className="h-3 w-3" />
-                  Clinical-IDX: {displayedProducts.length > 0 ? displayedProducts[0].id : 'N/A'}
+                  IDX-REF: {displayedProducts.length > 0 ? displayedProducts[0].id : 'N/A'}
                 </div>
               </motion.div>
 
@@ -277,7 +281,7 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
                     onClick={() => setSearchTerm('')} 
                     className="bg-primary text-white px-12 py-7 rounded-none text-[10px] font-bold uppercase tracking-[0.3em] shadow-2xl shadow-primary/20 hover:scale-105 transition-transform"
                   >
-                    Reset Clinical Search
+                    {t.catalogue.reset_search}
                   </Button>
                 </motion.div>
               )}

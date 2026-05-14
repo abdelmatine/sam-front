@@ -98,6 +98,8 @@ export const ar = {
     access_grid: "الوصول إلى الشبكة",
     brand: "سام الطبية",
     load_more: "تحميل المزيد من الأجهزة",
+    identified_devices: "أجهزة محددة",
+    reset_search: "إعادة تعيين البحث السريري",
     standards: {
       iso: "ISO 13485:2016",
       ce: "CE درجة طبية",

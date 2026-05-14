@@ -98,6 +98,8 @@ export const en = {
     access_grid: "Access the Grid",
     brand: "SAM MÉDICALE",
     load_more: "Load more devices",
+    identified_devices: "Identified Devices",
+    reset_search: "Reset Clinical Search",
     standards: {
       iso: "ISO 13485:2016",
       ce: "CE MEDICAL GRADE",
