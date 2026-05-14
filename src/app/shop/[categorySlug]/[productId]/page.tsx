@@ -87,7 +87,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 30, scale: 0.98 },
+    hidden: { opacity: 0, y: 40, scale: 0.98 },
     visible: { 
       opacity: 1, 
       y: 0, 
@@ -97,7 +97,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
   };
 
   const rightToLeftVariants = {
-    hidden: { opacity: 0, x: 50 },
+    hidden: { opacity: 0, x: 60 },
     visible: { 
       opacity: 1, 
       x: 0,
@@ -110,7 +110,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
+        staggerChildren: 0.15,
         delayChildren: 0.4
       }
     }
@@ -319,9 +319,9 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
                 ].map((spec, i) => (
                   <motion.div 
                     key={i} 
-                    initial={{ opacity: 0, x: -10 }}
+                    initial={{ opacity: 0, x: -15 }}
                     whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.05 }}
+                    transition={{ delay: i * 0.08, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                     className="flex justify-between items-center py-6 border-b border-primary/10 hover:bg-primary/[0.02] px-4 transition-colors"
                   >
                     <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground">{spec.label}</span>
