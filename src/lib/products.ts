@@ -1,5 +1,6 @@
 
-import data from './data/products.json';
+import productsData from './data/products.json';
+import categoriesData from './data/categories.json';
 
 export interface Category {
   id: string;
@@ -22,5 +23,5 @@ export interface Product {
   description: string;
 }
 
-export const products: Product[] = data.products as Product[];
-export const categories: Category[] = data.categories as Category[];
+export const products: Product[] = productsData as Product[];
+export const categories: Category[] = categoriesData as Category[];

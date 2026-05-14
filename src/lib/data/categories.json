@@ -1,0 +1,59 @@
+
+[
+  {
+    "id": "cpap",
+    "name": "CPAP",
+    "slug": "cpap",
+    "imageUrl": "https://picsum.photos/seed/cat-cpap/800/600",
+    "description": "Continuous Positive Airway Pressure devices for obstructive sleep apnea."
+  },
+  {
+    "id": "bpap",
+    "name": "BPAP",
+    "slug": "bpap",
+    "imageUrl": "https://picsum.photos/seed/cat-bpap/800/600",
+    "description": "Bilevel Positive Airway Pressure solutions for complex respiratory needs."
+  },
+  {
+    "id": "oxygen",
+    "name": "Concentrateurs d'Oxygène",
+    "slug": "oxygen",
+    "imageUrl": "https://picsum.photos/seed/cat-oxy/800/600",
+    "description": "Portable and stationary oxygen concentrators for reliable saturation support."
+  },
+  {
+    "id": "masks",
+    "name": "Masques",
+    "slug": "masks",
+    "imageUrl": "https://picsum.photos/seed/cat-masks/800/600",
+    "description": "Surgical-grade interfaces and masks for optimal clinical therapy."
+  },
+  {
+    "id": "accessories",
+    "name": "Accessoires",
+    "slug": "accessories",
+    "imageUrl": "https://picsum.photos/seed/cat-acc/800/600",
+    "description": "Essential tubing, filters, and replacement parts for medical devices."
+  },
+  {
+    "id": "monitoring",
+    "name": "Monitorage Vital",
+    "slug": "monitoring",
+    "imageUrl": "https://picsum.photos/seed/cat-mon/800/600",
+    "description": "High-precision pulse oximeters and diagnostic monitoring tools."
+  },
+  {
+    "id": "consumables",
+    "name": "Consommables",
+    "slug": "consumables",
+    "imageUrl": "https://picsum.photos/seed/cat-cons/800/600",
+    "description": "Medical-grade consumables and surgical hygiene products."
+  },
+  {
+    "id": "others",
+    "name": "Autres",
+    "slug": "others",
+    "imageUrl": "https://picsum.photos/seed/cat-other/800/600",
+    "description": "Specialized clinical tools and peripheral medical equipment."
+  }
+]
