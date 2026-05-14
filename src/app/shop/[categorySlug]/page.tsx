@@ -268,10 +268,6 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
                     {filteredProducts.length} {t.catalogue.identified_devices}
                   </div>
                 </div>
-                <div className="hidden md:flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.4em] opacity-30">
-                  <Hash className="h-3 w-3" />
-                  IDX-REF: {displayedProducts.length > 0 ? displayedProducts[0].id : 'N/A'}
-                </div>
               </motion.div>
 
               {filteredProducts.length > 0 ? (
