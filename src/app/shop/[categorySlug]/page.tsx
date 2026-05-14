@@ -10,7 +10,7 @@ import { ShopSkeleton } from '@/components/shared/ProductSkeleton';
 import { products, categories } from '@/lib/products';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Search, SlidersHorizontal, ChevronDown, FilterX, ArrowLeft, ChevronRight, Loader2 } from 'lucide-react';
+import { Search, SlidersHorizontal, ChevronDown, FilterX, ArrowLeft, ChevronRight } from 'lucide-react';
 import { useTranslation } from '@/hooks/use-translation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 export default function CategoryPage() {
-  const { t, isRTL } = useTranslation();
+  const { t } = useTranslation();
   const params = useParams();
   const router = useRouter();
   const categorySlug = params.categorySlug as string;
@@ -66,24 +66,16 @@ export default function CategoryPage() {
       
       <div className="container mx-auto px-4">
         {/* Breadcrumbs */}
-        <motion.div 
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="flex items-center gap-2 mb-8 text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground"
-        >
+        <div className="flex items-center gap-2 mb-8 text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
           <Link href="/" className="hover:text-primary transition-colors">{t.catalogue.brand}</Link>
           <ChevronRight className="h-3 w-3" />
           <Link href="/shop" className="hover:text-primary transition-colors">{t.nav.catalogue}</Link>
           <ChevronRight className="h-3 w-3" />
           <span className="text-primary">{activeCategory === 'all' ? t.categories.view_all : localizedCategoryName}</span>
-        </motion.div>
+        </div>
 
         {/* Header */}
-        <motion.div 
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-12 border-l-4 border-primary pl-6 flex flex-col md:flex-row md:items-end justify-between gap-6"
-        >
+        <div className="mb-12 border-l-4 border-primary pl-6 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
             <h1 className="text-3xl font-headline font-bold mb-2 uppercase tracking-tight">
               {activeCategory === 'all' ? t.catalogue.title : localizedCategoryName}
@@ -92,32 +84,26 @@ export default function CategoryPage() {
               {activeCategory === 'all' ? t.catalogue.subtitle : localizedCategoryDesc}
             </p>
           </div>
-          <Button 
-            variant="ghost" 
-            onClick={() => router.push('/shop')}
-            className="rounded-none text-[10px] font-bold uppercase tracking-widest h-auto py-2 group"
-          >
-            <ArrowLeft className="mr-2 h-3.5 w-3.5 group-hover:-translate-x-1 transition-transform" />
-            {t.catalogue.categories_btn}
-          </Button>
-        </motion.div>
+          <Link href="/shop">
+            <Button variant="ghost" className="rounded-none text-[10px] font-bold uppercase tracking-widest h-auto py-2 group">
+              <ArrowLeft className="mr-2 h-3.5 w-3.5 group-hover:-translate-x-1 transition-transform" />
+              {t.catalogue.categories_btn}
+            </Button>
+          </Link>
+        </div>
 
         {/* Filters Console */}
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="flex flex-col lg:flex-row gap-6 mb-12 items-start justify-between bg-accent/5 p-6 border border-border/40"
-        >
+        <div className="flex flex-col lg:flex-row gap-6 mb-12 items-start justify-between bg-accent/5 p-6 border border-border/40">
           <div className="flex flex-wrap gap-2 w-full lg:w-auto">
             {menuCategories.map((cat) => (
-              <Button
-                key={cat.value}
-                variant={(activeCategory === cat.value) ? "default" : "outline"}
-                onClick={() => router.push(cat.value === 'all' ? '/shop/all' : `/shop/${cat.value}`)}
-                className="rounded-none text-[9px] font-bold uppercase tracking-widest h-9 px-5 transition-all"
-              >
-                {cat.label}
-              </Button>
+              <Link key={cat.value} href={cat.value === 'all' ? '/shop/all' : `/shop/${cat.value}`}>
+                <Button
+                  variant={(activeCategory === cat.value) ? "default" : "outline"}
+                  className="rounded-none text-[9px] font-bold uppercase tracking-widest h-9 px-5 transition-all"
+                >
+                  {cat.label}
+                </Button>
+              </Link>
             ))}
           </div>
 
@@ -148,7 +134,7 @@ export default function CategoryPage() {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-        </motion.div>
+        </div>
 
         {/* Results */}
         <div className="min-h-[400px]">
@@ -167,11 +153,7 @@ export default function CategoryPage() {
                   ))}
                 </motion.div>
               ) : (
-                <motion.div 
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="text-center py-24 border border-dashed border-primary/20 bg-primary/5 flex flex-col items-center gap-4"
-                >
+                <div className="text-center py-24 border border-dashed border-primary/20 bg-primary/5 flex flex-col items-center gap-4">
                   <FilterX className="h-10 w-10 text-primary/40" />
                   <div>
                     <h3 className="text-lg font-bold mb-1 uppercase tracking-tighter">{t.catalogue.no_results}</h3>
@@ -179,12 +161,12 @@ export default function CategoryPage() {
                   </div>
                   <Button 
                     variant="link" 
-                    onClick={() => { router.push('/shop'); setSearchQuery(''); }}
+                    onClick={() => { setSearchQuery(''); }}
                     className="text-primary font-bold uppercase text-[10px] tracking-[0.2em]"
                   >
                     {t.catalogue.reset}
                   </Button>
-                </motion.div>
+                </div>
               )}
             </AnimatePresence>
           )}

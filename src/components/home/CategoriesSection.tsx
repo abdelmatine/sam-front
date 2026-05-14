@@ -1,27 +1,18 @@
 
 "use client";
 
-import React, { useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Badge } from '@/components/ui/badge';
-import { ArrowRight, Activity, Loader2 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { ArrowRight, Activity } from 'lucide-react';
+import Link from 'next/link';
 
 const CategoriesSection = () => {
-  const router = useRouter();
-  const [navigatingSlug, setNavigatingSlug] = useState<string | null>(null);
-  
   const respiratoryImage = PlaceHolderImages.find(img => img.id === 'category-respiratory');
   const accessoriesImage = PlaceHolderImages.find(img => img.id === 'category-accessories');
   const monitoringImage = PlaceHolderImages.find(img => img.id === 'category-monitoring');
-
-  const handleCategoryClick = (e: React.MouseEvent, slug: string) => {
-    e.preventDefault();
-    setNavigatingSlug(slug);
-    router.push(`/shop/${slug}`);
-  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -43,25 +34,16 @@ const CategoriesSection = () => {
     }
   };
 
-  const titleVariants = {
-    hidden: { opacity: 0, x: -50 },
-    visible: { 
-      opacity: 1, 
-      x: 0,
-      transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1] }
-    }
-  };
-
   return (
     <section className="py-32 bg-slate-50/50 dark:bg-slate-950 text-foreground overflow-hidden relative border-y">
       <div className="absolute top-0 right-0 w-1/3 h-full bg-primary/5 -skew-x-12 translate-x-1/4 z-0" />
       
       <div className="container mx-auto px-4 relative z-10">
         <motion.div 
-          initial="hidden"
-          whileInView="visible"
+          initial={{ opacity: 0, x: -50 }}
+          whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          variants={titleVariants}
+          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
           className="mb-24 border-l-4 border-primary pl-10"
         >
           <div className="flex items-center gap-3 mb-6">
@@ -88,21 +70,14 @@ const CategoriesSection = () => {
             variants={itemVariants}
             whileHover={{ scale: 1.005 }}
             className="lg:col-span-7 relative group overflow-hidden border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 clinical-shadow rounded-none cursor-pointer"
-            onClick={(e) => handleCategoryClick(e, 'cpap')}
           >
-            <div className="block h-full min-h-[450px]">
-              {navigatingSlug === 'cpap' && (
-                <div className="absolute inset-0 bg-background/60 backdrop-blur-sm z-30 flex items-center justify-center">
-                  <Loader2 className="h-12 w-12 text-primary animate-spin" />
-                </div>
-              )}
+            <Link href="/shop/cpap" className="block h-full min-h-[450px]">
               {respiratoryImage && (
                 <Image 
                   src={respiratoryImage.imageUrl}
                   alt="Soin Respiratoire"
                   fill
                   className="object-cover grayscale-[0.4] transition-all duration-1000 group-hover:scale-105 group-hover:grayscale-0"
-                  data-ai-hint="medical device monitor"
                 />
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent opacity-90" />
@@ -118,31 +93,23 @@ const CategoriesSection = () => {
                   Explorer la Sélection <ArrowRight className="h-5 w-5" />
                 </div>
               </div>
-            </div>
+            </Link>
           </motion.div>
 
           {/* Side Categories */}
           <div className="lg:col-span-5 grid grid-rows-2 gap-8">
-            {/* Others */}
             <motion.div 
               variants={itemVariants}
               whileHover={{ scale: 1.01 }}
               className="relative group overflow-hidden border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 clinical-shadow rounded-none cursor-pointer"
-              onClick={(e) => handleCategoryClick(e, 'others')}
             >
-              <div className="block h-full min-h-[280px]">
-                {navigatingSlug === 'others' && (
-                  <div className="absolute inset-0 bg-background/60 backdrop-blur-sm z-30 flex items-center justify-center">
-                    <Loader2 className="h-10 w-10 text-primary animate-spin" />
-                  </div>
-                )}
+              <Link href="/shop/others" className="block h-full min-h-[280px]">
                 {accessoriesImage && (
                   <Image 
                     src={accessoriesImage.imageUrl}
                     alt="Autres Équipements"
                     fill
                     className="object-cover grayscale-[0.6] transition-all duration-1000 group-hover:scale-105 group-hover:grayscale-0"
-                    data-ai-hint="medical gloves apparel"
                   />
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent" />
@@ -151,29 +118,21 @@ const CategoriesSection = () => {
                   <p className="text-white/70 text-sm mb-8 font-medium italic">Équipements et Accessoires Divers</p>
                   <div className="h-[3px] w-16 bg-primary group-hover:w-32 transition-all duration-700" />
                 </div>
-              </div>
+              </Link>
             </motion.div>
 
-            {/* Accessories */}
             <motion.div 
               variants={itemVariants}
               whileHover={{ scale: 1.01 }}
               className="relative group overflow-hidden border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 clinical-shadow rounded-none cursor-pointer"
-              onClick={(e) => handleCategoryClick(e, 'accessories')}
             >
-              <div className="block h-full min-h-[280px]">
-                {navigatingSlug === 'accessories' && (
-                  <div className="absolute inset-0 bg-background/60 backdrop-blur-sm z-30 flex items-center justify-center">
-                    <Loader2 className="h-10 w-10 text-primary animate-spin" />
-                  </div>
-                )}
+              <Link href="/shop/accessories" className="block h-full min-h-[280px]">
                 {monitoringImage && (
                   <Image 
                     src={monitoringImage.imageUrl}
                     alt="Accessoires Cliniques"
                     fill
                     className="object-cover grayscale-[0.6] transition-all duration-1000 group-hover:scale-105 group-hover:grayscale-0"
-                    data-ai-hint="medical kits filters"
                   />
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent" />
@@ -182,7 +141,7 @@ const CategoriesSection = () => {
                   <p className="text-white/70 text-sm mb-8 font-medium italic">Kits de Calibration et Filtres</p>
                   <div className="h-[3px] w-16 bg-primary group-hover:w-32 transition-all duration-700" />
                 </div>
-              </div>
+              </Link>
             </motion.div>
           </div>
         </motion.div>
