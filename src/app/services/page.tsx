@@ -150,43 +150,83 @@ export default function ServicesPage() {
           </div>
         </motion.section>
 
-        {/* Call to Action */}
+        {/* Call to Action - Enhanced Clinical Intervention Station */}
         <motion.section 
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
           variants={sectionVariants}
-          className="py-32 bg-primary text-white relative overflow-hidden"
+          className="py-32 bg-primary text-white relative overflow-hidden group"
         >
-          <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2" />
+          {/* Background Technical Pattern */}
+          <div className="absolute inset-0 opacity-[0.05] pointer-events-none" 
+            style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '40px 40px' }} 
+          />
+          <div className="absolute top-0 right-0 w-[50%] h-full bg-white/[0.02] -skew-x-12 translate-x-1/4 z-0" />
+          
+          <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 animate-pulse" />
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/10 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/2" />
           
-          <div className="container mx-auto px-4 relative z-10 text-center max-w-4xl">
-            <motion.div 
-              variants={{
-                visible: { transition: { staggerChildren: 0.2, delayChildren: 0.2 } }
-              }}
-              className="flex flex-col items-center gap-10"
-            >
-              <motion.div variants={itemVariants} className="p-6 bg-white/10 rounded-full border border-white/20">
-                <ShieldCheck className="h-12 w-12" />
+          <div className="container mx-auto px-4 relative z-10">
+            <div className="max-w-4xl mx-auto flex flex-col items-center text-center">
+              <motion.div 
+                variants={{
+                  visible: { transition: { staggerChildren: 0.2, delayChildren: 0.2 } }
+                }}
+                className="flex flex-col items-center gap-12"
+              >
+                {/* Protocol Badge */}
+                <motion.div variants={itemVariants} className="flex items-center gap-3 bg-white/10 px-4 py-2 border border-white/20">
+                  <div className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
+                  <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white/90">INTERVENTION_MOD_v4.2</span>
+                </motion.div>
+
+                {/* Main Icon Grouping */}
+                <motion.div variants={itemVariants} className="relative group/icon">
+                  <motion.div 
+                    animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.5, 0.2] }}
+                    transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+                    className="absolute inset-0 bg-white/20 rounded-full blur-3xl scale-150"
+                  />
+                  <div className="relative p-10 bg-white/10 rounded-none border border-white/20 backdrop-blur-md clinical-shadow transition-all duration-700 group-hover/icon:border-white/40">
+                    <ShieldCheck className="h-16 w-16 text-white" />
+                  </div>
+                  <div className="absolute -top-4 -right-4 p-3 bg-white text-primary rounded-none shadow-2xl">
+                    <Activity className="h-5 w-5 animate-pulse" />
+                  </div>
+                </motion.div>
+
+                {/* Typography Content */}
+                <motion.div variants={itemVariants} className="space-y-8">
+                  <h2 className="text-5xl md:text-7xl font-bold uppercase tracking-tighter leading-[0.9] max-w-2xl">
+                    {t.services.cta.title}
+                  </h2>
+                  <p className="text-primary-foreground/60 text-lg md:text-xl font-medium italic leading-relaxed max-w-xl mx-auto">
+                    {t.services.cta.subtitle}
+                  </p>
+                </motion.div>
+
+                {/* Primary Action Button */}
+                <motion.div variants={itemVariants}>
+                  <Link href="/contact">
+                    <Button className="bg-white text-primary hover:bg-white/90 px-16 py-10 rounded-none text-[12px] font-black uppercase tracking-[0.4em] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] transition-all active:scale-95 group/btn relative overflow-hidden">
+                      <span className="relative z-10 flex items-center gap-4">
+                        {t.services.cta.button}
+                        <ArrowRight className="h-5 w-5 group-hover/btn:translate-x-3 transition-transform duration-500" />
+                      </span>
+                      <div className="absolute inset-0 bg-primary/5 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-500" />
+                    </Button>
+                  </Link>
+                </motion.div>
+
+                {/* Metadata Footer */}
+                <motion.div variants={itemVariants} className="flex items-center gap-8 opacity-40 mt-6 grayscale">
+                   <div className="text-[9px] font-bold uppercase tracking-[0.4em]">{t.catalogue.standards.iso}</div>
+                   <div className="h-3 w-[1px] bg-white/30" />
+                   <div className="text-[9px] font-bold uppercase tracking-[0.4em]">{t.catalogue.standards.fda}</div>
+                </motion.div>
               </motion.div>
-              <motion.div variants={itemVariants} className="space-y-6">
-                <h2 className="text-4xl md:text-6xl font-bold uppercase tracking-tighter leading-none">
-                  {t.services.cta.title}
-                </h2>
-                <p className="text-primary-foreground/70 text-lg md:text-xl font-medium italic">
-                  {t.services.cta.subtitle}
-                </p>
-              </motion.div>
-              <motion.div variants={itemVariants}>
-                <Link href="/contact">
-                  <Button className="bg-white text-primary hover:bg-white/90 px-12 py-8 rounded-none text-[12px] font-bold uppercase tracking-[0.3em] shadow-2xl transition-all active:scale-95">
-                    {t.services.cta.button}
-                  </Button>
-                </Link>
-              </motion.div>
-            </motion.div>
+            </div>
           </div>
         </motion.section>
 
