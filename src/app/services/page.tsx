@@ -23,28 +23,28 @@ import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
-// Animation Variants calibrated for Surgical Resolve
+// Animation Variants calibrated for Surgical Resolve - Slower & Smoother
 const sectionVariants: Variants = {
-  hidden: { opacity: 0, y: 40 },
+  hidden: { opacity: 0, y: 60 },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 1,
+      duration: 1.4,
       ease: [0.22, 1, 0.36, 1],
-      staggerChildren: 0.15,
-      delayChildren: 0.1
+      staggerChildren: 0.25,
+      delayChildren: 0.2
     }
   }
 };
 
 const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 30, scale: 0.98 },
+  hidden: { opacity: 0, y: 40, scale: 0.98 },
   visible: { 
     opacity: 1, 
     y: 0, 
     scale: 1,
-    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
+    transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1] }
   }
 };
 
@@ -105,7 +105,7 @@ export default function ServicesPage() {
           <div className="container mx-auto px-4">
             <motion.div 
               variants={{
-                visible: { transition: { staggerChildren: 0.2, delayChildren: 0.1 } }
+                visible: { transition: { staggerChildren: 0.3, delayChildren: 0.2 } }
               }}
               className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
             >
@@ -116,17 +116,17 @@ export default function ServicesPage() {
                   <motion.div 
                     key={service.key} 
                     variants={itemVariants}
-                    whileHover={{ scale: 1.02, y: -5 }}
+                    whileHover={{ scale: 1.02, y: -8 }}
                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
                   >
                     <Card className="rounded-none bg-accent/5 border-primary/10 clinical-shadow group hover:bg-primary/[0.03] transition-all h-full relative overflow-hidden">
                       <div className={cn(
-                        "absolute top-0 w-1 h-0 bg-primary group-hover:h-full transition-all duration-700",
+                        "absolute top-0 w-1 h-0 bg-primary group-hover:h-full transition-all duration-1000",
                         isRTL ? "right-0" : "left-0"
                       )} />
                       <CardContent className="p-10 flex flex-col gap-8">
                         <div className="shrink-0 w-fit">
-                          <div className="p-5 bg-primary/10 rounded-none text-primary group-hover:bg-primary group-hover:text-white transition-all duration-500 border border-primary/10">
+                          <div className="p-5 bg-primary/10 rounded-none text-primary group-hover:bg-primary group-hover:text-white transition-all duration-700 border border-primary/10">
                             <Icon className="h-8 w-8" />
                           </div>
                         </div>
@@ -169,7 +169,7 @@ export default function ServicesPage() {
             <div className="max-w-4xl mx-auto flex flex-col items-center text-center">
               <motion.div 
                 variants={{
-                  visible: { transition: { staggerChildren: 0.2, delayChildren: 0.2 } }
+                  visible: { transition: { staggerChildren: 0.3, delayChildren: 0.3 } }
                 }}
                 className="flex flex-col items-center gap-12"
               >
@@ -183,10 +183,10 @@ export default function ServicesPage() {
                 <motion.div variants={itemVariants} className="relative group/icon">
                   <motion.div 
                     animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.5, 0.2] }}
-                    transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+                    transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
                     className="absolute inset-0 bg-white/20 rounded-full blur-3xl scale-150"
                   />
-                  <div className="relative p-10 bg-white/10 rounded-none border border-white/20 backdrop-blur-md clinical-shadow transition-all duration-700 group-hover/icon:border-white/40">
+                  <div className="relative p-10 bg-white/10 rounded-none border border-white/20 backdrop-blur-md clinical-shadow transition-all duration-1000 group-hover/icon:border-white/40">
                     <ShieldCheck className="h-16 w-16 text-white" />
                   </div>
                   <div className="absolute -top-4 -right-4 p-3 bg-white text-primary rounded-none shadow-2xl">
@@ -210,9 +210,9 @@ export default function ServicesPage() {
                     <Button className="w-full md:w-auto bg-white text-primary hover:bg-white/90 active:bg-primary active:text-white px-8 py-8 md:px-16 md:py-10 rounded-none text-[10px] md:text-[12px] font-black uppercase tracking-[0.4em] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] transition-all hover:scale-105 active:scale-95 group/btn relative overflow-hidden">
                       <span className="relative z-10 flex items-center justify-center gap-4">
                         {t.services.cta.button}
-                        <ArrowRight className="h-5 w-5 group-hover/btn:translate-x-3 transition-transform duration-500" />
+                        <ArrowRight className="h-5 w-5 group-hover/btn:translate-x-3 transition-transform duration-700" />
                       </span>
-                      <div className="absolute inset-0 bg-primary/5 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
+                      <div className="absolute inset-0 bg-primary/5 translate-y-full group-hover:translate-y-0 transition-transform duration-700" />
                     </Button>
                   </Link>
                 </motion.div>
@@ -257,17 +257,17 @@ export default function ServicesPage() {
                     <motion.div 
                       key={i} 
                       variants={itemVariants}
-                      whileHover={{ y: -5 }}
+                      whileHover={{ y: -10 }}
                       className="flex flex-col items-center gap-6 group"
                     >
                       <div className="relative">
-                        <div className="absolute inset-0 bg-primary/20 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                        <div className="relative p-6 bg-primary/5 border border-primary/10 rounded-full text-primary/40 group-hover:text-primary group-hover:border-primary/30 transition-all duration-500">
+                        <div className="absolute inset-0 bg-primary/20 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+                        <div className="relative p-6 bg-primary/5 border border-primary/10 rounded-full text-primary/40 group-hover:text-primary group-hover:border-primary/30 transition-all duration-700">
                           <Icon className="h-8 w-8" />
                         </div>
                       </div>
                       <div className="space-y-2">
-                        <h4 className="text-xs font-bold uppercase tracking-[0.3em] text-foreground group-hover:text-primary transition-colors">{std.label}</h4>
+                        <h4 className="text-xs font-bold uppercase tracking-[0.3em] text-foreground group-hover:text-primary transition-colors duration-500">{std.label}</h4>
                         <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60">{std.detail}</p>
                       </div>
                     </motion.div>
