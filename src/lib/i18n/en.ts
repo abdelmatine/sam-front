@@ -15,6 +15,30 @@ export const en = {
     cta_primary: "Explore Catalogue",
     cta_secondary: "Technical Consultation"
   },
+  about: {
+    hero: {
+      badge: "Mission Statement v1.0",
+      title: "Our Mission is {breath}",
+      subtitle: "At SAM Médicale, we bridge the gap between clinical excellence and home care. We are dedicated to providing cutting-edge respiratory technology to those who need it most."
+    },
+    story: {
+      title: "Respiratory {health} Leader",
+      p1: "Founded by a team of pulmonary specialists and medical engineers, SAM Médicale started with a simple goal: making oxygen therapy and sleep equipment accessible, reliable, and easy to use.",
+      p2: "Today, we serve over 15,000 patients, partnering with world-class brands to ensure every device meets the strictest clinical standards."
+    },
+    values: {
+      v1: { title: "FDA Certified", desc: "All our products are rigorously tested and approved." },
+      v2: { title: "Patient First", desc: "Dedicated support team available 24/7." },
+      v3: { title: "Compassionate Care", desc: "We understand the importance of reliability." },
+      v4: { title: "Global Trust", desc: "Partnerships with 500+ global clinics." }
+    },
+    stats: {
+      s1: { val: "15k+", label: "Patients Served" },
+      s2: { val: "12+", label: "Years Experience" },
+      s3: { val: "500+", label: "Clinical Partners" },
+      s4: { val: "98%", label: "Patient Satisfaction" }
+    }
+  },
   categories: {
     title: "Medical Specialties",
     subtitle: "Cutting-edge equipment selected for reliability and clinical excellence.",
