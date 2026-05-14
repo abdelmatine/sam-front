@@ -218,6 +218,25 @@ const Navbar = () => {
 
           {/* Mobile Navigation Trigger */}
           <div className="flex lg:hidden items-center gap-2">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="h-10 w-10 text-muted-foreground hover:text-primary transition-all"
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+            >
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={theme}
+                  initial={{ y: 10, opacity: 0, rotate: -45 }}
+                  animate={{ y: 0, opacity: 1, rotate: 0 }}
+                  exit={{ y: -10, opacity: 0, rotate: 45 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+                </motion.div>
+              </AnimatePresence>
+            </Button>
+
             <Link href="/cart">
               <Button variant="ghost" size="icon" className="relative h-10 w-10 text-muted-foreground">
                 <ShoppingCart className="h-5 w-5" />
@@ -343,32 +362,21 @@ const Navbar = () => {
 
                 <div className="p-8 bg-accent/20 border-t border-primary/5 flex flex-col gap-6">
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <Button 
-                        variant="outline" 
-                        size="icon"
-                        onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                        className="h-10 w-10 rounded-none border-primary/10 bg-background"
-                      >
-                        {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-                      </Button>
-                      
-                      <div className="flex items-center border border-primary/10 bg-background">
-                        {languages.map((l, i) => (
-                          <React.Fragment key={l.code}>
-                            <button
-                              onClick={() => dispatch(setLanguage(l.code))}
-                              className={cn(
-                                "h-10 px-4 text-[10px] font-bold transition-all",
-                                lang === l.code ? "bg-primary text-white" : "text-muted-foreground hover:bg-primary/5"
-                              )}
-                            >
-                              {l.label}
-                            </button>
-                            {i < languages.length - 1 && <div className="h-4 w-[1px] bg-primary/10" />}
-                          </React.Fragment>
-                        ))}
-                      </div>
+                    <div className="flex items-center border border-primary/10 bg-background">
+                      {languages.map((l, i) => (
+                        <React.Fragment key={l.code}>
+                          <button
+                            onClick={() => dispatch(setLanguage(l.code))}
+                            className={cn(
+                              "h-10 px-4 text-[10px] font-bold transition-all",
+                              lang === l.code ? "bg-primary text-white" : "text-muted-foreground hover:bg-primary/5"
+                            )}
+                          >
+                            {l.label}
+                          </button>
+                          {i < languages.length - 1 && <div className="h-4 w-[1px] bg-primary/10" />}
+                        </React.Fragment>
+                      ))}
                     </div>
 
                     <div className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.2em] text-primary/60">
