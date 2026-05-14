@@ -24,7 +24,8 @@ import {
   Info,
   PhoneCall,
   Mail,
-  ShieldAlert
+  ShieldAlert,
+  Copy
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -75,6 +76,15 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
       imageUrl: product.imageUrl,
       brand: product.brand
     }));
+  };
+
+  const handleCopy = (text: string, label: string) => {
+    navigator.clipboard.writeText(text).then(() => {
+      toast({
+        title: "Clinical Data Copied",
+        description: `${label} has been synchronized to clipboard.`,
+      });
+    });
   };
 
   const containerVariants = {
@@ -278,7 +288,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
                     onClick={handleWishlist}
                     className={cn(
                       "h-16 w-16 rounded-none border-2 transition-all",
-                      isWishlisted ? "text-destructive bg-destructive/5 border-destructive/20" : "border-primary/10 hover:bg-primary/5"
+                      isWishlisted ? "text-destructive bg-destructive/5" : "border-primary/10 hover:bg-primary/5"
                     )}
                   >
                     <Heart className={cn("h-6 w-6 transition-all", isWishlisted && "fill-destructive")} />
@@ -324,27 +334,39 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
                 {t.contact_info.support_title}
               </motion.h4>
               <motion.div variants={rightToLeftVariants} className="space-y-4">
-                <motion.div whileHover={{ scale: 1.03 }} transition={{ type: "spring", stiffness: 400, damping: 30 }}>
-                  <Link href="/contact" className="flex items-center gap-4 p-4 border border-primary/5 bg-background/50 hover:bg-primary/5 transition-all group">
+                <motion.div 
+                  whileHover={{ scale: 1.03 }} 
+                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  onClick={() => handleCopy(t.contact_info.phone, "Phone Number")}
+                  className="cursor-pointer"
+                >
+                  <div className="flex items-center gap-4 p-4 border border-primary/5 bg-background/50 hover:bg-primary/5 transition-all group">
                     <div className="p-2 bg-primary/10 rounded-sm">
                       <PhoneCall className="h-4 w-4 text-primary" />
                     </div>
-                    <div>
+                    <div className="flex-1">
                       <div className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest mb-0.5">Assistance Technique</div>
                       <div className="text-xs font-bold tracking-tight">{t.contact_info.phone}</div>
                     </div>
-                  </Link>
+                    <Copy className="h-3 w-3 text-primary/20 group-hover:text-primary transition-colors" />
+                  </div>
                 </motion.div>
-                <motion.div whileHover={{ scale: 1.03 }} transition={{ type: "spring", stiffness: 400, damping: 30 }}>
-                  <Link href="/contact" className="flex items-center gap-4 p-4 border border-primary/5 bg-background/50 hover:bg-primary/5 transition-all group">
+                <motion.div 
+                  whileHover={{ scale: 1.03 }} 
+                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  onClick={() => handleCopy(t.contact_info.email, "Email Support")}
+                  className="cursor-pointer"
+                >
+                  <div className="flex items-center gap-4 p-4 border border-primary/5 bg-background/50 hover:bg-primary/5 transition-all group">
                     <div className="p-2 bg-primary/10 rounded-sm">
                       <Mail className="h-4 w-4 text-primary" />
                     </div>
-                    <div>
+                    <div className="flex-1">
                       <div className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest mb-0.5">Email Support</div>
                       <div className="text-xs font-bold tracking-tight">{t.contact_info.email}</div>
                     </div>
-                  </Link>
+                    <Copy className="h-3 w-3 text-primary/20 group-hover:text-primary transition-colors" />
+                  </div>
                 </motion.div>
               </motion.div>
               <motion.p variants={rightToLeftVariants} className="mt-6 text-[9px] text-muted-foreground font-medium italic leading-relaxed">
