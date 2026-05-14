@@ -8,8 +8,11 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Badge } from '@/components/ui/badge';
 import { ArrowRight, Activity } from 'lucide-react';
 import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { useTranslation } from '@/hooks/use-translation';
 
 const CategoriesSection = () => {
+  const { t } = useTranslation();
   const respiratoryImage = PlaceHolderImages.find(img => img.id === 'category-respiratory');
   const accessoriesImage = PlaceHolderImages.find(img => img.id === 'category-accessories');
   const monitoringImage = PlaceHolderImages.find(img => img.id === 'category-monitoring');
@@ -39,24 +42,39 @@ const CategoriesSection = () => {
       <div className="absolute top-0 right-0 w-1/3 h-full bg-primary/5 -skew-x-12 translate-x-1/4 z-0" />
       
       <div className="container mx-auto px-4 relative z-10">
-        <motion.div 
-          initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-24 border-l-4 border-primary pl-10"
-        >
-          <div className="flex items-center gap-3 mb-6">
-            <Activity className="h-6 w-6 text-primary" />
-            <span className="text-[11px] font-bold uppercase tracking-[0.5em] text-primary">Classification Technique</span>
-          </div>
-          <h2 className="text-4xl md:text-6xl font-bold mb-6 uppercase tracking-tighter text-slate-900 dark:text-white">
-            Catégories <span className="text-primary">Spécialisées</span>
-          </h2>
-          <p className="text-slate-500 dark:text-slate-400 text-base max-w-2xl font-medium italic leading-relaxed">
-            Équipements de précision pour chaque besoin respiratoire. Notre catalogue est organisé par application clinique pour garantir une identification rapide.
-          </p>
-        </motion.div>
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-24 gap-8">
+          <motion.div 
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+            className="border-l-4 border-primary pl-10"
+          >
+            <div className="flex items-center gap-3 mb-6">
+              <Activity className="h-6 w-6 text-primary" />
+              <span className="text-[11px] font-bold uppercase tracking-[0.5em] text-primary">Classification Technique</span>
+            </div>
+            <h2 className="text-4xl md:text-6xl font-bold mb-6 uppercase tracking-tighter text-slate-900 dark:text-white">
+              Catégories <span className="text-primary">Spécialisées</span>
+            </h2>
+            <p className="text-slate-500 dark:text-slate-400 text-base max-w-2xl font-medium italic leading-relaxed">
+              Équipements de précision pour chaque besoin respiratoire. Notre catalogue est organisé par application clinique pour garantir une identification rapide.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.2, delay: 0.2 }}
+          >
+            <Link href="/shop">
+              <Button variant="ghost" className="text-primary text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 hover:bg-primary/5 rounded-none px-8 py-6 h-auto transition-all duration-300">
+                {t.categories.view_all} <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
+          </motion.div>
+        </div>
 
         <motion.div 
           variants={containerVariants}
