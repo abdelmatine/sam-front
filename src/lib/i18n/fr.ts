@@ -2,7 +2,7 @@
 export const fr = {
   nav: {
     catalogue: "Catalogue",
-    about: "Notre Mission",
+    about: "Mission",
     services: "Services",
     contact: "Contact",
     cart: "Panier",
