@@ -18,7 +18,8 @@ import {
   Activity, 
   Star, 
   BadgeCheck,
-  Package
+  Package,
+  Database
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -71,17 +72,50 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
     }));
   };
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.2
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30, scale: 0.98 },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      scale: 1,
+      transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1] }
+    }
+  };
+
   if (!product) return null;
 
   const categoryName = (t.categories as any)[categorySlug] || categorySlug;
 
   return (
-    <main className="min-h-screen pt-24 pb-20 bg-background">
+    <main className="min-h-screen pt-24 pb-20 bg-background relative overflow-hidden">
       <Navbar />
       
-      <div className="container mx-auto px-4">
+      {/* Background Clinical Grid Accent */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <div className="absolute inset-0 opacity-[0.02] dark:opacity-[0.05]" 
+          style={{ backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)', backgroundSize: '40px 40px' }} 
+        />
+      </div>
+
+      <motion.div 
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="container mx-auto px-4 relative z-10"
+      >
         {/* Breadcrumbs */}
-        <div className="flex items-center gap-2 mb-10 text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground/60">
+        <motion.div variants={itemVariants} className="flex items-center gap-2 mb-10 text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground/60">
           <Link href="/" className="hover:text-primary transition-colors">{t.catalogue.brand}</Link>
           <ChevronRight className="h-2.5 w-2.5" />
           <Link href="/shop" className="hover:text-primary transition-colors">{t.nav.catalogue}</Link>
@@ -89,16 +123,12 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
           <Link href={`/shop/${categorySlug}`} className="hover:text-primary transition-colors">{categoryName}</Link>
           <ChevronRight className="h-2.5 w-2.5" />
           <span className="text-primary/80">{product.name}</span>
-        </div>
+        </motion.div>
 
         <div className="grid lg:grid-cols-12 gap-16 mb-24">
           {/* Left: Product Visuals */}
-          <div className="lg:col-span-7 space-y-6">
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="relative aspect-square border border-primary/10 bg-accent/5 overflow-hidden clinical-shadow"
-            >
+          <motion.div variants={itemVariants} className="lg:col-span-7 space-y-6">
+            <div className="relative aspect-square border border-primary/10 bg-accent/5 overflow-hidden clinical-shadow">
               <Image 
                 src={product.imageUrl} 
                 alt={product.name} 
@@ -113,7 +143,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
                   </Badge>
                 </div>
               )}
-            </motion.div>
+            </div>
             
             <div className="grid grid-cols-4 gap-4">
               {[1, 2, 3, 4].map((idx) => (
@@ -122,12 +152,15 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
                 </div>
               ))}
             </div>
-          </div>
+          </motion.div>
 
           {/* Right: Technical Specs & Actions */}
-          <div className="lg:col-span-5 flex flex-col">
+          <motion.div variants={itemVariants} className="lg:col-span-5 flex flex-col">
             <div className="border-l-4 border-primary pl-8 mb-8">
-              <span className="text-[10px] text-primary font-bold uppercase tracking-[0.4em] mb-2 block">{product.brand}</span>
+              <div className="flex items-center gap-3 mb-3">
+                <Database className="h-3.5 w-3.5 text-primary/40" />
+                <span className="text-[10px] text-primary font-bold uppercase tracking-[0.4em]">Tech-ID: {product.brand.toUpperCase()}</span>
+              </div>
               <h1 className="text-4xl font-bold uppercase tracking-tighter leading-none mb-4">{product.name}</h1>
               <div className="flex items-center gap-4 text-xs font-bold text-muted-foreground mb-6">
                 <div className="flex items-center gap-1">
@@ -187,11 +220,11 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
             </div>
 
             <AIExplainer content={product.description} />
-          </div>
+          </motion.div>
         </div>
 
         {/* Technical Specification Sheet */}
-        <div className="mb-24">
+        <motion.div variants={itemVariants} className="mb-24">
           <Tabs defaultValue="specs" className="w-full">
             <TabsList className="w-full justify-start rounded-none border-b bg-transparent h-auto p-0 gap-10">
               <TabsTrigger value="specs" className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none py-4 text-[11px] font-bold uppercase tracking-[0.3em]">
@@ -222,11 +255,11 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
               </p>
             </TabsContent>
           </Tabs>
-        </div>
+        </motion.div>
 
         {/* Related Equipment */}
         {relatedProducts.length > 0 && (
-          <section className="pt-24 border-t">
+          <motion.section variants={itemVariants} className="pt-24 border-t">
             <div className="flex items-center gap-3 mb-12 border-l-4 border-primary pl-6">
               <Activity className="h-5 w-5 text-primary" />
               <h2 className="text-2xl font-bold uppercase tracking-tighter">Équipements Complémentaires</h2>
@@ -236,9 +269,9 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
                 <ProductCard key={p.id} product={p as any} />
               ))}
             </div>
-          </section>
+          </motion.section>
         )}
-      </div>
+      </motion.div>
     </main>
   );
 }

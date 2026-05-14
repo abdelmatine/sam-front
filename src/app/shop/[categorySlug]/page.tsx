@@ -44,7 +44,6 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
 
   const handleLoadMore = () => {
     setIsFetchingMore(true);
-    // Simulate clinical database retrieval delay
     setTimeout(() => {
       setVisibleCount(prev => prev + 4);
       setIsFetchingMore(false);
@@ -56,18 +55,19 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15, // Slower stagger for a more resolving, premium feel
+        staggerChildren: 0.15,
         delayChildren: 0.2
       }
     }
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, x: -30 },
+    hidden: { opacity: 0, x: -30, scale: 0.98 },
     visible: { 
       opacity: 1, 
       x: 0,
-      transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1] } // Significantly smoother header entrance
+      scale: 1,
+      transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1] }
     }
   };
 
@@ -78,7 +78,7 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
       y: 0, 
       scale: 1,
       transition: { 
-        duration: 1.0, // Slower card resolution for surgical precision feel
+        duration: 1.0,
         ease: [0.22, 1, 0.36, 1] 
       }
     }
@@ -93,7 +93,6 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
         <div className="absolute inset-0 opacity-[0.02] dark:opacity-[0.05]" 
           style={{ backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)', backgroundSize: '40px 40px' }} 
         />
-        <div className="absolute top-0 right-0 w-1/4 h-full bg-primary/5 -skew-x-12 translate-x-1/2" />
       </div>
 
       <motion.div 
@@ -181,7 +180,6 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
           </div>
         </motion.div>
 
-        {/* Product Grid Entry Point with Localized Transitions */}
         <AnimatePresence mode="wait">
           {isLoading ? (
             <motion.div
@@ -211,8 +209,7 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
 
               {hasMore && (
                 <motion.div 
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  variants={itemVariants}
                   className="flex justify-center pt-8"
                 >
                   <Button 
@@ -235,8 +232,7 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
           ) : (
             <motion.div 
               key="empty"
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
+              variants={itemVariants}
               className="flex flex-col items-center justify-center py-40 text-center border-2 border-dashed border-primary/10 bg-accent/3 relative overflow-hidden"
             >
               <div className="absolute top-4 left-4 opacity-10 text-[10px] font-bold uppercase tracking-[0.5em]">Diagnostic ID: NO-RESULTS-SAM</div>

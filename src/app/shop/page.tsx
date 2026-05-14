@@ -24,7 +24,7 @@ export default function CatalogueRootPage() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
+        staggerChildren: 0.15,
         delayChildren: 0.2
       }
     }
@@ -36,7 +36,7 @@ export default function CatalogueRootPage() {
       opacity: 1, 
       y: 0, 
       scale: 1,
-      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
+      transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1] }
     }
   };
 
@@ -53,19 +53,23 @@ export default function CatalogueRootPage() {
         <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/3 rounded-full blur-[100px]" />
       </div>
 
-      <div className="container mx-auto px-4 relative z-10">
+      <motion.div 
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="container mx-auto px-4 relative z-10"
+      >
         {/* Breadcrumbs */}
-        <div className="flex items-center gap-2 mb-10 text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground/60">
+        <motion.div variants={itemVariants} className="flex items-center gap-2 mb-10 text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground/60">
           <Link href="/" className="hover:text-primary transition-colors">{t.catalogue.brand}</Link>
           <ChevronRight className="h-2.5 w-2.5" />
           <span className="text-primary/80">{t.nav.catalogue}</span>
-        </div>
+        </motion.div>
 
         {/* Technical Header */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-20 gap-8">
           <motion.div 
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
+            variants={itemVariants}
             className="border-l-4 border-primary pl-8"
           >
             <div className="flex items-center gap-3 mb-3">
@@ -82,23 +86,18 @@ export default function CatalogueRootPage() {
             </p>
           </motion.div>
 
-          <div className="hidden lg:flex items-center gap-6 p-4 border bg-accent/10 backdrop-blur-sm">
+          <motion.div variants={itemVariants} className="hidden lg:flex items-center gap-6 p-4 border bg-accent/10 backdrop-blur-sm">
             <div className="text-right">
               <div className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest mb-1">{t.catalogue.index_total}</div>
               <div className="text-2xl font-bold tracking-tighter">0{categories.length} <span className="text-sm font-medium text-primary">{t.catalogue.sectors}</span></div>
             </div>
             <div className="h-10 w-[1px] bg-border" />
             <Activity className="h-6 w-6 text-primary animate-pulse" />
-          </div>
+          </motion.div>
         </div>
 
         {/* Module Grid */}
-        <motion.div 
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
-        >
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {categories.map((category, index) => {
             const localizedName = (t.categories as any)[category.slug] || category.name;
             const localizedDesc = (t.categories as any)[`${category.slug}_desc`] || category.description;
@@ -204,17 +203,20 @@ export default function CatalogueRootPage() {
               </Card>
             </Link>
           </motion.div>
-        </motion.div>
+        </div>
 
         {/* Compliance Labels */}
-        <div className="mt-24 pt-12 border-t flex items-center justify-center gap-10 grayscale opacity-30">
+        <motion.div 
+          variants={itemVariants}
+          className="mt-24 pt-12 border-t flex items-center justify-center gap-10 grayscale opacity-30"
+        >
           <div className="text-[9px] font-bold uppercase tracking-[0.5em]">{t.catalogue.standards.iso}</div>
           <div className="h-4 w-[1px] bg-border" />
           <div className="text-[9px] font-bold uppercase tracking-[0.5em]">{t.catalogue.standards.ce}</div>
           <div className="h-4 w-[1px] bg-border" />
           <div className="text-[9px] font-bold uppercase tracking-[0.5em]">{t.catalogue.standards.fda}</div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </main>
   );
 }
