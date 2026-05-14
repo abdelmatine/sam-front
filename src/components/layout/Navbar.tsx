@@ -98,14 +98,20 @@ const Navbar = () => {
     show: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1
+        staggerChildren: 0.08,
+        delayChildren: 0.1
       }
     }
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, x: -20 },
-    show: { opacity: 1, x: 0 }
+    hidden: { opacity: 0, x: isRTL ? -30 : 30, filter: 'blur(4px)' },
+    show: { 
+      opacity: 1, 
+      x: 0, 
+      filter: 'blur(0px)',
+      transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
+    }
   };
 
   return (
@@ -250,19 +256,19 @@ const Navbar = () => {
 
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-10 w-10 border border-primary/10 rounded-none">
+                <Button variant="ghost" size="icon" className="h-10 w-10 border border-primary/10 rounded-none hover:bg-primary/5 transition-colors">
                   <Menu className="h-6 w-6" />
                 </Button>
               </SheetTrigger>
               <SheetContent 
                 side={isRTL ? "left" : "right"} 
-                className="w-full sm:max-w-md p-0 flex flex-col h-full bg-background/95 backdrop-blur-xl border-primary/10 group z-[160] [&>button]:hidden"
+                className="w-full sm:max-w-md p-0 flex flex-col h-full bg-background/98 backdrop-blur-3xl border-primary/10 group z-[160] [&>button]:hidden shadow-[0_0_50px_rgba(0,0,0,0.5)]"
               >
-                <SheetHeader className="p-8 pb-4 border-b border-primary/5 flex flex-row items-center justify-between">
+                <SheetHeader className="p-8 pb-4 border-b border-primary/5 flex flex-row items-center justify-between bg-accent/5">
                   <Logo />
                   <SheetClose asChild>
-                    <Button variant="ghost" size="icon" className="h-10 w-10 rounded-none hover:bg-primary/5 group/close">
-                      <X className="h-6 w-6 text-primary transition-transform group-hover/close:rotate-90" />
+                    <Button variant="ghost" size="icon" className="h-10 w-10 rounded-none hover:bg-primary/10 group/close transition-all">
+                      <X className="h-6 w-6 text-primary transition-transform duration-500 group-hover/close:rotate-90" />
                     </Button>
                   </SheetClose>
                   <SheetTitle className="sr-only">{t.nav.menu_title}</SheetTitle>
@@ -272,29 +278,32 @@ const Navbar = () => {
                   variants={containerVariants}
                   initial="hidden"
                   animate="show"
-                  className="flex-1 overflow-y-auto px-8 py-10"
+                  className="flex-1 overflow-y-auto px-8 py-10 custom-scrollbar"
                 >
                   <Accordion type="single" collapsible className="w-full space-y-6">
                     <motion.div variants={itemVariants}>
                       <AccordionItem value="shop" className="border-none">
-                        <AccordionTrigger className="flex-row-reverse gap-4 p-0 hover:no-underline font-headline font-bold text-2xl uppercase tracking-tighter text-foreground">
-                          <span className="flex-1 text-left">{t.nav.catalogue}</span>
+                        <AccordionTrigger className="flex-row-reverse gap-4 p-0 hover:no-underline font-headline font-bold text-3xl uppercase tracking-tighter text-foreground group/trigger">
+                          <span className="flex-1 text-left group-data-[state=open]/trigger:text-primary transition-colors">{t.nav.catalogue}</span>
                         </AccordionTrigger>
-                        <AccordionContent className="pt-6 pl-4 space-y-4">
+                        <AccordionContent className="pt-8 pl-4 space-y-5 border-l-2 border-primary/10 ml-1">
                           <Link 
                             href="/shop"
-                            className="text-xs font-bold uppercase tracking-widest text-primary py-2 block hover:opacity-80 transition-opacity flex items-center gap-3"
+                            className="text-xs font-bold uppercase tracking-[0.2em] text-primary py-2 block hover:opacity-80 transition-all flex items-center gap-4 group/link"
                           >
-                            <div className="h-1.5 w-1.5 bg-primary rounded-full" />
+                            <motion.div 
+                              whileHover={{ scale: 1.5 }}
+                              className="h-1.5 w-1.5 bg-primary rounded-full" 
+                            />
                             {t.categories.view_all}
                           </Link>
                           {categories.filter(c => c.value !== '').map((cat) => (
                             <Link 
                               key={cat.value}
                               href={`/shop/${cat.value}`}
-                              className="text-xs font-bold uppercase tracking-widest text-muted-foreground py-2 block hover:text-primary transition-colors flex items-center gap-3"
+                              className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground/80 py-2 block hover:text-primary transition-all flex items-center gap-4 group/link"
                             >
-                              <div className="h-1.5 w-1.5 bg-primary/20 rounded-full" />
+                              <div className="h-1.5 w-1.5 bg-primary/20 rounded-full group-hover/link:bg-primary transition-colors" />
                               {cat.label}
                             </Link>
                           ))}
@@ -302,86 +311,95 @@ const Navbar = () => {
                       </AccordionItem>
                     </motion.div>
 
-                    <div className="space-y-6 pt-2">
+                    <div className="space-y-8 pt-4">
                       <motion.div variants={itemVariants}>
-                        <Link href="/about" className="block text-2xl font-headline font-bold uppercase tracking-tighter text-foreground hover:text-primary transition-colors">
+                        <Link href="/about" className="block text-3xl font-headline font-bold uppercase tracking-tighter text-foreground hover:text-primary transition-all hover:translate-x-2">
                           {t.nav.about}
                         </Link>
                       </motion.div>
                       <motion.div variants={itemVariants}>
-                        <Link href="/contact" className="block text-2xl font-headline font-bold uppercase tracking-tighter text-foreground hover:text-primary transition-colors">
+                        <Link href="/contact" className="block text-3xl font-headline font-bold uppercase tracking-tighter text-foreground hover:text-primary transition-all hover:translate-x-2">
                           {t.nav.contact}
                         </Link>
                       </motion.div>
                     </div>
                   </Accordion>
 
-                  <motion.div variants={itemVariants} className="mt-12 space-y-4">
-                    <Separator className="bg-primary/5" />
-                    <div className="grid grid-cols-2 gap-4 pt-4">
+                  <motion.div variants={itemVariants} className="mt-16 space-y-6">
+                    <div className="flex items-center gap-3">
+                      <div className="h-[1px] flex-1 bg-primary/10" />
+                      <span className="text-[9px] font-black uppercase tracking-[0.5em] text-primary/40">Action Module</span>
+                      <div className="h-[1px] flex-1 bg-primary/10" />
+                    </div>
+                    
+                    <div className="grid grid-cols-2 gap-4">
                       <Link href="/wishlist" className="w-full">
-                        <Button variant="outline" className="w-full rounded-none h-16 flex flex-col items-center justify-center gap-2 border-primary/10 hover:bg-primary/5 group">
-                          <Heart className={cn("h-5 w-5", wishlistCount > 0 && "fill-primary text-primary")} />
+                        <Button variant="outline" className="w-full rounded-none h-20 flex flex-col items-center justify-center gap-2 border-primary/10 bg-accent/5 hover:bg-primary/5 group transition-all">
+                          <Heart className={cn("h-5 w-5 transition-all group-hover:scale-110", wishlistCount > 0 && "fill-primary text-primary")} />
                           <div className="flex items-center gap-2">
-                            <span className="text-[9px] font-bold uppercase tracking-widest">{t.nav.wishlist}</span>
-                            {wishlistCount > 0 && <Badge className="h-4 w-4 p-0 flex items-center justify-center text-[8px] bg-primary text-white rounded-full border-none">{wishlistCount}</Badge>}
+                            <span className="text-[10px] font-bold uppercase tracking-widest">{t.nav.wishlist}</span>
+                            {wishlistCount > 0 && <Badge className="h-4 w-4 p-0 flex items-center justify-center text-[8px] bg-primary text-white rounded-full border-none ring-2 ring-background">{wishlistCount}</Badge>}
                           </div>
                         </Button>
                       </Link>
                       <Link href="/cart" className="w-full">
-                        <Button variant="default" className="w-full rounded-none h-16 flex flex-col items-center justify-center gap-2 shadow-none">
-                          <ShoppingCart className="h-5 w-5" />
+                        <Button variant="default" className="w-full rounded-none h-20 flex flex-col items-center justify-center gap-2 shadow-xl shadow-primary/10 group transition-all">
+                          <ShoppingCart className="h-5 w-5 group-hover:scale-110 transition-transform" />
                           <div className="flex items-center gap-2">
-                            <span className="text-[9px] font-bold uppercase tracking-widest">{t.nav.cart}</span>
-                            {cartQuantity > 0 && <Badge className="h-4 w-4 p-0 flex items-center justify-center text-[8px] bg-white text-primary rounded-full border-none">{cartQuantity}</Badge>}
+                            <span className="text-[10px] font-bold uppercase tracking-widest">{t.nav.cart}</span>
+                            {cartQuantity > 0 && <Badge className="h-4 w-4 p-0 flex items-center justify-center text-[8px] bg-white text-primary rounded-full border-none font-black">{cartQuantity}</Badge>}
                           </div>
                         </Button>
                       </Link>
                     </div>
-                    <Separator className="bg-primary/5" />
                   </motion.div>
 
-                  <motion.div variants={itemVariants} className="mt-12 space-y-8">
-                    <div className="space-y-4">
-                      <h4 className="text-[10px] font-bold uppercase tracking-widest text-primary">{t.contact_info.support_title}</h4>
-                      <div className="flex items-center gap-4 text-sm font-medium text-muted-foreground">
-                        <div className="p-2.5 bg-primary/5 rounded-none border border-primary/10">
-                          <Phone className="h-4 w-4 text-primary" />
+                  <motion.div variants={itemVariants} className="mt-16 space-y-8">
+                    <div className="space-y-5">
+                      <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary border-l-2 border-primary pl-4">{t.contact_info.support_title}</h4>
+                      <div className="flex flex-col gap-4">
+                        <div className="flex items-center gap-5 text-sm font-medium text-muted-foreground group">
+                          <div className="p-3 bg-primary/5 rounded-none border border-primary/10 group-hover:bg-primary group-hover:text-white transition-all">
+                            <Phone className="h-4.5 w-4.5" />
+                          </div>
+                          <span className="tracking-tight">{t.contact_info.phone}</span>
                         </div>
-                        {t.contact_info.phone}
-                      </div>
-                      <div className="flex items-center gap-4 text-sm font-medium text-muted-foreground">
-                        <div className="p-2.5 bg-primary/5 rounded-none border border-primary/10">
-                          <Mail className="h-4 w-4 text-primary" />
+                        <div className="flex items-center gap-5 text-sm font-medium text-muted-foreground group">
+                          <div className="p-3 bg-primary/5 rounded-none border border-primary/10 group-hover:bg-primary group-hover:text-white transition-all">
+                            <Mail className="h-4.5 w-4.5" />
+                          </div>
+                          <span className="tracking-tight truncate">{t.contact_info.email}</span>
                         </div>
-                        {t.contact_info.email}
                       </div>
                     </div>
                   </motion.div>
                 </motion.div>
 
-                <div className="p-8 bg-accent/20 border-t border-primary/5 flex flex-col gap-6">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center border border-primary/10 bg-background">
+                <div className="p-8 bg-accent/20 border-t border-primary/10 flex flex-col gap-8 shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
+                  <div className="flex items-center justify-between gap-6">
+                    <div className="flex items-center border border-primary/10 bg-background shadow-inner flex-1 h-12 overflow-hidden">
                       {languages.map((l, i) => (
                         <React.Fragment key={l.code}>
                           <button
                             onClick={() => dispatch(setLanguage(l.code))}
                             className={cn(
-                              "h-10 px-4 text-[10px] font-bold transition-all",
-                              lang === l.code ? "bg-primary text-white" : "text-muted-foreground hover:bg-primary/5"
+                              "flex-1 h-full text-[10px] font-bold transition-all uppercase tracking-widest",
+                              lang === l.code ? "bg-primary text-white shadow-lg" : "text-muted-foreground hover:bg-primary/5"
                             )}
                           >
                             {l.label}
                           </button>
-                          {i < languages.length - 1 && <div className="h-4 w-[1px] bg-primary/10" />}
+                          {i < languages.length - 1 && <div className="h-4 w-[1px] bg-primary/10 shrink-0" />}
                         </React.Fragment>
                       ))}
                     </div>
 
-                    <div className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.2em] text-primary/60">
-                      <ShieldCheck className="h-4 w-4" />
-                      {t.common.grade_medical}
+                    <div className="flex flex-col items-end gap-1 shrink-0">
+                      <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.2em] text-primary">
+                        <ShieldCheck className="h-4 w-4" />
+                        {t.common.grade_medical}
+                      </div>
+                      <span className="text-[8px] text-muted-foreground/60 font-bold uppercase tracking-widest">ISO 13485:2016</span>
                     </div>
                   </div>
                 </div>
