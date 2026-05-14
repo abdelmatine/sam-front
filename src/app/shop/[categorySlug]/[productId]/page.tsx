@@ -205,6 +205,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
                 <motion.div 
                   key={idx} 
                   whileHover={{ scale: 1.05, y: -5 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 20 }}
                   className="relative aspect-square border border-primary/5 bg-accent/3 overflow-hidden grayscale hover:grayscale-0 transition-all cursor-pointer shadow-sm hover:shadow-lg"
                 >
                   <Image src={`https://picsum.photos/seed/med-detail-${idx}/400/400`} alt="Detail" fill className="object-cover" />
@@ -261,24 +262,28 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
               </motion.div>
 
               <motion.div variants={rightToLeftVariants} className="flex flex-col sm:flex-row gap-4 relative z-10">
-                <Button 
-                  onClick={handleAddToCart}
-                  disabled={!product.inStock}
-                  className="flex-1 bg-primary text-white h-16 rounded-none text-[11px] font-bold uppercase tracking-[0.25em] shadow-2xl shadow-primary/20 flex items-center justify-center gap-3 active:scale-95 transition-all hover:bg-primary/90 hover:scale-[1.02]"
-                >
-                  <ShoppingCart className="h-5 w-5" />
-                  {product.inStock ? t.product.add_to_cart : t.product.out_of_stock}
-                </Button>
-                <Button 
-                  variant="outline" 
-                  onClick={handleWishlist}
-                  className={cn(
-                    "h-16 w-16 rounded-none border-2 transition-all active:scale-95 hover:scale-105",
-                    isWishlisted ? "text-destructive bg-destructive/5 border-destructive/20" : "border-primary/10 hover:bg-primary/5"
-                  )}
-                >
-                  <Heart className={cn("h-6 w-6 transition-all", isWishlisted && "fill-destructive")} />
-                </Button>
+                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="flex-1">
+                  <Button 
+                    onClick={handleAddToCart}
+                    disabled={!product.inStock}
+                    className="w-full bg-primary text-white h-16 rounded-none text-[11px] font-bold uppercase tracking-[0.25em] shadow-2xl shadow-primary/20 flex items-center justify-center gap-3 transition-all hover:bg-primary/90"
+                  >
+                    <ShoppingCart className="h-5 w-5" />
+                    {product.inStock ? t.product.add_to_cart : t.product.out_of_stock}
+                  </Button>
+                </motion.div>
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <Button 
+                    variant="outline" 
+                    onClick={handleWishlist}
+                    className={cn(
+                      "h-16 w-16 rounded-none border-2 transition-all",
+                      isWishlisted ? "text-destructive bg-destructive/5 border-destructive/20" : "border-primary/10 hover:bg-primary/5"
+                    )}
+                  >
+                    <Heart className={cn("h-6 w-6 transition-all", isWishlisted && "fill-destructive")} />
+                  </Button>
+                </motion.div>
               </motion.div>
             </motion.div>
 
@@ -289,10 +294,16 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
                 { icon: RefreshCcw, label: t.product.returns },
                 { icon: Package, label: t.product.ready }
               ].map((item, i) => (
-                <div key={i} className="flex items-center gap-4 p-5 border border-primary/5 bg-accent/3 hover:bg-primary/5 transition-colors group">
+                <motion.div 
+                  key={i} 
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: i * 0.1, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                  className="flex items-center gap-4 p-5 border border-primary/5 bg-accent/3 hover:bg-primary/5 transition-colors group"
+                >
                   <item.icon className="h-4 w-4 text-primary group-hover:scale-110 transition-transform" />
                   <span className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground group-hover:text-primary transition-colors">{item.label}</span>
-                </div>
+                </motion.div>
               ))}
             </div>
 
@@ -326,7 +337,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
                     key={i} 
                     initial={{ opacity: 0, x: -15 }}
                     whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.08, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                    transition={{ delay: i * 0.08, duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
                     className="flex justify-between items-center py-6 border-b border-primary/10 hover:bg-primary/[0.02] px-4 transition-colors"
                   >
                     <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground">{spec.label}</span>
@@ -337,7 +348,12 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
             </TabsContent>
             
             <TabsContent value="clinical" className="pt-0 focus-visible:ring-0 max-w-4xl">
-              <div className="flex gap-8 items-start bg-accent/5 p-10 border border-primary/10">
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+                className="flex gap-8 items-start bg-accent/5 p-10 border border-primary/10"
+              >
                 <div className="p-4 bg-primary/10 rounded-none border border-primary/20">
                   <Info className="h-8 w-8 text-primary" />
                 </div>
@@ -346,7 +362,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
                   <br /><br />
                   Le {product.name} a été rigoureusement testé dans nos laboratoires certifiés pour garantir une performance optimale. Chaque unité subit un contrôle technique en 15 points avant d'être approuvée pour l'acquisition.
                 </p>
-              </div>
+              </motion.div>
             </TabsContent>
           </Tabs>
         </motion.div>
