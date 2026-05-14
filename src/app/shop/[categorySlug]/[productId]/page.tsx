@@ -19,7 +19,9 @@ import {
   Star, 
   BadgeCheck,
   Package,
-  Database
+  Database,
+  ChevronDown,
+  Info
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -35,7 +37,7 @@ import ClinicalDropdown from '@/components/shared/ClinicalDropdown';
 
 export default function ProductDetailPage({ params }: { params: Promise<{ categorySlug: string, productId: string }> }) {
   const { categorySlug, productId } = use(params);
-  const { t } = useTranslation();
+  const { t, isRTL } = useTranslation();
   const dispatch = useDispatch();
   const wishlist = useSelector((state: RootState) => state.wishlist.items);
   
@@ -114,10 +116,12 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
     <main className="min-h-screen pt-24 pb-20 bg-background relative overflow-hidden">
       <Navbar />
       
+      {/* Background Clinical Grid Accent */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute inset-0 opacity-[0.02] dark:opacity-[0.05]" 
           style={{ backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)', backgroundSize: '40px 40px' }} 
         />
+        <div className="absolute top-1/4 right-0 w-96 h-96 bg-primary/5 rounded-full blur-[120px]" />
       </div>
 
       <motion.div 
@@ -126,6 +130,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
         animate="visible"
         className="container mx-auto px-4 relative z-10"
       >
+        {/* Breadcrumbs with Technical Dropdown */}
         <motion.div variants={itemVariants} className="flex items-center gap-2 mb-10 text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground/60">
           <Link href="/" className="hover:text-primary transition-colors">{t.catalogue.brand}</Link>
           <ChevronRight className="h-2.5 w-2.5" />
@@ -133,10 +138,10 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
             isHoverable={true}
             variant="compact"
             trigger={
-              <Link href="/shop" className="hover:text-primary transition-colors flex items-center gap-1">
+              <div className="hover:text-primary transition-colors flex items-center gap-1 cursor-pointer">
                 {t.nav.catalogue}
                 <ChevronDown className="h-2.5 w-2.5" />
-              </Link>
+              </div>
             }
             items={categoryItems}
           />
@@ -147,66 +152,89 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
         </motion.div>
 
         <div className="grid lg:grid-cols-12 gap-16 mb-24">
+          {/* Visual Module */}
           <motion.div variants={itemVariants} className="lg:col-span-7 space-y-6">
-            <div className="relative aspect-square border border-primary/10 bg-accent/5 overflow-hidden clinical-shadow">
+            <div className="relative aspect-square border border-primary/10 bg-accent/5 overflow-hidden clinical-shadow group">
               <Image 
                 src={product.imageUrl} 
                 alt={product.name} 
                 fill 
-                className="object-contain p-12 grayscale-[0.2] hover:grayscale-0 transition-all duration-700"
+                className="object-contain p-12 grayscale-[0.2] group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-105"
                 priority
               />
+              <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+              
               {product.isNew && (
                 <div className="absolute top-8 left-8">
-                  <Badge className="bg-primary text-white rounded-none text-[10px] uppercase font-bold tracking-widest px-4 py-2 border-none">
+                  <Badge className="bg-primary text-white rounded-none text-[10px] uppercase font-bold tracking-widest px-4 py-2 border-none shadow-xl shadow-primary/20">
                     {t.product.new}
                   </Badge>
                 </div>
               )}
+              
+              <div className="absolute bottom-8 right-8 hidden md:flex gap-3">
+                <Badge variant="outline" className="bg-background/80 backdrop-blur-md rounded-none border-primary/20 text-[9px] uppercase font-bold tracking-widest px-3 py-1.5">
+                  <Activity className="h-3 w-3 mr-2 text-primary" />
+                  Signal: Active
+                </Badge>
+              </div>
             </div>
             
             <div className="grid grid-cols-4 gap-4">
               {[1, 2, 3, 4].map((idx) => (
-                <div key={idx} className="relative aspect-square border border-primary/5 bg-accent/3 overflow-hidden grayscale hover:grayscale-0 transition-all cursor-pointer">
-                  <Image src={`https://picsum.photos/seed/med-${idx}/400/400`} alt="Detail" fill className="object-cover" />
-                </div>
+                <motion.div 
+                  key={idx} 
+                  whileHover={{ scale: 1.05, y: -5 }}
+                  className="relative aspect-square border border-primary/5 bg-accent/3 overflow-hidden grayscale hover:grayscale-0 transition-all cursor-pointer shadow-sm hover:shadow-lg"
+                >
+                  <Image src={`https://picsum.photos/seed/med-detail-${idx}/400/400`} alt="Detail" fill className="object-cover" />
+                  <div className="absolute inset-0 bg-primary/5 opacity-40" />
+                </motion.div>
               ))}
             </div>
           </motion.div>
 
+          {/* Specification Module */}
           <motion.div variants={itemVariants} className="lg:col-span-5 flex flex-col">
-            <div className="border-l-4 border-primary pl-8 mb-8">
-              <div className="flex items-center gap-3 mb-3">
-                <Database className="h-3.5 w-3.5 text-primary/40" />
-                <span className="text-[10px] text-primary font-bold uppercase tracking-[0.4em]">Tech-ID: {product.brand.toUpperCase()}</span>
-              </div>
-              <h1 className="text-4xl font-bold uppercase tracking-tighter leading-none mb-4">{product.name}</h1>
-              <div className="flex items-center gap-4 text-xs font-bold text-muted-foreground mb-6">
-                <div className="flex items-center gap-1">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className={cn("h-3.5 w-3.5", i < Math.floor(product.rating) ? "fill-primary text-primary" : "text-muted")} />
-                  ))}
-                  <span className="ml-1 text-primary">({product.rating})</span>
+            <div className="border-l-4 border-primary pl-8 mb-10">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="p-1.5 bg-primary/10 rounded-sm">
+                  <Database className="h-3.5 w-3.5 text-primary" />
                 </div>
-                <div className="h-4 w-[1px] bg-border" />
-                <span className="uppercase tracking-widest text-[10px]">{t.product.clinical_grade}</span>
+                <span className="text-[10px] text-primary font-bold uppercase tracking-[0.4em]">{t.catalogue.tech_id}: {product.brand.toUpperCase()}-v2</span>
               </div>
-              <p className="text-muted-foreground text-sm italic leading-relaxed font-medium">
+              
+              <h1 className="text-4xl md:text-5xl font-bold uppercase tracking-tighter leading-[0.9] mb-6">{product.name}</h1>
+              
+              <div className="flex items-center gap-6 text-xs font-bold text-muted-foreground mb-8">
+                <div className="flex items-center gap-1.5">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className={cn("h-4 w-4", i < Math.floor(product.rating) ? "fill-primary text-primary" : "text-muted")} />
+                  ))}
+                  <span className="ml-1 text-primary text-sm font-bold tracking-tighter">{product.rating}</span>
+                </div>
+                <div className="h-5 w-[1px] bg-border" />
+                <span className="uppercase tracking-[0.2em] text-[10px] text-primary/60">{t.product.clinical_grade}</span>
+              </div>
+              
+              <p className="text-muted-foreground text-sm italic leading-relaxed font-medium max-w-lg">
                 {product.description}
               </p>
             </div>
 
-            <div className="bg-accent/10 border-y py-10 px-8 mb-10">
-              <div className="flex items-end gap-3 mb-8">
-                <span className="text-4xl font-bold tracking-tighter text-foreground">${product.price.toLocaleString()}</span>
-                <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest pb-1">{t.product.msrp || 'MSRP Acquisition'}</span>
+            <div className="bg-accent/5 backdrop-blur-md border border-primary/10 py-10 px-10 mb-10 shadow-2xl shadow-primary/5 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -translate-y-1/2 translate-x-1/2" />
+              
+              <div className="flex items-end gap-3 mb-10">
+                <span className="text-5xl font-bold tracking-tighter text-foreground">${product.price.toLocaleString()}</span>
+                <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest pb-2 opacity-60">{t.product.tech_ref} Acquisition</span>
               </div>
 
-              <div className="flex gap-4">
+              <div className="flex flex-col sm:flex-row gap-4 relative z-10">
                 <Button 
                   onClick={handleAddToCart}
                   disabled={!product.inStock}
-                  className="flex-1 bg-primary text-white h-16 rounded-none text-[11px] font-bold uppercase tracking-[0.2em] shadow-xl shadow-primary/20 flex items-center justify-center gap-3 active:scale-95 transition-all"
+                  className="flex-1 bg-primary text-white h-16 rounded-none text-[11px] font-bold uppercase tracking-[0.25em] shadow-2xl shadow-primary/20 flex items-center justify-center gap-3 active:scale-95 transition-all hover:bg-primary/90"
                 >
                   <ShoppingCart className="h-5 w-5" />
                   {product.inStock ? t.product.add_to_cart : t.product.out_of_stock}
@@ -215,11 +243,11 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
                   variant="outline" 
                   onClick={handleWishlist}
                   className={cn(
-                    "h-16 w-16 rounded-none border-2 transition-all",
+                    "h-16 w-16 rounded-none border-2 transition-all active:scale-95",
                     isWishlisted ? "text-destructive bg-destructive/5 border-destructive/20" : "border-primary/10 hover:bg-primary/5"
                   )}
                 >
-                  <Heart className={cn("h-6 w-6", isWishlisted && "fill-destructive")} />
+                  <Heart className={cn("h-6 w-6 transition-all", isWishlisted && "fill-destructive")} />
                 </Button>
               </div>
             </div>
@@ -231,9 +259,9 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
                 { icon: RefreshCcw, label: t.product.returns },
                 { icon: Package, label: t.product.ready }
               ].map((item, i) => (
-                <div key={i} className="flex items-center gap-3 p-4 border border-primary/5 bg-accent/3">
-                  <item.icon className="h-4 w-4 text-primary" />
-                  <span className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground">{item.label}</span>
+                <div key={i} className="flex items-center gap-4 p-5 border border-primary/5 bg-accent/3 hover:bg-primary/5 transition-colors group">
+                  <item.icon className="h-4 w-4 text-primary group-hover:scale-110 transition-transform" />
+                  <span className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground group-hover:text-primary transition-colors">{item.label}</span>
                 </div>
               ))}
             </div>
@@ -242,46 +270,76 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
           </motion.div>
         </div>
 
+        {/* Diagnostic Tabs Module */}
         <motion.div variants={itemVariants} className="mb-24">
           <Tabs defaultValue="specs" className="w-full">
-            <TabsList className="w-full justify-start rounded-none border-b bg-transparent h-auto p-0 gap-10">
-              <TabsTrigger value="specs" className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none py-4 text-[11px] font-bold uppercase tracking-[0.3em]">
+            <TabsList className="w-full justify-start rounded-none border-b bg-transparent h-auto p-0 gap-12 mb-10 overflow-x-auto no-scrollbar">
+              <TabsTrigger value="specs" className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none py-6 px-2 text-[11px] font-bold uppercase tracking-[0.4em] transition-all">
                 {t.product.specs}
               </TabsTrigger>
-              <TabsTrigger value="clinical" className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none py-4 text-[11px] font-bold uppercase tracking-[0.3em]">
+              <TabsTrigger value="clinical" className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none py-6 px-2 text-[11px] font-bold uppercase tracking-[0.4em] transition-all">
                 {t.nav.about}
               </TabsTrigger>
             </TabsList>
-            <TabsContent value="specs" className="pt-10">
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <TabsContent value="specs" className="pt-0 focus-visible:ring-0">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
                 {[
-                  { label: t.product.tech_ref, value: `SAM-PRD-${product.id}v2` },
+                  { label: t.product.tech_ref, value: `SAM-PRD-${product.id}v2.5` },
                   { label: t.product.classification, value: product.category.toUpperCase() },
                   { label: t.product.origin, value: product.brand },
-                  { label: t.product.logistics, value: product.inStock ? t.product.ready : t.product.out_of_stock }
+                  { label: t.product.logistics, value: product.inStock ? t.product.ready : t.product.out_of_stock },
+                  { label: "Clinical Protocol", value: "Verified v4.0" },
+                  { label: "Compliance", value: "ISO 13485:2016" }
                 ].map((spec, i) => (
-                  <div key={i} className="flex justify-between items-center py-4 border-b border-primary/5">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{spec.label}</span>
-                    <span className="text-xs font-bold uppercase tracking-tight text-primary">{spec.value}</span>
-                  </div>
+                  <motion.div 
+                    key={i} 
+                    initial={{ opacity: 0, x: -10 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.05 }}
+                    className="flex justify-between items-center py-6 border-b border-primary/10 hover:bg-primary/[0.02] px-4 transition-colors"
+                  >
+                    <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground">{spec.label}</span>
+                    <span className="text-xs font-bold uppercase tracking-tight text-primary text-right">{spec.value}</span>
+                  </motion.div>
                 ))}
               </div>
             </TabsContent>
-            <TabsContent value="clinical" className="pt-10 max-w-3xl">
-              <p className="text-sm leading-relaxed text-muted-foreground font-medium italic">
-                {t.footer.quality_desc}
-              </p>
+            
+            <TabsContent value="clinical" className="pt-0 focus-visible:ring-0 max-w-4xl">
+              <div className="flex gap-8 items-start bg-accent/5 p-10 border border-primary/10">
+                <div className="p-4 bg-primary/10 rounded-none border border-primary/20">
+                  <Info className="h-8 w-8 text-primary" />
+                </div>
+                <p className="text-sm leading-relaxed text-muted-foreground font-medium italic">
+                  {t.footer.quality_desc}
+                  <br /><br />
+                  Le {product.name} a été rigoureusement testé dans nos laboratoires certifiés pour garantir une performance optimale. Chaque unité subit un contrôle technique en 15 points avant d'être approuvée pour l'acquisition.
+                </p>
+              </div>
             </TabsContent>
           </Tabs>
         </motion.div>
 
+        {/* Related Equipment Section */}
         {relatedProducts.length > 0 && (
-          <motion.section variants={itemVariants} className="pt-24 border-t">
-            <div className="flex items-center gap-3 mb-12 border-l-4 border-primary pl-6">
-              <Activity className="h-5 w-5 text-primary" />
-              <h2 className="text-2xl font-bold uppercase tracking-tighter">Équipements Complémentaires</h2>
+          <motion.section variants={itemVariants} className="pt-24 border-t border-primary/10">
+            <div className="flex items-center justify-between mb-16 px-4">
+              <div className="flex items-center gap-4 border-l-4 border-primary pl-8">
+                <Activity className="h-6 w-6 text-primary animate-pulse" />
+                <div>
+                  <h2 className="text-3xl font-bold uppercase tracking-tighter">Équipements Complémentaires</h2>
+                  <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-[0.4em] mt-1">Secteur: {categoryName}</p>
+                </div>
+              </div>
+              <Link href={`/shop/${categorySlug}`}>
+                <Button variant="ghost" className="text-primary text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 hover:bg-primary/5 h-12 px-8">
+                  Tout Voir <ChevronRight className="h-4 w-4" />
+                </Button>
+              </Link>
             </div>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 px-4">
               {relatedProducts.map((p) => (
                 <ProductCard key={p.id} product={p as any} />
               ))}
@@ -293,21 +351,3 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
   );
 }
 
-function ChevronDown(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m6 9 6 6 6-6" />
-    </svg>
-  )
-}
