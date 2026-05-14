@@ -4,7 +4,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingCart, ArrowRight, ShieldCheck, Activity, Loader2, Heart } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store';
@@ -22,6 +22,7 @@ export default function FlagshipEquipment() {
   const dispatch = useDispatch();
   const wishlist = useSelector((state: RootState) => state.wishlist.items);
   const [addingId, setAddingId] = useState<string | null>(null);
+  const [navigatingId, setNavigatingId] = useState<string | null>(null);
   const featuredProducts = products.slice(0, 2);
 
   const handleAddToCart = (e: React.MouseEvent, product: any) => {
@@ -38,8 +39,8 @@ export default function FlagshipEquipment() {
         brand: product.brand
       }));
       toast({
-        title: "Selection Updated",
-        description: `${product.name} added to cart.`,
+        title: t.product.selection_updated,
+        description: `${product.name} ${t.product.added_to_cart_msg}`,
       });
       setAddingId(null);
     }, 400);
@@ -55,6 +56,10 @@ export default function FlagshipEquipment() {
       imageUrl: product.imageUrl,
       brand: product.brand
     }));
+  };
+
+  const handleLinkClick = (id: string) => {
+    setNavigatingId(id);
   };
 
   const containerVariants = {
@@ -122,6 +127,7 @@ export default function FlagshipEquipment() {
         <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-10">
           {featuredProducts.map((product, index) => {
             const isWishlisted = wishlist.some(item => item.id === product.id);
+            const isNavigating = navigatingId === product.id;
             const xOffset = index % 2 === 0 ? -50 : 50;
             
             return (
@@ -137,9 +143,27 @@ export default function FlagshipEquipment() {
                 }}
                 className="h-full"
               >
-                <Link href={`/shop/${product.category}/${product.id}`} className="block h-full group">
-                  <motion.div whileHover={{ scale: 1.01 }} transition={{ duration: 0.4 }} className="h-full">
+                <Link 
+                  href={`/shop/${product.category}/${product.id}`} 
+                  onClick={() => handleLinkClick(product.id)}
+                  className="block h-full group"
+                >
+                  <motion.div whileHover={!isNavigating ? { scale: 1.01 } : {}} transition={{ duration: 0.4 }} className="h-full">
                     <Card className="rounded-none border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 overflow-hidden group transition-all duration-700 hover:shadow-2xl hover:shadow-primary/10 h-full relative">
+                      <AnimatePresence>
+                        {isNavigating && (
+                          <motion.div 
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            className="absolute inset-0 z-50 bg-background/80 backdrop-blur-sm flex flex-col items-center justify-center gap-3"
+                          >
+                            <Loader2 className="h-8 w-8 text-primary animate-spin" />
+                            <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-primary">{t.common.loading}</span>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+
                       <Button 
                         variant="ghost" 
                         size="icon" 
