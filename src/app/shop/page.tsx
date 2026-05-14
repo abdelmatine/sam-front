@@ -60,10 +60,10 @@ export default function CatalogueRootPage() {
         className="container mx-auto px-4 relative z-10"
       >
         {/* Breadcrumbs */}
-        <motion.div variants={itemVariants} className="flex items-center gap-2 mb-10 text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground/60">
-          <Link href="/" className="hover:text-primary transition-colors">{t.catalogue.brand}</Link>
-          <ChevronRight className="h-2.5 w-2.5" />
-          <span className="text-primary/80">{t.nav.catalogue}</span>
+        <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-x-4 gap-y-4 mb-12 text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground/60">
+          <Link href="/" className="hover:text-primary transition-colors shrink-0">{t.catalogue.brand}</Link>
+          <ChevronRight className="h-2.5 w-2.5 shrink-0" />
+          <span className="text-primary/80 shrink-0">{t.nav.catalogue}</span>
         </motion.div>
 
         {/* Technical Header */}

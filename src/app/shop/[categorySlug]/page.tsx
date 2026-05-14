@@ -139,23 +139,25 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="flex items-center gap-2 mb-10 text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground/60"
+          className="flex flex-wrap items-center gap-x-4 gap-y-4 mb-12 text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground/60"
         >
-          <Link href="/" className="hover:text-primary transition-colors">{t.catalogue.brand}</Link>
-          <ChevronRight className="h-2.5 w-2.5" />
-          <ClinicalDropdown 
-            isHoverable={true}
-            variant="compact"
-            trigger={
-              <div className="hover:text-primary transition-colors flex items-center gap-1 cursor-pointer">
-                {t.nav.catalogue}
-                <ChevronDown className="h-2.5 w-2.5" />
-              </div>
-            }
-            items={categoryItems}
-          />
-          <ChevronRight className="h-2.5 w-2.5" />
-          <span className="text-primary/80">{categoryName}</span>
+          <Link href="/" className="hover:text-primary transition-colors shrink-0">{t.catalogue.brand}</Link>
+          <ChevronRight className="h-2.5 w-2.5 shrink-0" />
+          <div className="shrink-0">
+            <ClinicalDropdown 
+              isHoverable={true}
+              variant="compact"
+              trigger={
+                <div className="hover:text-primary transition-colors flex items-center gap-1 cursor-pointer">
+                  {t.nav.catalogue}
+                  <ChevronDown className="h-2.5 w-2.5" />
+                </div>
+              }
+              items={categoryItems}
+            />
+          </div>
+          <ChevronRight className="h-2.5 w-2.5 shrink-0" />
+          <span className="text-primary/80 shrink-0">{categoryName}</span>
         </motion.div>
 
         <AnimatePresence mode="wait">

@@ -199,7 +199,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
       >
         <motion.div 
           variants={itemVariants} 
-          className="flex flex-wrap items-center gap-x-2 gap-y-3 mb-10 text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground/60"
+          className="flex flex-wrap items-center gap-x-4 gap-y-5 mb-12 text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground/60"
         >
           <Link href="/" className="hover:text-primary transition-colors shrink-0">{t.catalogue.brand}</Link>
           <ChevronRight className={cn("h-2.5 w-2.5 shrink-0", isRTL && "rotate-180")} />
@@ -219,7 +219,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
           <ChevronRight className={cn("h-2.5 w-2.5 shrink-0", isRTL && "rotate-180")} />
           <Link href={`/shop/${categorySlug}`} className="hover:text-primary transition-colors shrink-0">{categoryName}</Link>
           
-          <div className="flex items-center gap-2 w-full md:w-auto">
+          <div className="flex items-center gap-3 w-full md:w-auto mt-2 md:mt-0">
             <ChevronRight className={cn("h-2.5 w-2.5 shrink-0", isRTL && "rotate-180")} />
             <span className="text-primary/80 truncate max-w-[250px] md:max-w-none">{product.name}</span>
           </div>
