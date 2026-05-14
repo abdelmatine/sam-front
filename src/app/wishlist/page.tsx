@@ -5,36 +5,24 @@ import React from 'react';
 import Navbar from '@/components/layout/Navbar';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store';
-import { toggleWishlist, clearWishlist } from '@/store/slices/wishlistSlice';
-import { addToCart } from '@/store/slices/cartSlice';
+import { clearWishlist } from '@/store/slices/wishlistSlice';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import Image from 'next/image';
+import { products } from '@/lib/products';
 import Link from 'next/link';
-import { Heart, ShoppingCart, Trash2, ArrowLeft, ArrowRight, ShieldCheck, Activity, Database } from 'lucide-react';
+import { Heart, Trash2, ArrowLeft, ArrowRight, Activity, Database } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from '@/hooks/use-translation';
-import { toast } from '@/hooks/use-toast';
+import ProductCard from '@/components/shared/ProductCard';
 
 export default function WishlistPage() {
   const { items } = useSelector((state: RootState) => state.wishlist);
   const dispatch = useDispatch();
   const { t, isRTL } = useTranslation();
 
-  const handleAddToCart = (item: any) => {
-    dispatch(addToCart({
-      id: item.id,
-      name: item.name,
-      price: item.price,
-      quantity: 1,
-      imageUrl: item.imageUrl,
-      brand: item.brand
-    }));
-    toast({
-      title: "Device Selected",
-      description: `${item.name} added to cart.`,
-    });
-  };
+  // Resolve full product data for each wishlist item to ensure ProductCard has all technical metadata
+  const wishlistProducts = items
+    .map(item => products.find(p => p.id === item.id))
+    .filter((p): p is typeof products[0] => p !== undefined);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -120,49 +108,16 @@ export default function WishlistPage() {
           </motion.div>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            <AnimatePresence>
-              {items.map((item, index) => (
+            <AnimatePresence mode="popLayout">
+              {wishlistProducts.map((product) => (
                 <motion.div
-                  key={item.id}
+                  key={product.id}
                   layout
                   variants={itemVariants}
+                  exit={{ opacity: 0, scale: 0.95 }}
                   className="h-full"
                 >
-                  <Card className="rounded-none overflow-hidden group transition-all h-full flex flex-col hover:border-primary/40 clinical-shadow border-border/40">
-                    <div className="relative aspect-square border-b overflow-hidden bg-muted/30">
-                      <Image 
-                        src={item.imageUrl} 
-                        alt={item.name} 
-                        fill 
-                        className="object-cover transition-transform duration-1000 group-hover:scale-110 grayscale group-hover:grayscale-0"
-                      />
-                      <Button 
-                        variant="ghost" 
-                        size="icon" 
-                        onClick={() => dispatch(toggleWishlist(item))}
-                        className="absolute top-4 right-4 bg-white/80 backdrop-blur-sm text-destructive rounded-none opacity-0 group-hover:opacity-100 transition-all translate-y-[-10px] group-hover:translate-y-0"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </div>
-                    
-                    <CardContent className="p-6 flex flex-col flex-1 relative">
-                      <div className="absolute top-0 left-0 w-[2px] h-0 bg-primary group-hover:h-full transition-all duration-700" />
-                      <span className="text-[9px] text-primary font-bold uppercase tracking-[0.2em] mb-1">{item.brand}</span>
-                      <h3 className="text-sm font-bold uppercase tracking-tight mb-4 group-hover:text-primary transition-colors line-clamp-1">{item.name}</h3>
-                      
-                      <div className="mt-auto pt-4 border-t border-border/40 flex items-center justify-between">
-                        <span className="text-lg font-bold tracking-tighter text-foreground">${item.price.toLocaleString()}</span>
-                        <Button 
-                          onClick={() => handleAddToCart(item)}
-                          className="bg-primary text-white h-10 px-4 rounded-none text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 active:scale-95 shadow-lg shadow-primary/10"
-                        >
-                          <ShoppingCart className="h-3.5 w-3.5" />
-                          Au Panier
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
+                  <ProductCard product={product as any} />
                 </motion.div>
               ))}
             </AnimatePresence>
