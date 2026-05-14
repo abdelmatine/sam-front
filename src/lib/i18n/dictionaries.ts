@@ -20,13 +20,21 @@ export const dictionaries = {
       subtitle: "Équipements de pointe sélectionnés pour leur fiabilité et leur excellence clinique.",
       view_all: "Voir tout le catalogue",
       cpap: "CPAP",
+      cpap_desc: "Dispositifs de pression positive continue pour l'apnée obstructive du sommeil.",
       bpap: "BPAP",
+      bpap_desc: "Solutions de pression positive à deux niveaux pour besoins respiratoires complexes.",
       oxygen: "Concentrateurs d'Oxygène",
+      oxygen_desc: "Concentrateurs portables et stationnaires pour un soutien fiable de la saturation.",
       masks: "Masques",
+      masks_desc: "Interfaces et masques de grade chirurgical pour une thérapie clinique optimale.",
       accessories: "Accessoires",
+      accessories_desc: "Tubulures, filtres et pièces de rechange essentiels pour dispositifs médicaux.",
       monitoring: "Monitorage Vital",
+      monitoring_desc: "Oxymètres de pouls de haute précision et outils de diagnostic.",
       consumables: "Consommables",
-      others: "Autres"
+      consumables_desc: "Consommables de grade médical et produits d'hygiène chirurgicale.",
+      others: "Autres",
+      others_desc: "Outils cliniques spécialisés et équipements périphériques."
     },
     ticker: {
       iso: { title: "CERTIFICATION ISO", desc: "Standard de gestion de qualité pour dispositifs médicaux." },
@@ -79,7 +87,15 @@ export const dictionaries = {
       sort: "Trier par",
       no_results: "Aucun dispositif trouvé",
       reset: "Réinitialiser les filtres",
-      categories_btn: "Catégories"
+      categories_btn: "Catégories",
+      tech_id: "Classification Technique v2.5",
+      index_total: "Index Total",
+      sectors: "Secteurs",
+      clinical_sector: "Secteur Clinique",
+      explore_range: "Explorer la Gamme",
+      global_inventory: "Inventaire Global",
+      all_devices_desc: "Tous les dispositifs cliniques",
+      access_grid: "Accéder à la Grille"
     },
     cart: {
       title: "Votre Sélection Clinique",
@@ -117,7 +133,8 @@ export const dictionaries = {
       search: "Rechercher",
       sort: "Trier",
       free: "Gratuit",
-      grade_medical: "Grade Médical"
+      grade_medical: "Grade Médical",
+      loading: "Initialisation..."
     }
   },
   en: {
@@ -141,13 +158,21 @@ export const dictionaries = {
       subtitle: "Cutting-edge equipment selected for reliability and clinical excellence.",
       view_all: "View all catalogue",
       cpap: "CPAP",
+      cpap_desc: "Continuous Positive Airway Pressure devices for obstructive sleep apnea.",
       bpap: "BPAP",
+      bpap_desc: "Bilevel Positive Airway Pressure solutions for complex respiratory needs.",
       oxygen: "Oxygen Concentrators",
+      oxygen_desc: "Portable and stationary oxygen concentrators for reliable saturation support.",
       masks: "Masks",
+      masks_desc: "Surgical-grade interfaces and masks for optimal clinical therapy.",
       accessories: "Accessories",
+      accessories_desc: "Essential tubing, filters, and replacement parts for medical devices.",
       monitoring: "Vital Monitoring",
+      monitoring_desc: "High-precision pulse oximeters and diagnostic monitoring tools.",
       consumables: "Consumables",
-      others: "Others"
+      consumables_desc: "Medical-grade consumables and surgical hygiene products.",
+      others: "Others",
+      others_desc: "Specialized clinical tools and peripheral medical equipment."
     },
     ticker: {
       iso: { title: "ISO CERTIFICATION", desc: "Quality management standard for medical devices." },
@@ -200,7 +225,15 @@ export const dictionaries = {
       sort: "Sort by",
       no_results: "No devices found",
       reset: "Reset filters",
-      categories_btn: "Categories"
+      categories_btn: "Categories",
+      tech_id: "Technical Classification v2.5",
+      index_total: "Total Index",
+      sectors: "Sectors",
+      clinical_sector: "Clinical Sector",
+      explore_range: "Explore the Range",
+      global_inventory: "Global Inventory",
+      all_devices_desc: "All clinical devices",
+      access_grid: "Access the Grid"
     },
     cart: {
       title: "Your Clinical Selection",
@@ -238,7 +271,8 @@ export const dictionaries = {
       search: "Search",
       sort: "Sort",
       free: "Free",
-      grade_medical: "Medical Grade"
+      grade_medical: "Medical Grade",
+      loading: "Initializing..."
     }
   },
   ar: {
@@ -262,13 +296,21 @@ export const dictionaries = {
       subtitle: "معدات متطورة تم اختيارها لموثوقيتها وتميزها السريري.",
       view_all: "عرض الكتالوج كاملاً",
       cpap: "CPAP",
+      cpap_desc: "أجهزة ضغط المجرى الهوائي الإيجابي المستمر لانقطاع التنفس أثناء النوم.",
       bpap: "BPAP",
+      bpap_desc: "حلول الضغط الإيجابي ثنائي المستوى للاحتياجات التنفسية المعقدة.",
       oxygen: "مكثفات الأكسجين",
+      oxygen_desc: "مكثفات أكسجين محمولة وثابتة لدعم الموثوقية.",
       masks: "أقنعة",
+      masks_desc: "أقنعة طبية جراحية لتحقيق أفضل علاج سريري.",
       accessories: "إكسسوارات",
+      accessories_desc: "أنابيب وفلاتر وقطع غيار أساسية للأجهزة الطبية.",
       monitoring: "المراقبة الحيوية",
+      monitoring_desc: "أجهزة قياس أكسجين عالية الدقة وأدوات تشخيص.",
       consumables: "المواد الاستهلاكية",
-      others: "أخرى"
+      consumables_desc: "مواد استهلاكية طبية ومنتجات تعقيم جراحية.",
+      others: "أخرى",
+      others_desc: "أدوات سريرية متخصصة ومعدات طبية محيطية."
     },
     ticker: {
       iso: { title: "شهادة ISO", desc: "معيار إدارة الجودة للأجهزة الطبية." },
@@ -321,7 +363,15 @@ export const dictionaries = {
       sort: "فرز حسب",
       no_results: "لا توجد أجهزة",
       reset: "إعادة تعيين الفلاتر",
-      categories_btn: "الفئات"
+      categories_btn: "الفئات",
+      tech_id: "التصنيف الفني v2.5",
+      index_total: "الفهرس الإجمالي",
+      sectors: "قطاعات",
+      clinical_sector: "القطاع السريري",
+      explore_range: "استكشف المجموعة",
+      global_inventory: "المخزون العالمي",
+      all_devices_desc: "جميع الأجهزة السريرية",
+      access_grid: "الوصول إلى الشبكة"
     },
     cart: {
       title: "اختيارك السريري",
@@ -359,7 +409,8 @@ export const dictionaries = {
       search: "بحث",
       sort: "فرز",
       free: "مجاني",
-      grade_medical: "درجة طبية"
+      grade_medical: "درجة طبية",
+      loading: "جاري التحميل..."
     }
   }
 };
