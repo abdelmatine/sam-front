@@ -71,6 +71,36 @@ export const fr = {
     location: "Siège Social Paris, France",
     hours: "Lun-Ven: 8h - 20h CET"
   },
+  contact: {
+    title: "Comment Aider ?",
+    subtitle: "Que vous ayez des questions sur les spécifications de l'équipement, la couverture d'assurance ou l'état d'une commande, notre équipe spécialisée est là pour vous assister.",
+    info: {
+      technical_title: "Assistance Technique",
+      technical_hours: "Lun-Ven: 8h - 20h EST",
+      email_title: "Email Support",
+      email_response: "Délai de réponse: < 24h",
+      location_title: "Clinical Plaza",
+      location_address: "123 Medical Center Way, New York, NY 10001"
+    },
+    authorized: {
+      title: "Distributeur Officiel Agréé",
+      desc: "Nous sommes des fournisseurs certifiés pour ResMed, Philips et plus encore. Tout le support technique est assuré par des techniciens formés en usine."
+    },
+    form: {
+      title: "Envoyer un Message",
+      subtitle: "Les consultations médicales et calibrations techniques peuvent être initiées ici.",
+      name_label: "Nom Complet",
+      name_placeholder: "John Doe",
+      email_label: "Email Professionnel",
+      email_placeholder: "john@clinique.com",
+      type_label: "Type de Demande",
+      type_placeholder: "Spécifications, Calibration, Revue de Prescription...",
+      message_label: "Message Diagnostic",
+      message_placeholder: "Comment nos spécialistes peuvent-ils vous assister aujourd'hui ?",
+      submit: "Synchroniser le Signal",
+      submitting: "Synchronisation..."
+    }
+  },
   footer: {
     description: "Fournisseur mondial de solutions respiratoires cliniques. Certifié ISO 13485 pour la précision chirurgicale des soins aux patients.",
     quality_title: "Qualité Clinique",

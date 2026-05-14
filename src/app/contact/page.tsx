@@ -63,23 +63,23 @@ export default function ContactPage() {
   const contactInfos = [
     { 
       icon: Phone, 
-      title: "Assistance Technique", 
-      val: "+1 (800) RESPIRA", 
-      desc: "Lun-Ven: 8h - 20h EST",
+      title: t.contact.info.technical_title, 
+      val: t.contact_info.phone, 
+      desc: t.contact.info.technical_hours,
       color: "text-primary"
     },
     { 
       icon: Mail, 
-      title: "Email Support", 
-      val: "support@respiramed.com", 
-      desc: "Délai de réponse: < 24h",
+      title: t.contact.info.email_title, 
+      val: t.contact_info.email, 
+      desc: t.contact.info.email_response,
       color: "text-primary"
     },
     { 
       icon: MapPin, 
-      title: "Clinical Plaza", 
-      val: "123 Medical Center Way", 
-      desc: "New York, NY 10001",
+      title: t.contact.info.location_title, 
+      val: t.contact.info.location_address, 
+      desc: t.contact_info.location,
       color: "text-primary"
     }
   ];
@@ -104,10 +104,10 @@ export default function ContactPage() {
       >
         <div className="max-w-4xl mx-auto text-center mb-24">
           <motion.h1 variants={itemVariants} className="text-4xl md:text-6xl font-headline font-bold mb-6 uppercase tracking-tighter">
-            Comment <span className="text-primary">Aider?</span>
+            {t.contact.title.split(' ')[0]} <span className="text-primary">{t.contact.title.split(' ').slice(1).join(' ')}</span>
           </motion.h1>
           <motion.p variants={itemVariants} className="text-muted-foreground text-lg max-w-2xl mx-auto leading-relaxed font-medium italic">
-            Que vous ayez des questions sur les spécifications de l'équipement, la couverture d'assurance ou l'état d'une commande, notre équipe spécialisée est là pour vous assister.
+            {t.contact.subtitle}
           </motion.p>
         </div>
 
@@ -147,10 +147,10 @@ export default function ContactPage() {
               <div className="absolute top-0 right-0 w-24 h-24 bg-primary/10 rounded-full -translate-y-1/2 translate-x-1/2 group-hover:scale-150 transition-transform duration-700" />
               <div className="flex items-center gap-3 text-primary font-bold uppercase tracking-widest text-[10px] mb-4">
                 <ShieldCheck className="h-5 w-5" />
-                Distributeur Officiel Agréé
+                {t.contact.authorized.title}
               </div>
               <p className="text-[10px] text-muted-foreground leading-relaxed font-medium italic relative z-10">
-                Nous sommes des fournisseurs certifiés pour ResMed, Philips et plus encore. Tout le support technique est assuré par des techniciens formés en usine.
+                {t.contact.authorized.desc}
               </p>
             </motion.div>
           </motion.div>
@@ -165,10 +165,10 @@ export default function ContactPage() {
                 <div className="relative z-10">
                   <h3 className="text-2xl md:text-3xl font-bold flex items-center gap-4 uppercase tracking-tighter">
                     <Activity className="h-8 w-8 animate-pulse" />
-                    Envoyer un Message
+                    {t.contact.form.title}
                   </h3>
                   <p className="text-primary-foreground/70 text-sm mt-3 font-medium italic">
-                    Les consultations médicales et calibrations techniques peuvent être initiées ici.
+                    {t.contact.form.subtitle}
                   </p>
                 </div>
               </div>
@@ -185,23 +185,23 @@ export default function ContactPage() {
                     className="grid grid-cols-1 md:grid-cols-2 gap-8"
                   >
                     <motion.div variants={formGroupVariants} className="space-y-3">
-                      <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary/60 ml-1">Nom Complet</label>
-                      <Input placeholder="John Doe" className="rounded-none h-14 bg-accent/5 border-primary/10 focus-visible:ring-primary/20 text-sm font-medium transition-all" required />
+                      <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary/60 ml-1">{t.contact.form.name_label}</label>
+                      <Input placeholder={t.contact.form.name_placeholder} className="rounded-none h-14 bg-accent/5 border-primary/10 focus-visible:ring-primary/20 text-sm font-medium transition-all" required />
                     </motion.div>
                     
                     <motion.div variants={formGroupVariants} className="space-y-3">
-                      <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary/60 ml-1">Email Professionnel</label>
-                      <Input type="email" placeholder="john@clinique.com" className="rounded-none h-14 bg-accent/5 border-primary/10 focus-visible:ring-primary/20 text-sm font-medium transition-all" required />
+                      <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary/60 ml-1">{t.contact.form.email_label}</label>
+                      <Input type="email" placeholder={t.contact.form.email_placeholder} className="rounded-none h-14 bg-accent/5 border-primary/10 focus-visible:ring-primary/20 text-sm font-medium transition-all" required />
                     </motion.div>
                     
                     <motion.div variants={formGroupVariants} className="md:col-span-2 space-y-3">
-                      <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary/60 ml-1">Type de Demande</label>
-                      <Input placeholder="Spécifications, Calibration, Revue de Prescription..." className="rounded-none h-14 bg-accent/5 border-primary/10 focus-visible:ring-primary/20 text-sm font-medium transition-all" />
+                      <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary/60 ml-1">{t.contact.form.type_label}</label>
+                      <Input placeholder={t.contact.form.type_placeholder} className="rounded-none h-14 bg-accent/5 border-primary/10 focus-visible:ring-primary/20 text-sm font-medium transition-all" />
                     </motion.div>
                     
                     <motion.div variants={formGroupVariants} className="md:col-span-2 space-y-3">
-                      <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary/60 ml-1">Message Diagnostic</label>
-                      <Textarea placeholder="Comment nos spécialistes peuvent-ils vous assister aujourd'hui?" className="min-h-[160px] rounded-none bg-accent/5 border-primary/10 focus-visible:ring-primary/20 text-sm font-medium resize-none transition-all" required />
+                      <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary/60 ml-1">{t.contact.form.message_label}</label>
+                      <Textarea placeholder={t.contact.form.message_placeholder} className="min-h-[160px] rounded-none bg-accent/5 border-primary/10 focus-visible:ring-primary/20 text-sm font-medium resize-none transition-all" required />
                     </motion.div>
                     
                     <motion.div variants={formGroupVariants} className="md:col-span-2 pt-6">
@@ -221,7 +221,7 @@ export default function ContactPage() {
                                 className="flex items-center gap-3"
                               >
                                 <Loader2 className="h-6 w-6 animate-spin" />
-                                Synchronisation...
+                                {t.contact.form.submitting}
                               </motion.div>
                             ) : (
                               <motion.div 
@@ -231,7 +231,7 @@ export default function ContactPage() {
                                 exit={{ opacity: 0, y: -10 }}
                                 className="flex items-center gap-4"
                               >
-                                Synchroniser le Signal
+                                {t.contact.form.submit}
                                 <Send className="h-4 w-4" />
                               </motion.div>
                             )}

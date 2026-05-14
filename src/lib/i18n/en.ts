@@ -71,6 +71,36 @@ export const en = {
     location: "Paris Headquarters, France",
     hours: "Mon-Fri: 8am - 8pm CET"
   },
+  contact: {
+    title: "How Can We Help?",
+    subtitle: "Whether you have questions about equipment specifications, insurance coverage, or order status, our specialized team is here to assist you.",
+    info: {
+      technical_title: "Technical Assistance",
+      technical_hours: "Mon-Fri: 8am - 8pm EST",
+      email_title: "Email Support",
+      email_response: "Response time: < 24h",
+      location_title: "Clinical Plaza",
+      location_address: "123 Medical Center Way, New York, NY 10001"
+    },
+    authorized: {
+      title: "Official Authorized Distributor",
+      desc: "We are certified providers for ResMed, Philips and more. All technical support is provided by factory-trained technicians."
+    },
+    form: {
+      title: "Send a Message",
+      subtitle: "Medical consultations and technical calibrations can be initiated here.",
+      name_label: "Full Name",
+      name_placeholder: "John Doe",
+      email_label: "Professional Email",
+      email_placeholder: "john@clinic.com",
+      type_label: "Request Type",
+      type_placeholder: "Specifications, Calibration, Prescription Review...",
+      message_label: "Diagnostic Message",
+      message_placeholder: "How can our specialists assist you today?",
+      submit: "Synchronize Signal",
+      submitting: "Synchronizing..."
+    }
+  },
   footer: {
     description: "Global provider of clinical respiratory solutions. ISO 13485 certified for surgical precision in patient care.",
     quality_title: "Clinical Quality",
