@@ -156,8 +156,8 @@ export default function ContactPage() {
           {/* Contact Form Column */}
           <motion.div variants={itemVariants} className="lg:col-span-8">
             <Card className="border border-primary/10 clinical-shadow bg-card overflow-hidden rounded-none">
-              <div className="bg-primary p-10 text-white relative overflow-hidden">
-                <div className="absolute top-0 right-0 p-10 opacity-10 rotate-12">
+              <div className="bg-primary p-10 text-white relative overflow-hidden group">
+                <div className="absolute top-0 right-0 p-10 opacity-10 rotate-12 group-hover:scale-125 group-hover:rotate-[24deg] transition-all duration-1000 ease-out">
                   <MessageSquare className="h-32 w-32" />
                 </div>
                 <div className="relative z-10">
