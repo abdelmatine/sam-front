@@ -50,9 +50,11 @@ export const en = {
   services: {
     hero: {
       badge: "Technical Assistance v2.5",
-      title: "Expertise {Surgical}",
+      title: "Expertise ",
+      highlight: "Surgical",
       subtitle: "Beyond equipment provision, we offer comprehensive clinical support to ensure the maximum efficiency of your respiratory therapy."
     },
+    status: "PROTOCOL_ACTIVE",
     list: {
       calibration: { title: "Precision Calibration", desc: "Preventive maintenance and high-precision calibration for all your CPAP and BPAP devices according to ISO standards." },
       consultation: { title: "Medical Consultation", desc: "Access to pulmonary specialists for adjusting your treatment parameters and monitoring your data." },

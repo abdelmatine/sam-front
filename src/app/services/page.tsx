@@ -3,7 +3,7 @@
 
 import React from 'react';
 import Navbar from '@/components/layout/Navbar';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import { 
   Wrench, 
   Stethoscope, 
@@ -22,29 +22,33 @@ import { useTranslation } from '@/hooks/use-translation';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 
+// Unified Animation Variants
+const sectionVariants: Variants = {
+  hidden: { opacity: 0, y: 40 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 1,
+      ease: [0.22, 1, 0.36, 1],
+      staggerChildren: 0.15,
+      delayChildren: 0.1
+    }
+  }
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 30, scale: 0.98 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    scale: 1,
+    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
+  }
+};
+
 export default function ServicesPage() {
   const { t, isRTL } = useTranslation();
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30, scale: 0.98 },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
-      scale: 1,
-      transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1] }
-    }
-  };
 
   const serviceList = [
     { icon: Wrench, key: 'calibration' },
@@ -67,14 +71,15 @@ export default function ServicesPage() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] h-[60%] bg-primary/5 rounded-full blur-[120px] animate-pulse" />
       </div>
 
-      <motion.div 
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        className="relative z-10"
-      >
+      <div className="relative z-10">
         {/* Hero Header */}
-        <section className="pt-40 pb-24 hero-gradient">
+        <motion.section 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={sectionVariants}
+          className="pt-40 pb-24 hero-gradient"
+        >
           <div className="container mx-auto px-4 text-center">
             <motion.div variants={itemVariants} className="flex items-center justify-center gap-3 mb-8">
               <Database className="h-4 w-4 text-primary/40" />
@@ -82,21 +87,32 @@ export default function ServicesPage() {
             </motion.div>
             
             <motion.h1 variants={itemVariants} className="text-4xl md:text-7xl font-headline font-bold mb-8 uppercase tracking-tighter leading-[0.9]">
-              {t.services.hero.title.split('{Surgical}')[0]}
-              <span className="text-primary">{isRTL ? "الجراحية" : (t.services.hero.title.includes('{Surgical}') ? "Surgical" : "Chirurgicale")}</span>
+              {t.services.hero.title}
+              <span className="text-primary">{t.services.hero.highlight}</span>
             </motion.h1>
             
             <motion.p variants={itemVariants} className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto leading-relaxed font-medium italic">
               {t.services.hero.subtitle}
             </motion.p>
           </div>
-        </section>
+        </motion.section>
 
         {/* Services Grid */}
-        <section className="py-24">
+        <motion.section 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={sectionVariants}
+          className="py-24"
+        >
           <div className="container mx-auto px-4">
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {serviceList.map((service, i) => {
+            <motion.div 
+              variants={{
+                visible: { transition: { staggerChildren: 0.1 } }
+              }}
+              className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+            >
+              {serviceList.map((service) => {
                 const Icon = service.icon;
                 const data = (t.services.list as any)[service.key];
                 return (
@@ -107,7 +123,10 @@ export default function ServicesPage() {
                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
                   >
                     <Card className="rounded-none bg-accent/5 border-primary/10 clinical-shadow group hover:bg-primary/[0.03] transition-all h-full relative overflow-hidden">
-                      <div className="absolute top-0 left-0 w-1 h-0 bg-primary group-hover:h-full transition-all duration-700" />
+                      <div className={cn(
+                        "absolute top-0 w-1 h-0 bg-primary group-hover:h-full transition-all duration-700",
+                        isRTL ? "right-0" : "left-0"
+                      )} />
                       <CardContent className="p-10 flex flex-col gap-8">
                         <div className="shrink-0 w-fit">
                           <div className="p-5 bg-primary/10 rounded-none text-primary group-hover:bg-primary group-hover:text-white transition-all duration-500 border border-primary/10">
@@ -124,19 +143,25 @@ export default function ServicesPage() {
                           </p>
                         </div>
                         <div className="mt-auto pt-6 border-t border-primary/5 flex items-center gap-3 text-[9px] font-black uppercase tracking-[0.4em] text-primary/40 group-hover:text-primary transition-colors">
-                          PROTOCOL_ACTIVE <ArrowRight className="h-3 w-3" />
+                          {t.services.status} <ArrowRight className={cn("h-3 w-3", isRTL && "rotate-180")} />
                         </div>
                       </CardContent>
                     </Card>
                   </motion.div>
                 );
               })}
-            </div>
+            </motion.div>
           </div>
-        </section>
+        </motion.section>
 
         {/* Call to Action */}
-        <section className="py-32 bg-primary text-white relative overflow-hidden">
+        <motion.section 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={sectionVariants}
+          className="py-32 bg-primary text-white relative overflow-hidden"
+        >
           <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2" />
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/10 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/2" />
           
@@ -160,20 +185,59 @@ export default function ServicesPage() {
               </Link>
             </motion.div>
           </div>
-        </section>
+        </motion.section>
 
-        {/* Compliance Footer */}
-        <motion.div 
-          variants={itemVariants}
-          className="py-20 flex flex-wrap items-center justify-center gap-12 grayscale opacity-30 border-t border-primary/5"
+        {/* Compliance Registry (Reusing Registry style from About) */}
+        <motion.section 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.4 }}
+          variants={sectionVariants}
+          className="py-32 border-t border-primary/5 bg-background relative overflow-hidden"
         >
-          <div className="text-[10px] font-bold uppercase tracking-[0.6em]">{t.catalogue.standards.iso}</div>
-          <div className="h-4 w-[1px] bg-primary/20" />
-          <div className="text-[10px] font-bold uppercase tracking-[0.6em]">{t.catalogue.standards.ce}</div>
-          <div className="h-4 w-[1px] bg-primary/20" />
-          <div className="text-[10px] font-bold uppercase tracking-[0.6em]">{t.catalogue.standards.fda}</div>
-        </motion.div>
-      </motion.div>
+          <div className="container mx-auto px-4">
+            <div className="flex flex-col items-center text-center">
+              <motion.div variants={itemVariants} className="flex items-center gap-3 mb-16 opacity-40">
+                <div className="h-[1px] w-12 bg-primary" />
+                <span className="text-[9px] font-bold uppercase tracking-[0.5em] text-primary">
+                  {t.about.registry.badge}
+                </span>
+                <div className="h-[1px] w-12 bg-primary" />
+              </motion.div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-32">
+                {[
+                  { icon: ShieldCheck, label: t.catalogue.standards.iso, detail: t.about.registry.iso_detail },
+                  { icon: Award, label: t.catalogue.standards.ce, detail: t.about.registry.ce_detail },
+                  { icon: BadgeCheck, label: t.catalogue.standards.fda, detail: t.about.registry.fda_detail }
+                ].map((std, i) => {
+                  const Award = std.icon; // Standard icon mapping
+                  const BadgeCheck = std.icon; // Standard icon mapping
+                  return (
+                    <motion.div 
+                      key={i} 
+                      variants={itemVariants}
+                      whileHover={{ y: -5 }}
+                      className="flex flex-col items-center gap-6 group"
+                    >
+                      <div className="relative">
+                        <div className="absolute inset-0 bg-primary/20 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                        <div className="relative p-6 bg-primary/5 border border-primary/10 rounded-full text-primary/40 group-hover:text-primary group-hover:border-primary/30 transition-all duration-500">
+                          <std.icon className="h-8 w-8" />
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <h4 className="text-xs font-bold uppercase tracking-[0.3em] text-foreground group-hover:text-primary transition-colors">{std.label}</h4>
+                        <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60">{std.detail}</p>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </motion.section>
+      </div>
     </main>
   );
 }

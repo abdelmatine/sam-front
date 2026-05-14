@@ -50,9 +50,11 @@ export const fr = {
   services: {
     hero: {
       badge: "Assistance Technique v2.5",
-      title: "Expertise {Surgical}",
+      title: "Expertise ",
+      highlight: "Chirurgicale",
       subtitle: "Au-delà de la fourniture d'équipement, nous offrons un accompagnement clinique complet pour garantir l'efficacité maximale de votre thérapie respiratoire."
     },
+    status: "PROTOCOLE_ACTIF",
     list: {
       calibration: { title: "Calibration Précise", desc: "Maintenance préventive et calibration de haute précision pour tous vos dispositifs CPAP et BPAP selon les normes ISO." },
       consultation: { title: "Consultation Médicale", desc: "Accès à des spécialistes en pneumologie pour l'ajustement de vos paramètres de traitement et le suivi de vos données." },
