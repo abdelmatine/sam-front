@@ -1,9 +1,9 @@
 
 "use client";
 
-import React, { use, useState, useEffect } from 'react';
+import React, { use, useState } from 'react';
 import Navbar from '@/components/layout/Navbar';
-import { products, categories } from '@/lib/products';
+import { products } from '@/lib/products';
 import { useTranslation } from '@/hooks/use-translation';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store';
@@ -13,13 +13,10 @@ import {
   ChevronRight, 
   ShoppingCart, 
   Heart, 
-  ShieldCheck, 
   Truck, 
   RefreshCcw, 
   Activity, 
   Star, 
-  ArrowLeft,
-  Info,
   BadgeCheck,
   Package
 } from 'lucide-react';
@@ -223,7 +220,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
               <p className="text-sm leading-relaxed text-muted-foreground font-medium italic">
                 {t.footer.quality_desc}
               </p>
-            </motion.div>
+            </TabsContent>
           </Tabs>
         </div>
 
