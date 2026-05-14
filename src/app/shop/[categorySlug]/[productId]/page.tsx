@@ -21,18 +21,16 @@ import {
   Package,
   Database,
   ChevronDown,
-  Info,
   PhoneCall,
   Mail,
   ShieldAlert,
   Copy,
-  Loader2
+  LayoutGrid
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import ProductCard from '@/components/shared/ProductCard';
@@ -142,6 +140,15 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
     { label: t.categories.monitoring, href: '/shop/monitoring' },
     { label: t.categories.consumables, href: '/shop/consumables' },
     { label: t.categories.others, href: '/shop/others' },
+  ];
+
+  const techSpecs = [
+    { label: t.product.tech_ref, value: `SAM-PRD-${product.id}v2.5` },
+    { label: t.product.classification, value: product.category.toUpperCase() },
+    { label: t.product.origin, value: product.brand },
+    { label: t.product.logistics, value: product.inStock ? t.product.ready : t.product.out_of_stock },
+    { label: "Clinical Protocol", value: "Verified v4.0" },
+    { label: "Compliance", value: "ISO 13485:2016" }
   ];
 
   return (
@@ -427,61 +434,52 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
           </motion.div>
         </div>
 
-        <motion.div variants={itemVariants} className="mb-24">
-          <Tabs defaultValue="specs" className="w-full">
-            <TabsList className="w-full justify-start rounded-none border-b bg-transparent h-auto p-0 gap-12 mb-10 overflow-x-auto no-scrollbar">
-              <TabsTrigger value="specs" className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none py-6 px-2 text-[11px] font-bold uppercase tracking-[0.4em] transition-all">
-                {t.product.specs}
-              </TabsTrigger>
-              <TabsTrigger value="clinical" className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none py-6 px-2 text-[11px] font-bold uppercase tracking-[0.4em] transition-all">
-                {t.nav.about}
-              </TabsTrigger>
-            </TabsList>
-            
-            <TabsContent value="specs" className="pt-0 focus-visible:ring-0">
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
-                {[
-                  { label: t.product.tech_ref, value: `SAM-PRD-${product.id}v2.5` },
-                  { label: t.product.classification, value: product.category.toUpperCase() },
-                  { label: t.product.origin, value: product.brand },
-                  { label: t.product.logistics, value: product.inStock ? t.product.ready : t.product.out_of_stock },
-                  { label: "Clinical Protocol", value: "Verified v4.0" },
-                  { label: "Compliance", value: "ISO 13485:2016" }
-                ].map((spec, i) => (
-                  <motion.div 
-                    key={i} 
-                    initial={{ opacity: 0, x: -15 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.08, duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-                    className="flex justify-between items-center py-6 border-b border-primary/10 hover:bg-primary/[0.02] px-4 transition-colors"
-                  >
-                    <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground">{spec.label}</span>
-                    <span className="text-xs font-bold uppercase tracking-tight text-primary text-right">{spec.value}</span>
-                  </motion.div>
-                ))}
-              </div>
-            </TabsContent>
-            
-            <TabsContent value="clinical" className="pt-0 focus-visible:ring-0 max-w-4xl">
+        <motion.div variants={itemVariants} className="mb-24 pt-24 border-t border-primary/10">
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="flex items-center gap-4 mb-12 border-l-4 border-primary pl-8"
+          >
+            <div className="p-2 bg-primary/10 rounded-none border border-primary/20">
+              <LayoutGrid className="h-5 w-5 text-primary" />
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold uppercase tracking-tighter">{t.product.specs}</h2>
+              <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-[0.4em] mt-1 italic">Dossier Technique v4.0.1</p>
+            </div>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {techSpecs.map((spec, i) => (
               <motion.div 
+                key={i} 
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-                className="flex gap-8 items-start bg-accent/5 p-10 border border-primary/10"
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08, duration: 1, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ scale: 1.02, backgroundColor: "hsl(var(--primary) / 0.02)" }}
+                className="flex justify-between items-center py-6 px-8 border border-primary/5 bg-accent/3 hover:border-primary/20 transition-all group cursor-default"
               >
-                <div className="p-4 bg-primary/10 rounded-none border border-primary/20">
-                  <div className="p-4 bg-primary/10 rounded-none border border-primary/20">
-                    <Info className="h-8 w-8 text-primary" />
-                  </div>
-                </div>
-                <p className="text-sm leading-relaxed text-muted-foreground font-medium italic">
-                  {t.footer.quality_desc}
-                  <br /><br />
-                  Le {product.name} a été rigoureusement testé dans nos laboratoires certifiés pour garantir une performance optimale. Chaque unité subit un contrôle technique en 15 points avant d'être approuvée pour l'acquisition.
-                </p>
+                <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground group-hover:text-primary transition-colors">{spec.label}</span>
+                <span className="text-xs font-bold uppercase tracking-tight text-foreground text-right">{spec.value}</span>
               </motion.div>
-            </TabsContent>
-          </Tabs>
+            ))}
+          </div>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.2, delay: 0.6 }}
+            className="mt-12 bg-primary/[0.03] p-10 border border-primary/10 relative overflow-hidden"
+          >
+             <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -translate-y-1/2 translate-x-1/2" />
+             <p className="text-sm leading-relaxed text-muted-foreground font-medium italic relative z-10 max-w-4xl">
+              Le {product.name} a été rigoureusement testé dans nos laboratoires certifiés pour garantir une performance optimale. Chaque unité subit un contrôle technique en 15 points avant d'être approuvée pour l'acquisition. 
+              Toutes les données techniques sont conformes à la norme ISO 13485:2016.
+            </p>
+          </motion.div>
         </motion.div>
 
         {relatedProducts.length > 0 && (
