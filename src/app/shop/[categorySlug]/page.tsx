@@ -49,10 +49,10 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, x: -20 },
     visible: { 
       opacity: 1, 
-      y: 0,
+      x: 0,
       transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
     }
   };
@@ -86,20 +86,28 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
         </motion.div>
 
         {/* Technical Module Header */}
-        <motion.div variants={itemVariants} className="mb-16 border-l-4 border-primary pl-8">
-          <div className="flex items-center gap-3 mb-4">
+        <div className="mb-16 border-l-4 border-primary pl-8">
+          <motion.div variants={itemVariants} className="flex items-center gap-3 mb-4">
             <div className="p-1.5 bg-primary/10 rounded-sm">
               <Database className="h-3.5 w-3.5 text-primary" />
             </div>
             <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-primary/70">Module: {categorySlug.toUpperCase()}</span>
-          </div>
-          <h1 className="text-4xl md:text-5xl font-headline font-bold uppercase tracking-tighter leading-none mb-4">
+          </motion.div>
+          
+          <motion.h1 
+            variants={itemVariants}
+            className="text-4xl md:text-5xl font-headline font-bold uppercase tracking-tighter leading-none mb-4"
+          >
             {categoryName}
-          </h1>
-          <p className="text-muted-foreground text-sm max-w-xl font-medium italic leading-relaxed">
+          </motion.h1>
+          
+          <motion.p 
+            variants={itemVariants}
+            className="text-muted-foreground text-sm max-w-xl font-medium italic leading-relaxed"
+          >
             {currentCategory?.description || t.catalogue.subtitle}
-          </p>
-        </motion.div>
+          </motion.p>
+        </div>
 
         {/* Clinical Console Interface */}
         <motion.div variants={itemVariants} className="bg-accent/5 backdrop-blur-md border border-primary/10 p-1 mb-12 shadow-2xl shadow-black/5">
