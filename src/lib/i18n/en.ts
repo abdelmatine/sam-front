@@ -175,7 +175,19 @@ export const en = {
     logistics: "Logistics Status",
     ready: "Ready for Shipment",
     selection_updated: "Selection Updated",
-    added_to_cart_msg: "added to cart."
+    added_to_cart_msg: "added to cart.",
+    clinical_protocol: "Clinical Protocol",
+    compliance: "Compliance",
+    acquisition: "Acquisition",
+    tech_assistance: "Technical Assistance",
+    support_email: "Support Email",
+    copied: "Copied",
+    support_disclaimer: "* Our clinical specialists are available 24/7 for any technical assistance or calibration requests.",
+    tech_file_v: "Technical File v4.0.1",
+    test_report: "The {name} has been rigorously tested in our certified laboratories to ensure optimal performance. Each unit undergoes a 15-point technical check before being approved for acquisition. All technical data complies with the ISO 13485:2016 standard.",
+    related_title: "Complementary Equipment",
+    sector: "Sector",
+    view_all: "View All"
   },
   common: {
     new: "New",

@@ -107,7 +107,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
   };
 
   const rightToLeftVariants = {
-    hidden: { opacity: 0, x: 60 },
+    hidden: { opacity: 0, x: isRTL ? -60 : 60 },
     visible: { 
       opacity: 1, 
       x: 0,
@@ -116,7 +116,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
   };
 
   const leftToRightVariants = {
-    hidden: { opacity: 0, x: -60 },
+    hidden: { opacity: 0, x: isRTL ? 60 : -60 },
     visible: { 
       opacity: 1, 
       x: 0,
@@ -135,7 +135,6 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
     }
   };
 
-  // Dedicated variants for the Technical Spec Items to ensure "1 by 1" reveal
   const specContainerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -148,7 +147,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
   };
 
   const specItemVariants = {
-    hidden: { opacity: 0, x: 20 },
+    hidden: { opacity: 0, x: isRTL ? -20 : 20 },
     visible: { 
       opacity: 1, 
       x: 0,
@@ -177,8 +176,8 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
     { label: t.product.classification, value: product.category.toUpperCase() },
     { label: t.product.origin, value: product.brand },
     { label: t.product.logistics, value: product.inStock ? t.product.ready : t.product.out_of_stock },
-    { label: "Clinical Protocol", value: "Verified v4.0" },
-    { label: "Compliance", value: "ISO 13485:2016" }
+    { label: t.product.clinical_protocol, value: "Verified v4.0" },
+    { label: t.product.compliance, value: "ISO 13485:2016" }
   ];
 
   return (
@@ -200,7 +199,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
       >
         <motion.div variants={itemVariants} className="flex items-center gap-2 mb-10 text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground/60">
           <Link href="/" className="hover:text-primary transition-colors">{t.catalogue.brand}</Link>
-          <ChevronRight className="h-2.5 w-2.5" />
+          <ChevronRight className={cn("h-2.5 w-2.5", isRTL && "rotate-180")} />
           <ClinicalDropdown 
             isHoverable={true}
             variant="compact"
@@ -212,9 +211,9 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
             }
             items={categoryItems}
           />
-          <ChevronRight className="h-2.5 w-2.5" />
+          <ChevronRight className={cn("h-2.5 w-2.5", isRTL && "rotate-180")} />
           <Link href={`/shop/${categorySlug}`} className="hover:text-primary transition-colors">{categoryName}</Link>
-          <ChevronRight className="h-2.5 w-2.5" />
+          <ChevronRight className={cn("h-2.5 w-2.5", isRTL && "rotate-180")} />
           <span className="text-primary/80">{product.name}</span>
         </motion.div>
 
@@ -231,7 +230,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
               <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity" />
               
               {product.isNew && (
-                <div className="absolute top-8 left-8">
+                <div className={cn("absolute top-8", isRTL ? "right-8" : "left-8")}>
                   <Badge className="bg-primary text-white rounded-none text-[10px] uppercase font-bold tracking-widest px-4 py-2 border-none shadow-xl shadow-primary/20">
                     {t.product.new}
                   </Badge>
@@ -259,7 +258,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
               variants={staggerDetails}
               initial="hidden"
               animate="visible"
-              className="border-l-4 border-primary pl-8 mb-10"
+              className={cn("border-primary mb-10", isRTL ? "border-r-4 pr-8" : "border-l-4 pl-8")}
             >
               <motion.div variants={rightToLeftVariants} className="flex items-center gap-3 mb-4">
                 <div className="p-1.5 bg-primary/10 rounded-sm">
@@ -292,11 +291,11 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
               animate="visible"
               className="bg-accent/5 backdrop-blur-md border border-primary/10 py-10 px-10 mb-10 shadow-2xl shadow-primary/5 relative overflow-hidden"
             >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -translate-y-1/2 translate-x-1/2" />
+              <div className={cn("absolute top-0 w-32 h-32 bg-primary/5 rounded-full -translate-y-1/2", isRTL ? "left-0 -translate-x-1/2" : "right-0 translate-x-1/2")} />
               
               <motion.div variants={rightToLeftVariants} className="flex items-end gap-3 mb-10">
                 <span className="text-5xl font-bold tracking-tighter text-foreground">${product.price.toLocaleString()}</span>
-                <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest pb-2 opacity-60">{t.product.tech_ref} Acquisition</span>
+                <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest pb-2 opacity-60">{t.product.acquisition}</span>
               </motion.div>
 
               <motion.div variants={rightToLeftVariants} className="flex flex-col sm:flex-row gap-4 relative z-10">
@@ -365,7 +364,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
               animate="visible"
               className="border border-primary/10 bg-accent/5 p-8 rounded-none clinical-shadow relative overflow-hidden group cursor-default"
             >
-              <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full -translate-y-1/2 translate-x-1/2" />
+              <div className={cn("absolute top-0 w-24 h-24 bg-primary/5 rounded-full -translate-y-1/2", isRTL ? "left-0 -translate-x-1/2" : "right-0 translate-x-1/2")} />
               <motion.h4 variants={rightToLeftVariants} className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary mb-6 flex items-center gap-2">
                 <ShieldAlert className="h-4 w-4" />
                 {t.contact_info.support_title}
@@ -383,7 +382,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
                       <PhoneCall className="h-4 w-4 text-primary" />
                     </div>
                     <div className="flex-1">
-                      <div className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest mb-0.5">Assistance Technique</div>
+                      <div className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest mb-0.5">{t.product.tech_assistance}</div>
                       <div className="text-xs font-bold tracking-tight">{t.contact_info.phone}</div>
                     </div>
                     <div className="flex items-center justify-center min-w-[60px]">
@@ -396,7 +395,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
                             exit={{ opacity: 0, scale: 0.5 }}
                             className="flex items-center gap-1.5"
                           >
-                            <span className="text-[8px] font-bold text-primary uppercase tracking-[0.2em]">Copié</span>
+                            <span className="text-[8px] font-bold text-primary uppercase tracking-[0.2em]">{t.product.copied}</span>
                             <BadgeCheck className="h-3.5 w-3.5 text-primary" />
                           </motion.div>
                         ) : (
@@ -426,7 +425,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
                       <Mail className="h-4 w-4 text-primary" />
                     </div>
                     <div className="flex-1">
-                      <div className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest mb-0.5">Email Support</div>
+                      <div className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest mb-0.5">{t.product.support_email}</div>
                       <div className="text-xs font-bold tracking-tight">{t.contact_info.email}</div>
                     </div>
                     <div className="flex items-center justify-center min-w-[60px]">
@@ -439,7 +438,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
                             exit={{ opacity: 0, scale: 0.5 }}
                             className="flex items-center gap-1.5"
                           >
-                            <span className="text-[8px] font-bold text-primary uppercase tracking-[0.2em]">Copié</span>
+                            <span className="text-[8px] font-bold text-primary uppercase tracking-[0.2em]">{t.product.copied}</span>
                             <BadgeCheck className="h-3.5 w-3.5 text-primary" />
                           </motion.div>
                         ) : (
@@ -458,7 +457,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
                 </motion.div>
               </motion.div>
               <motion.p variants={rightToLeftVariants} className="mt-6 text-[9px] text-muted-foreground font-medium italic leading-relaxed">
-                * Nos spécialistes cliniques sont disponibles 24/7 pour toute assistance technique ou demande de calibration.
+                {t.product.support_disclaimer}
               </motion.p>
             </motion.div>
           </motion.div>
@@ -466,21 +465,20 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
 
         <motion.div variants={itemVariants} className="mb-24 pt-24 border-t border-primary/10">
           <motion.div 
-            initial={{ opacity: 0, x: -20 }}
+            initial={{ opacity: 0, x: isRTL ? 20 : -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="flex items-center gap-4 mb-12 border-l-4 border-primary pl-8"
+            className={cn("flex items-center gap-4 mb-12 border-primary", isRTL ? "border-r-4 pr-8" : "border-l-4 pl-8")}
           >
             <div className="p-2 bg-primary/10 rounded-none border border-primary/20">
               <LayoutGrid className="h-5 w-5 text-primary" />
             </div>
             <div>
               <h2 className="text-2xl font-bold uppercase tracking-tighter">{t.product.specs}</h2>
-              <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-[0.4em] mt-1 italic">Dossier Technique v4.0.1</p>
+              <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-[0.4em] mt-1 italic">{t.product.tech_file_v}</p>
             </div>
           </motion.div>
 
-          {/* Calibrated staggered grid for technical specs */}
           <motion.div 
             variants={specContainerVariants}
             initial="hidden"
@@ -508,10 +506,9 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
             transition={{ duration: 1.2, delay: 0.6 }}
             className="mt-12 bg-primary/[0.03] p-10 border border-primary/10 relative overflow-hidden"
           >
-             <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -translate-y-1/2 translate-x-1/2" />
+             <div className={cn("absolute top-0 w-32 h-32 bg-primary/5 rounded-full -translate-y-1/2", isRTL ? "left-0 -translate-x-1/2" : "right-0 translate-x-1/2")} />
              <p className="text-sm leading-relaxed text-muted-foreground font-medium italic relative z-10 max-w-4xl">
-              Le {product.name} a été rigoureusement testé dans nos laboratoires certifiés pour garantir une performance optimale. Chaque unité subit un contrôle technique en 15 points avant d'être approuvée pour l'acquisition. 
-              Toutes les données techniques sont conformes à la norme ISO 13485:2016.
+              {t.product.test_report.replace('{name}', product.name)}
             </p>
           </motion.div>
         </motion.div>
@@ -526,19 +523,19 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-16 px-4 gap-6">
               <motion.div 
                 variants={leftToRightVariants}
-                className="flex items-center gap-4 border-l-4 border-primary pl-8"
+                className={cn("flex items-center gap-4 border-primary", isRTL ? "border-r-4 pr-8" : "border-l-4 pl-8")}
               >
                 <Activity className="h-6 w-6 text-primary animate-pulse" />
                 <div>
-                  <h2 className="text-3xl font-bold uppercase tracking-tighter">Équipements Complémentaires</h2>
-                  <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-[0.4em] mt-1">Secteur: {categoryName}</p>
+                  <h2 className="text-3xl font-bold uppercase tracking-tighter">{t.product.related_title}</h2>
+                  <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-[0.4em] mt-1">{t.product.sector}: {categoryName}</p>
                 </div>
               </motion.div>
               
               <motion.div variants={rightToLeftVariants}>
                 <Link href={`/shop/${categorySlug}`}>
                   <Button variant="ghost" className="text-primary text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 hover:bg-primary/5 h-12 px-8 rounded-none border border-transparent hover:border-primary/10 transition-all">
-                    Tout Voir <ChevronRight className="h-4 w-4" />
+                    {t.product.view_all} <ChevronRight className={cn("h-4 w-4", isRTL && "rotate-180")} />
                   </Button>
                 </Link>
               </motion.div>

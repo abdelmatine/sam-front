@@ -175,7 +175,19 @@ export const fr = {
     logistics: "Statut Logistique",
     ready: "Prêt pour Expédition",
     selection_updated: "Sélection Mise à Jour",
-    added_to_cart_msg: "ajouté au panier."
+    added_to_cart_msg: "ajouté au panier.",
+    clinical_protocol: "Protocole Clinique",
+    compliance: "Conformité",
+    acquisition: "Acquisition",
+    tech_assistance: "Assistance Technique",
+    support_email: "Email Support",
+    copied: "Copié",
+    support_disclaimer: "* Nos spécialistes cliniques sont disponibles 24/7 pour toute assistance technique ou demande de calibration.",
+    tech_file_v: "Dossier Technique v4.0.1",
+    test_report: "Le {name} a été rigoureusement testé dans nos laboratoires certifiés pour garantir une performance optimale. Chaque unité subit un contrôle technique en 15 points avant d'être approuvée pour l'acquisition. Toutes les données techniques sont conformes à la norme ISO 13485:2016.",
+    related_title: "Équipements Complémentaires",
+    sector: "Secteur",
+    view_all: "Tout Voir"
   },
   common: {
     new: "Nouveau",
