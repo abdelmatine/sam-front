@@ -247,19 +247,24 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
               </motion.p>
             </motion.div>
 
-            <div className="bg-accent/5 backdrop-blur-md border border-primary/10 py-10 px-10 mb-10 shadow-2xl shadow-primary/5 relative overflow-hidden">
+            <motion.div 
+              variants={staggerDetails}
+              initial="hidden"
+              animate="visible"
+              className="bg-accent/5 backdrop-blur-md border border-primary/10 py-10 px-10 mb-10 shadow-2xl shadow-primary/5 relative overflow-hidden"
+            >
               <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -translate-y-1/2 translate-x-1/2" />
               
-              <div className="flex items-end gap-3 mb-10">
+              <motion.div variants={rightToLeftVariants} className="flex items-end gap-3 mb-10">
                 <span className="text-5xl font-bold tracking-tighter text-foreground">${product.price.toLocaleString()}</span>
                 <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest pb-2 opacity-60">{t.product.tech_ref} Acquisition</span>
-              </div>
+              </motion.div>
 
-              <div className="flex flex-col sm:flex-row gap-4 relative z-10">
+              <motion.div variants={rightToLeftVariants} className="flex flex-col sm:flex-row gap-4 relative z-10">
                 <Button 
                   onClick={handleAddToCart}
                   disabled={!product.inStock}
-                  className="flex-1 bg-primary text-white h-16 rounded-none text-[11px] font-bold uppercase tracking-[0.25em] shadow-2xl shadow-primary/20 flex items-center justify-center gap-3 active:scale-95 transition-all hover:bg-primary/90"
+                  className="flex-1 bg-primary text-white h-16 rounded-none text-[11px] font-bold uppercase tracking-[0.25em] shadow-2xl shadow-primary/20 flex items-center justify-center gap-3 active:scale-95 transition-all hover:bg-primary/90 hover:scale-[1.02]"
                 >
                   <ShoppingCart className="h-5 w-5" />
                   {product.inStock ? t.product.add_to_cart : t.product.out_of_stock}
@@ -268,14 +273,14 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
                   variant="outline" 
                   onClick={handleWishlist}
                   className={cn(
-                    "h-16 w-16 rounded-none border-2 transition-all active:scale-95",
+                    "h-16 w-16 rounded-none border-2 transition-all active:scale-95 hover:scale-105",
                     isWishlisted ? "text-destructive bg-destructive/5 border-destructive/20" : "border-primary/10 hover:bg-primary/5"
                   )}
                 >
                   <Heart className={cn("h-6 w-6 transition-all", isWishlisted && "fill-destructive")} />
                 </Button>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
 
             <div className="grid grid-cols-2 gap-4 mb-10">
               {[
