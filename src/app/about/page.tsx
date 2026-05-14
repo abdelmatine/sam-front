@@ -1,14 +1,38 @@
 
 "use client";
 
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Navbar from '@/components/layout/Navbar';
 import Image from 'next/image';
 import { Award, Users, Heart, ShieldCheck, Database, Activity } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
-import { motion } from 'framer-motion';
+import { motion, animate, useInView } from 'framer-motion';
 import { useTranslation } from '@/hooks/use-translation';
 import { cn } from '@/lib/utils';
+
+const StatCounter = ({ value }: { value: string }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [displayValue, setDisplayValue] = useState("0");
+
+  useEffect(() => {
+    if (isInView) {
+      const numericPart = parseFloat(value.replace(/[^0-9.]/g, ''));
+      const suffix = value.replace(/[0-9.]/g, '');
+      
+      const controls = animate(0, numericPart, {
+        duration: 2.5,
+        ease: [0.22, 1, 0.36, 1],
+        onUpdate(latest) {
+          setDisplayValue(Math.floor(latest).toLocaleString() + suffix);
+        }
+      });
+      return () => controls.stop();
+    }
+  }, [isInView, value]);
+
+  return <span ref={ref}>{displayValue}</span>;
+};
 
 export default function AboutPage() {
   const { t, isRTL } = useTranslation();
@@ -168,14 +192,21 @@ export default function AboutPage() {
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/10 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/2" />
           
           <div className="container mx-auto px-4 relative z-10">
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-16 text-center">
+            <motion.div 
+              variants={{
+                visible: { transition: { staggerChildren: 0.1 } }
+              }}
+              className="grid grid-cols-2 lg:grid-cols-4 gap-16 text-center"
+            >
               {Object.entries(t.about.stats).map(([key, stat], i) => (
                 <motion.div key={key} variants={itemVariants} className="space-y-4">
-                  <div className="text-5xl md:text-6xl font-bold tracking-tighter mb-2">{stat.val}</div>
+                  <div className="text-5xl md:text-6xl font-bold tracking-tighter mb-2">
+                    <StatCounter value={stat.val} />
+                  </div>
                   <div className="text-primary-foreground/60 text-[10px] font-bold uppercase tracking-[0.5em]">{stat.label}</div>
                 </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
         </motion.section>
 
