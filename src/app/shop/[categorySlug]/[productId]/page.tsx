@@ -136,7 +136,6 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
     <main className="min-h-screen pt-24 pb-20 bg-background relative overflow-hidden">
       <Navbar />
       
-      {/* Background Clinical Grid Accent */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute inset-0 opacity-[0.02] dark:opacity-[0.05]" 
           style={{ backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)', backgroundSize: '40px 40px' }} 
@@ -150,7 +149,6 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
         animate="visible"
         className="container mx-auto px-4 relative z-10"
       >
-        {/* Breadcrumbs with Technical Dropdown */}
         <motion.div variants={itemVariants} className="flex items-center gap-2 mb-10 text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground/60">
           <Link href="/" className="hover:text-primary transition-colors">{t.catalogue.brand}</Link>
           <ChevronRight className="h-2.5 w-2.5" />
@@ -172,7 +170,6 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
         </motion.div>
 
         <div className="grid lg:grid-cols-12 gap-16 mb-24">
-          {/* Visual Module */}
           <motion.div variants={itemVariants} className="lg:col-span-7 space-y-6">
             <div className="relative aspect-square border border-primary/10 bg-accent/5 overflow-hidden clinical-shadow group">
               <Image 
@@ -205,7 +202,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
                 <motion.div 
                   key={idx} 
                   whileHover={{ scale: 1.05, y: -5 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
                   className="relative aspect-square border border-primary/5 bg-accent/3 overflow-hidden grayscale hover:grayscale-0 transition-all cursor-pointer shadow-sm hover:shadow-lg"
                 >
                   <Image src={`https://picsum.photos/seed/med-detail-${idx}/400/400`} alt="Detail" fill className="object-cover" />
@@ -215,7 +212,6 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
             </div>
           </motion.div>
 
-          {/* Specification Module */}
           <motion.div variants={itemVariants} className="lg:col-span-5 flex flex-col">
             <motion.div 
               variants={staggerDetails}
@@ -296,7 +292,12 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
               </motion.div>
             </motion.div>
 
-            <div className="grid grid-cols-2 gap-4 mb-10">
+            <motion.div 
+              variants={staggerDetails}
+              initial="hidden"
+              animate="visible"
+              className="grid grid-cols-2 gap-4 mb-10"
+            >
               {[
                 { icon: BadgeCheck, label: t.product.warranty },
                 { icon: Truck, label: t.product.delivery },
@@ -305,22 +306,21 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
               ].map((item, i) => (
                 <motion.div 
                   key={i} 
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: i * 0.1, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                  className="flex items-center gap-4 p-5 border border-primary/5 bg-accent/3 hover:bg-primary/5 transition-colors group"
+                  variants={rightToLeftVariants}
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  className="flex items-center gap-4 p-5 border border-primary/5 bg-accent/3 hover:bg-primary/5 transition-colors group cursor-default"
                 >
                   <item.icon className="h-4 w-4 text-primary group-hover:scale-110 transition-transform" />
                   <span className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground group-hover:text-primary transition-colors">{item.label}</span>
                 </motion.div>
               ))}
-            </div>
+            </motion.div>
 
             <AIExplainer content={product.description} />
           </motion.div>
         </div>
 
-        {/* Diagnostic Tabs Module */}
         <motion.div variants={itemVariants} className="mb-24">
           <Tabs defaultValue="specs" className="w-full">
             <TabsList className="w-full justify-start rounded-none border-b bg-transparent h-auto p-0 gap-12 mb-10 overflow-x-auto no-scrollbar">
@@ -378,7 +378,6 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
           </Tabs>
         </motion.div>
 
-        {/* Related Equipment Section */}
         {relatedProducts.length > 0 && (
           <motion.section variants={itemVariants} className="pt-24 border-t border-primary/10">
             <div className="flex items-center justify-between mb-16 px-4">
