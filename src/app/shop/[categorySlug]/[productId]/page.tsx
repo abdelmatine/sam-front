@@ -96,6 +96,26 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
     }
   };
 
+  const rightToLeftVariants = {
+    hidden: { opacity: 0, x: 50 },
+    visible: { 
+      opacity: 1, 
+      x: 0,
+      transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1] }
+    }
+  };
+
+  const staggerDetails = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.4
+      }
+    }
+  };
+
   if (!product) return null;
 
   const categoryName = (t.categories as any)[categorySlug] || categorySlug;
@@ -196,17 +216,22 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
 
           {/* Specification Module */}
           <motion.div variants={itemVariants} className="lg:col-span-5 flex flex-col">
-            <div className="border-l-4 border-primary pl-8 mb-10">
-              <div className="flex items-center gap-3 mb-4">
+            <motion.div 
+              variants={staggerDetails}
+              initial="hidden"
+              animate="visible"
+              className="border-l-4 border-primary pl-8 mb-10"
+            >
+              <motion.div variants={rightToLeftVariants} className="flex items-center gap-3 mb-4">
                 <div className="p-1.5 bg-primary/10 rounded-sm">
                   <Database className="h-3.5 w-3.5 text-primary" />
                 </div>
                 <span className="text-[10px] text-primary font-bold uppercase tracking-[0.4em]">{t.catalogue.tech_id}: {product.brand.toUpperCase()}-v2</span>
-              </div>
+              </motion.div>
               
-              <h1 className="text-4xl md:text-5xl font-bold uppercase tracking-tighter leading-[0.9] mb-6">{product.name}</h1>
+              <motion.h1 variants={rightToLeftVariants} className="text-4xl md:text-5xl font-bold uppercase tracking-tighter leading-[0.9] mb-6">{product.name}</motion.h1>
               
-              <div className="flex items-center gap-6 text-xs font-bold text-muted-foreground mb-8">
+              <motion.div variants={rightToLeftVariants} className="flex items-center gap-6 text-xs font-bold text-muted-foreground mb-8">
                 <div className="flex items-center gap-1.5">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className={cn("h-4 w-4", i < Math.floor(product.rating) ? "fill-primary text-primary" : "text-muted")} />
@@ -215,12 +240,12 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
                 </div>
                 <div className="h-5 w-[1px] bg-border" />
                 <span className="uppercase tracking-[0.2em] text-[10px] text-primary/60">{t.product.clinical_grade}</span>
-              </div>
+              </motion.div>
               
-              <p className="text-muted-foreground text-sm italic leading-relaxed font-medium max-w-lg">
+              <motion.p variants={rightToLeftVariants} className="text-muted-foreground text-sm italic leading-relaxed font-medium max-w-lg">
                 {product.description}
-              </p>
-            </div>
+              </motion.p>
+            </motion.div>
 
             <div className="bg-accent/5 backdrop-blur-md border border-primary/10 py-10 px-10 mb-10 shadow-2xl shadow-primary/5 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -translate-y-1/2 translate-x-1/2" />
@@ -350,4 +375,3 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
     </main>
   );
 }
-
