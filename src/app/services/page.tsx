@@ -1,4 +1,3 @@
-
 "use client";
 
 import React from 'react';
@@ -206,14 +205,14 @@ export default function ServicesPage() {
                 </motion.div>
 
                 {/* Primary Action Button */}
-                <motion.div variants={itemVariants}>
-                  <Link href="/contact">
-                    <Button className="bg-white text-primary hover:bg-white/90 px-16 py-10 rounded-none text-[12px] font-black uppercase tracking-[0.4em] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] transition-all active:scale-95 group/btn relative overflow-hidden">
-                      <span className="relative z-10 flex items-center gap-4">
+                <motion.div variants={itemVariants} className="w-full md:w-auto">
+                  <Link href="/contact" className="block w-full h-full">
+                    <Button className="w-full md:w-auto bg-white text-primary hover:bg-white/90 active:bg-primary active:text-white px-8 py-8 md:px-16 md:py-10 rounded-none text-[10px] md:text-[12px] font-black uppercase tracking-[0.4em] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] transition-all hover:scale-105 active:scale-95 group/btn relative overflow-hidden">
+                      <span className="relative z-10 flex items-center justify-center gap-4">
                         {t.services.cta.button}
                         <ArrowRight className="h-5 w-5 group-hover/btn:translate-x-3 transition-transform duration-500" />
                       </span>
-                      <div className="absolute inset-0 bg-primary/5 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-500" />
+                      <div className="absolute inset-0 bg-primary/5 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
                     </Button>
                   </Link>
                 </motion.div>
