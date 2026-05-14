@@ -19,11 +19,11 @@ export const fr = {
   about: {
     hero: {
       badge: "Déclaration de Mission v1.0",
-      title: "Notre Mission est le {souffle}",
+      title: "Notre Mission est le ",
       subtitle: "Chez SAM Médicale, nous comblons l'écart entre l'excellence clinique et les soins à domicile. Nous nous dédions à fournir une technologie respiratoire de pointe à ceux qui en ont le plus besoin."
     },
     story: {
-      title: "Leader de la {santé}",
+      title: "Leader de la ",
       p1: "Fondée par une équipe de spécialistes en pneumologie et d'ingénieurs médicaux, SAM Médicale a commencé avec un objectif simple : rendre l'équipement d'oxygénothérapie et de sommeil accessible, fiable et facile à utiliser.",
       p2: "Aujourd'hui, nous servons plus de 15 000 patients, en partenariat avec des marques de classe mondiale pour garantir que chaque appareil répond aux normes cliniques les plus strictes."
     },
@@ -117,7 +117,7 @@ export const fr = {
     hours: "Lun-Ven: 8h - 20h CET"
   },
   contact: {
-    title: "Comment Aider ?",
+    title: "Comment pouvons-nous vous Aider ?",
     subtitle: "Que vous ayez des questions sur les spécifications de l'équipement, la couverture d'assurance ou l'état d'une commande, notre équipe spécialisée est là pour vous assister.",
     info: {
       technical_title: "Assistance Technique",

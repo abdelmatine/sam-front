@@ -7,16 +7,25 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent } from '@/components/ui/card';
-import { Phone, Mail, MapPin, MessageSquare, Clock, ShieldCheck, Loader2, Database, Activity, Send } from 'lucide-react';
+import { Phone, Mail, MapPin, MessageSquare, Clock, ShieldCheck, Loader2, Database, Activity, Send, Copy, BadgeCheck } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from '@/hooks/use-translation';
+import { cn } from '@/lib/utils';
 
 export default function ContactPage() {
   const { toast } = useToast();
   const { t } = useTranslation();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
   
+  const handleCopy = (text: string, id: string) => {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopiedId(id);
+      setTimeout(() => setCopiedId(null), 2000);
+    });
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -62,25 +71,31 @@ export default function ContactPage() {
 
   const contactInfos = [
     { 
+      id: "phone",
       icon: Phone, 
       title: t.contact.info.technical_title, 
       val: t.contact_info.phone, 
       desc: t.contact.info.technical_hours,
-      color: "text-primary"
+      color: "text-primary",
+      canCopy: true
     },
     { 
+      id: "email",
       icon: Mail, 
       title: t.contact.info.email_title, 
       val: t.contact_info.email, 
       desc: t.contact.info.email_response,
-      color: "text-primary"
+      color: "text-primary",
+      canCopy: true
     },
     { 
+      id: "location",
       icon: MapPin, 
       title: t.contact.info.location_title, 
       val: t.contact.info.location_address, 
       desc: t.contact_info.location,
-      color: "text-primary"
+      color: "text-primary",
+      canCopy: false
     }
   ];
 
@@ -120,19 +135,49 @@ export default function ContactPage() {
                   key={i}
                   whileHover={{ scale: 1.03, x: 5 }}
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  onClick={() => item.canCopy && handleCopy(item.val, item.id)}
+                  className={cn(item.canCopy && "cursor-pointer")}
                 >
                   <Card className="rounded-none border-primary/10 bg-accent/5 clinical-shadow overflow-hidden group">
-                    <CardContent className="p-8 flex gap-6">
+                    <CardContent className="p-8 flex gap-6 relative">
                       <div className="shrink-0">
                         <div className="p-4 bg-primary/10 rounded-sm text-primary group-hover:bg-primary group-hover:text-white transition-all duration-500">
                           <item.icon className="h-6 w-6" />
                         </div>
                       </div>
-                      <div>
+                      <div className="flex-1">
                         <h4 className="font-bold text-[10px] uppercase tracking-widest text-primary/60 mb-1">{item.title}</h4>
                         <p className="text-lg font-bold tracking-tight mb-1">{item.val}</p>
                         <p className="text-[10px] text-muted-foreground font-medium italic">{item.desc}</p>
                       </div>
+
+                      {item.canCopy && (
+                        <div className="absolute top-6 right-6">
+                          <AnimatePresence mode="wait">
+                            {copiedId === item.id ? (
+                              <motion.div
+                                key="check"
+                                initial={{ opacity: 0, scale: 0.5 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.5 }}
+                                className="flex items-center gap-1.5"
+                              >
+                                <span className="text-[8px] font-bold text-primary uppercase tracking-[0.2em]">{t.product.copied}</span>
+                                <BadgeCheck className="h-3.5 w-3.5 text-primary" />
+                              </motion.div>
+                            ) : (
+                              <motion.div
+                                key="copy"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                              >
+                                <Copy className="h-3.5 w-3.5 text-primary/20 group-hover:text-primary transition-colors" />
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </div>
+                      )}
                     </CardContent>
                   </Card>
                 </motion.div>
