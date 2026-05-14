@@ -11,12 +11,39 @@ export default function PageLoader() {
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
 
-  // We only show the global loader when the pathname actually changes
-  // and we want a global transition. We've removed the manual click interceptor
-  // to prefer localized card-level loading states.
+  // Reset loading state when the path or search parameters change
   useEffect(() => {
     setLoading(false);
   }, [pathname, searchParams]);
+
+  // Intercept all internal navigation clicks to trigger the global pulse
+  useEffect(() => {
+    const handleAnchorClick = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      const anchor = target.closest('a');
+
+      if (
+        anchor &&
+        anchor instanceof HTMLAnchorElement &&
+        anchor.href &&
+        anchor.href.startsWith(window.location.origin) &&
+        !anchor.href.includes('#') &&
+        anchor.target !== '_blank' &&
+        anchor.getAttribute('download') === null
+      ) {
+        const currentUrl = window.location.href;
+        const targetUrl = anchor.href;
+
+        // Only trigger if we are navigating to a new clinical path
+        if (currentUrl !== targetUrl) {
+          setLoading(true);
+        }
+      }
+    };
+
+    document.addEventListener('click', handleAnchorClick);
+    return () => document.removeEventListener('click', handleAnchorClick);
+  }, []);
 
   return (
     <AnimatePresence mode="wait">
@@ -27,7 +54,7 @@ export default function PageLoader() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.4, ease: "easeInOut" }}
-          className="fixed inset-0 bg-background/95 backdrop-blur-xl z-[200] flex flex-col items-center justify-center gap-6 pointer-events-none"
+          className="fixed inset-0 bg-background/95 backdrop-blur-xl z-[200] flex flex-col items-center justify-center gap-6"
         >
           <div className="relative flex flex-col items-center overflow-hidden w-full max-w-xs">
             <motion.div
@@ -79,6 +106,9 @@ export default function PageLoader() {
                 transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
               />
             </div>
+            <span className="text-[8px] font-bold uppercase tracking-[0.3em] text-primary/60 mt-2">
+              Initialisation du Module
+            </span>
           </div>
         </motion.div>
       )}
