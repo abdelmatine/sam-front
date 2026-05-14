@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState } from 'react';
@@ -18,6 +19,7 @@ export default function CatalogueRootPage() {
 
   const handleCategoryClick = (slug: string) => {
     setNavigatingSlug(slug);
+    // Standardize all category routing to use /shop/[slug]
     router.push(`/shop/${slug}`);
   };
 
@@ -180,7 +182,7 @@ export default function CatalogueRootPage() {
             );
           })}
           
-          {/* Full Grid Link Tile */}
+          {/* Global Grid Tile - Routes to /shop/all handled by CategoryPage */}
           <motion.div 
             variants={itemVariants}
             whileHover={{ scale: 1.03, y: -8 }}

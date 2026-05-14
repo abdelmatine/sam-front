@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -9,7 +10,7 @@ import { ShopSkeleton } from '@/components/shared/ProductSkeleton';
 import { products, categories } from '@/lib/products';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Search, SlidersHorizontal, ChevronDown, FilterX, ArrowLeft, ChevronRight } from 'lucide-react';
+import { Search, SlidersHorizontal, ChevronDown, FilterX, ArrowLeft, ChevronRight, Loader2 } from 'lucide-react';
 import { useTranslation } from '@/hooks/use-translation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -23,7 +24,8 @@ export default function CategoryPage() {
   const { t, isRTL } = useTranslation();
   const params = useParams();
   const router = useRouter();
-  const activeCategory = (params.categorySlug as string) || 'all';
+  const categorySlug = params.categorySlug as string;
+  const activeCategory = categorySlug || 'all';
   
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('featured');
@@ -110,8 +112,8 @@ export default function CategoryPage() {
             {menuCategories.map((cat) => (
               <Button
                 key={cat.value}
-                variant={(activeCategory === cat.value || (activeCategory === 'all' && cat.value === 'all')) ? "default" : "outline"}
-                onClick={() => router.push(cat.value === 'all' ? '/shop' : `/shop/${cat.value}`)}
+                variant={(activeCategory === cat.value) ? "default" : "outline"}
+                onClick={() => router.push(cat.value === 'all' ? '/shop/all' : `/shop/${cat.value}`)}
                 className="rounded-none text-[9px] font-bold uppercase tracking-widest h-9 px-5 transition-all"
               >
                 {cat.label}
