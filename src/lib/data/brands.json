@@ -1,0 +1,50 @@
+[
+  {
+    "id": "sam-medicale",
+    "name": "SAM Médicale",
+    "description": "Leading innovator in respiratory clinical engineering.",
+    "origin": "France"
+  },
+  {
+    "id": "resmed",
+    "name": "ResMed",
+    "description": "Global leader in sleep apnea and COPD solutions.",
+    "origin": "USA"
+  },
+  {
+    "id": "philips",
+    "name": "Philips",
+    "description": "Technical excellence in patient care technology.",
+    "origin": "Netherlands"
+  },
+  {
+    "id": "fisher-paykel",
+    "name": "Fisher & Paykel",
+    "description": "Experts in humidification and respiratory interfaces.",
+    "origin": "New Zealand"
+  },
+  {
+    "id": "wellue",
+    "name": "Wellue",
+    "description": "Specialized in home health monitoring and diagnostic tools.",
+    "origin": "China"
+  },
+  {
+    "id": "nonin",
+    "name": "Nonin Medical",
+    "description": "Inovators in noninvasive physiological monitoring.",
+    "origin": "USA"
+  },
+  {
+    "id": "devilbiss",
+    "name": "DeVilbiss",
+    "description": "Heavy-duty respiratory care and oxygen therapy.",
+    "origin": "USA"
+  },
+  {
+    "id": "omron",
+    "name": "Omron",
+    "description": "Healthcare monitoring and clinical heart health.",
+    "origin": "Japan"
+  }
+]

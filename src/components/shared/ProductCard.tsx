@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState } from 'react';
@@ -15,14 +14,14 @@ import { Card, CardContent } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { useTranslation } from '@/hooks/use-translation';
+import { getBrandById } from '@/lib/products';
 import Link from 'next/link';
 
 interface Product {
   id: string;
   name: string;
   price: number;
-  brand: string;
-  brandTagline?: string;
+  brandId: string;
   imageUrl: string;
   category: string;
   rating: number;
@@ -46,6 +45,8 @@ const ProductCard = ({ product, layout = 'grid' }: ProductCardProps) => {
   const [isNavigating, setIsNavigating] = useState(false);
   const [isImageLoading, setIsImageLoading] = useState(true);
 
+  const brand = getBrandById(product.brandId);
+
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -58,7 +59,7 @@ const ProductCard = ({ product, layout = 'grid' }: ProductCardProps) => {
         price: product.price,
         quantity: 1,
         imageUrl: product.imageUrl,
-        brand: product.brand
+        brand: brand?.name || 'N/A'
       }));
       toast({
         title: t.product.selection_updated,
@@ -76,7 +77,7 @@ const ProductCard = ({ product, layout = 'grid' }: ProductCardProps) => {
       name: product.name,
       price: product.price,
       imageUrl: product.imageUrl,
-      brand: product.brand
+      brand: brand?.name || 'N/A'
     }));
   };
 
@@ -210,19 +211,11 @@ const ProductCard = ({ product, layout = 'grid' }: ProductCardProps) => {
           )}>
             <div className="flex flex-col h-full">
               <div className="flex-1">
-                {/* Brand & Tagline Header */}
+                {/* Brand Header */}
                 <div className="flex flex-col gap-1 mb-5">
-                  <div className="flex items-center gap-3">
-                    <span className="text-[9px] text-primary font-black uppercase tracking-[0.4em]">
-                      {product.brand}
-                    </span>
-                    <div className="h-[1px] w-6 bg-primary/20" />
-                  </div>
-                  {product.brandTagline && (
-                    <span className="text-[8px] text-muted-foreground/60 font-bold uppercase tracking-[0.3em] italic">
-                      {product.brandTagline}
-                    </span>
-                  )}
+                  <span className="text-[9px] text-primary font-black uppercase tracking-[0.4em]">
+                    {brand?.name || 'N/A'}
+                  </span>
                 </div>
                 
                 <h3 className={cn(
@@ -294,7 +287,8 @@ const ProductCard = ({ product, layout = 'grid' }: ProductCardProps) => {
                       ) : (
                         <div className="relative flex items-center justify-center">
                           <Plus className="h-6 w-6 group-hover/btn:rotate-90 transition-transform duration-700" />
-                          <div className="absolute inset-0 bg-white/10 rounded-full scale-0 group-hover/btn:scale-150 transition-transform duration-1000 opacity-0 group-hover/btn:opacity-100" />
+                          {/* Premium Action Glow Layer */}
+                          <div className="absolute inset-0 bg-white/10 rounded-full scale-0 group-hover/btn:scale-[2] transition-transform duration-1000 opacity-0 group-hover/btn:opacity-100 blur-xl" />
                         </div>
                       )
                     )}
