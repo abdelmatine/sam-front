@@ -61,7 +61,8 @@ export const en = {
       delivery: { title: "Specialized Logistics", desc: "Secure delivery and home installation by certified technicians for optimal setup." },
       support: { title: "24/7 Technical Support", desc: "Continuous technical assistance to answer all operational emergencies and maintenance questions." },
       training: { title: "Clinical Training", desc: "Training programs for patients and caregivers on the correct use of respiratory equipment." },
-      hygiene: { title: "Hygiene Protocols", desc: "Surgical-grade disinfection services and regular replacement of consumables for total safety." }
+      hygiene: { title: "Hygiene Protocols", desc: "Surgical-grade disinfection services and regular replacement of consumables for total safety." },
+      polygraphy: { title: "Indoor Polygraphy", desc: "Professional sleep studies conducted in our clinical facility or monitored indoor environments to diagnose respiratory disorders." }
     },
     cta: {
       title: "Ready for Technical Analysis?",

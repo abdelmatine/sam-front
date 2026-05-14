@@ -61,7 +61,8 @@ export const fr = {
       delivery: { title: "Logistique Spécialisée", desc: "Livraison sécurisée et installation à domicile par des techniciens certifiés pour une mise en service optimale." },
       support: { title: "Support Technique 24/7", desc: "Une assistance technique continue pour répondre à toutes vos urgences opérationnelles et questions de maintenance." },
       training: { title: "Formation Clinique", desc: "Programmes de formation pour les patients et les aidants sur l'utilisation correcte des équipements respiratoires." },
-      hygiene: { title: "Protocoles d'Hygiène", desc: "Services de désinfection de grade chirurgical et remplacement régulier des consommables pour une sécurité totale." }
+      hygiene: { title: "Protocoles d'Hygiène", desc: "Services de désinfection de grade chirurgical et remplacement régulier des consommables pour une sécurité totale." },
+      polygraphy: { title: "Polygraphie en Clinique", desc: "Études du sommeil professionnelles réalisées dans notre établissement clinique pour diagnostiquer précisément les troubles respiratoires." }
     },
     cta: {
       title: "Prêt pour une Analyse Technique ?",

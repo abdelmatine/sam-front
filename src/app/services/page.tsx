@@ -15,7 +15,8 @@ import {
   ArrowRight,
   ShieldCheck,
   Award,
-  BadgeCheck
+  BadgeCheck,
+  Microscope
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -57,7 +58,8 @@ export default function ServicesPage() {
     { icon: Truck, key: 'delivery' },
     { icon: Headset, key: 'support' },
     { icon: GraduationCap, key: 'training' },
-    { icon: ShieldAlert, key: 'hygiene' }
+    { icon: ShieldAlert, key: 'hygiene' },
+    { icon: Microscope, key: 'polygraphy' }
   ];
 
   return (
