@@ -12,6 +12,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { ShopSkeleton } from '@/components/shared/ProductSkeleton';
+import ClinicalDropdown from '@/components/shared/ClinicalDropdown';
 
 export default function CategoryPage({ params }: { params: Promise<{ categorySlug: string }> }) {
   const { categorySlug } = use(params);
@@ -84,11 +85,22 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
     }
   };
 
+  const categoryItems = [
+    { label: t.categories.view_all, href: '/shop' },
+    { label: t.categories.cpap, href: '/shop/cpap' },
+    { label: t.categories.bpap, href: '/shop/bpap' },
+    { label: t.categories.oxygen, href: '/shop/oxygen' },
+    { label: t.categories.masks, href: '/shop/masks' },
+    { label: t.categories.accessories, href: '/shop/accessories' },
+    { label: t.categories.monitoring, href: '/shop/monitoring' },
+    { label: t.categories.consumables, href: '/shop/consumables' },
+    { label: t.categories.others, href: '/shop/others' },
+  ];
+
   return (
     <main className="min-h-screen pt-24 pb-20 bg-background relative overflow-hidden">
       <Navbar />
       
-      {/* Background Clinical Grid Accent */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute inset-0 opacity-[0.02] dark:opacity-[0.05]" 
           style={{ backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)', backgroundSize: '40px 40px' }} 
@@ -102,16 +114,24 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
         variants={containerVariants}
         className="container mx-auto px-4 relative z-10"
       >
-        {/* Breadcrumbs */}
         <motion.div variants={itemVariants} className="flex items-center gap-2 mb-10 text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground/60">
           <Link href="/" className="hover:text-primary transition-colors">{t.catalogue.brand}</Link>
           <ChevronRight className="h-2.5 w-2.5" />
-          <Link href="/shop" className="hover:text-primary transition-colors">{t.nav.catalogue}</Link>
+          <ClinicalDropdown 
+            isHoverable={true}
+            variant="compact"
+            trigger={
+              <Link href="/shop" className="hover:text-primary transition-colors flex items-center gap-1">
+                {t.nav.catalogue}
+                <ChevronDown className="h-2.5 w-2.5" />
+              </Link>
+            }
+            items={categoryItems}
+          />
           <ChevronRight className="h-2.5 w-2.5" />
           <span className="text-primary/80">{categoryName}</span>
         </motion.div>
 
-        {/* Technical Module Header */}
         <div className="mb-16 border-l-4 border-primary pl-8">
           <motion.div variants={itemVariants} className="flex items-center gap-3 mb-4">
             <div className="p-1.5 bg-primary/10 rounded-sm">
@@ -135,7 +155,6 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
           </motion.p>
         </div>
 
-        {/* Clinical Console Interface */}
         <motion.div variants={itemVariants} className="bg-accent/5 backdrop-blur-md border border-primary/10 p-1 mb-12 shadow-2xl shadow-black/5">
           <div className="flex flex-col lg:flex-row items-stretch gap-1">
             <div className="flex-1 relative group">
@@ -166,7 +185,6 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
           </div>
         </motion.div>
 
-        {/* Results Metadata */}
         <motion.div variants={itemVariants} className="flex items-center justify-between mb-8 px-2">
           <div className="flex items-center gap-4">
             <Activity className="h-4 w-4 text-primary/40 animate-pulse" />
@@ -251,4 +269,23 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
       </motion.div>
     </main>
   );
+}
+
+function ChevronDown(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="m6 9 6 6 6-6" />
+    </svg>
+  )
 }

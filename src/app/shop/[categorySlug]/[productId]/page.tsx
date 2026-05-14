@@ -31,6 +31,7 @@ import { cn } from '@/lib/utils';
 import AIExplainer from '@/components/shared/AIExplainer';
 import ProductCard from '@/components/shared/ProductCard';
 import { motion } from 'framer-motion';
+import ClinicalDropdown from '@/components/shared/ClinicalDropdown';
 
 export default function ProductDetailPage({ params }: { params: Promise<{ categorySlug: string, productId: string }> }) {
   const { categorySlug, productId } = use(params);
@@ -97,11 +98,22 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
 
   const categoryName = (t.categories as any)[categorySlug] || categorySlug;
 
+  const categoryItems = [
+    { label: t.categories.view_all, href: '/shop' },
+    { label: t.categories.cpap, href: '/shop/cpap' },
+    { label: t.categories.bpap, href: '/shop/bpap' },
+    { label: t.categories.oxygen, href: '/shop/oxygen' },
+    { label: t.categories.masks, href: '/shop/masks' },
+    { label: t.categories.accessories, href: '/shop/accessories' },
+    { label: t.categories.monitoring, href: '/shop/monitoring' },
+    { label: t.categories.consumables, href: '/shop/consumables' },
+    { label: t.categories.others, href: '/shop/others' },
+  ];
+
   return (
     <main className="min-h-screen pt-24 pb-20 bg-background relative overflow-hidden">
       <Navbar />
       
-      {/* Background Clinical Grid Accent */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute inset-0 opacity-[0.02] dark:opacity-[0.05]" 
           style={{ backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)', backgroundSize: '40px 40px' }} 
@@ -114,11 +126,20 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
         animate="visible"
         className="container mx-auto px-4 relative z-10"
       >
-        {/* Breadcrumbs */}
         <motion.div variants={itemVariants} className="flex items-center gap-2 mb-10 text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground/60">
           <Link href="/" className="hover:text-primary transition-colors">{t.catalogue.brand}</Link>
           <ChevronRight className="h-2.5 w-2.5" />
-          <Link href="/shop" className="hover:text-primary transition-colors">{t.nav.catalogue}</Link>
+          <ClinicalDropdown 
+            isHoverable={true}
+            variant="compact"
+            trigger={
+              <Link href="/shop" className="hover:text-primary transition-colors flex items-center gap-1">
+                {t.nav.catalogue}
+                <ChevronDown className="h-2.5 w-2.5" />
+              </Link>
+            }
+            items={categoryItems}
+          />
           <ChevronRight className="h-2.5 w-2.5" />
           <Link href={`/shop/${categorySlug}`} className="hover:text-primary transition-colors">{categoryName}</Link>
           <ChevronRight className="h-2.5 w-2.5" />
@@ -126,7 +147,6 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
         </motion.div>
 
         <div className="grid lg:grid-cols-12 gap-16 mb-24">
-          {/* Left: Product Visuals */}
           <motion.div variants={itemVariants} className="lg:col-span-7 space-y-6">
             <div className="relative aspect-square border border-primary/10 bg-accent/5 overflow-hidden clinical-shadow">
               <Image 
@@ -154,7 +174,6 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
             </div>
           </motion.div>
 
-          {/* Right: Technical Specs & Actions */}
           <motion.div variants={itemVariants} className="lg:col-span-5 flex flex-col">
             <div className="border-l-4 border-primary pl-8 mb-8">
               <div className="flex items-center gap-3 mb-3">
@@ -223,7 +242,6 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
           </motion.div>
         </div>
 
-        {/* Technical Specification Sheet */}
         <motion.div variants={itemVariants} className="mb-24">
           <Tabs defaultValue="specs" className="w-full">
             <TabsList className="w-full justify-start rounded-none border-b bg-transparent h-auto p-0 gap-10">
@@ -257,7 +275,6 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
           </Tabs>
         </motion.div>
 
-        {/* Related Equipment */}
         {relatedProducts.length > 0 && (
           <motion.section variants={itemVariants} className="pt-24 border-t">
             <div className="flex items-center gap-3 mb-12 border-l-4 border-primary pl-6">
@@ -274,4 +291,23 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
       </motion.div>
     </main>
   );
+}
+
+function ChevronDown(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="m6 9 6 6 6-6" />
+    </svg>
+  )
 }
