@@ -6,7 +6,7 @@ import Navbar from '@/components/layout/Navbar';
 import { products, categories } from '@/lib/products';
 import ProductCard from '@/components/shared/ProductCard';
 import { useTranslation } from '@/hooks/use-translation';
-import { ChevronRight, Filter, LayoutGrid, List, Search, Activity, Database, Hash } from 'lucide-react';
+import { ChevronRight, Filter, LayoutGrid, List, Search, Activity, Database, Hash, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Input } from '@/components/ui/input';
@@ -18,6 +18,8 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
   const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [isFetchingMore, setIsFetchingMore] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(8);
 
   const currentCategory = categories.find(c => c.slug === categorySlug);
   const filteredProducts = products.filter(p => 
@@ -26,16 +28,28 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
      p.brand.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
+  const displayedProducts = filteredProducts.slice(0, visibleCount);
+  const hasMore = visibleCount < filteredProducts.length;
+
   const categoryName = categorySlug === 'all' 
     ? t.catalogue.global_inventory 
     : (t.categories as any)[categorySlug] || currentCategory?.name || categorySlug;
 
-  // Localized loading effect for category transitions
   useEffect(() => {
     setIsLoading(true);
+    setVisibleCount(8);
     const timer = setTimeout(() => setIsLoading(false), 800);
     return () => clearTimeout(timer);
   }, [categorySlug]);
+
+  const handleLoadMore = () => {
+    setIsFetchingMore(true);
+    // Simulate clinical database retrieval delay
+    setTimeout(() => {
+      setVisibleCount(prev => prev + 4);
+      setIsFetchingMore(false);
+    }, 800);
+  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -54,6 +68,16 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
       opacity: 1, 
       x: 0,
       transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
+    }
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 30, scale: 0.95 },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      scale: 1,
+      transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
     }
   };
 
@@ -150,7 +174,7 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
           </div>
           <div className="hidden md:flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.4em] opacity-30">
             <Hash className="h-3 w-3" />
-            Clinical-IDX: {filteredProducts.length > 0 ? filteredProducts[0].id : 'N/A'}
+            Clinical-IDX: {displayedProducts.length > 0 ? displayedProducts[0].id : 'N/A'}
           </div>
         </motion.div>
 
@@ -167,17 +191,44 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
               <ShopSkeleton />
             </motion.div>
           ) : filteredProducts.length > 0 ? (
-            <motion.div 
-              key="grid"
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-              className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8"
-            >
-              {filteredProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </motion.div>
+            <div className="space-y-12">
+              <motion.div 
+                key="grid"
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+                className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8"
+              >
+                {displayedProducts.map((product) => (
+                  <motion.div key={product.id} variants={cardVariants} layout>
+                    <ProductCard product={product} />
+                  </motion.div>
+                ))}
+              </motion.div>
+
+              {hasMore && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="flex justify-center pt-8"
+                >
+                  <Button 
+                    onClick={handleLoadMore}
+                    disabled={isFetchingMore}
+                    className="bg-primary text-white px-12 py-8 rounded-none text-[11px] font-bold uppercase tracking-[0.3em] shadow-2xl shadow-primary/20 hover:scale-105 transition-all flex items-center justify-center gap-3 min-w-[300px]"
+                  >
+                    {isFetchingMore ? (
+                      <Loader2 className="h-5 w-5 animate-spin" />
+                    ) : (
+                      <>
+                        {t.catalogue.load_more}
+                        <ChevronRight className="h-4 w-4" />
+                      </>
+                    )}
+                  </Button>
+                </motion.div>
+              )}
+            </div>
           ) : (
             <motion.div 
               key="empty"

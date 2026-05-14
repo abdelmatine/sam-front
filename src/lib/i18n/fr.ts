@@ -97,6 +97,7 @@ export const fr = {
     all_devices_desc: "Tous les dispositifs cliniques",
     access_grid: "Accéder à la Grille",
     brand: "SAM MÉDICALE",
+    load_more: "Charger plus d'appareils",
     standards: {
       iso: "ISO 13485:2016",
       ce: "CE GRADE MÉDICAL",
