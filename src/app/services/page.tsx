@@ -1,55 +1,7 @@
 
 "use client";
 
-import React from 'react';
-import Navbar from '@/components/layout/Navbar';
-import { motion, Variants } from 'framer-motion';
-import { 
-  Wrench, 
-  Stethoscope, 
-  Truck, 
-  Headset, 
-  GraduationCap, 
-  ShieldAlert, 
-  Activity, 
-  ArrowRight,
-  ShieldCheck,
-  Award,
-  BadgeCheck,
-  Microscope
-} from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { useTranslation } from '@/hooks/use-translation';
-import Link from 'next/link';
-import { cn } from '@/lib/utils';
-
-// Unified Animation Variants
-const sectionVariants: Variants = {
-  hidden: { opacity: 0, y: 40 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 1,
-      ease: [0.22, 1, 0.36, 1],
-      staggerChildren: 0.15,
-      delayChildren: 0.1
-    }
-  }
-};
-
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 30, scale: 0.98 },
-  visible: { 
-    opacity: 1, 
-    y: 0, 
-    scale: 1,
-    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
-  }
-};
-
-export default function ServicesPage() {
+import React from 'export default function ServicesPage() {
   const { t, isRTL } = useTranslation();
 
   const serviceList = [
@@ -139,9 +91,6 @@ export default function ServicesPage() {
                           <p className="text-sm text-muted-foreground font-medium italic leading-relaxed">
                             {data.desc}
                           </p>
-                        </div>
-                        <div className="mt-auto pt-6 border-t border-primary/5 flex items-center gap-3 text-[9px] font-black uppercase tracking-[0.4em] text-primary/40 group-hover:text-primary transition-colors">
-                          {t.services.status} <ArrowRight className={cn("h-3 w-3", isRTL && "rotate-180")} />
                         </div>
                       </CardContent>
                     </Card>
