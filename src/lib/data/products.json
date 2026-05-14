@@ -55,5 +55,172 @@
     "rating": 4.6,
     "inStock": true,
     "description": "Un nébuliseur conçu spécifiquement pour les enfants, rendant le traitement moins intimidant grâce à son fonctionnement ultra-silencieux et sa diffusion efficace."
+  },
+  {
+    "id": "6",
+    "name": "SAM Auto-CPAP Dream Station",
+    "price": 950,
+    "brand": "SAM Médicale",
+    "imageUrl": "https://picsum.photos/seed/med-cpap2/600/600",
+    "category": "cpap",
+    "rating": 4.7,
+    "inStock": true,
+    "description": "Solution CPAP intelligente avec algorithmes d'ajustement de pression en temps réel pour un confort respiratoire maximal."
+  },
+  {
+    "id": "7",
+    "name": "AirCurve 10 VAuto BPAP",
+    "price": 1850,
+    "brand": "ResMed",
+    "imageUrl": "https://picsum.photos/seed/med-bpap1/600/600",
+    "category": "bpap",
+    "rating": 4.9,
+    "inStock": true,
+    "isNew": true,
+    "description": "Dispositif bilevel de haute performance pour les patients nécessitant un soutien respiratoire différencié entre l'inspiration et l'expiration."
+  },
+  {
+    "id": "8",
+    "name": "Inogen One G5 System",
+    "price": 2800,
+    "brand": "Inogen",
+    "imageUrl": "https://picsum.photos/seed/med-oxy2/600/600",
+    "category": "oxygen",
+    "rating": 4.8,
+    "inStock": true,
+    "description": "Concentrateur d'oxygène ultra-portable offrant 6 réglages de débit pour une autonomie clinique totale lors des déplacements."
+  },
+  {
+    "id": "9",
+    "name": "Masque Facial Simplus",
+    "price": 145,
+    "brand": "Fisher & Paykel",
+    "imageUrl": "https://picsum.photos/seed/med-mask2/600/600",
+    "category": "masks",
+    "rating": 4.6,
+    "inStock": true,
+    "description": "Masque facial intégral combinant confort, étanchéité et facilité d'utilisation pour les thérapies CPAP/BPAP intensives."
+  },
+  {
+    "id": "10",
+    "name": "Tube Chauffant ClimateLine",
+    "price": 55,
+    "brand": "ResMed",
+    "imageUrl": "https://picsum.photos/seed/med-acc1/600/600",
+    "category": "accessories",
+    "rating": 4.9,
+    "inStock": true,
+    "description": "Tubulure chauffante intelligente pour prévenir la condensation et maintenir une humidité optimale durant le cycle de sommeil."
+  },
+  {
+    "id": "11",
+    "name": "Oxymètre Onyx Vantage 9590",
+    "price": 185,
+    "brand": "Nonin Medical",
+    "imageUrl": "https://picsum.photos/seed/med-mon1/600/600",
+    "category": "monitoring",
+    "rating": 5.0,
+    "inStock": true,
+    "description": "Standard industriel pour la précision clinique. Utilise la technologie PureSAT pour des lectures fiables même dans des conditions difficiles."
+  },
+  {
+    "id": "12",
+    "name": "Pack Filtres Ultra-Fins (x12)",
+    "price": 25,
+    "brand": "SAM Médicale",
+    "imageUrl": "https://picsum.photos/seed/med-cons1/600/600",
+    "category": "consumables",
+    "rating": 4.8,
+    "inStock": true,
+    "description": "Filtres à haute efficacité pour éliminer les particules allergènes et assurer la pureté de l'air délivré par votre appareil CPAP."
+  },
+  {
+    "id": "13",
+    "name": "Masque Narinaire AirFit P10",
+    "price": 125,
+    "brand": "ResMed",
+    "imageUrl": "https://picsum.photos/seed/med-mask3/600/600",
+    "category": "masks",
+    "rating": 4.7,
+    "inStock": true,
+    "description": "L'un des masques les plus silencieux et les plus légers du marché, offrant une vue dégagée et une stabilité exceptionnelle."
+  },
+  {
+    "id": "14",
+    "name": "Masque Nasal DreamWear",
+    "price": 135,
+    "brand": "Philips",
+    "imageUrl": "https://picsum.photos/seed/med-mask4/600/600",
+    "category": "masks",
+    "rating": 4.6,
+    "inStock": true,
+    "description": "Conception innovante avec tubulure sur le sommet de la tête pour une liberté totale de mouvement pendant la nuit."
+  },
+  {
+    "id": "15",
+    "name": "SAM BPAP S/T Clinical Unit",
+    "price": 2100,
+    "brand": "SAM Médicale",
+    "imageUrl": "https://picsum.photos/seed/med-bpap2/600/600",
+    "category": "bpap",
+    "rating": 4.9,
+    "inStock": true,
+    "description": "Appareil BPAP professionnel avec mode synchronisé (S/T) pour les patients nécessitant un contrôle précis du rythme respiratoire."
+  },
+  {
+    "id": "16",
+    "name": "Concentrateur DeVilbiss 5L",
+    "price": 850,
+    "brand": "DeVilbiss",
+    "imageUrl": "https://picsum.photos/seed/med-oxy3/600/600",
+    "category": "oxygen",
+    "rating": 4.7,
+    "inStock": true,
+    "description": "Unité stationnaire robuste et économe en énergie pour une oxygénothérapie continue à domicile fiable."
+  },
+  {
+    "id": "17",
+    "name": "Canule Nasale High-Flow",
+    "price": 15,
+    "brand": "SAM Médicale",
+    "imageUrl": "https://picsum.photos/seed/med-acc2/600/600",
+    "category": "accessories",
+    "rating": 4.5,
+    "inStock": true,
+    "description": "Canule nasale de grade médical conçue pour un débit d'oxygène élevé avec un confort nasal maximal."
+  },
+  {
+    "id": "18",
+    "name": "Tensiomètre Bras HEM-7120",
+    "price": 85,
+    "brand": "Omron",
+    "imageUrl": "https://picsum.photos/seed/med-mon2/600/600",
+    "category": "monitoring",
+    "rating": 4.8,
+    "inStock": true,
+    "description": "Moniteur de tension artérielle automatique avec détection d'arythmie cardiaque pour un suivi cardiovasculaire complet."
+  },
+  {
+    "id": "19",
+    "name": "Masques Chirurgicaux (50pcs)",
+    "price": 12,
+    "brand": "SAM Médicale",
+    "imageUrl": "https://picsum.photos/seed/med-cons2/600/600",
+    "category": "consumables",
+    "rating": 4.9,
+    "inStock": true,
+    "description": "Masques de protection faciale à 3 plis pour une hygiène clinique et chirurgicale irréprochable."
+  },
+  {
+    "id": "20",
+    "name": "SAM AirMini Travel CPAP",
+    "price": 999,
+    "brand": "SAM Médicale",
+    "imageUrl": "https://picsum.photos/seed/med-cpap3/600/600",
+    "category": "cpap",
+    "rating": 4.8,
+    "inStock": true,
+    "isNew": true,
+    "description": "Le plus petit appareil CPAP au monde. Idéal pour les voyages sans compromis sur la performance clinique."
   }
 ]
