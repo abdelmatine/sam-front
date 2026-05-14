@@ -25,7 +25,8 @@ import {
   PhoneCall,
   Mail,
   ShieldAlert,
-  Copy
+  Copy,
+  Loader2
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -35,7 +36,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import ProductCard from '@/components/shared/ProductCard';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import ClinicalDropdown from '@/components/shared/ClinicalDropdown';
 
 export default function ProductDetailPage({ params }: { params: Promise<{ categorySlug: string, productId: string }> }) {
@@ -44,6 +45,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
   const dispatch = useDispatch();
   const wishlist = useSelector((state: RootState) => state.wishlist.items);
   
+  const [copiedId, setCopiedId] = useState<string | null>(null);
   const product = products.find(p => p.id === productId);
   const isWishlisted = wishlist.some(item => item.id === productId);
   
@@ -78,12 +80,10 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
     }));
   };
 
-  const handleCopy = (text: string, label: string) => {
+  const handleCopy = (text: string, id: string) => {
     navigator.clipboard.writeText(text).then(() => {
-      toast({
-        title: "Clinical Data Copied",
-        description: `${label} has been synchronized to clipboard.`,
-      });
+      setCopiedId(id);
+      setTimeout(() => setCopiedId(null), 2000);
     });
   };
 
@@ -336,11 +336,12 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
               <motion.div variants={rightToLeftVariants} className="space-y-4">
                 <motion.div 
                   whileHover={{ scale: 1.03 }} 
+                  whileTap={{ scale: 0.98 }}
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                  onClick={() => handleCopy(t.contact_info.phone, "Phone Number")}
+                  onClick={() => handleCopy(t.contact_info.phone, "phone")}
                   className="cursor-pointer"
                 >
-                  <div className="flex items-center gap-4 p-4 border border-primary/5 bg-background/50 hover:bg-primary/5 transition-all group">
+                  <div className="flex items-center gap-4 p-4 border border-primary/5 bg-background/50 hover:bg-primary/5 transition-all group relative">
                     <div className="p-2 bg-primary/10 rounded-sm">
                       <PhoneCall className="h-4 w-4 text-primary" />
                     </div>
@@ -348,16 +349,42 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
                       <div className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest mb-0.5">Assistance Technique</div>
                       <div className="text-xs font-bold tracking-tight">{t.contact_info.phone}</div>
                     </div>
-                    <Copy className="h-3 w-3 text-primary/20 group-hover:text-primary transition-colors" />
+                    <div className="flex items-center justify-center min-w-[60px]">
+                      <AnimatePresence mode="wait">
+                        {copiedId === "phone" ? (
+                          <motion.div
+                            key="check"
+                            initial={{ opacity: 0, scale: 0.5 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.5 }}
+                            className="flex items-center gap-1.5"
+                          >
+                            <span className="text-[8px] font-bold text-primary uppercase tracking-[0.2em]">Copié</span>
+                            <BadgeCheck className="h-3.5 w-3.5 text-primary" />
+                          </motion.div>
+                        ) : (
+                          <motion.div
+                            key="copy"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                          >
+                            <Copy className="h-3 w-3 text-primary/20 group-hover:text-primary transition-colors" />
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
                   </div>
                 </motion.div>
+                
                 <motion.div 
                   whileHover={{ scale: 1.03 }} 
+                  whileTap={{ scale: 0.98 }}
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                  onClick={() => handleCopy(t.contact_info.email, "Email Support")}
+                  onClick={() => handleCopy(t.contact_info.email, "email")}
                   className="cursor-pointer"
                 >
-                  <div className="flex items-center gap-4 p-4 border border-primary/5 bg-background/50 hover:bg-primary/5 transition-all group">
+                  <div className="flex items-center gap-4 p-4 border border-primary/5 bg-background/50 hover:bg-primary/5 transition-all group relative">
                     <div className="p-2 bg-primary/10 rounded-sm">
                       <Mail className="h-4 w-4 text-primary" />
                     </div>
@@ -365,7 +392,31 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
                       <div className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest mb-0.5">Email Support</div>
                       <div className="text-xs font-bold tracking-tight">{t.contact_info.email}</div>
                     </div>
-                    <Copy className="h-3 w-3 text-primary/20 group-hover:text-primary transition-colors" />
+                    <div className="flex items-center justify-center min-w-[60px]">
+                      <AnimatePresence mode="wait">
+                        {copiedId === "email" ? (
+                          <motion.div
+                            key="check"
+                            initial={{ opacity: 0, scale: 0.5 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.5 }}
+                            className="flex items-center gap-1.5"
+                          >
+                            <span className="text-[8px] font-bold text-primary uppercase tracking-[0.2em]">Copié</span>
+                            <BadgeCheck className="h-3.5 w-3.5 text-primary" />
+                          </motion.div>
+                        ) : (
+                          <motion.div
+                            key="copy"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                          >
+                            <Copy className="h-3 w-3 text-primary/20 group-hover:text-primary transition-colors" />
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
                   </div>
                 </motion.div>
               </motion.div>
