@@ -10,9 +10,11 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Phone, Mail, MapPin, MessageSquare, Clock, ShieldCheck, Loader2, Database, Activity, Send } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTranslation } from '@/hooks/use-translation';
 
 export default function ContactPage() {
   const { toast } = useToast();
+  const { t } = useTranslation();
   const [isSubmitting, setIsSubmitting] = useState(false);
   
   const handleSubmit = (e: React.FormEvent) => {
@@ -244,16 +246,16 @@ export default function ContactPage() {
           </motion.div>
         </div>
 
-        {/* Clinical Stability Status */}
+        {/* Clinical Compliance Status */}
         <motion.div 
           variants={itemVariants}
           className="mt-24 pt-10 border-t border-primary/10 flex flex-wrap items-center justify-center gap-12 grayscale opacity-30"
         >
-          <div className="text-[8px] font-bold uppercase tracking-[0.5em]">SYSTÈME ACTIF: 99.9%</div>
+          <div className="text-[9px] font-bold uppercase tracking-[0.5em]">{t.catalogue.standards.iso}</div>
           <div className="h-4 w-[1px] bg-primary/20" />
-          <div className="text-[8px] font-bold uppercase tracking-[0.5em]">ENCRYPTAGE: AES-256</div>
+          <div className="text-[9px] font-bold uppercase tracking-[0.5em]">{t.catalogue.standards.ce}</div>
           <div className="h-4 w-[1px] bg-primary/20" />
-          <div className="text-[8px] font-bold uppercase tracking-[0.5em]">ID RÉSEAU: SAM-SYNC-NET</div>
+          <div className="text-[9px] font-bold uppercase tracking-[0.5em]">{t.catalogue.standards.fda}</div>
         </motion.div>
       </motion.div>
     </main>
