@@ -135,6 +135,27 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
     }
   };
 
+  // Dedicated variants for the Technical Spec Items to ensure "1 by 1" reveal
+  const specContainerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.12,
+        delayChildren: 0.2
+      }
+    }
+  };
+
+  const specItemVariants = {
+    hidden: { opacity: 0, x: 20 },
+    visible: { 
+      opacity: 1, 
+      x: 0,
+      transition: { duration: 1.0, ease: [0.22, 1, 0.36, 1] }
+    }
+  };
+
   if (!product) return null;
 
   const categoryName = (t.categories as any)[categorySlug] || categorySlug;
@@ -459,14 +480,18 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
             </div>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Calibrated staggered grid for technical specs */}
+          <motion.div 
+            variants={specContainerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+          >
             {techSpecs.map((spec, i) => (
               <motion.div 
                 key={i} 
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.08, duration: 1, ease: [0.22, 1, 0.36, 1] }}
+                variants={specItemVariants}
                 whileHover={{ scale: 1.02, backgroundColor: "hsl(var(--primary) / 0.02)" }}
                 className="flex justify-between items-center py-6 px-8 border border-primary/5 bg-accent/3 hover:border-primary/20 transition-all group cursor-default"
               >
@@ -474,7 +499,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
                 <span className="text-xs font-bold uppercase tracking-tight text-foreground text-right">{spec.value}</span>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
 
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
