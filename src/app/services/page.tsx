@@ -23,7 +23,7 @@ import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
-// Animation Variants calibrated for Surgical Resolve - Slower & Smoother
+// Surgical Resolve Animation Variants
 const sectionVariants: Variants = {
   hidden: { opacity: 0, y: 60 },
   visible: {
@@ -62,7 +62,7 @@ export default function ServicesPage() {
   ];
 
   return (
-    <main className="min-h-screen bg-background relative overflow-hidden">
+    <main className="min-h-screen bg-background relative overflow-hidden flex flex-col">
       <Navbar />
       
       {/* Background Clinical Grid Accent */}
@@ -73,7 +73,7 @@ export default function ServicesPage() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] h-[60%] bg-primary/5 rounded-full blur-[120px] animate-pulse" />
       </div>
 
-      <div className="relative z-10">
+      <div className="relative z-10 flex-1">
         {/* Hero Header */}
         <motion.section 
           initial="hidden"
@@ -82,8 +82,8 @@ export default function ServicesPage() {
           variants={sectionVariants}
           className="pt-40 pb-24 hero-gradient"
         >
-          <div className="container mx-auto px-4 text-center">
-            <motion.h1 variants={itemVariants} className="text-3xl md:text-7xl font-headline font-bold mb-8 uppercase tracking-tighter leading-[0.9]">
+          <div className="container px-4 text-center">
+            <motion.h1 variants={itemVariants} className="text-4xl md:text-7xl font-headline font-bold mb-8 uppercase tracking-tighter leading-[0.9]">
               {t.services.hero.title}
               <span className="text-primary">{t.services.hero.highlight}</span>
             </motion.h1>
@@ -99,16 +99,13 @@ export default function ServicesPage() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
-          variants={sectionVariants}
+          variants={{
+            visible: { transition: { staggerChildren: 0.25, delayChildren: 0.2 } }
+          }}
           className="py-24"
         >
-          <div className="container mx-auto px-4">
-            <motion.div 
-              variants={{
-                visible: { transition: { staggerChildren: 0.3, delayChildren: 0.2 } }
-              }}
-              className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
-            >
+          <div className="container px-4">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {serviceList.map((service) => {
                 const Icon = service.icon;
                 const data = (t.services.list as any)[service.key];
@@ -144,7 +141,7 @@ export default function ServicesPage() {
                   </motion.div>
                 );
               })}
-            </motion.div>
+            </div>
           </div>
         </motion.section>
 
@@ -165,7 +162,7 @@ export default function ServicesPage() {
           <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 animate-pulse" />
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/10 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/2" />
           
-          <div className="container mx-auto px-4 relative z-10">
+          <div className="container px-4 relative z-10">
             <div className="max-w-4xl mx-auto flex flex-col items-center text-center">
               <motion.div 
                 variants={{
@@ -173,10 +170,10 @@ export default function ServicesPage() {
                 }}
                 className="flex flex-col items-center gap-8 md:gap-12"
               >
-                {/* Protocol Badge */}
+                {/* Action Badge */}
                 <motion.div variants={itemVariants} className="flex items-center gap-3 bg-white/10 px-3 py-1.5 md:px-4 md:py-2 border border-white/20">
                   <div className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
-                  <span className="text-[9px] font-black uppercase tracking-[0.4em] text-white/90">INTERVENTION_MOD_v4.2</span>
+                  <span className="text-[9px] font-black uppercase tracking-[0.4em] text-white/90">ACTION_MODULE_v4.2</span>
                 </motion.div>
 
                 {/* Main Icon Grouping */}
@@ -207,7 +204,7 @@ export default function ServicesPage() {
                 {/* Primary Action Button */}
                 <motion.div variants={itemVariants} className="w-full md:w-auto">
                   <Link href="/contact" className="block w-full h-full">
-                    <Button className="w-full md:w-auto bg-white text-primary hover:bg-white/90 active:bg-primary active:text-white px-6 py-6 md:px-16 md:py-10 rounded-none text-[9px] md:text-[12px] font-black uppercase tracking-[0.4em] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] transition-all hover:scale-105 active:scale-95 group/btn relative overflow-hidden">
+                    <Button className="w-full md:w-auto bg-white text-primary hover:bg-white/90 active:bg-primary active:text-white px-8 py-6 md:px-16 md:py-10 rounded-none text-[9px] md:text-[12px] font-black uppercase tracking-[0.4em] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] transition-all hover:scale-105 active:scale-95 group/btn relative overflow-hidden">
                       <span className="relative z-10 flex items-center justify-center gap-4">
                         {t.services.cta.button}
                         <ArrowRight className="h-4 w-4 md:h-5 md:w-5 group-hover/btn:translate-x-3 transition-transform duration-700" />
@@ -236,7 +233,7 @@ export default function ServicesPage() {
           variants={sectionVariants}
           className="py-24 md:py-32 border-t border-primary/5 bg-background relative overflow-hidden"
         >
-          <div className="container mx-auto px-4">
+          <div className="container px-4">
             <div className="flex flex-col items-center text-center">
               <motion.div variants={itemVariants} className="flex items-center gap-3 mb-12 md:mb-16 opacity-40">
                 <div className="h-[1px] w-8 md:w-12 bg-primary" />
@@ -257,7 +254,7 @@ export default function ServicesPage() {
                     <motion.div 
                       key={i} 
                       variants={itemVariants}
-                      whileHover={{ y: -10 }}
+                      whileHover={{ y: -8 }}
                       className="flex flex-col items-center gap-4 md:gap-6 group"
                     >
                       <div className="relative">

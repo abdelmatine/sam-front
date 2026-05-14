@@ -1,4 +1,3 @@
-
 export const en = {
   nav: {
     catalogue: "Catalogue",

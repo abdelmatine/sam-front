@@ -24,13 +24,13 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Noto+Sans+Arabic:wght@400;700&display=swap" rel="stylesheet" />
       </head>
-      <body className="antialiased min-h-screen flex flex-col">
+      <body className="antialiased min-h-screen flex flex-col bg-background">
         <Providers>
           <LanguageHandler />
           <Suspense fallback={null}>
             <PageLoader />
           </Suspense>
-          <div className="flex-1">
+          <div className="flex-1 w-full flex flex-col">
             {children}
           </div>
           <Footer />

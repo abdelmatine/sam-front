@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState } from 'react';
@@ -7,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent } from '@/components/ui/card';
-import { Phone, Mail, MapPin, MessageSquare, Clock, ShieldCheck, Loader2, Database, Activity, Send, Copy, BadgeCheck } from 'lucide-react';
+import { Phone, Mail, MapPin, MessageSquare, ShieldCheck, Loader2, Send, Copy, BadgeCheck, Activity } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from '@/hooks/use-translation';
@@ -32,8 +31,8 @@ export default function ContactPage() {
     
     setTimeout(() => {
       toast({
-        title: "Signal Synchronized",
-        description: "Our medical specialists have received your inquiry.",
+        title: t.contact.form.submit,
+        description: t.contact.form.submitting,
       });
       setIsSubmitting(false);
     }, 1500);
@@ -60,23 +59,13 @@ export default function ContactPage() {
     }
   };
 
-  const formGroupVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
-    }
-  };
-
   const contactInfos = [
     { 
       id: "phone",
       icon: Phone, 
       title: t.contact.info.technical_title, 
       val: t.contact_info.phone, 
-      desc: t.contact.info.technical_hours,
-      color: "text-primary",
+      desc: t.contact_info.hours,
       canCopy: true
     },
     { 
@@ -85,22 +74,20 @@ export default function ContactPage() {
       title: t.contact.info.email_title, 
       val: t.contact_info.email, 
       desc: t.contact.info.email_response,
-      color: "text-primary",
       canCopy: true
     },
     { 
       id: "location",
       icon: MapPin, 
       title: t.contact.info.location_title, 
-      val: t.contact.info.location_address, 
-      desc: t.contact_info.location,
-      color: "text-primary",
+      val: t.contact_info.location, 
+      desc: t.contact.info.location_address,
       canCopy: false
     }
   ];
 
   return (
-    <main className="min-h-screen bg-background relative overflow-hidden">
+    <main className="min-h-screen bg-background relative overflow-hidden flex flex-col">
       <Navbar />
       
       {/* Background Clinical Grid Accent */}
@@ -115,7 +102,7 @@ export default function ContactPage() {
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="container mx-auto px-4 relative z-10 pt-32 pb-20"
+        className="container px-4 relative z-10 pt-32 pb-20 flex-1"
       >
         <div className="max-w-4xl mx-auto text-center mb-24">
           <motion.h1 variants={itemVariants} className="text-4xl md:text-6xl font-headline font-bold mb-6 uppercase tracking-tighter">
@@ -147,7 +134,7 @@ export default function ContactPage() {
                       </div>
                       <div className="flex-1">
                         <h4 className="font-bold text-[10px] uppercase tracking-widest text-primary/60 mb-1">{item.title}</h4>
-                        <p className="text-lg font-bold tracking-tight mb-1">{item.val}</p>
+                        <p className="text-base font-bold tracking-tight mb-1">{item.val}</p>
                         <p className="text-[10px] text-muted-foreground font-medium italic">{item.desc}</p>
                       </div>
 
@@ -220,71 +207,61 @@ export default function ContactPage() {
               
               <CardContent className="p-10">
                 <form onSubmit={handleSubmit}>
-                  <motion.div 
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true }}
-                    variants={{
-                      visible: { transition: { staggerChildren: 0.1 } }
-                    }}
-                    className="grid grid-cols-1 md:grid-cols-2 gap-8"
-                  >
-                    <motion.div variants={formGroupVariants} className="space-y-3">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="space-y-3">
                       <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary/60 ml-1">{t.contact.form.name_label}</label>
                       <Input placeholder={t.contact.form.name_placeholder} className="rounded-none h-14 bg-accent/5 border-primary/10 focus-visible:ring-primary/20 text-sm font-medium transition-all" required />
-                    </motion.div>
+                    </div>
                     
-                    <motion.div variants={formGroupVariants} className="space-y-3">
+                    <div className="space-y-3">
                       <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary/60 ml-1">{t.contact.form.email_label}</label>
                       <Input type="email" placeholder={t.contact.form.email_placeholder} className="rounded-none h-14 bg-accent/5 border-primary/10 focus-visible:ring-primary/20 text-sm font-medium transition-all" required />
-                    </motion.div>
+                    </div>
                     
-                    <motion.div variants={formGroupVariants} className="md:col-span-2 space-y-3">
+                    <div className="md:col-span-2 space-y-3">
                       <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary/60 ml-1">{t.contact.form.type_label}</label>
                       <Input placeholder={t.contact.form.type_placeholder} className="rounded-none h-14 bg-accent/5 border-primary/10 focus-visible:ring-primary/20 text-sm font-medium transition-all" />
-                    </motion.div>
+                    </div>
                     
-                    <motion.div variants={formGroupVariants} className="md:col-span-2 space-y-3">
+                    <div className="md:col-span-2 space-y-3">
                       <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary/60 ml-1">{t.contact.form.message_label}</label>
                       <Textarea placeholder={t.contact.form.message_placeholder} className="min-h-[160px] rounded-none bg-accent/5 border-primary/10 focus-visible:ring-primary/20 text-sm font-medium resize-none transition-all" required />
-                    </motion.div>
+                    </div>
                     
-                    <motion.div variants={formGroupVariants} className="md:col-span-2 pt-6">
-                      <motion.div whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.98 }}>
-                        <Button 
-                          type="submit" 
-                          disabled={isSubmitting}
-                          className="w-full bg-primary text-white h-20 text-[11px] font-bold uppercase tracking-[0.3em] rounded-none hover:bg-primary/90 transition-all flex items-center justify-center gap-4 shadow-2xl shadow-primary/20 overflow-hidden relative"
-                        >
-                          <AnimatePresence mode="wait">
-                            {isSubmitting ? (
-                              <motion.div 
-                                key="submitting"
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -10 }}
-                                className="flex items-center gap-3"
-                              >
-                                <Loader2 className="h-6 w-6 animate-spin" />
-                                {t.contact.form.submitting}
-                              </motion.div>
-                            ) : (
-                              <motion.div 
-                                key="idle"
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -10 }}
-                                className="flex items-center gap-4"
-                              >
-                                {t.contact.form.submit}
-                                <Send className="h-4 w-4" />
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
-                        </Button>
-                      </motion.div>
-                    </motion.div>
-                  </motion.div>
+                    <div className="md:col-span-2 pt-6">
+                      <Button 
+                        type="submit" 
+                        disabled={isSubmitting}
+                        className="w-full bg-primary text-white h-16 md:h-20 text-[11px] font-bold uppercase tracking-[0.3em] rounded-none hover:bg-primary/90 transition-all flex items-center justify-center gap-4 shadow-2xl shadow-primary/20 overflow-hidden relative"
+                      >
+                        <AnimatePresence mode="wait">
+                          {isSubmitting ? (
+                            <motion.div 
+                              key="submitting"
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0, y: -10 }}
+                              className="flex items-center gap-3"
+                            >
+                              <Loader2 className="h-6 w-6 animate-spin" />
+                              {t.contact.form.submitting}
+                            </motion.div>
+                          ) : (
+                            <motion.div 
+                              key="idle"
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0, y: -10 }}
+                              className="flex items-center gap-4"
+                            >
+                              {t.contact.form.submit}
+                              <Send className="h-4 w-4" />
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </Button>
+                    </div>
+                  </div>
                 </form>
               </CardContent>
             </Card>

@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useRef, useState, useEffect } from 'react';
@@ -39,39 +38,38 @@ const StatCounter = ({ value }: { value: string }) => {
   return <span ref={ref}>{displayValue}</span>;
 };
 
-// Animation Variants
+// Surgical Resolve Animation Variants
 const sectionVariants: Variants = {
-  hidden: { opacity: 0, y: 40 },
+  hidden: { opacity: 0, y: 60 },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 1,
+      duration: 1.4,
       ease: [0.22, 1, 0.36, 1],
-      staggerChildren: 0.15,
-      delayChildren: 0.1
+      staggerChildren: 0.25,
+      delayChildren: 0.2
     }
   }
 };
 
 const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 30, scale: 0.98 },
+  hidden: { opacity: 0, y: 40, scale: 0.98 },
   visible: { 
     opacity: 1, 
     y: 0, 
     scale: 1,
-    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
+    transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1] }
   }
 };
 
 export default function AboutPage() {
   const { t, isRTL } = useTranslation();
   const aboutImage = PlaceHolderImages.find(img => img.id === 'about-clinical');
-
   const valueIcons = [Award, Users, Heart, ShieldCheck];
 
   return (
-    <main className="min-h-screen bg-background relative overflow-hidden">
+    <main className="min-h-screen bg-background relative overflow-hidden flex flex-col">
       <Navbar />
       
       {/* Background Clinical Grid Accent */}
@@ -82,7 +80,7 @@ export default function AboutPage() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] h-[60%] bg-primary/5 rounded-full blur-[120px] animate-pulse" />
       </div>
       
-      <div className="relative z-10">
+      <div className="relative z-10 flex-1">
         {/* Hero Header */}
         <motion.section 
           initial="hidden"
@@ -91,7 +89,7 @@ export default function AboutPage() {
           variants={sectionVariants}
           className="pt-40 pb-24 hero-gradient"
         >
-          <div className="container mx-auto px-4 text-center">
+          <div className="container px-4 text-center">
             <motion.h1 variants={itemVariants} className="text-4xl md:text-7xl font-headline font-bold mb-8 uppercase tracking-tighter leading-[0.9]">
               {t.about.hero.title}
               <span className="text-primary">{t.about.hero.highlight}</span>
@@ -111,7 +109,7 @@ export default function AboutPage() {
           variants={sectionVariants}
           className="py-24"
         >
-          <div className="container mx-auto px-4">
+          <div className="container px-4">
             <div className="grid lg:grid-cols-2 gap-20 items-center">
               <motion.div variants={itemVariants} className="relative h-[500px] md:h-[700px] rounded-none overflow-hidden clinical-shadow border border-primary/10 group">
                 <Image 
@@ -126,9 +124,7 @@ export default function AboutPage() {
               
               <div className="space-y-16">
                 <motion.div 
-                  id="clinical-story-content"
                   variants={itemVariants}
-                  transition={{ delay: 0.4 }}
                   className={cn("space-y-8 border-primary", isRTL ? "border-r-4 pr-10" : "border-l-4 pl-10")}
                 >
                   <h2 className="text-4xl md:text-5xl font-headline font-bold uppercase tracking-tighter leading-none">
@@ -147,7 +143,7 @@ export default function AboutPage() {
 
                 <motion.div 
                   variants={{
-                    visible: { transition: { staggerChildren: 0.2, delayChildren: 0.6 } }
+                    visible: { transition: { staggerChildren: 0.2, delayChildren: 0.4 } }
                   }}
                   className="grid sm:grid-cols-2 gap-6"
                 >
@@ -163,12 +159,12 @@ export default function AboutPage() {
                         <Card className="rounded-none bg-accent/5 border-primary/10 clinical-shadow group hover:bg-primary/[0.03] transition-all h-full">
                           <CardContent className="p-8 flex flex-col gap-6">
                             <div className="shrink-0 w-fit">
-                              <div className="p-4 bg-primary/10 rounded-none text-primary group-hover:bg-primary group-hover:text-white transition-all duration-500 border border-primary/10">
+                              <div className="p-4 bg-primary/10 rounded-none text-primary group-hover:bg-primary group-hover:text-white transition-all duration-700 border border-primary/10">
                                 <Icon className="h-6 w-6" />
                               </div>
                             </div>
-                            <div>
-                              <h4 className="font-bold mb-2 uppercase text-[10px] tracking-[0.3em] text-primary/80">{value.title}</h4>
+                            <div className="space-y-2">
+                              <h4 className="font-bold uppercase text-[10px] tracking-[0.3em] text-primary/80">{value.title}</h4>
                               <p className="text-[11px] text-muted-foreground font-medium italic leading-relaxed">{value.desc}</p>
                             </div>
                           </CardContent>
@@ -193,10 +189,10 @@ export default function AboutPage() {
           <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2" />
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/10 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/2" />
           
-          <div className="container mx-auto px-4 relative z-10">
+          <div className="container px-4 relative z-10">
             <motion.div 
               variants={{
-                visible: { transition: { staggerChildren: 0.1 } }
+                visible: { transition: { staggerChildren: 0.15 } }
               }}
               className="grid grid-cols-2 lg:grid-cols-4 gap-16 text-center"
             >
@@ -220,7 +216,7 @@ export default function AboutPage() {
           variants={sectionVariants}
           className="py-32 border-t border-primary/5 bg-background relative overflow-hidden"
         >
-          <div className="container mx-auto px-4">
+          <div className="container px-4">
             <div className="flex flex-col items-center text-center">
               <motion.div variants={itemVariants} className="flex items-center gap-3 mb-16 opacity-40">
                 <div className="h-[1px] w-12 bg-primary" />
@@ -235,25 +231,28 @@ export default function AboutPage() {
                   { icon: ShieldCheck, label: t.catalogue.standards.iso, detail: t.about.registry.iso_detail },
                   { icon: Award, label: t.catalogue.standards.ce, detail: t.about.registry.ce_detail },
                   { icon: BadgeCheck, label: t.catalogue.standards.fda, detail: t.about.registry.fda_detail }
-                ].map((std, i) => (
-                  <motion.div 
-                    key={i} 
-                    variants={itemVariants}
-                    whileHover={{ y: -5 }}
-                    className="flex flex-col items-center gap-6 group"
-                  >
-                    <div className="relative">
-                      <div className="absolute inset-0 bg-primary/20 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                      <div className="relative p-6 bg-primary/5 border border-primary/10 rounded-full text-primary/40 group-hover:text-primary group-hover:border-primary/30 transition-all duration-500">
-                        <std.icon className="h-8 w-8" />
+                ].map((std, i) => {
+                  const Icon = std.icon;
+                  return (
+                    <motion.div 
+                      key={i} 
+                      variants={itemVariants}
+                      whileHover={{ y: -8 }}
+                      className="flex flex-col items-center gap-6 group"
+                    >
+                      <div className="relative">
+                        <div className="absolute inset-0 bg-primary/20 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                        <div className="relative p-6 bg-primary/5 border border-primary/10 rounded-full text-primary/40 group-hover:text-primary group-hover:border-primary/30 transition-all duration-700">
+                          <Icon className="h-8 w-8" />
+                        </div>
                       </div>
-                    </div>
-                    <div className="space-y-2">
-                      <h4 className="text-xs font-bold uppercase tracking-[0.3em] text-foreground group-hover:text-primary transition-colors">{std.label}</h4>
-                      <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60">{std.detail}</p>
-                    </div>
-                  </motion.div>
-                ))}
+                      <div className="space-y-2">
+                        <h4 className="text-xs font-bold uppercase tracking-[0.3em] text-foreground group-hover:text-primary transition-colors duration-500">{std.label}</h4>
+                        <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60">{std.detail}</p>
+                      </div>
+                    </motion.div>
+                  );
+                })}
               </div>
             </div>
           </div>
