@@ -5,8 +5,8 @@ import React, { useState } from 'react';
 import Navbar from '@/components/layout/Navbar';
 import Image from 'next/image';
 import { categories } from '@/lib/products';
-import { motion } from 'framer-motion';
-import { ArrowRight, Activity, Loader2, ChevronRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowRight, Activity, Loader2, ChevronRight, Hash, Database } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { useTranslation } from '@/hooks/use-translation';
 import { useRouter } from 'next/navigation';
@@ -27,51 +27,83 @@ export default function CatalogueRootPage() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1
+        staggerChildren: 0.1,
+        delayChildren: 0.2
       }
     }
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 30, scale: 0.95 },
     visible: { 
       opacity: 1, 
-      y: 0,
+      y: 0, 
+      scale: 1,
       transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
     }
   };
 
   return (
-    <main className="min-h-screen pt-24 pb-20 bg-background">
+    <main className="min-h-screen pt-24 pb-20 bg-background relative overflow-hidden">
       <Navbar />
       
-      <div className="container mx-auto px-4">
+      {/* Clinical Atmospheric Background */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.07]" 
+          style={{ backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)', backgroundSize: '30px 30px' }} 
+        />
+        <div className="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] bg-primary/5 rounded-full blur-[120px] animate-pulse" />
+        <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/3 rounded-full blur-[100px]" />
+      </div>
+
+      <div className="container mx-auto px-4 relative z-10">
         {/* Breadcrumbs */}
         <motion.div 
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex items-center gap-2 mb-8 text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground"
+          className="flex items-center gap-2 mb-10 text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground/60"
         >
           <Link href="/" className="hover:text-primary transition-colors">SAM MÉDICALE</Link>
-          <ChevronRight className="h-3 w-3" />
-          <span className="text-primary">{t.nav.catalogue}</span>
+          <ChevronRight className="h-2.5 w-2.5" />
+          <span className="text-primary/80">{t.nav.catalogue}</span>
         </motion.div>
 
-        <motion.div 
-          initial={{ opacity: 0, x: -30 }}
-          animate={{ opacity: 1, x: 0 }}
-          className="mb-16 border-l-4 border-primary pl-6"
-        >
-          <div className="flex items-center gap-2 mb-2">
-            <Activity className="h-4 w-4 text-primary" />
-            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary">Classification Technique</span>
-          </div>
-          <h1 className="text-4xl font-headline font-bold uppercase tracking-tight">{t.catalogue.title}</h1>
-          <p className="text-muted-foreground text-sm max-w-2xl font-medium italic mt-2">
-            {t.catalogue.subtitle}
-          </p>
-        </motion.div>
+        {/* Header Section */}
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-20 gap-8">
+          <motion.div 
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="border-l-4 border-primary pl-8"
+          >
+            <div className="flex items-center gap-3 mb-3">
+              <div className="flex items-center justify-center p-1.5 bg-primary/10 rounded-sm">
+                <Database className="h-3.5 w-3.5 text-primary" />
+              </div>
+              <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-primary/70">Classification Technique v2.5</span>
+            </div>
+            <h1 className="text-4xl md:text-6xl font-headline font-bold uppercase tracking-tighter leading-none mb-4">
+              {t.catalogue.title}
+            </h1>
+            <p className="text-muted-foreground text-sm max-w-xl font-medium italic leading-relaxed">
+              {t.catalogue.subtitle}
+            </p>
+          </motion.div>
 
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="hidden lg:flex items-center gap-6 p-4 border bg-accent/10 backdrop-blur-sm"
+          >
+            <div className="text-right">
+              <div className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest mb-1">Index Total</div>
+              <div className="text-2xl font-bold tracking-tighter">0{categories.length} <span className="text-sm font-medium text-primary">Secteurs</span></div>
+            </div>
+            <div className="h-10 w-[1px] bg-border" />
+            <Activity className="h-6 w-6 text-primary animate-pulse" />
+          </motion.div>
+        </div>
+
+        {/* Technical Grid */}
         <motion.div 
           variants={containerVariants}
           initial="hidden"
@@ -82,79 +114,117 @@ export default function CatalogueRootPage() {
             <motion.div 
               key={category.id} 
               variants={itemVariants}
-              whileHover={{ scale: 1.03, y: -5 }}
+              whileHover={{ scale: 1.03, y: -8 }}
               transition={{ duration: 0.4, ease: "easeOut" }}
             >
               <Card 
                 onClick={() => handleCategoryClick(category.slug)}
-                className="rounded-none overflow-hidden group border border-border/40 hover:border-primary/40 clinical-shadow bg-card h-full cursor-pointer relative"
+                className="rounded-none overflow-hidden group border border-border/40 hover:border-primary/40 clinical-shadow bg-card/60 backdrop-blur-sm h-full cursor-pointer relative"
               >
-                {navigatingSlug === category.slug && (
-                  <div className="absolute inset-0 bg-background/60 backdrop-blur-sm z-20 flex items-center justify-center">
-                    <Loader2 className="h-10 w-10 text-primary animate-spin" />
-                  </div>
-                )}
+                {/* Technical Loader Overlay */}
+                <AnimatePresence>
+                  {navigatingSlug === category.slug && (
+                    <motion.div 
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="absolute inset-0 bg-background/80 backdrop-blur-md z-30 flex flex-col items-center justify-center gap-4"
+                    >
+                      <Loader2 className="h-10 w-10 text-primary animate-spin" />
+                      <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-primary">Initialisation...</span>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
                 
-                {/* Technical Index */}
-                <div className="absolute top-6 right-6 z-10 text-[10px] font-black text-white/50 bg-black/20 backdrop-blur-md px-2 py-1 uppercase tracking-widest border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity">
-                  IDX-0{index + 1}
+                {/* ID Tag */}
+                <div className="absolute top-6 right-6 z-20 flex items-center gap-1.5 px-2.5 py-1 bg-black/40 backdrop-blur-xl border border-white/10 rounded-none transform translate-y-[-5px] opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                  <Hash className="h-2.5 w-2.5 text-primary" />
+                  <span className="text-[10px] font-black text-white uppercase tracking-widest">IDX-0{index + 1}</span>
                 </div>
 
-                <div className="relative h-64 overflow-hidden">
+                {/* Technical Visual */}
+                <div className="relative h-64 overflow-hidden border-b">
                   <Image 
                     src={category.imageUrl} 
                     alt={category.name} 
                     fill 
                     className="object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-80" />
+                  <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent opacity-90" />
+                  
+                  {/* Hover Scanline */}
+                  <div className="absolute inset-0 w-full h-[2px] bg-primary/20 top-0 opacity-0 group-hover:animate-[scan_3s_linear_infinite] group-hover:opacity-100 pointer-events-none" />
                 </div>
                 
-                <CardContent className="p-8 relative">
-                  <div className="h-1 w-12 bg-primary mb-6 group-hover:w-24 transition-all duration-500" />
-                  <h3 className="text-xl font-bold uppercase tracking-tight mb-3 group-hover:text-primary transition-colors">
+                <CardContent className="p-10 relative">
+                  {/* Technical Accent Bar */}
+                  <div className="absolute top-0 left-0 h-1 w-0 bg-primary group-hover:w-full transition-all duration-700" />
+                  
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="h-[2px] w-12 bg-primary/30 group-hover:w-20 group-hover:bg-primary transition-all duration-500" />
+                    <span className="text-[8px] font-black text-primary/40 uppercase tracking-widest">Secteur Clinique</span>
+                  </div>
+
+                  <h3 className="text-2xl font-bold uppercase tracking-tight mb-4 group-hover:text-primary transition-colors duration-300">
                     {category.name}
                   </h3>
-                  <p className="text-xs text-muted-foreground leading-relaxed italic mb-8 h-12 line-clamp-3">
+                  
+                  <p className="text-xs text-muted-foreground leading-relaxed italic mb-10 h-12 line-clamp-3 font-medium">
                     {category.description}
                   </p>
-                  <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-primary group-hover:gap-4 transition-all">
-                    Explorer la Sélection <ArrowRight className="h-4 w-4" />
+
+                  <div className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.3em] text-primary/80 group-hover:text-primary group-hover:gap-6 transition-all duration-500">
+                    Explorer la Gamme <ArrowRight className="h-4 w-4" />
                   </div>
                 </CardContent>
               </Card>
             </motion.div>
           ))}
           
+          {/* Full Grid Link Tile */}
           <motion.div 
             variants={itemVariants}
-            whileHover={{ scale: 1.03, y: -5 }}
+            whileHover={{ scale: 1.03, y: -8 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
           >
             <Card 
               onClick={() => handleCategoryClick('all')}
-              className="rounded-none overflow-hidden group border-2 border-dashed border-primary/20 bg-primary/5 h-full flex items-center justify-center min-h-[400px] cursor-pointer relative"
+              className="rounded-none overflow-hidden group border-2 border-dashed border-primary/20 bg-primary/5 h-full flex items-center justify-center min-h-[450px] cursor-pointer relative"
             >
               {navigatingSlug === 'all' && (
-                <div className="absolute inset-0 bg-background/60 backdrop-blur-sm z-20 flex items-center justify-center">
+                <div className="absolute inset-0 bg-background/80 backdrop-blur-md z-30 flex items-center justify-center">
                   <Loader2 className="h-10 w-10 text-primary animate-spin" />
                 </div>
               )}
-              <CardContent className="text-center p-8">
-                <div className="p-5 bg-primary/10 rounded-full inline-block mb-6 group-hover:bg-primary group-hover:text-white transition-all duration-500">
-                  <Activity className="h-10 w-10" />
+              <CardContent className="text-center p-10">
+                <div className="p-7 bg-primary/10 rounded-full inline-block mb-8 group-hover:bg-primary group-hover:text-white group-hover:shadow-[0_0_30px_rgba(0,121,107,0.3)] transition-all duration-500">
+                  <Activity className="h-12 w-12" />
                 </div>
-                <h3 className="text-xl font-bold uppercase tracking-tight mb-2">Catalogue Complet</h3>
-                <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest mb-8">Tous les dispositifs cliniques</p>
-                <div className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-primary bg-white px-6 py-3 border border-primary/10 shadow-lg">
+                <h3 className="text-2xl font-bold uppercase tracking-tighter mb-2">Inventaire Global</h3>
+                <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-[0.4em] mb-10">Tous les dispositifs cliniques</p>
+                <div className="inline-flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.3em] text-primary bg-background px-8 py-4 border border-primary/20 clinical-shadow group-hover:border-primary group-hover:shadow-primary/10 transition-all">
                   Accéder à la Grille <ArrowRight className="h-4 w-4" />
                 </div>
               </CardContent>
             </Card>
           </motion.div>
         </motion.div>
+
+        {/* Technical Footer Label */}
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.3 }}
+          className="mt-24 pt-12 border-t flex items-center justify-center gap-10 grayscale"
+        >
+          <div className="text-[9px] font-bold uppercase tracking-[0.5em]">ISO 13485:2016</div>
+          <div className="h-4 w-[1px] bg-border" />
+          <div className="text-[9px] font-bold uppercase tracking-[0.5em]">CE MEDICAL GRADE</div>
+          <div className="h-4 w-[1px] bg-border" />
+          <div className="text-[9px] font-bold uppercase tracking-[0.5em]">FDA COMPLIANT</div>
+        </motion.div>
       </div>
     </main>
   );
 }
+
