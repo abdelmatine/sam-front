@@ -85,6 +85,12 @@ export const ar = {
     subtitle: "اختر فئة متخصصة لتصفح الحلول السريرية.",
     search: "بحث عن جهاز...",
     sort: "فرز حسب",
+    sort_methods: {
+      price_asc: "السعر: من الأقل للأعلى",
+      price_desc: "السعر: من الأعلى للأقل",
+      rating_desc: "الأعلى تقييماً",
+      name_asc: "الاسم: أ-ي"
+    },
     no_results: "لا توجد أجهزة",
     reset: "إعادة تعيين الفلاتر",
     categories_btn: "الفئات",

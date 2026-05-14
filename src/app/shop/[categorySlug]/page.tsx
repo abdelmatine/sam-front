@@ -16,6 +16,8 @@ import { ShopSkeleton } from '@/components/shared/ProductSkeleton';
 import ClinicalDropdown from '@/components/shared/ClinicalDropdown';
 import { cn } from '@/lib/utils';
 
+type SortMethod = 'price-asc' | 'price-desc' | 'rating-desc' | 'name-asc';
+
 export default function CategoryPage({ params }: { params: Promise<{ categorySlug: string }> }) {
   const { categorySlug } = use(params);
   const { t } = useTranslation();
@@ -24,16 +26,28 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
   const [isFetchingMore, setIsFetchingMore] = useState(false);
   const [visibleCount, setVisibleCount] = useState(8);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [sortBy, setSortBy] = useState<SortMethod>('price-asc');
 
   const currentCategory = categories.find(c => c.slug === categorySlug);
+  
   const filteredProducts = products.filter(p => 
     (categorySlug === 'all' || p.category === categorySlug) &&
     (p.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
      p.brand.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
-  const displayedProducts = filteredProducts.slice(0, visibleCount);
-  const hasMore = visibleCount < filteredProducts.length;
+  const sortedProducts = [...filteredProducts].sort((a, b) => {
+    switch (sortBy) {
+      case 'price-asc': return a.price - b.price;
+      case 'price-desc': return b.price - a.price;
+      case 'rating-desc': return b.rating - a.rating;
+      case 'name-asc': return a.name.localeCompare(b.name);
+      default: return 0;
+    }
+  });
+
+  const displayedProducts = sortedProducts.slice(0, visibleCount);
+  const hasMore = visibleCount < sortedProducts.length;
 
   const categoryName = categorySlug === 'all' 
     ? t.catalogue.global_inventory 
@@ -46,7 +60,7 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
   useEffect(() => {
     setIsLoading(true);
     setVisibleCount(8);
-    const timer = setTimeout(() => setIsLoading(false), 800);
+    const timer = setTimeout(() => setIsLoading(false), 1200);
     return () => clearTimeout(timer);
   }, [categorySlug]);
 
@@ -55,7 +69,7 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
     setTimeout(() => {
       setVisibleCount(prev => prev + 4);
       setIsFetchingMore(false);
-    }, 800);
+    }, 1000);
   };
 
   const containerVariants = {
@@ -64,7 +78,7 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
       opacity: 1,
       transition: {
         staggerChildren: 0.15,
-        delayChildren: 0.1
+        delayChildren: 0.2
       }
     }
   };
@@ -101,6 +115,15 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
     { label: t.categories.consumables, href: '/shop/consumables' },
     { label: t.categories.others, href: '/shop/others' },
   ];
+
+  const sortItems = [
+    { label: t.catalogue.sort_methods.price_asc, value: 'price-asc', isActive: sortBy === 'price-asc', onClick: () => setSortBy('price-asc') },
+    { label: t.catalogue.sort_methods.price_desc, value: 'price-desc', isActive: sortBy === 'price-desc', onClick: () => setSortBy('price-desc') },
+    { label: t.catalogue.sort_methods.rating_desc, value: 'rating-desc', isActive: sortBy === 'rating-desc', onClick: () => setSortBy('rating-desc') },
+    { label: t.catalogue.sort_methods.name_asc, value: 'name-asc', isActive: sortBy === 'name-asc', onClick: () => setSortBy('name-asc') },
+  ];
+
+  const currentSortLabel = sortItems.find(i => i.value === sortBy)?.label || t.catalogue.sort;
 
   return (
     <main className="min-h-screen pt-24 pb-20 bg-background relative overflow-hidden">
@@ -142,7 +165,7 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.4 }}
+              transition={{ duration: 0.6 }}
               className="space-y-12"
             >
               <div className="mb-16 border-l-4 border-primary/20 pl-8 space-y-4">
@@ -197,10 +220,16 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
                   </div>
                   
                   <div className="flex items-stretch gap-1 p-1 bg-primary/5">
-                    <Button variant="ghost" className="h-14 px-8 rounded-none text-[10px] font-bold uppercase tracking-widest hover:bg-primary hover:text-white transition-all">
-                      <Filter className="h-3.5 w-3.5 mr-3" />
-                      {t.catalogue.sort}
-                    </Button>
+                    <ClinicalDropdown 
+                      items={sortItems}
+                      variant="compact"
+                      trigger={
+                        <Button variant="ghost" className="h-14 px-8 rounded-none text-[10px] font-bold uppercase tracking-widest hover:bg-primary hover:text-white transition-all">
+                          <Filter className="h-3.5 w-3.5 mr-3" />
+                          {currentSortLabel}
+                        </Button>
+                      }
+                    />
                     <div className="w-[1px] bg-primary/10" />
                     <div className="flex items-center bg-background px-2">
                       <Button 

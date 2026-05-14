@@ -85,6 +85,12 @@ export const fr = {
     subtitle: "Sélectionnez une catégorie spécialisée pour parcourir les solutions cliniques.",
     search: "Rechercher un dispositif...",
     sort: "Trier par",
+    sort_methods: {
+      price_asc: "Prix : Croissant",
+      price_desc: "Prix : Décroissant",
+      rating_desc: "Meilleures Notes",
+      name_asc: "Nom : A-Z"
+    },
     no_results: "Aucun dispositif trouvé",
     reset: "Réinitialiser les filtres",
     categories_btn: "Catégories",

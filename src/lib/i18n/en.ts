@@ -85,6 +85,12 @@ export const en = {
     subtitle: "Select a specialized category to browse clinical solutions.",
     search: "Search for a device...",
     sort: "Sort by",
+    sort_methods: {
+      price_asc: "Price: Low to High",
+      price_desc: "Price: High to Low",
+      rating_desc: "Highest Rating",
+      name_asc: "Name: A to Z"
+    },
     no_results: "No devices found",
     reset: "Reset filters",
     categories_btn: "Categories",
