@@ -105,12 +105,11 @@ const Navbar = () => {
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, x: isRTL ? -30 : 30, filter: 'blur(4px)' },
+    hidden: { opacity: 0, x: isRTL ? -30 : 30 },
     show: { 
       opacity: 1, 
       x: 0, 
-      filter: 'blur(0px)',
-      transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
+      transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] }
     }
   };
 
@@ -262,7 +261,7 @@ const Navbar = () => {
               </SheetTrigger>
               <SheetContent 
                 side={isRTL ? "left" : "right"} 
-                className="w-full sm:max-w-md p-0 flex flex-col h-full bg-background/98 backdrop-blur-3xl border-primary/10 group z-[160] [&>button]:hidden shadow-[0_0_50px_rgba(0,0,0,0.5)]"
+                className="w-full sm:max-w-md p-0 flex flex-col h-full bg-background border-l border-primary/10 group z-[160] [&>button]:hidden shadow-2xl"
               >
                 <SheetHeader className="p-8 pb-4 border-b border-primary/5 flex flex-row items-center justify-between bg-accent/5">
                   <Logo />
@@ -278,7 +277,7 @@ const Navbar = () => {
                   variants={containerVariants}
                   initial="hidden"
                   animate="show"
-                  className="flex-1 overflow-y-auto px-8 py-10 custom-scrollbar"
+                  className="flex-1 overflow-y-auto px-8 py-10"
                 >
                   <Accordion type="single" collapsible className="w-full space-y-6">
                     <motion.div variants={itemVariants}>
@@ -375,7 +374,7 @@ const Navbar = () => {
                   </motion.div>
                 </motion.div>
 
-                <div className="p-8 bg-accent/20 border-t border-primary/10 flex flex-col gap-8 shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
+                <div className="p-8 bg-accent/20 border-t border-primary/10 flex flex-col gap-8">
                   <div className="flex items-center justify-between gap-6">
                     <div className="flex items-center border border-primary/10 bg-background shadow-inner flex-1 h-12 overflow-hidden">
                       {languages.map((l, i) => (
