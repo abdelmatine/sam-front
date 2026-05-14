@@ -79,7 +79,12 @@ export default function CatalogueRootPage() {
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
           {categories.map((category, index) => (
-            <motion.div key={category.id} variants={itemVariants}>
+            <motion.div 
+              key={category.id} 
+              variants={itemVariants}
+              whileHover={{ scale: 1.03, y: -5 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+            >
               <Card 
                 onClick={() => handleCategoryClick(category.slug)}
                 className="rounded-none overflow-hidden group border border-border/40 hover:border-primary/40 clinical-shadow bg-card h-full cursor-pointer relative"
@@ -122,7 +127,11 @@ export default function CatalogueRootPage() {
             </motion.div>
           ))}
           
-          <motion.div variants={itemVariants}>
+          <motion.div 
+            variants={itemVariants}
+            whileHover={{ scale: 1.03, y: -5 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+          >
             <Card 
               onClick={() => handleCategoryClick('all')}
               className="rounded-none overflow-hidden group border-2 border-dashed border-primary/20 bg-primary/5 h-full flex items-center justify-center min-h-[400px] cursor-pointer relative"
