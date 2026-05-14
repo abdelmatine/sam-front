@@ -1,3 +1,4 @@
+
 "use client";
 
 import React from 'react';
@@ -75,17 +76,29 @@ const Hero = () => {
             </motion.p>
             
             <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-5">
-              <Link href="/shop" className="w-full sm:w-auto">
-                <Button className="bg-primary text-white px-12 py-8 rounded-none text-[11px] font-bold uppercase tracking-[0.25em] hover:bg-primary/90 transition-all shadow-2xl shadow-primary/20 w-full">
-                  {t.hero.cta_primary}
-                </Button>
-              </Link>
-              <Link href="/contact" className="w-full sm:w-auto">
-                <Button variant="outline" className="px-12 py-8 rounded-none text-[11px] font-bold uppercase tracking-[0.25em] border-2 hover:bg-accent transition-colors flex items-center justify-center gap-3 w-full">
-                  {t.hero.cta_secondary}
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
-              </Link>
+              <motion.div 
+                whileHover={{ scale: 1.05 }} 
+                whileTap={{ scale: 0.98 }}
+                className="w-full sm:w-auto"
+              >
+                <Link href="/shop" className="w-full">
+                  <Button className="bg-primary text-white px-12 py-8 rounded-none text-[11px] font-bold uppercase tracking-[0.25em] hover:bg-primary/90 transition-all shadow-2xl shadow-primary/20 w-full">
+                    {t.hero.cta_primary}
+                  </Button>
+                </Link>
+              </motion.div>
+              <motion.div 
+                whileHover={{ scale: 1.05 }} 
+                whileTap={{ scale: 0.98 }}
+                className="w-full sm:w-auto"
+              >
+                <Link href="/contact" className="w-full">
+                  <Button variant="outline" className="px-12 py-8 rounded-none text-[11px] font-bold uppercase tracking-[0.25em] border-2 hover:bg-accent transition-colors flex items-center justify-center gap-3 w-full">
+                    {t.hero.cta_secondary}
+                    <ArrowRight className="h-4 w-4" />
+                  </Button>
+                </Link>
+              </motion.div>
             </motion.div>
           </motion.div>
         </div>
