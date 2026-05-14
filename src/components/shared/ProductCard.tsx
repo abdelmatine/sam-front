@@ -116,7 +116,7 @@ const ProductCard = ({ product, layout = 'grid' }: ProductCardProps) => {
                 exit={{ opacity: 0 }}
                 className="absolute inset-0 z-50 bg-background/80 backdrop-blur-sm flex flex-col items-center justify-center gap-3"
               >
-                <Loader2 className="h-6 w-6 text-primary animate-spin" />
+                <Loader2 className="h-8 w-8 text-primary animate-spin" />
                 <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-primary">{t.common.loading}</span>
               </motion.div>
             )}
@@ -146,14 +146,14 @@ const ProductCard = ({ product, layout = 'grid' }: ProductCardProps) => {
             <motion.div
               animate={{ opacity: isImageLoading ? 0 : 1 }}
               transition={{ duration: 0.5 }}
-              className="w-full h-full relative p-10"
+              className="w-full h-full relative"
             >
               <Image 
                 src={product.imageUrl}
                 alt={product.name}
                 fill
                 className={cn(
-                  "object-contain p-6 transition-all duration-1000 group-hover:scale-105",
+                  "object-cover transition-all duration-1000 group-hover:scale-105",
                   "grayscale-[0.3] group-hover:grayscale-0"
                 )}
                 onLoad={() => setIsImageLoading(false)}
@@ -193,14 +193,6 @@ const ProductCard = ({ product, layout = 'grid' }: ProductCardProps) => {
               >
                 <Heart className={cn("h-4.5 w-4.5 transition-all", isWishlisted && "fill-destructive")} />
               </Button>
-            </div>
-
-            {/* Serial Trace */}
-            <div className={cn(
-              "absolute bottom-4 text-[7px] font-black text-primary/10 uppercase tracking-[0.6em] z-20 transition-colors group-hover:text-primary/40",
-              isRTL ? "right-5" : "left-5"
-            )}>
-              ID-MTRX: {product.id.padStart(4, '0')}
             </div>
           </div>
 
