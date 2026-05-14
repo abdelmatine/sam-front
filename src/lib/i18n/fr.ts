@@ -1,3 +1,4 @@
+
 export const fr = {
   nav: {
     catalogue: "Catalogue",
@@ -133,7 +134,9 @@ export const fr = {
     classification: "Classification",
     origin: "Origine Manufacture",
     logistics: "Statut Logistique",
-    ready: "Prêt pour Expédition"
+    ready: "Prêt pour Expédition",
+    selection_updated: "Sélection Mise à Jour",
+    added_to_cart_msg: "ajouté au panier."
   },
   common: {
     new: "Nouveau",

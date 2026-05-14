@@ -39,7 +39,7 @@ export default function CatalogueRootPage() {
     <main className="min-h-screen pt-24 pb-20 bg-background relative overflow-hidden">
       <Navbar />
       
-      {/* Clinical Atmospheric Background */}
+      {/* Clinical Atmospheric Layers */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.07]" 
           style={{ backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)', backgroundSize: '30px 30px' }} 
@@ -56,7 +56,7 @@ export default function CatalogueRootPage() {
           <span className="text-primary/80">{t.nav.catalogue}</span>
         </div>
 
-        {/* Header Section */}
+        {/* Technical Header */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-20 gap-8">
           <motion.div 
             initial={{ opacity: 0, x: -30 }}
@@ -87,7 +87,7 @@ export default function CatalogueRootPage() {
           </div>
         </div>
 
-        {/* Technical Grid */}
+        {/* Module Grid */}
         <motion.div 
           variants={containerVariants}
           initial="hidden"
@@ -149,7 +149,7 @@ export default function CatalogueRootPage() {
             );
           })}
           
-          {/* Global Inventory Tile */}
+          {/* Global Inventory Entry */}
           <motion.div 
             variants={itemVariants}
             whileHover={{ scale: 1.03, y: -8 }}
@@ -172,7 +172,7 @@ export default function CatalogueRootPage() {
           </motion.div>
         </motion.div>
 
-        {/* Technical Footer Label */}
+        {/* Compliance Labels */}
         <div className="mt-24 pt-12 border-t flex items-center justify-center gap-10 grayscale opacity-30">
           <div className="text-[9px] font-bold uppercase tracking-[0.5em]">{t.catalogue.standards.iso}</div>
           <div className="h-4 w-[1px] bg-border" />

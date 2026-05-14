@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState, useMemo, useEffect } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import Navbar from '@/components/layout/Navbar';
 import ProductCard from '@/components/shared/ProductCard';
@@ -10,7 +10,7 @@ import { ShopSkeleton } from '@/components/shared/ProductSkeleton';
 import { products, categories } from '@/lib/products';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Search, SlidersHorizontal, ChevronDown, FilterX, ArrowLeft, ChevronRight } from 'lucide-react';
+import { Search, SlidersHorizontal, ChevronDown, FilterX, ChevronRight, ArrowLeft } from 'lucide-react';
 import { useTranslation } from '@/hooks/use-translation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -23,7 +23,6 @@ import {
 export default function CategoryPage() {
   const { t } = useTranslation();
   const params = useParams();
-  const router = useRouter();
   const categorySlug = params.categorySlug as string;
   const activeCategory = categorySlug || 'all';
   
@@ -34,7 +33,7 @@ export default function CategoryPage() {
   useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 800);
     return () => clearTimeout(timer);
-  }, []);
+  }, [categorySlug]);
 
   const menuCategories = [
     { label: t.categories.view_all, value: 'all' },
@@ -45,13 +44,16 @@ export default function CategoryPage() {
   ];
 
   const categoryData = categories.find(c => c.slug === activeCategory);
-  const localizedCategoryName = categoryData ? (t.categories as any)[categoryData.slug] || categoryData.name : '';
-  const localizedCategoryDesc = categoryData ? (t.categories as any)[`${categoryData.slug}_desc`] || categoryData.description : '';
+  const localizedCategoryName = categoryData ? (t.categories as any)[categoryData.slug] || categoryData.name : t.categories.view_all;
+  const localizedCategoryDesc = categoryData ? (t.categories as any)[`${categoryData.slug}_desc`] || categoryData.description : t.catalogue.all_devices_desc;
 
   const filteredProducts = useMemo(() => {
     return products
       .filter(p => activeCategory === 'all' || p.category === activeCategory)
-      .filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()) || p.brand.toLowerCase().includes(searchQuery.toLowerCase()))
+      .filter(p => 
+        p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+        p.brand.toLowerCase().includes(searchQuery.toLowerCase())
+      )
       .sort((a, b) => {
         if (sortBy === 'price-low') return a.price - b.price;
         if (sortBy === 'price-high') return b.price - a.price;
@@ -65,7 +67,7 @@ export default function CategoryPage() {
       <Navbar />
       
       <div className="container mx-auto px-4">
-        {/* Breadcrumbs */}
+        {/* Clinical Breadcrumbs */}
         <div className="flex items-center gap-2 mb-8 text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
           <Link href="/" className="hover:text-primary transition-colors">{t.catalogue.brand}</Link>
           <ChevronRight className="h-3 w-3" />
@@ -74,14 +76,14 @@ export default function CategoryPage() {
           <span className="text-primary">{activeCategory === 'all' ? t.categories.view_all : localizedCategoryName}</span>
         </div>
 
-        {/* Header */}
+        {/* Header Console */}
         <div className="mb-12 border-l-4 border-primary pl-6 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
             <h1 className="text-3xl font-headline font-bold mb-2 uppercase tracking-tight">
               {activeCategory === 'all' ? t.catalogue.title : localizedCategoryName}
             </h1>
             <p className="text-muted-foreground text-sm max-w-2xl font-medium italic">
-              {activeCategory === 'all' ? t.catalogue.subtitle : localizedCategoryDesc}
+              {localizedCategoryDesc}
             </p>
           </div>
           <Link href="/shop">
@@ -92,7 +94,7 @@ export default function CategoryPage() {
           </Link>
         </div>
 
-        {/* Filters Console */}
+        {/* Filters Grid */}
         <div className="flex flex-col lg:flex-row gap-6 mb-12 items-start justify-between bg-accent/5 p-6 border border-border/40">
           <div className="flex flex-wrap gap-2 w-full lg:w-auto">
             {menuCategories.map((cat) => (
@@ -136,7 +138,7 @@ export default function CategoryPage() {
           </div>
         </div>
 
-        {/* Results */}
+        {/* Results Matrix */}
         <div className="min-h-[400px]">
           {isLoading ? (
             <ShopSkeleton />
