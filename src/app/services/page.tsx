@@ -162,23 +162,30 @@ export default function ServicesPage() {
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/10 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/2" />
           
           <div className="container mx-auto px-4 relative z-10 text-center max-w-4xl">
-            <motion.div variants={itemVariants} className="flex flex-col items-center gap-10">
-              <div className="p-6 bg-white/10 rounded-full border border-white/20">
+            <motion.div 
+              variants={{
+                visible: { transition: { staggerChildren: 0.2, delayChildren: 0.2 } }
+              }}
+              className="flex flex-col items-center gap-10"
+            >
+              <motion.div variants={itemVariants} className="p-6 bg-white/10 rounded-full border border-white/20">
                 <ShieldCheck className="h-12 w-12" />
-              </div>
-              <div className="space-y-6">
+              </motion.div>
+              <motion.div variants={itemVariants} className="space-y-6">
                 <h2 className="text-4xl md:text-6xl font-bold uppercase tracking-tighter leading-none">
                   {t.services.cta.title}
                 </h2>
                 <p className="text-primary-foreground/70 text-lg md:text-xl font-medium italic">
                   {t.services.cta.subtitle}
                 </p>
-              </div>
-              <Link href="/contact">
-                <Button className="bg-white text-primary hover:bg-white/90 px-12 py-8 rounded-none text-[12px] font-bold uppercase tracking-[0.3em] shadow-2xl transition-all active:scale-95">
-                  {t.services.cta.button}
-                </Button>
-              </Link>
+              </motion.div>
+              <motion.div variants={itemVariants}>
+                <Link href="/contact">
+                  <Button className="bg-white text-primary hover:bg-white/90 px-12 py-8 rounded-none text-[12px] font-bold uppercase tracking-[0.3em] shadow-2xl transition-all active:scale-95">
+                    {t.services.cta.button}
+                  </Button>
+                </Link>
+              </motion.div>
             </motion.div>
           </div>
         </motion.section>
