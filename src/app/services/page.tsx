@@ -1,7 +1,55 @@
 
 "use client";
 
-import React from 'export default function ServicesPage() {
+import React from 'react';
+import Navbar from '@/components/layout/Navbar';
+import { 
+  Wrench, 
+  Stethoscope, 
+  Truck, 
+  Headset, 
+  GraduationCap, 
+  ShieldAlert, 
+  Microscope,
+  ShieldCheck,
+  Activity,
+  Award,
+  BadgeCheck,
+  ArrowRight
+} from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
+import { motion, Variants } from 'framer-motion';
+import { useTranslation } from '@/hooks/use-translation';
+import { cn } from '@/lib/utils';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+
+// Animation Variants calibrated for Surgical Resolve
+const sectionVariants: Variants = {
+  hidden: { opacity: 0, y: 40 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 1,
+      ease: [0.22, 1, 0.36, 1],
+      staggerChildren: 0.15,
+      delayChildren: 0.1
+    }
+  }
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 30, scale: 0.98 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    scale: 1,
+    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
+  }
+};
+
+export default function ServicesPage() {
   const { t, isRTL } = useTranslation();
 
   const serviceList = [
