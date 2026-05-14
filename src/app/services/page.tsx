@@ -14,7 +14,9 @@ import {
   Activity, 
   Database,
   ArrowRight,
-  ShieldCheck
+  ShieldCheck,
+  Award,
+  BadgeCheck
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -187,7 +189,7 @@ export default function ServicesPage() {
           </div>
         </motion.section>
 
-        {/* Compliance Registry (Reusing Registry style from About) */}
+        {/* Compliance Registry */}
         <motion.section 
           initial="hidden"
           whileInView="visible"
@@ -210,29 +212,25 @@ export default function ServicesPage() {
                   { icon: ShieldCheck, label: t.catalogue.standards.iso, detail: t.about.registry.iso_detail },
                   { icon: Award, label: t.catalogue.standards.ce, detail: t.about.registry.ce_detail },
                   { icon: BadgeCheck, label: t.catalogue.standards.fda, detail: t.about.registry.fda_detail }
-                ].map((std, i) => {
-                  const Award = std.icon; // Standard icon mapping
-                  const BadgeCheck = std.icon; // Standard icon mapping
-                  return (
-                    <motion.div 
-                      key={i} 
-                      variants={itemVariants}
-                      whileHover={{ y: -5 }}
-                      className="flex flex-col items-center gap-6 group"
-                    >
-                      <div className="relative">
-                        <div className="absolute inset-0 bg-primary/20 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                        <div className="relative p-6 bg-primary/5 border border-primary/10 rounded-full text-primary/40 group-hover:text-primary group-hover:border-primary/30 transition-all duration-500">
-                          <std.icon className="h-8 w-8" />
-                        </div>
+                ].map((std, i) => (
+                  <motion.div 
+                    key={i} 
+                    variants={itemVariants}
+                    whileHover={{ y: -5 }}
+                    className="flex flex-col items-center gap-6 group"
+                  >
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-primary/20 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                      <div className="relative p-6 bg-primary/5 border border-primary/10 rounded-full text-primary/40 group-hover:text-primary group-hover:border-primary/30 transition-all duration-500">
+                        <std.icon className="h-8 w-8" />
                       </div>
-                      <div className="space-y-2">
-                        <h4 className="text-xs font-bold uppercase tracking-[0.3em] text-foreground group-hover:text-primary transition-colors">{std.label}</h4>
-                        <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60">{std.detail}</p>
-                      </div>
-                    </motion.div>
-                  );
-                })}
+                    </div>
+                    <div className="space-y-2">
+                      <h4 className="text-xs font-bold uppercase tracking-[0.3em] text-foreground group-hover:text-primary transition-colors">{std.label}</h4>
+                      <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60">{std.detail}</p>
+                    </div>
+                  </motion.div>
+                ))}
               </div>
             </div>
           </div>
