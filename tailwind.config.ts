@@ -20,8 +20,10 @@ export default {
     },
     extend: {
       fontFamily: {
-        body: ['Inter', 'sans-serif'],
-        headline: ['Poppins', 'sans-serif'],
+        // Globalized Professional Font Families
+        body: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
+        headline: ['Manrope', 'Poppins', 'sans-serif'],
+        arabic: ['"Noto Sans Arabic"', 'sans-serif'],
         code: ['monospace'],
       },
       colors: {

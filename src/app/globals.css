@@ -57,6 +57,7 @@
     @apply bg-background text-foreground transition-colors duration-500 font-body antialiased;
   }
   
+  /* Global Clinical Typography Assignments */
   h1 {
     @apply font-headline text-2xl md:text-3xl font-bold tracking-tight uppercase leading-[1.1] text-foreground;
   }
@@ -68,6 +69,11 @@
   }
   h4 {
     @apply font-headline text-[9px] md:text-[10px] font-bold tracking-[0.2em] uppercase text-foreground;
+  }
+
+  /* RTL Support for Arabic Sector */
+  [lang="ar"] body {
+    @apply font-arabic;
   }
 }
 
