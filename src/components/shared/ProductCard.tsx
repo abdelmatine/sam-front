@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store';
 import { addToCart } from '@/store/slices/cartSlice';
 import { toggleWishlist } from '@/store/slices/wishlistSlice';
-import { Star, Plus, Loader2, Heart } from 'lucide-react';
+import { Star, Plus, Loader2, Heart, ShoppingCart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
@@ -27,9 +27,15 @@ interface Product {
   rating: number;
   inStock: boolean;
   isNew?: boolean;
+  description?: string;
 }
 
-const ProductCard = ({ product }: { product: Product }) => {
+interface ProductCardProps {
+  product: Product;
+  layout?: 'grid' | 'list';
+}
+
+const ProductCard = ({ product, layout = 'grid' }: ProductCardProps) => {
   const dispatch = useDispatch();
   const wishlist = useSelector((state: RootState) => state.wishlist.items);
   const isWishlisted = wishlist.some(item => item.id === product.id);
@@ -76,17 +82,23 @@ const ProductCard = ({ product }: { product: Product }) => {
     setIsNavigating(true);
   };
 
+  const isList = layout === 'list';
+
   return (
     <motion.div
+      layout
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      whileHover={!isNavigating ? { y: -8, scale: 1.02 } : {}}
+      whileHover={!isNavigating ? { y: -8, scale: isList ? 1.01 : 1.02 } : {}}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       className="h-full"
     >
       <Link href={`/shop/${product.category}/${product.id}`} onClick={handleLinkClick} className="block h-full">
-        <Card className="rounded-none overflow-hidden group transition-all border border-border/40 clinical-shadow flex flex-col h-full hover:border-primary/40 bg-card relative">
+        <Card className={cn(
+          "rounded-none overflow-hidden group transition-all border border-border/40 clinical-shadow flex bg-card relative",
+          isList ? "flex-col md:flex-row h-auto min-h-[220px]" : "flex-col h-full hover:border-primary/40"
+        )}>
           {/* Navigation Overlay */}
           <AnimatePresence>
             {isNavigating && (
@@ -102,7 +114,11 @@ const ProductCard = ({ product }: { product: Product }) => {
             )}
           </AnimatePresence>
 
-          <div className="relative h-64 overflow-hidden border-b border-border/40 bg-muted/30">
+          {/* Product Image Section */}
+          <div className={cn(
+            "relative overflow-hidden border-border/40 bg-muted/30 shrink-0",
+            isList ? "w-full md:w-64 h-64 md:h-auto border-b md:border-b-0 md:border-r" : "h-64 border-b"
+          )}>
             <Image 
               src={product.imageUrl}
               alt={product.name}
@@ -134,38 +150,74 @@ const ProductCard = ({ product }: { product: Product }) => {
             </Button>
           </div>
 
-          <CardContent className="p-6 flex flex-col flex-1 gap-1 relative">
+          {/* Product Info Section */}
+          <CardContent className={cn(
+            "p-6 flex flex-col flex-1 gap-1 relative",
+            isList ? "justify-center" : "justify-between"
+          )}>
             <div className="absolute top-0 left-0 w-[2px] h-0 bg-primary group-hover:h-full transition-all duration-700" />
             
-            <span className="text-[9px] text-primary font-bold uppercase tracking-[0.2em]">{product.brand}</span>
-            <h3 className="font-bold text-base group-hover:text-primary transition-colors line-clamp-1 mb-2 uppercase tracking-tight">
-              {product.name}
-            </h3>
+            <div className={cn("flex flex-col", isList && "md:flex-row md:items-start md:justify-between gap-4")}>
+              <div className="flex-1">
+                <span className="text-[9px] text-primary font-bold uppercase tracking-[0.2em]">{product.brand}</span>
+                <h3 className={cn(
+                  "font-bold group-hover:text-primary transition-colors line-clamp-1 mb-2 uppercase tracking-tight",
+                  isList ? "text-xl md:text-2xl" : "text-base"
+                )}>
+                  {product.name}
+                </h3>
 
-            <div className="flex items-center gap-1 mb-6">
-              {[...Array(5)].map((_, i) => (
-                <Star 
-                  key={i} 
-                  className={cn("h-3 w-3", i < Math.floor(product.rating) ? "fill-primary text-primary" : "text-muted")} 
-                />
-              ))}
-              <span className="text-[9px] text-muted-foreground ml-1 font-bold">({product.rating})</span>
-            </div>
-
-            <div className="mt-auto flex items-center justify-between pt-4 border-t border-border/40">
-              <span className="text-xl font-bold tracking-tighter text-foreground">${product.price.toLocaleString()}</span>
-              <Button 
-                onClick={handleAddToCart}
-                disabled={!product.inStock || isAdding}
-                size="icon"
-                className="bg-primary hover:bg-primary/90 rounded-none h-9 w-9 transition-transform active:scale-90 shadow-lg shadow-primary/20"
-              >
-                {isAdding ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  <Plus className="h-5 w-5" />
+                {isList && product.description && (
+                  <p className="text-xs text-muted-foreground line-clamp-2 mb-4 italic font-medium max-w-2xl">
+                    {product.description}
+                  </p>
                 )}
-              </Button>
+
+                <div className="flex items-center gap-1 mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Star 
+                      key={i} 
+                      className={cn("h-3 w-3", i < Math.floor(product.rating) ? "fill-primary text-primary" : "text-muted")} 
+                    />
+                  ))}
+                  <span className="text-[9px] text-muted-foreground ml-1 font-bold">({product.rating})</span>
+                </div>
+              </div>
+
+              <div className={cn(
+                "flex items-center justify-between",
+                isList ? "md:flex-col md:items-end md:justify-center md:gap-4" : "mt-auto pt-4 border-t border-border/40"
+              )}>
+                <span className={cn(
+                  "font-bold tracking-tighter text-foreground",
+                  isList ? "text-3xl" : "text-xl"
+                )}>
+                  ${product.price.toLocaleString()}
+                </span>
+                
+                <Button 
+                  onClick={handleAddToCart}
+                  disabled={!product.inStock || isAdding}
+                  className={cn(
+                    "bg-primary hover:bg-primary/90 rounded-none transition-all active:scale-95 shadow-lg shadow-primary/20",
+                    isList ? "h-12 px-8 text-[10px] font-bold uppercase tracking-widest" : "h-9 w-9"
+                  )}
+                  size={isList ? "default" : "icon"}
+                >
+                  {isAdding ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    isList ? (
+                      <>
+                        <ShoppingCart className="h-4 w-4 mr-2" />
+                        {t.product.add_to_cart}
+                      </>
+                    ) : (
+                      <Plus className="h-5 w-5" />
+                    )
+                  )}
+                </Button>
+              </div>
             </div>
           </CardContent>
         </Card>

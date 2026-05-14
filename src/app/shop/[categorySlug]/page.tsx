@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ShopSkeleton } from '@/components/shared/ProductSkeleton';
 import ClinicalDropdown from '@/components/shared/ClinicalDropdown';
+import { cn } from '@/lib/utils';
 
 export default function CategoryPage({ params }: { params: Promise<{ categorySlug: string }> }) {
   const { categorySlug } = use(params);
@@ -22,6 +23,7 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
   const [isLoading, setIsLoading] = useState(true);
   const [isFetchingMore, setIsFetchingMore] = useState(false);
   const [visibleCount, setVisibleCount] = useState(8);
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
   const currentCategory = categories.find(c => c.slug === categorySlug);
   const filteredProducts = products.filter(p => 
@@ -44,7 +46,6 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
   useEffect(() => {
     setIsLoading(true);
     setVisibleCount(8);
-    // Simulated clinical data fetch
     const timer = setTimeout(() => setIsLoading(false), 800);
     return () => clearTimeout(timer);
   }, [categorySlug]);
@@ -144,17 +145,12 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
               transition={{ duration: 0.4 }}
               className="space-y-12"
             >
-              {/* Header Skeleton */}
               <div className="mb-16 border-l-4 border-primary/20 pl-8 space-y-4">
                 <Skeleton className="h-4 w-32 rounded-none bg-primary/5" />
                 <Skeleton className="h-12 w-64 rounded-none bg-primary/5" />
                 <Skeleton className="h-4 w-96 rounded-none bg-primary/5" />
               </div>
-              
-              {/* Search Console Skeleton */}
               <Skeleton className="h-16 w-full rounded-none bg-primary/5 mb-12" />
-              
-              {/* Product Grid Skeleton */}
               <ShopSkeleton />
             </motion.div>
           ) : (
@@ -207,10 +203,26 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
                     </Button>
                     <div className="w-[1px] bg-primary/10" />
                     <div className="flex items-center bg-background px-2">
-                      <Button variant="ghost" size="icon" className="h-12 w-12 rounded-none bg-primary text-white shadow-lg">
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        onClick={() => setViewMode('grid')}
+                        className={cn(
+                          "h-12 w-12 rounded-none transition-all",
+                          viewMode === 'grid' ? "bg-primary text-white shadow-lg" : "text-muted-foreground hover:text-primary"
+                        )}
+                      >
                         <LayoutGrid className="h-4 w-4" />
                       </Button>
-                      <Button variant="ghost" size="icon" className="h-12 w-12 rounded-none text-muted-foreground hover:text-primary">
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        onClick={() => setViewMode('list')}
+                        className={cn(
+                          "h-12 w-12 rounded-none transition-all",
+                          viewMode === 'list' ? "bg-primary text-white shadow-lg" : "text-muted-foreground hover:text-primary"
+                        )}
+                      >
                         <List className="h-4 w-4" />
                       </Button>
                     </div>
@@ -234,16 +246,29 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
               {filteredProducts.length > 0 ? (
                 <div className="space-y-12">
                   <motion.div 
+                    layout
                     variants={containerVariants}
                     initial="hidden"
                     animate="visible"
-                    className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8"
+                    className={cn(
+                      "grid gap-8",
+                      viewMode === 'grid' ? "sm:grid-cols-2 lg:grid-cols-4" : "grid-cols-1"
+                    )}
                   >
-                    {displayedProducts.map((product) => (
-                      <motion.div key={product.id} variants={cardVariants}>
-                        <ProductCard product={product} />
-                      </motion.div>
-                    ))}
+                    <AnimatePresence mode="popLayout">
+                      {displayedProducts.map((product) => (
+                        <motion.div 
+                          key={product.id} 
+                          layout
+                          variants={cardVariants}
+                          initial="hidden"
+                          animate="visible"
+                          exit={{ opacity: 0, scale: 0.95 }}
+                        >
+                          <ProductCard product={product} layout={viewMode} />
+                        </motion.div>
+                      ))}
+                    </AnimatePresence>
                   </motion.div>
 
                   {hasMore && (
@@ -291,4 +316,23 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
       </div>
     </main>
   );
+}
+
+function ChevronDown(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="m6 9 6 6 6-6" />
+    </svg>
+  )
 }
