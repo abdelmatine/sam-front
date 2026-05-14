@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { use, useState } from 'react';
+import React, { use, useState, useEffect } from 'react';
 import Navbar from '@/components/layout/Navbar';
 import { products } from '@/lib/products';
 import { useTranslation } from '@/hooks/use-translation';
@@ -17,15 +17,16 @@ import {
   RefreshCcw, 
   Activity, 
   Star, 
-  BadgeCheck,
-  Package,
-  Database,
-  ChevronDown,
-  PhoneCall,
-  Mail,
-  ShieldAlert,
-  Copy,
-  LayoutGrid
+  BadgeCheck, 
+  Package, 
+  Database, 
+  ChevronDown, 
+  PhoneCall, 
+  Mail, 
+  ShieldAlert, 
+  Copy, 
+  LayoutGrid,
+  Loader2
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -46,6 +47,24 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const product = products.find(p => p.id === productId);
   const isWishlisted = wishlist.some(item => item.id === productId);
+  
+  const [selectedImage, setSelectedImage] = useState<string>(product?.imageUrl || '');
+  const [isMainLoading, setIsMainLoading] = useState(true);
+
+  // Sync selectedImage with product when navigating
+  useEffect(() => {
+    if (product) {
+      setSelectedImage(product.imageUrl);
+      setIsMainLoading(true);
+    }
+  }, [productId, product?.imageUrl]);
+
+  const thumbnails = product ? [
+    product.imageUrl,
+    `https://picsum.photos/seed/med-detail-1-${product.id}/800/800`,
+    `https://picsum.photos/seed/med-detail-2-${product.id}/800/800`,
+    `https://picsum.photos/seed/med-detail-3-${product.id}/800/800`,
+  ] : [];
   
   const relatedProducts = products
     .filter(p => p.category === categorySlug && p.id !== productId)
@@ -150,7 +169,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
     hidden: { opacity: 0, x: isRTL ? -20 : 20 },
     visible: { 
       opacity: 1, 
-      x: 0,
+      x: 0, 
       transition: { duration: 1.0, ease: [0.22, 1, 0.36, 1] }
     }
   };
@@ -228,17 +247,35 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
         <div className="grid lg:grid-cols-12 gap-16 mb-24">
           <motion.div variants={itemVariants} className="lg:col-span-7 space-y-6">
             <div className="relative aspect-square border border-primary/10 bg-accent/5 overflow-hidden clinical-shadow group">
+              <AnimatePresence mode="wait">
+                {isMainLoading && (
+                  <motion.div 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="absolute inset-0 z-20 flex items-center justify-center bg-accent/10 backdrop-blur-sm"
+                  >
+                    <Loader2 className="h-10 w-10 text-primary animate-spin" />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
               <Image 
-                src={product.imageUrl} 
+                src={selectedImage} 
                 alt={product.name} 
                 fill 
-                className="object-contain p-12 grayscale-[0.2] group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-105"
+                className={cn(
+                  "object-contain transition-all duration-700",
+                  isMainLoading ? "opacity-0 scale-95" : "opacity-100 scale-100",
+                  "grayscale-[0.1] group-hover:grayscale-0 group-hover:scale-105"
+                )}
+                onLoad={() => setIsMainLoading(false)}
                 priority
               />
-              <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
               
               {product.isNew && (
-                <div className={cn("absolute top-8", isRTL ? "right-8" : "left-8")}>
+                <div className={cn("absolute top-8 z-30", isRTL ? "right-8" : "left-8")}>
                   <Badge className="bg-primary text-white rounded-none text-[10px] uppercase font-bold tracking-widest px-4 py-2 border-none shadow-xl shadow-primary/20">
                     {t.product.new}
                   </Badge>
@@ -247,15 +284,25 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
             </div>
             
             <div className="grid grid-cols-4 gap-4">
-              {[1, 2, 3, 4].map((idx) => (
+              {thumbnails.map((img, idx) => (
                 <motion.div 
                   key={idx} 
                   whileHover={{ scale: 1.05, y: -5 }}
+                  whileTap={{ scale: 0.95 }}
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                  className="relative aspect-square border border-primary/5 bg-accent/3 overflow-hidden grayscale hover:grayscale-0 transition-all cursor-pointer shadow-sm hover:shadow-lg"
+                  onClick={() => {
+                    if (selectedImage !== img) {
+                      setIsMainLoading(true);
+                      setSelectedImage(img);
+                    }
+                  }}
+                  className={cn(
+                    "relative aspect-square border overflow-hidden transition-all cursor-pointer shadow-sm hover:shadow-lg bg-accent/3",
+                    selectedImage === img ? "border-primary ring-2 ring-primary/20" : "border-primary/5 grayscale hover:grayscale-0"
+                  )}
                 >
-                  <Image src={`https://picsum.photos/seed/med-detail-${idx}/400/400`} alt="Detail" fill className="object-cover" />
-                  <div className="absolute inset-0 bg-primary/5 opacity-40" />
+                  <Image src={img} alt={`${product.name} perspective ${idx + 1}`} fill className="object-cover" />
+                  <div className={cn("absolute inset-0 bg-primary/5 transition-opacity", selectedImage === img ? "opacity-0" : "opacity-40")} />
                 </motion.div>
               ))}
             </div>
@@ -565,3 +612,4 @@ export default function ProductDetailPage({ params }: { params: Promise<{ catego
     </main>
   );
 }
+
