@@ -30,6 +30,7 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
     ? t.catalogue.global_inventory 
     : (t.categories as any)[categorySlug] || currentCategory?.name || categorySlug;
 
+  // Localized loading effect for category transitions
   useEffect(() => {
     setIsLoading(true);
     const timer = setTimeout(() => setIsLoading(false), 800);
@@ -47,6 +48,15 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
     }
   };
 
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
+    }
+  };
+
   return (
     <main className="min-h-screen pt-24 pb-20 bg-background relative overflow-hidden">
       <Navbar />
@@ -59,38 +69,40 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
         <div className="absolute top-0 right-0 w-1/4 h-full bg-primary/5 -skew-x-12 translate-x-1/2" />
       </div>
 
-      <div className="container mx-auto px-4 relative z-10">
+      <motion.div 
+        key={categorySlug}
+        initial="hidden"
+        animate="visible"
+        variants={containerVariants}
+        className="container mx-auto px-4 relative z-10"
+      >
         {/* Breadcrumbs */}
-        <div className="flex items-center gap-2 mb-10 text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground/60">
+        <motion.div variants={itemVariants} className="flex items-center gap-2 mb-10 text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground/60">
           <Link href="/" className="hover:text-primary transition-colors">{t.catalogue.brand}</Link>
           <ChevronRight className="h-2.5 w-2.5" />
           <Link href="/shop" className="hover:text-primary transition-colors">{t.nav.catalogue}</Link>
           <ChevronRight className="h-2.5 w-2.5" />
           <span className="text-primary/80">{categoryName}</span>
-        </div>
+        </motion.div>
 
         {/* Technical Module Header */}
-        <div className="mb-16 border-l-4 border-primary pl-8">
-          <motion.div 
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="flex items-center gap-3 mb-4"
-          >
+        <motion.div variants={itemVariants} className="mb-16 border-l-4 border-primary pl-8">
+          <div className="flex items-center gap-3 mb-4">
             <div className="p-1.5 bg-primary/10 rounded-sm">
               <Database className="h-3.5 w-3.5 text-primary" />
             </div>
             <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-primary/70">Module: {categorySlug.toUpperCase()}</span>
-          </motion.div>
+          </div>
           <h1 className="text-4xl md:text-5xl font-headline font-bold uppercase tracking-tighter leading-none mb-4">
             {categoryName}
           </h1>
           <p className="text-muted-foreground text-sm max-w-xl font-medium italic leading-relaxed">
             {currentCategory?.description || t.catalogue.subtitle}
           </p>
-        </div>
+        </motion.div>
 
         {/* Clinical Console Interface */}
-        <div className="bg-accent/5 backdrop-blur-md border border-primary/10 p-1 mb-12 shadow-2xl shadow-black/5">
+        <motion.div variants={itemVariants} className="bg-accent/5 backdrop-blur-md border border-primary/10 p-1 mb-12 shadow-2xl shadow-black/5">
           <div className="flex flex-col lg:flex-row items-stretch gap-1">
             <div className="flex-1 relative group">
               <Search className="absolute left-6 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
@@ -118,10 +130,10 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Results Metadata */}
-        <div className="flex items-center justify-between mb-8 px-2">
+        <motion.div variants={itemVariants} className="flex items-center justify-between mb-8 px-2">
           <div className="flex items-center gap-4">
             <Activity className="h-4 w-4 text-primary/40 animate-pulse" />
             <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground">
@@ -132,9 +144,9 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
             <Hash className="h-3 w-3" />
             Clinical-IDX: {filteredProducts.length > 0 ? filteredProducts[0].id : 'N/A'}
           </div>
-        </div>
+        </motion.div>
 
-        {/* Product Grid Entry Point */}
+        {/* Product Grid Entry Point with Localized Transitions */}
         <AnimatePresence mode="wait">
           {isLoading ? (
             <motion.div
@@ -178,7 +190,7 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
+      </motion.div>
     </main>
   );
 }
