@@ -89,10 +89,10 @@ const ProductCard = ({ product }: { product: Product }) => {
       className="h-full"
     >
       <Card 
-        className="rounded-none overflow-hidden group transition-all clinical-shadow flex flex-col h-full hover:border-primary/40 cursor-pointer"
+        className="rounded-none overflow-hidden group transition-all border border-border/40 clinical-shadow flex flex-col h-full hover:border-primary/40 cursor-pointer bg-card"
         onClick={handleNavigate}
       >
-        <div className="relative h-64 overflow-hidden border-b">
+        <div className="relative h-64 overflow-hidden border-b border-border/40">
           <Image 
             src={product.imageUrl}
             alt={product.name}
@@ -112,12 +112,12 @@ const ProductCard = ({ product }: { product: Product }) => {
 
           <div className="absolute top-4 left-4 flex flex-col gap-2">
             {product.isNew && (
-              <Badge className="bg-primary text-white border-none rounded-none text-[8px] uppercase tracking-widest px-2 py-1 shadow-lg">
+              <Badge className="bg-primary text-white border-none rounded-none text-[8px] uppercase tracking-widest px-2 py-1 shadow-lg shadow-primary/20">
                 {t.common.new}
               </Badge>
             )}
             {!product.inStock && (
-              <Badge variant="destructive" className="rounded-none text-[8px] uppercase tracking-widest px-2 py-1 shadow-lg">
+              <Badge variant="destructive" className="rounded-none text-[8px] uppercase tracking-widest px-2 py-1 shadow-lg shadow-destructive/20">
                 {t.common.stock_out}
               </Badge>
             )}
@@ -133,9 +133,12 @@ const ProductCard = ({ product }: { product: Product }) => {
           </Button>
         </div>
 
-        <CardContent className="p-6 flex flex-col flex-1 gap-1">
+        <CardContent className="p-6 flex flex-col flex-1 gap-1 relative">
+          {/* Subtle Accent */}
+          <div className="absolute top-0 left-0 w-[2px] h-0 bg-primary group-hover:h-full transition-all duration-700" />
+          
           <span className="text-[9px] text-primary font-bold uppercase tracking-[0.2em]">{product.brand}</span>
-          <h3 className="font-bold text-base group-hover:text-primary transition-colors line-clamp-1 mb-2">
+          <h3 className="font-bold text-base group-hover:text-primary transition-colors line-clamp-1 mb-2 uppercase tracking-tight">
             {product.name}
           </h3>
 
@@ -149,13 +152,13 @@ const ProductCard = ({ product }: { product: Product }) => {
             <span className="text-[9px] text-muted-foreground ml-1 font-bold">({product.rating})</span>
           </div>
 
-          <div className="mt-auto flex items-center justify-between pt-4 border-t">
+          <div className="mt-auto flex items-center justify-between pt-4 border-t border-border/40">
             <span className="text-xl font-bold tracking-tighter text-foreground">${product.price.toLocaleString()}</span>
             <Button 
               onClick={handleAddToCart}
               disabled={!product.inStock || isAdding}
               size="icon"
-              className="bg-primary hover:bg-primary/90 rounded-none h-9 w-9 transition-transform active:scale-90"
+              className="bg-primary hover:bg-primary/90 rounded-none h-9 w-9 transition-transform active:scale-90 shadow-lg shadow-primary/20"
             >
               {isAdding ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
