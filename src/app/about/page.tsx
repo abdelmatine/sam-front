@@ -85,11 +85,6 @@ export default function AboutPage() {
           className="pt-40 pb-24 hero-gradient"
         >
           <div className="container mx-auto px-4 text-center">
-            <motion.div variants={itemVariants} className="flex items-center justify-center gap-3 mb-8">
-              <Database className="h-4 w-4 text-primary/40" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-primary/60">{t.about.hero.badge}</span>
-            </motion.div>
-            
             <motion.h1 variants={itemVariants} className="text-4xl md:text-7xl font-headline font-bold mb-8 uppercase tracking-tighter leading-[0.9]">
               {t.about.hero.title}
               <span className="text-primary">{isRTL ? "نفس" : "Breath"}</span>
@@ -258,3 +253,4 @@ export default function AboutPage() {
     </main>
   );
 }
+
