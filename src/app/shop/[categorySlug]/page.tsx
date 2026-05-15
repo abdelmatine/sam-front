@@ -6,15 +6,18 @@ import Navbar from '@/components/layout/Navbar';
 import { products, categories } from '@/lib/products';
 import ProductCard from '@/components/shared/ProductCard';
 import { useTranslation } from '@/hooks/use-translation';
-import { ChevronRight, Filter, LayoutGrid, List, Search, Activity, Database, Hash, Loader2, ChevronDown } from 'lucide-react';
+import { ChevronRight, Filter, LayoutGrid, List, Search, Activity, Database, Loader2, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Skeleton } from '@/components/ui/skeleton';
-import { ShopSkeleton } from '@/components/shared/ProductSkeleton';
 import ClinicalDropdown from '@/components/shared/ClinicalDropdown';
 import { cn } from '@/lib/utils';
+
+// High-Fidelity Technical Skeletons
+import CategoryHeaderSkeleton from '@/components/skeletons/category-header-skeleton';
+import SearchFilterSkeleton from '@/components/skeletons/search-filter-skeleton';
+import ShopGridSkeleton from '@/components/skeletons/shop-grid-skeleton';
 
 type SortMethod = 'price-asc' | 'price-desc' | 'rating-desc' | 'name-asc';
 
@@ -168,15 +171,11 @@ export default function CategoryPage({ params }: { params: Promise<{ categorySlu
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.6 }}
-              className="space-y-12"
+              className="space-y-4"
             >
-              <div className="mb-16 border-l-4 border-primary/20 pl-8 space-y-4">
-                <Skeleton className="h-4 w-32 rounded-none bg-primary/5" />
-                <Skeleton className="h-12 w-64 rounded-none bg-primary/5" />
-                <Skeleton className="h-4 w-96 rounded-none bg-primary/5" />
-              </div>
-              <Skeleton className="h-16 w-full rounded-none bg-primary/5 mb-12" />
-              <ShopSkeleton />
+              <CategoryHeaderSkeleton />
+              <SearchFilterSkeleton />
+              <ShopGridSkeleton layout={viewMode} />
             </motion.div>
           ) : (
             <motion.div
