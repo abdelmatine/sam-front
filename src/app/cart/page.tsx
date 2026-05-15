@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState } from 'react';
@@ -85,10 +84,6 @@ export default function CartPage() {
         className="container mx-auto px-4 flex-1 relative z-10"
       >
         <motion.div variants={itemVariants} className="flex flex-col mb-10 border-l-4 border-primary pl-8">
-          <div className="flex items-center gap-3 mb-2">
-            <Database className="h-3.5 w-3.5 text-primary/40" />
-            <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-primary/60">Checkout Module v3.2</span>
-          </div>
           <h1 className="text-3xl font-headline font-bold flex items-center gap-3 uppercase tracking-tight">
             <ShoppingBag className="h-6 w-6 text-primary" />
             {t.cart.title}
