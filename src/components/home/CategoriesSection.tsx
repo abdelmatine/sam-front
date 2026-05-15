@@ -212,7 +212,7 @@ const CategoriesSection = () => {
                 slug="others"
                 title="Autres"
                 description="Équipements et Accessoires Divers pour le soutien quotidien."
-                imageUrl="https://picsum.photos/seed/cat4/400/300"
+                imageUrl="/others_cat.jpg"
                 badgeText="Technologie Annexe"
               />
             </motion.div>
