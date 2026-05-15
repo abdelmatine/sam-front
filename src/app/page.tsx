@@ -10,16 +10,14 @@ import Newsletter from '@/components/home/Newsletter';
 
 export default function Home() {
   return (
-    <main className="flex flex-col min-h-screen bg-white">
+    <main className="flex flex-col min-h-screen bg-background">
       <Navbar />
       <Hero />
       <ClinicalTicker />
-      <div className="space-y-20 md:space-y-32">
-        <CategoriesSection />
-        <FlagshipEquipment />
-        <WhyUs />
-        <Newsletter />
-      </div>
+      <CategoriesSection />
+      <FlagshipEquipment />
+      <WhyUs />
+      <Newsletter />
     </main>
   );
 }

@@ -8,53 +8,30 @@ import { setLanguage, Language } from '@/store/slices/i18nSlice';
 import { useTranslation } from '@/hooks/use-translation';
 import { 
   ShoppingCart, 
-  Menu, 
   Sun, 
   Moon, 
   Heart, 
   ChevronDown, 
   Globe, 
-  Activity,
-  X,
-  Database,
-  Headset,
-  ShieldCheck,
-  Phone,
-  Mail,
-  BadgeCheck,
-  Copy
+  Activity
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 import { useTheme } from 'next-themes';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTrigger,
-  SheetClose,
-} from "@/components/ui/sheet";
-import {
-  Accordion,
-  AccordionItem,
-  AccordionTrigger,
-  AccordionContent,
-} from "@/components/ui/accordion";
-import { Separator } from "@/components/ui/separator";
 import ClinicalDropdown from '@/components/shared/ClinicalDropdown';
 import Logo from '@/components/shared/Logo';
+import MobileMenu from './MobileMenu';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const cartQuantity = useSelector((state: RootState) => state.cart.totalQuantity);
   const wishlistCount = useSelector((state: RootState) => state.wishlist.items.length);
-  const { t, lang, isRTL } = useTranslation();
+  const { t, lang } = useTranslation();
   const dispatch = useDispatch();
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-  const [copiedId, setCopiedId] = useState<string | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -64,13 +41,6 @@ const Navbar = () => {
   }, []);
 
   if (!mounted) return null;
-
-  const handleCopy = (text: string, id: string) => {
-    navigator.clipboard.writeText(text).then(() => {
-      setCopiedId(id);
-      setTimeout(() => setCopiedId(null), 2000);
-    });
-  };
 
   const languages: { label: string; code: Language }[] = [
     { label: 'FR', code: 'fr' },
@@ -222,7 +192,6 @@ const Navbar = () => {
                   {cartQuantity}
                 </span>
               )}
-              {/* Premium Glow Layer */}
               <div className="absolute inset-0 bg-white/5 opacity-0 group-hover/cart:opacity-100 transition-opacity" />
             </Button>
           </Link>
@@ -239,249 +208,11 @@ const Navbar = () => {
                 )}
               </Button>
             </Link>
-
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-10 w-10 border border-primary/20 bg-primary/5 rounded-none">
-                  <Menu className="h-5 w-5 text-primary" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent side={isRTL ? "left" : "right"} className="w-full sm:max-w-xs p-0 flex flex-col h-full bg-background border-primary/10 [&>button]:hidden">
-                <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
-                  style={{ backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)', backgroundSize: '24px 24px' }} 
-                />
-                
-                <SheetHeader className="p-8 pb-4 flex flex-row items-center justify-between relative z-10">
-                  <Logo />
-                  <SheetClose asChild>
-                    <Button variant="ghost" size="icon" className="h-10 w-10 border border-primary/10 rounded-none hover:bg-destructive/5 hover:text-destructive">
-                      <X className="h-5 w-5" />
-                    </Button>
-                  </SheetClose>
-                </SheetHeader>
-                
-                <div className="flex-1 overflow-y-auto px-8 py-10 relative z-10">
-                  {/* Technical Navigation Section */}
-                  <div className="mb-10">
-                    <div className="flex items-center gap-2 mb-6 opacity-40">
-                      <Database className="h-3.5 w-3.5 text-primary" />
-                      <span className="text-[9px] font-black uppercase tracking-[0.5em]">{t.nav.menu_title}</span>
-                    </div>
-                    
-                    <Accordion type="single" collapsible className="w-full space-y-6">
-                      <AccordionItem value="shop" className="border-none">
-                        <AccordionTrigger className="p-0 hover:no-underline font-headline font-bold text-xl uppercase tracking-tighter hover:text-primary transition-colors">
-                          {t.nav.catalogue}
-                        </AccordionTrigger>
-                        <AccordionContent className="pt-6 pl-4 space-y-4 border-l-2 border-primary/10">
-                          {categories.map((cat) => (
-                            <SheetClose asChild key={cat.value}>
-                              <Link 
-                                href={cat.value ? `/shop/${cat.value}` : '/shop'}
-                                className="text-[11px] font-bold uppercase tracking-[0.2em] text-muted-foreground hover:text-primary block py-1.5 transition-all hover:translate-x-2"
-                              >
-                                {cat.label}
-                              </Link>
-                            </SheetClose>
-                          ))}
-                        </AccordionContent>
-                      </AccordionItem>
-                      
-                      <div className="space-y-6 pt-4">
-                        <SheetClose asChild>
-                          <Link href="/services" className="block text-xl font-headline font-bold uppercase tracking-tighter hover:text-primary transition-colors">{t.nav.services}</Link>
-                        </SheetClose>
-                        <SheetClose asChild>
-                          <Link href="/about" className="block text-xl font-headline font-bold uppercase tracking-tighter hover:text-primary transition-colors">{t.nav.about}</Link>
-                        </SheetClose>
-                        <SheetClose asChild>
-                          <Link href="/contact" className="block text-xl font-headline font-bold uppercase tracking-tighter hover:text-primary transition-colors">{t.nav.contact}</Link>
-                        </SheetClose>
-                      </div>
-                    </Accordion>
-                  </div>
-
-                  <Separator className="bg-primary/10 mb-10" />
-
-                  {/* Actions Grid Section */}
-                  <div className="space-y-6 mb-10">
-                    <div className="flex items-center gap-2 mb-4 opacity-40">
-                      <Activity className="h-3.5 w-3.5 text-primary" />
-                      <span className="text-[9px] font-black uppercase tracking-[0.5em]">Actions_Module</span>
-                    </div>
-                    
-                    <div className="grid grid-cols-2 gap-4">
-                      <SheetClose asChild>
-                        <Link href="/cart">
-                          <Button variant="outline" className="w-full h-24 rounded-none flex flex-col items-center justify-center gap-2 border-primary/10 bg-accent/5 hover:bg-primary/5 hover:border-primary/30 transition-all">
-                            <div className="relative">
-                              <ShoppingCart className="h-6 w-6 text-primary" />
-                              {cartQuantity > 0 && (
-                                <Badge className="absolute -top-3 -right-3 h-4 w-4 p-0 flex items-center justify-center bg-primary text-white text-[8px] border-none rounded-full">
-                                  {cartQuantity}
-                                </Badge>
-                              )}
-                            </div>
-                            <span className="text-[9px] font-bold uppercase tracking-[0.3em]">{t.nav.cart}</span>
-                          </Button>
-                        </Link>
-                      </SheetClose>
-                      
-                      <SheetClose asChild>
-                        <Link href="/wishlist">
-                          <Button variant="outline" className="w-full h-24 rounded-none flex flex-col items-center justify-center gap-2 border-primary/10 bg-accent/5 hover:bg-primary/5 hover:border-primary/30 transition-all">
-                            <div className="relative">
-                              <Heart className={cn("h-6 w-6 text-primary", wishlistCount > 0 && "fill-primary")} />
-                              {wishlistCount > 0 && (
-                                <Badge className="absolute -top-3 -right-3 h-4 w-4 p-0 flex items-center justify-center bg-primary text-white text-[8px] border-none rounded-full">
-                                  {wishlistCount}
-                                </Badge>
-                              )}
-                            </div>
-                            <span className="text-[9px] font-bold uppercase tracking-[0.3em]">{t.nav.wishlist}</span>
-                          </Button>
-                        </Link>
-                      </SheetClose>
-                    </div>
-                  </div>
-
-                  <Separator className="bg-primary/10 mb-10" />
-
-                  {/* Clinical Contact Section */}
-                  <div className="space-y-6 mb-10">
-                    <div className="flex items-center gap-2 mb-4 opacity-40">
-                      <Headset className="h-3.5 w-3.5 text-primary" />
-                      <span className="text-[9px] font-black uppercase tracking-[0.5em]">{t.contact_info.support_title}</span>
-                    </div>
-                    
-                    <div className="space-y-4">
-                      <div 
-                        onClick={() => handleCopy(t.contact_info.phone, "phone")}
-                        className="flex items-center gap-5 p-5 border border-primary/5 bg-accent/5 relative overflow-hidden group cursor-pointer active:bg-primary/5 transition-all"
-                      >
-                        <div className="absolute top-0 right-0 w-12 h-12 bg-primary/5 -translate-y-1/2 translate-x-1/2 rounded-full" />
-                        <Phone className="h-5 w-5 text-primary relative z-10" />
-                        <div className="relative z-10 flex-1">
-                          <p className="text-[8px] font-black text-muted-foreground uppercase tracking-[0.3em] mb-0.5">Direct_Support</p>
-                          <p className="text-xs font-bold tracking-tight">{t.contact_info.phone}</p>
-                        </div>
-                        <div className="relative z-10 min-w-[60px] flex justify-end">
-                          <AnimatePresence mode="wait">
-                            {copiedId === "phone" ? (
-                              <motion.div
-                                key="check"
-                                initial={{ opacity: 0, scale: 0.5 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                exit={{ opacity: 0, scale: 0.5 }}
-                                className="flex items-center gap-1.5"
-                              >
-                                <span className="text-[8px] font-bold text-primary uppercase tracking-[0.2em]">{t.product.copied}</span>
-                                <BadgeCheck className="h-3.5 w-3.5 text-primary" />
-                              </motion.div>
-                            ) : (
-                              <motion.div
-                                key="copy"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                              >
-                                <Copy className="h-3.5 w-3.5 text-primary/20 group-hover:text-primary transition-colors" />
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
-                        </div>
-                      </div>
-                      <div 
-                        onClick={() => handleCopy(t.contact_info.email, "email")}
-                        className="flex items-center gap-5 p-5 border border-primary/5 bg-accent/5 relative overflow-hidden group cursor-pointer active:bg-primary/5 transition-all"
-                      >
-                        <div className="absolute bottom-0 right-0 w-12 h-12 bg-primary/5 translate-y-1/2 translate-x-1/2 rounded-full" />
-                        <Mail className="h-5 w-5 text-primary relative z-10" />
-                        <div className="relative z-10 flex-1">
-                          <p className="text-[8px] font-black text-muted-foreground uppercase tracking-[0.3em] mb-0.5">Email_Protocol</p>
-                          <p className="text-xs font-bold tracking-tight">{t.contact_info.email}</p>
-                        </div>
-                        <div className="relative z-10 min-w-[60px] flex justify-end">
-                          <AnimatePresence mode="wait">
-                            {copiedId === "email" ? (
-                              <motion.div
-                                key="check"
-                                initial={{ opacity: 0, scale: 0.5 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                exit={{ opacity: 0, scale: 0.5 }}
-                                className="flex items-center gap-1.5"
-                              >
-                                <span className="text-[8px] font-bold text-primary uppercase tracking-[0.2em]">{t.product.copied}</span>
-                                <BadgeCheck className="h-3.5 w-3.5 text-primary" />
-                              </motion.div>
-                            ) : (
-                              <motion.div
-                                key="copy"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                              >
-                                <Copy className="h-3.5 w-3.5 text-primary/20 group-hover:text-primary transition-colors" />
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <Separator className="bg-primary/10 mb-10" />
-
-                  {/* Region Control Section */}
-                  <div className="space-y-6">
-                    <div className="flex items-center gap-2 mb-4 opacity-40">
-                      <Globe className="h-3.5 w-3.5 text-primary" />
-                      <span className="text-[9px] font-black uppercase tracking-[0.5em]">Region_Protocol</span>
-                    </div>
-                    
-                    <div className="flex gap-3">
-                      {languages.map((l) => (
-                        <Button 
-                          key={l.code}
-                          variant={lang === l.code ? "default" : "outline"}
-                          size="sm"
-                          onClick={() => dispatch(setLanguage(l.code))}
-                          className={cn(
-                            "flex-1 rounded-none text-[10px] font-black uppercase tracking-[0.2em] h-12 transition-all",
-                            lang === l.code 
-                              ? "bg-primary text-white border-primary shadow-lg shadow-primary/20" 
-                              : "border-primary/10 hover:bg-primary/5"
-                          )}
-                        >
-                          {l.label}
-                        </Button>
-                      ))}
-                    </div>
-
-                    <div className="pt-8">
-                      <Button 
-                        variant="ghost" 
-                        className="w-full h-12 border border-primary/10 rounded-none text-[9px] font-bold uppercase tracking-[0.3em] text-muted-foreground hover:text-primary hover:bg-primary/5"
-                        onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                      >
-                        {theme === 'dark' ? <Sun className="h-4 w-4 mr-3" /> : <Moon className="h-4 w-4 mr-3" />}
-                        {theme === 'dark' ? 'Light_Mode_Switch' : 'Dark_Mode_Switch'}
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="p-8 bg-accent/5 border-t border-primary/10 flex items-center justify-between grayscale opacity-40">
-                  <div className="flex items-center gap-2">
-                    <ShieldCheck className="h-3 w-3 text-primary" />
-                    <span className="text-[8px] font-black uppercase tracking-[0.4em]">SAM_MED_v4.2</span>
-                  </div>
-                  <div className="flex gap-4">
-                    <span className="text-[8px] font-black uppercase tracking-[0.4em]">ISO-13485</span>
-                  </div>
-                </div>
-              </SheetContent>
-            </Sheet>
+            
+            <MobileMenu 
+              cartQuantity={cartQuantity} 
+              wishlistCount={wishlistCount} 
+            />
           </div>
         </div>
       </div>
