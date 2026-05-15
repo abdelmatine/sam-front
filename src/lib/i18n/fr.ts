@@ -119,7 +119,7 @@ export const fr = {
     compliance: "Protocole Clinique Sécurisé • Conforme HIPAA"
   },
   contact_info: {
-    support_title: "Support Clinique",
+    support_title: "Support Technique",
     phone: "+33 (0) 1 23 45 67 89",
     email: "support@sam-medicale.fr",
     location: "Siège Social Paris, France",
@@ -240,7 +240,7 @@ export const fr = {
   },
   product: {
     back: "Retour au Catalogue",
-    new: "Nouvelle Technologie",
+    new: "Nouveau",
     clinical_grade: "Certifié Grade Clinique",
     add_to_cart: "Ajouter au Panier",
     out_of_stock: "Actuellement Indisponible",
