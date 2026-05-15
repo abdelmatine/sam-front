@@ -7,6 +7,7 @@ import { RootState } from '@/store';
 import { removeFromCart, updateQuantity, clearCart } from '@/store/slices/cartSlice';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Trash2, Minus, Plus, ShoppingBag, ArrowLeft, ArrowRight, ShieldCheck, Loader2, Database, Activity, Lock } from 'lucide-react';
