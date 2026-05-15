@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState } from 'react';
@@ -22,7 +23,7 @@ interface CategoryCardProps {
 }
 
 const CategoryCard = ({ slug, title, description, imageUrl, badgeText, className, isLarge = false }: CategoryCardProps) => {
-  const { t } = useTranslation();
+  const { t, isRTL } = useTranslation();
   const [isNavigating, setIsNavigating] = useState(false);
 
   return (
@@ -35,6 +36,16 @@ const CategoryCard = ({ slug, title, description, imageUrl, badgeText, className
         {/* Top Accent Line */}
         <div className="absolute top-0 left-0 h-1 w-0 bg-primary group-hover:w-full transition-all duration-700 z-30" />
         
+        {/* Badge: Top Right (Top Left for RTL) */}
+        <div className={cn(
+          "absolute top-8 z-30",
+          isRTL ? "left-8" : "right-8"
+        )}>
+          <Badge className="bg-primary text-white rounded-none text-[10px] uppercase font-bold tracking-[0.2em] px-4 py-2 border-none shadow-xl shadow-primary/20">
+            {badgeText}
+          </Badge>
+        </div>
+
         {/* Navigation Overlay */}
         <AnimatePresence>
           {isNavigating && (
@@ -69,12 +80,9 @@ const CategoryCard = ({ slug, title, description, imageUrl, badgeText, className
           "absolute left-8 right-8 p-0 z-20", 
           isLarge ? "bottom-12 md:left-12 md:right-12" : "bottom-8"
         )}>
-          <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center mb-6">
             {/* Animated Middle Line (The Sam-Medicale Signature) */}
             <div className="h-[2px] w-12 bg-primary group-hover:w-24 group-hover:bg-primary transition-all duration-700" />
-            <Badge className="bg-primary text-white rounded-none text-[10px] uppercase font-bold tracking-[0.2em] px-4 py-2 border-none shadow-xl shadow-primary/20">
-              {badgeText}
-            </Badge>
           </div>
           
           <h3 className={cn(
