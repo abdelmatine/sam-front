@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import Navbar from '@/components/layout/Navbar';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store';
@@ -12,6 +12,8 @@ import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from '@/hooks/use-translation';
+import { useToast } from '@/hooks/use-toast';
+import { useRouter } from 'next/navigation';
 import { 
   CreditCard, 
   Truck, 
@@ -25,7 +27,8 @@ import {
   Package, 
   ArrowLeft,
   TruckIcon,
-  ShoppingBag
+  ShoppingBag,
+  XCircle
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -36,28 +39,66 @@ export default function CheckoutPage() {
   const { items, totalAmount } = useSelector((state: RootState) => state.cart);
   const dispatch = useDispatch();
   const { t, isRTL } = useTranslation();
+  const { toast } = useToast();
+  const router = useRouter();
+  
   const [isProcessing, setIsProcessing] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [hasFailedOnce, setHasFailedOnce] = useState(false);
   const [orderId, setOrderId] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('delivery');
+  
+  const syncTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Handle order submission protocol
   const handleAcquisitionSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Technical Click Lock: Prevent redundant execution signals
     if (isProcessing) return;
     
     setIsProcessing(true);
     
-    // Simulate technical synchronization
-    setTimeout(() => {
-      const generatedId = Math.floor(100000 + Math.random() * 900000).toString();
-      setOrderId(generatedId);
+    // Simulate technical synchronization with potential disruption
+    syncTimeoutRef.current = setTimeout(() => {
+      // Simulate random technical disruption (20% failure probability)
+      const isSyncSuccessful = Math.random() > 0.2;
+      
+      if (isSyncSuccessful) {
+        const generatedId = Math.floor(100000 + Math.random() * 900000).toString();
+        setOrderId(generatedId);
+        setIsProcessing(false);
+        setIsSuccess(true);
+        dispatch(clearCart());
+        
+        toast({
+          title: t.checkout.success_toast_title,
+          description: t.checkout.success_toast_desc,
+        });
+
+        // Technical Redirect Protocol: Return to catalogue after observation
+        setTimeout(() => {
+          router.push('/shop');
+        }, 3000);
+      } else {
+        setIsProcessing(false);
+        setHasFailedOnce(true);
+        toast({
+          variant: "destructive",
+          title: t.checkout.fail_toast_title,
+          description: t.checkout.fail_toast_desc,
+        });
+      }
+    }, 3500);
+  };
+
+  const handleAbortProtocol = () => {
+    if (syncTimeoutRef.current) {
+      clearTimeout(syncTimeoutRef.current);
+      syncTimeoutRef.current = null;
       setIsProcessing(false);
-      setIsSuccess(true);
-      dispatch(clearCart());
-    }, 2500);
+      toast({
+        title: t.checkout.abort_toast_title,
+        description: t.checkout.abort_toast_desc,
+      });
+    }
   };
 
   const containerVariants = {
@@ -108,7 +149,6 @@ export default function CheckoutPage() {
             animate={{ opacity: 1, scale: 1 }}
             className="w-full max-w-2xl p-12 md:p-24 border border-primary/10 bg-accent/3 relative overflow-hidden group text-center"
           >
-            {/* Architectural Brackets */}
             <div className="absolute top-0 left-0 w-12 h-12 border-t-2 border-l-2 border-primary/20" />
             <div className="absolute top-0 right-0 w-12 h-12 border-t-2 border-r-2 border-primary/20" />
             <div className="absolute bottom-0 left-0 w-12 h-12 border-b-2 border-l-2 border-primary/20" />
@@ -149,7 +189,6 @@ export default function CheckoutPage() {
     <main className="min-h-screen flex flex-col pt-24 pb-20 bg-background relative overflow-hidden">
       <Navbar />
       
-      {/* Background Technical Grid */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute inset-0 opacity-[0.02] dark:opacity-[0.05]" 
           style={{ backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)', backgroundSize: '40px 40px' }} 
@@ -221,7 +260,6 @@ export default function CheckoutPage() {
 
               <form onSubmit={handleAcquisitionSubmit} className="grid lg:grid-cols-12 gap-12">
                 <div className="lg:col-span-8 space-y-10">
-                  {/* Logistics Sector */}
                   <motion.div variants={sectionVariants}>
                     <Card className="rounded-none clinical-shadow border-primary/10 bg-accent/5 overflow-hidden">
                       <div className="bg-primary/5 p-6 border-b border-primary/10 flex items-center justify-between">
@@ -258,7 +296,6 @@ export default function CheckoutPage() {
                     </Card>
                   </motion.div>
 
-                  {/* Financial Sector */}
                   <motion.div variants={sectionVariants}>
                     <Card className="rounded-none clinical-shadow border-primary/10 bg-accent/5 overflow-hidden">
                       <div className="bg-primary/5 p-6 border-b border-primary/10 flex items-center justify-between">
@@ -334,7 +371,6 @@ export default function CheckoutPage() {
                   </motion.div>
                 </div>
 
-                {/* Technical Review Sidebar */}
                 <div className="lg:col-span-4 flex flex-col gap-6">
                   <motion.div variants={sectionVariants} className="sticky top-28">
                     <Card className="rounded-none clinical-shadow border-primary/20 bg-card overflow-hidden">
@@ -390,23 +426,45 @@ export default function CheckoutPage() {
                             <span className="text-3xl font-bold tracking-tighter text-primary">${totalAmount.toLocaleString()}</span>
                           </div>
 
-                          <Button 
-                            type="submit"
-                            disabled={isProcessing || paymentMethod !== 'delivery'}
-                            className="w-full bg-primary text-white py-10 rounded-none text-[11px] font-bold uppercase tracking-[0.3em] hover:bg-primary/90 transition-all shadow-2xl shadow-primary/20 flex items-center justify-center gap-4 active:scale-95 group/btn"
-                          >
-                            {isProcessing ? (
-                              <>
-                                <Loader2 className="h-5 w-5 animate-spin" />
-                                {t.checkout.submitting}
-                              </>
-                            ) : (
-                              <>
-                                {t.checkout.place_order}
-                                {isRTL ? <ArrowLeft className="h-4 w-4 group-hover/btn:-translate-x-2 transition-transform" /> : <ArrowRight className="h-4 w-4 group-hover/btn:translate-x-2 transition-transform" />}
-                              </>
-                            )}
-                          </Button>
+                          <div className="space-y-4">
+                            <Button 
+                              type="submit"
+                              disabled={isProcessing || paymentMethod !== 'delivery'}
+                              className="w-full bg-primary text-white py-10 rounded-none text-[11px] font-bold uppercase tracking-[0.3em] hover:bg-primary/90 transition-all shadow-2xl shadow-primary/20 flex items-center justify-center gap-4 active:scale-95 group/btn"
+                            >
+                              {isProcessing ? (
+                                <>
+                                  <Loader2 className="h-5 w-5 animate-spin" />
+                                  {t.checkout.submitting}
+                                </>
+                              ) : (
+                                <>
+                                  {hasFailedOnce ? t.checkout.re_execute : t.checkout.place_order}
+                                  {isRTL ? <ArrowLeft className="h-4 w-4 group-hover/btn:-translate-x-2 transition-transform" /> : <ArrowRight className="h-4 w-4 group-hover/btn:translate-x-2 transition-transform" />}
+                                </>
+                              )}
+                            </Button>
+
+                            <AnimatePresence>
+                              {isProcessing && (
+                                <motion.div
+                                  initial={{ opacity: 0, height: 0 }}
+                                  animate={{ opacity: 1, height: 'auto' }}
+                                  exit={{ opacity: 0, height: 0 }}
+                                >
+                                  <Button 
+                                    type="button"
+                                    onClick={handleAbortProtocol}
+                                    variant="ghost"
+                                    className="w-full text-destructive hover:bg-destructive/5 text-[9px] font-bold uppercase tracking-widest rounded-none h-12"
+                                  >
+                                    <XCircle className="h-3.5 w-3.5 mr-2" />
+                                    {t.checkout.cancel}
+                                  </Button>
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
+                          </div>
                         </div>
 
                         <div className="mt-8 pt-8 border-t border-primary/5 flex flex-col items-center gap-4 text-center grayscale opacity-40">
