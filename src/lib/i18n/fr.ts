@@ -202,7 +202,7 @@ export const fr = {
     continue: "Retour au Catalogue",
     summary: "Résumé de la commande",
     subtotal: "Sous-total",
-    shipping: "Livraison Technique",
+    shipping: "Livraison",
     tax: "Taxes estimées",
     total: "Total à régler",
     checkout: "Procéder au paiement",
