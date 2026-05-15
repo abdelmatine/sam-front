@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import Navbar from '@/components/layout/Navbar';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store';
@@ -19,10 +19,12 @@ export default function WishlistPage() {
   const dispatch = useDispatch();
   const { t, isRTL } = useTranslation();
 
-  // Resolve full product data for each wishlist item to ensure ProductCard has all technical metadata
-  const wishlistProducts = items
-    .map(item => products.find(p => p.id === item.id))
-    .filter((p): p is typeof products[0] => p !== undefined);
+  // Resolve full product data for each wishlist item with memoization for optimization
+  const wishlistProducts = useMemo(() => {
+    return items
+      .map(item => products.find(p => p.id === item.id))
+      .filter((p): p is typeof products[0] => p !== undefined);
+  }, [items]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -36,7 +38,7 @@ export default function WishlistPage() {
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, x: -30, scale: 0.98 },
+    hidden: { opacity: 0, x: isRTL ? 30 : -30, scale: 0.98 },
     visible: { 
       opacity: 1, 
       x: 0, 
@@ -49,7 +51,6 @@ export default function WishlistPage() {
     <main className="min-h-screen flex flex-col pt-24 pb-20 bg-background relative overflow-hidden">
       <Navbar />
       
-      {/* Background Clinical Grid Accent */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute inset-0 opacity-[0.02] dark:opacity-[0.05]" 
           style={{ backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)', backgroundSize: '40px 40px' }} 
@@ -63,22 +64,21 @@ export default function WishlistPage() {
         animate="visible"
         className="container mx-auto px-4 flex-1 relative z-10"
       >
-        {/* Technical Header */}
-        <motion.div variants={itemVariants} className="flex flex-col mb-12 border-l-4 border-primary pl-8">
+        <motion.div variants={itemVariants} className={cn("flex flex-col mb-12 border-primary", isRTL ? "border-r-4 pr-8" : "border-l-4 pl-8")}>
           <div className="flex items-center gap-3 mb-3">
             <div className="p-1.5 bg-primary/10 rounded-sm">
               <Database className="h-3.5 w-3.5 text-primary" />
             </div>
-            <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-primary/70">Selection_Archive v2.1</span>
+            <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-primary/70">{t.wishlist.archive_v}</span>
           </div>
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
             <div>
               <h1 className="text-2xl md:text-3xl font-headline font-bold flex items-center gap-4 uppercase tracking-tighter">
-                {isRTL ? "الأولويات السريرية" : "Priorités Cliniques"}
-                <span className="text-[10px] bg-primary/10 text-primary px-3 py-1 rounded-none border border-primary/20">{items.length} Units</span>
+                {t.wishlist.title}
+                <span className="text-[10px] bg-primary/10 text-primary px-3 py-1 rounded-none border border-primary/20">{items.length} {t.wishlist.units}</span>
               </h1>
               <p className="text-[9px] text-muted-foreground uppercase font-bold tracking-[0.4em] mt-2 italic">
-                {isRTL ? "معدات محفوظة للتحليل الفني" : "Équipements sauvegardés pour analyse technique et acquisition future"}
+                {t.wishlist.subtitle}
               </p>
             </div>
             
@@ -89,7 +89,7 @@ export default function WishlistPage() {
                 className="text-muted-foreground hover:text-destructive text-[9px] font-bold uppercase tracking-widest rounded-none h-auto py-2 group"
               >
                 <Trash2 className="h-3 w-3 mr-2 group-hover:scale-110 transition-transform" />
-                {isRTL ? "إلغاء المرجعية" : "Déréférencer tout"}
+                {t.wishlist.clear}
               </Button>
             )}
           </div>
@@ -100,7 +100,9 @@ export default function WishlistPage() {
             variants={itemVariants}
             className="flex flex-col items-center justify-center py-40 text-center border-2 border-dashed border-primary/10 bg-primary/[0.02] relative overflow-hidden"
           >
-            <div className="absolute top-4 left-4 opacity-10 text-[8px] font-bold uppercase tracking-[0.5em]">Diagnostic ID: NO-PRIORITY-REF</div>
+            <div className={cn("absolute top-4 opacity-10 text-[8px] font-bold uppercase tracking-[0.5em]", isRTL ? "right-4" : "left-4")}>
+              {t.wishlist.diag_id}
+            </div>
             <div className="relative mb-8">
               <motion.div 
                 animate={{ rotate: 360 }}
@@ -112,10 +114,10 @@ export default function WishlistPage() {
               </div>
             </div>
             <h2 className="text-xl font-bold mb-4 uppercase tracking-tighter text-foreground/80">
-              {isRTL ? "لا توجد أولويات محددة" : "Aucune Priorité Identifiée"}
+              {t.wishlist.empty_title}
             </h2>
             <p className="text-[9px] text-muted-foreground uppercase font-bold tracking-[0.4em] mb-12 max-w-xs leading-relaxed mx-auto">
-              {isRTL ? "أرشيفك الفني فارغ حاليا" : "Votre archive technique est actuellement vide. Explorez notre catalogue."}
+              {t.wishlist.empty_desc}
             </p>
             <Link href="/shop">
               <Button className="bg-primary text-white px-16 py-8 rounded-none text-[11px] font-bold uppercase tracking-[0.3em] shadow-2xl shadow-primary/20 hover:scale-105 transition-all">
@@ -140,7 +142,7 @@ export default function WishlistPage() {
                     exit={{ opacity: 0, scale: 0.95, y: 20 }}
                     transition={{ duration: 0.6 }}
                   >
-                    <ProductCard product={product as any} />
+                    <ProductCard product={product} />
                   </motion.div>
                 ))}
               </AnimatePresence>
@@ -157,15 +159,14 @@ export default function WishlistPage() {
           </div>
         )}
 
-        {/* Clinical Compliance Status */}
         <motion.div 
           variants={itemVariants}
           className="mt-24 pt-10 border-t border-primary/10 flex flex-wrap items-center justify-center gap-12 grayscale opacity-30"
         >
           <div className="flex items-center gap-6">
-            <div className="text-[8px] font-bold uppercase tracking-[0.5em]">SYSTEM STABILITY: 99.9%</div>
+            <div className="text-[8px] font-bold uppercase tracking-[0.5em]">{t.wishlist.stability}</div>
             <div className="h-4 w-[1px] bg-primary/20" />
-            <div className="text-[8px] font-bold uppercase tracking-[0.5em]">ISO 13485 CERTIFIED</div>
+            <div className="text-[8px] font-bold uppercase tracking-[0.5em]">{t.wishlist.iso_cert}</div>
           </div>
         </motion.div>
       </motion.div>
