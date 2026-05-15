@@ -20,7 +20,9 @@ import {
   Headset,
   ShieldCheck,
   Phone,
-  Mail
+  Mail,
+  BadgeCheck,
+  Copy
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -52,6 +54,7 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -61,6 +64,13 @@ const Navbar = () => {
   }, []);
 
   if (!mounted) return null;
+
+  const handleCopy = (text: string, id: string) => {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopiedId(id);
+      setTimeout(() => setCopiedId(null), 2000);
+    });
+  };
 
   const languages: { label: string; code: Language }[] = [
     { label: 'FR', code: 'fr' },
@@ -345,20 +355,76 @@ const Navbar = () => {
                     </div>
                     
                     <div className="space-y-4">
-                      <div className="flex items-center gap-5 p-5 border border-primary/5 bg-accent/5 relative overflow-hidden group">
+                      <div 
+                        onClick={() => handleCopy(t.contact_info.phone, "phone")}
+                        className="flex items-center gap-5 p-5 border border-primary/5 bg-accent/5 relative overflow-hidden group cursor-pointer active:bg-primary/5 transition-all"
+                      >
                         <div className="absolute top-0 right-0 w-12 h-12 bg-primary/5 -translate-y-1/2 translate-x-1/2 rounded-full" />
                         <Phone className="h-5 w-5 text-primary relative z-10" />
-                        <div className="relative z-10">
+                        <div className="relative z-10 flex-1">
                           <p className="text-[8px] font-black text-muted-foreground uppercase tracking-[0.3em] mb-0.5">Direct_Support</p>
                           <p className="text-xs font-bold tracking-tight">{t.contact_info.phone}</p>
                         </div>
+                        <div className="relative z-10 min-w-[60px] flex justify-end">
+                          <AnimatePresence mode="wait">
+                            {copiedId === "phone" ? (
+                              <motion.div
+                                key="check"
+                                initial={{ opacity: 0, scale: 0.5 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.5 }}
+                                className="flex items-center gap-1.5"
+                              >
+                                <span className="text-[8px] font-bold text-primary uppercase tracking-[0.2em]">{t.product.copied}</span>
+                                <BadgeCheck className="h-3.5 w-3.5 text-primary" />
+                              </motion.div>
+                            ) : (
+                              <motion.div
+                                key="copy"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                              >
+                                <Copy className="h-3.5 w-3.5 text-primary/20 group-hover:text-primary transition-colors" />
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-5 p-5 border border-primary/5 bg-accent/5 relative overflow-hidden group">
+                      <div 
+                        onClick={() => handleCopy(t.contact_info.email, "email")}
+                        className="flex items-center gap-5 p-5 border border-primary/5 bg-accent/5 relative overflow-hidden group cursor-pointer active:bg-primary/5 transition-all"
+                      >
                         <div className="absolute bottom-0 right-0 w-12 h-12 bg-primary/5 translate-y-1/2 translate-x-1/2 rounded-full" />
                         <Mail className="h-5 w-5 text-primary relative z-10" />
-                        <div className="relative z-10">
+                        <div className="relative z-10 flex-1">
                           <p className="text-[8px] font-black text-muted-foreground uppercase tracking-[0.3em] mb-0.5">Email_Protocol</p>
                           <p className="text-xs font-bold tracking-tight">{t.contact_info.email}</p>
+                        </div>
+                        <div className="relative z-10 min-w-[60px] flex justify-end">
+                          <AnimatePresence mode="wait">
+                            {copiedId === "email" ? (
+                              <motion.div
+                                key="check"
+                                initial={{ opacity: 0, scale: 0.5 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.5 }}
+                                className="flex items-center gap-1.5"
+                              >
+                                <span className="text-[8px] font-bold text-primary uppercase tracking-[0.2em]">{t.product.copied}</span>
+                                <BadgeCheck className="h-3.5 w-3.5 text-primary" />
+                              </motion.div>
+                            ) : (
+                              <motion.div
+                                key="copy"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                              >
+                                <Copy className="h-3.5 w-3.5 text-primary/20 group-hover:text-primary transition-colors" />
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
                         </div>
                       </div>
                     </div>
