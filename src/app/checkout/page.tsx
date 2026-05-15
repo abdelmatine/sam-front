@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Navbar from '@/components/layout/Navbar';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store';
@@ -29,7 +29,8 @@ import {
   ShoppingBag,
   XCircle,
   AlertCircle,
-  X
+  X,
+  ArrowLeft
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -57,8 +58,29 @@ export default function CheckoutPage() {
   const [orderId, setOrderId] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('delivery');
   const [showResultModal, setShowResultModal] = useState(false);
+  const [navProgress, setNavProgress] = useState(0);
   
   const syncTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Simulated Synchronization Progress Logic
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (showResultModal && isSuccess) {
+      setNavProgress(0);
+      interval = setInterval(() => {
+        setNavProgress((prev) => {
+          if (prev >= 100) {
+            clearInterval(interval);
+            return 100;
+          }
+          return prev + 1;
+        });
+      }, 32); // Approx 3.2s to reach 100%, slightly before redirect
+    } else {
+      setNavProgress(0);
+    }
+    return () => clearInterval(interval);
+  }, [showResultModal, isSuccess]);
 
   const handleAcquisitionSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -83,7 +105,6 @@ export default function CheckoutPage() {
         // Technical Redirect Protocol: Return to catalogue after observation
         setTimeout(() => {
           router.push('/shop');
-          // Note: Modal stays open during navigation for seamless transition
         }, 3500);
       } else {
         setIsProcessing(false);
@@ -175,7 +196,7 @@ export default function CheckoutPage() {
                </div>
 
                <Link href="/shop">
-                 <Button className="bg-primary text-white px-16 py-8 rounded-none text-[11px] font-bold uppercase tracking-[0.3em] shadow-2xl hover:scale-105 transition-all">
+                 <Button className="bg-primary text-white px-16 py-8 rounded-none text-[11px] font-bold uppercase tracking-[0.25em] shadow-2xl hover:scale-105 transition-all">
                    {t.cart.continue}
                  </Button>
                </Link>
@@ -447,25 +468,24 @@ export default function CheckoutPage() {
         <DialogPortal>
           <DialogOverlay className="bg-background/40 backdrop-blur-xl z-[150]" />
           <DialogContent className="max-w-md p-0 overflow-hidden border-primary/10 rounded-none bg-background shadow-2xl z-[160] outline-none">
-            {/* Custom Close Button Top Right */}
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              onClick={() => setShowResultModal(false)}
-              className="absolute top-4 right-4 z-50 rounded-none h-8 w-8 border border-primary/10 hover:bg-primary/5 hover:text-primary transition-all"
-            >
-              <X className="h-4 w-4" />
-            </Button>
-
+            
             <div className="relative p-10 pt-16 flex flex-col items-center text-center">
-              {/* Background Decorative Element */}
+              {/* Background Decorative Progress Header */}
               <div className="absolute top-0 inset-x-0 h-1 bg-primary/20">
                 <motion.div 
                   className="h-full bg-primary"
                   initial={{ width: 0 }}
-                  animate={{ width: "100%" }}
-                  transition={{ duration: 0.8 }}
+                  animate={{ width: `${isSuccess ? navProgress : 100}%` }}
+                  transition={{ duration: 0.1, ease: "linear" }}
                 />
+                {isSuccess && (
+                  <div className={cn(
+                    "absolute top-3 opacity-30 text-[7px] font-black uppercase tracking-[0.2em]",
+                    isRTL ? "left-4" : "right-4"
+                  )}>
+                    SYNCHRONIZATION_PROGRESS: {navProgress}%
+                  </div>
+                )}
               </div>
               
               <AnimatePresence mode="wait">
@@ -547,7 +567,10 @@ export default function CheckoutPage() {
                         {t.checkout.cancel}
                       </Button>
                       <Button 
-                        onClick={() => setShowResultModal(false)}
+                        onClick={() => {
+                          setShowResultModal(false);
+                          handleAcquisitionSubmit({ preventDefault: () => {} } as React.FormEvent);
+                        }}
                         className="bg-primary text-white rounded-none uppercase text-[9px] font-bold tracking-widest h-12 shadow-xl shadow-primary/20"
                       >
                         {t.checkout.re_execute}
