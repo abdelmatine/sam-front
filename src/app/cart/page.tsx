@@ -86,14 +86,14 @@ export default function CartPage() {
         animate="visible"
         className="container mx-auto px-4 flex-1 relative z-10"
       >
-        <motion.div variants={itemVariants} className="flex flex-col mb-16 border-l-4 border-primary pl-8">
+        <motion.div variants={itemVariants} className="flex flex-col mb-12 border-l-4 border-primary pl-8">
           <div className="flex items-center gap-3 mb-3">
             <div className="p-1.5 bg-primary/10 rounded-sm">
               <Database className="h-3.5 w-3.5 text-primary" />
             </div>
             <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-primary/70">Procurement_Module v4.2</span>
           </div>
-          <h1 className="text-3xl md:text-4xl font-headline font-bold flex items-center gap-4 uppercase tracking-tighter">
+          <h1 className="text-2xl md:text-3xl font-headline font-bold flex items-center gap-4 uppercase tracking-tighter">
             {t.cart.title}
             <span className="text-[10px] bg-primary/10 text-primary px-3 py-1 rounded-none border border-primary/20">{items.length} Units</span>
           </h1>
@@ -115,7 +115,7 @@ export default function CartPage() {
                 <Activity className="h-12 w-12 text-primary/20" />
               </div>
             </div>
-            <h2 className="text-2xl font-bold mb-4 uppercase tracking-tighter text-foreground/80">{t.cart.empty}</h2>
+            <h2 className="text-xl font-bold mb-4 uppercase tracking-tighter text-foreground/80">{t.cart.empty}</h2>
             <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-[0.4em] mb-12 max-w-xs leading-relaxed">
               No clinical devices have been synchronized with your selection module.
             </p>
@@ -140,7 +140,7 @@ export default function CartPage() {
                     <Card className="rounded-none clinical-shadow overflow-hidden border-border/40 relative group hover:border-primary/30 transition-all">
                       <div className="absolute top-0 left-0 w-[3px] h-0 bg-primary group-hover:h-full transition-all duration-700" />
                       <CardContent className="p-8 flex flex-col sm:flex-row items-center gap-10">
-                        <div className="relative h-28 w-28 border bg-accent/5 shrink-0 p-3 overflow-hidden">
+                        <div className="relative h-24 w-24 border bg-accent/5 shrink-0 p-3 overflow-hidden">
                           <Image src={item.imageUrl} alt={item.name} fill className="object-contain grayscale group-hover:grayscale-0 transition-all duration-1000" />
                           <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity" />
                         </div>
@@ -151,9 +151,9 @@ export default function CartPage() {
                              <div className="h-[1px] w-4 bg-primary/20" />
                              <span className="text-[7px] text-muted-foreground font-bold uppercase tracking-widest">REF: {item.id.padStart(4, '0')}</span>
                           </div>
-                          <h3 className="text-xl font-bold uppercase leading-none tracking-tighter mb-4 group-hover:text-primary transition-colors">{item.name}</h3>
+                          <h3 className="text-lg font-bold uppercase leading-none tracking-tighter mb-4 group-hover:text-primary transition-colors">{item.name}</h3>
                           <div className="flex items-center justify-center sm:justify-start gap-4">
-                            <p className="text-primary font-bold text-lg tracking-tighter">${item.price.toLocaleString()}</p>
+                            <p className="text-primary font-bold text-base tracking-tighter">${item.price.toLocaleString()}</p>
                             <span className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest bg-accent/10 px-2 py-0.5">Clinical Grade</span>
                           </div>
                         </div>
@@ -162,33 +162,33 @@ export default function CartPage() {
                           <Button 
                             variant="ghost" 
                             size="icon" 
-                            className="h-9 w-9 rounded-none hover:bg-primary/10 hover:text-primary"
+                            className="h-8 w-8 rounded-none hover:bg-primary/10 hover:text-primary"
                             onClick={() => handleQuantityChange(item.id, item.quantity, -1)}
                           >
-                            <Minus className="h-3.5 w-3.5" />
+                            <Minus className="h-3 w-3" />
                           </Button>
-                          <div className="w-12 text-center">
-                            <span className="text-xs font-black tabular-nums">{item.quantity}</span>
+                          <div className="w-10 text-center">
+                            <span className="text-[10px] font-black tabular-nums">{item.quantity}</span>
                           </div>
                           <Button 
                             variant="ghost" 
                             size="icon" 
-                            className="h-9 w-9 rounded-none hover:bg-primary/10 hover:text-primary"
+                            className="h-8 w-8 rounded-none hover:bg-primary/10 hover:text-primary"
                             onClick={() => handleQuantityChange(item.id, item.quantity, 1)}
                           >
-                            <Plus className="h-3.5 w-3.5" />
+                            <Plus className="h-3 w-3" />
                           </Button>
                         </div>
 
                         <div className="text-right flex flex-col items-center sm:items-end gap-3 min-w-[120px]">
-                          <p className="text-2xl font-bold tracking-tighter">${(item.price * item.quantity).toLocaleString()}</p>
+                          <p className="text-xl font-bold tracking-tighter">${(item.price * item.quantity).toLocaleString()}</p>
                           <Button 
                             variant="ghost" 
                             size="sm" 
-                            className="text-destructive h-9 px-4 rounded-none hover:bg-destructive/5 text-[9px] font-bold uppercase tracking-[0.2em] border border-transparent hover:border-destructive/20"
+                            className="text-destructive h-8 px-4 rounded-none hover:bg-destructive/5 text-[9px] font-bold uppercase tracking-[0.2em] border border-transparent hover:border-destructive/20"
                             onClick={() => dispatch(removeFromCart(item.id))}
                           >
-                            <Trash2 className="h-3.5 w-3.5 mr-2" />
+                            <Trash2 className="h-3 w-3 mr-2" />
                             {t.cart.remove}
                           </Button>
                         </div>
@@ -200,8 +200,8 @@ export default function CartPage() {
               
               <motion.div variants={itemVariants} className="mt-6 flex justify-between items-center">
                 <Link href="/shop">
-                  <Button variant="outline" className="rounded-none uppercase text-[10px] font-bold tracking-[0.25em] h-14 px-10 border-2 border-primary/10 hover:bg-primary/5 hover:border-primary/30 transition-all group">
-                    {isRTL ? <ArrowRight className="mr-3 h-4 w-4 group-hover:translate-x-1 transition-transform" /> : <ArrowLeft className="mr-3 h-4 w-4 group-hover:-translate-x-1 transition-transform" />}
+                  <Button variant="outline" className="rounded-none uppercase text-[10px] font-bold tracking-[0.25em] h-12 px-10 border-2 border-primary/10 hover:bg-primary/5 hover:border-primary/30 transition-all group">
+                    {isRTL ? <ArrowRight className="mr-3 h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" /> : <ArrowLeft className="mr-3 h-3.5 w-3.5 group-hover:-translate-x-1 transition-transform" />}
                     {t.cart.continue}
                   </Button>
                 </Link>
@@ -217,7 +217,6 @@ export default function CartPage() {
 
             <motion.div variants={summaryVariants} className="lg:col-span-4 flex flex-col gap-6">
               <Card className="rounded-none clinical-shadow sticky top-28 bg-card border border-primary/20 overflow-hidden">
-                {/* Technical Header for Summary */}
                 <div className="bg-primary/5 border-b border-primary/10 p-6 flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <Lock className="h-3.5 w-3.5 text-primary/60" />
@@ -230,12 +229,12 @@ export default function CartPage() {
                 </div>
 
                 <CardContent className="p-8 md:p-10">
-                  <h3 className="text-2xl font-bold mb-10 uppercase tracking-tighter">{t.cart.summary}</h3>
+                  <h3 className="text-xl font-bold mb-10 uppercase tracking-tighter">{t.cart.summary}</h3>
                   
-                  <div className="space-y-6 mb-12 text-xs">
+                  <div className="space-y-6 mb-12 text-[11px]">
                     <div className="flex justify-between text-muted-foreground font-bold uppercase tracking-[0.2em]">
                       <span>{t.cart.subtotal}</span>
-                      <span className="text-foreground tracking-tighter text-base">${totalAmount.toLocaleString()}</span>
+                      <span className="text-foreground tracking-tighter text-sm">${totalAmount.toLocaleString()}</span>
                     </div>
                     <div className="flex justify-between text-muted-foreground font-bold uppercase tracking-[0.2em]">
                       <div className="flex items-center gap-2">
@@ -246,17 +245,17 @@ export default function CartPage() {
                     </div>
                     <div className="flex justify-between text-muted-foreground font-bold uppercase tracking-[0.2em]">
                       <span>{t.cart.tax}</span>
-                      <span className="text-foreground tracking-tighter text-base">$0.00</span>
+                      <span className="text-foreground tracking-tighter text-sm">$0.00</span>
                     </div>
                   </div>
 
                   <div className="border-y border-dashed border-primary/20 py-8 mb-12 bg-primary/[0.02] -mx-10 px-10">
                     <div className="flex justify-between items-end">
                       <div className="flex flex-col gap-1">
-                        <span className="text-[9px] font-black uppercase tracking-[0.4em] text-primary/60">Total_Acquisition</span>
-                        <span className="text-lg font-bold uppercase tracking-tighter leading-none">{t.cart.total}</span>
+                        <span className="text-[8px] font-black uppercase tracking-[0.4em] text-primary/60">Total_Acquisition</span>
+                        <span className="text-base font-bold uppercase tracking-tighter leading-none">{t.cart.total}</span>
                       </div>
-                      <span className="text-4xl font-bold text-primary tracking-tighter">${totalAmount.toLocaleString()}</span>
+                      <span className="text-3xl font-bold text-primary tracking-tighter">${totalAmount.toLocaleString()}</span>
                     </div>
                   </div>
 
@@ -313,11 +312,11 @@ export default function CartPage() {
                 className="border border-primary/20 bg-primary/5 rounded-none p-8 relative overflow-hidden"
               >
                 <div className="absolute top-0 right-0 w-24 h-24 bg-primary/10 rounded-full -translate-y-1/2 translate-x-1/2" />
-                <h4 className="text-[10px] font-bold flex items-center gap-2 mb-4 text-primary uppercase tracking-[0.2em] relative z-10">
+                <h4 className="text-[9px] font-bold flex items-center gap-2 mb-4 text-primary uppercase tracking-[0.2em] relative z-10">
                   <ShieldCheck className="h-4 w-4" />
                   Clinical Protocol Notice
                 </h4>
-                <p className="text-[10px] text-muted-foreground leading-relaxed font-medium italic relative z-10">
+                <p className="text-[9px] text-muted-foreground leading-relaxed font-medium italic relative z-10">
                   {t.cart.disclaimer} All medical equipment listed requires verification of therapeutic parameters by a qualified practitioner.
                 </p>
               </motion.div>

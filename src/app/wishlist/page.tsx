@@ -49,7 +49,7 @@ export default function WishlistPage() {
     <main className="min-h-screen flex flex-col pt-24 pb-20 bg-background relative overflow-hidden">
       <Navbar />
       
-      {/* Background Clinical Grid Accent - Identical to Cart */}
+      {/* Background Clinical Grid Accent */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute inset-0 opacity-[0.02] dark:opacity-[0.05]" 
           style={{ backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)', backgroundSize: '40px 40px' }} 
@@ -63,21 +63,21 @@ export default function WishlistPage() {
         animate="visible"
         className="container mx-auto px-4 flex-1 relative z-10"
       >
-        {/* Technical Header - Mirrors Cart Header */}
-        <motion.div variants={itemVariants} className="flex flex-col mb-16 border-l-4 border-primary pl-8">
+        {/* Technical Header */}
+        <motion.div variants={itemVariants} className="flex flex-col mb-12 border-l-4 border-primary pl-8">
           <div className="flex items-center gap-3 mb-3">
             <div className="p-1.5 bg-primary/10 rounded-sm">
               <Database className="h-3.5 w-3.5 text-primary" />
             </div>
-            <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-primary/70">Selection_Archive v2.1</span>
+            <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-primary/70">Selection_Archive v2.1</span>
           </div>
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
             <div>
-              <h1 className="text-3xl md:text-4xl font-headline font-bold flex items-center gap-4 uppercase tracking-tighter">
+              <h1 className="text-2xl md:text-3xl font-headline font-bold flex items-center gap-4 uppercase tracking-tighter">
                 {isRTL ? "الأولويات السريرية" : "Priorités Cliniques"}
                 <span className="text-[10px] bg-primary/10 text-primary px-3 py-1 rounded-none border border-primary/20">{items.length} Units</span>
               </h1>
-              <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-[0.4em] mt-2 italic">
+              <p className="text-[9px] text-muted-foreground uppercase font-bold tracking-[0.4em] mt-2 italic">
                 {isRTL ? "معدات محفوظة للتحليل الفني" : "Équipements sauvegardés pour analyse technique et acquisition future"}
               </p>
             </div>
@@ -88,7 +88,7 @@ export default function WishlistPage() {
                 onClick={() => dispatch(clearWishlist())}
                 className="text-muted-foreground hover:text-destructive text-[9px] font-bold uppercase tracking-widest rounded-none h-auto py-2 group"
               >
-                <Trash2 className="h-3.5 w-3.5 mr-2 group-hover:scale-110 transition-transform" />
+                <Trash2 className="h-3 w-3 mr-2 group-hover:scale-110 transition-transform" />
                 {isRTL ? "إلغاء المرجعية" : "Déréférencer tout"}
               </Button>
             )}
@@ -111,10 +111,10 @@ export default function WishlistPage() {
                 <Heart className="h-12 w-12 text-primary/20" />
               </div>
             </div>
-            <h2 className="text-2xl font-bold mb-4 uppercase tracking-tighter text-foreground/80">
+            <h2 className="text-xl font-bold mb-4 uppercase tracking-tighter text-foreground/80">
               {isRTL ? "لا توجد أولويات محددة" : "Aucune Priorité Identifiée"}
             </h2>
-            <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-[0.4em] mb-12 max-w-xs leading-relaxed mx-auto">
+            <p className="text-[9px] text-muted-foreground uppercase font-bold tracking-[0.4em] mb-12 max-w-xs leading-relaxed mx-auto">
               {isRTL ? "أرشيفك الفني فارغ حاليا" : "Votre archive technique est actuellement vide. Explorez notre catalogue."}
             </p>
             <Link href="/shop">
@@ -148,8 +148,8 @@ export default function WishlistPage() {
             
             <motion.div variants={itemVariants} className="mt-12 flex justify-start">
               <Link href="/shop">
-                <Button variant="outline" className="rounded-none uppercase text-[10px] font-bold tracking-[0.25em] h-14 px-10 border-2 border-primary/10 hover:bg-primary/5 hover:border-primary/30 transition-all group">
-                  {isRTL ? <ArrowRight className="mr-3 h-4 w-4 group-hover:translate-x-1 transition-transform" /> : <ArrowLeft className="mr-3 h-4 w-4 group-hover:-translate-x-1 transition-transform" />}
+                <Button variant="outline" className="rounded-none uppercase text-[10px] font-bold tracking-[0.25em] h-12 px-10 border-2 border-primary/10 hover:bg-primary/5 hover:border-primary/30 transition-all group">
+                  {isRTL ? <ArrowRight className="mr-3 h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" /> : <ArrowLeft className="mr-3 h-3.5 w-3.5 group-hover:-translate-x-1 transition-transform" />}
                   {t.cart.continue}
                 </Button>
               </Link>
@@ -157,7 +157,7 @@ export default function WishlistPage() {
           </div>
         )}
 
-        {/* Clinical Compliance Status - Mirrors Cart Footer */}
+        {/* Clinical Compliance Status */}
         <motion.div 
           variants={itemVariants}
           className="mt-24 pt-10 border-t border-primary/10 flex flex-wrap items-center justify-center gap-12 grayscale opacity-30"
