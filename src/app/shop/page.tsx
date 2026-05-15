@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState } from 'react';
@@ -146,7 +145,7 @@ export default function CatalogueRootPage() {
                       <div className="absolute top-0 left-0 h-1 w-0 bg-primary group-hover:w-full transition-all duration-700" />
                       
                       <div className="flex items-center justify-between mb-6">
-                        <div className="h-[2px] w-12 bg-primary/30 group-hover:w-20 group-hover:bg-primary transition-all duration-500" />
+                        <div className="h-[2px] w-16 bg-primary" />
                         <span className="text-[8px] font-black text-primary/40 uppercase tracking-widest">{t.catalogue.clinical_sector}</span>
                       </div>
 
