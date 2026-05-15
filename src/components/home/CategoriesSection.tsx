@@ -186,9 +186,9 @@ const CategoriesSection = () => {
           <motion.div variants={itemVariants} className="lg:col-span-7">
             <CategoryCard 
               slug="cpap"
-              title="Soin Respiratoire"
+              title="Soin Respiratoire CPAP"
               description="CPAP, BPAP et Concentrateurs d'Oxygène avancés conçus pour la thérapie à domicile et le soutien technique."
-              imageUrl="https://picsum.photos/seed/cat1/800/600"
+              imageUrl="/cpap_category.png"
               badgeText="Choix Professionnel"
               isLarge
             />
@@ -196,6 +196,17 @@ const CategoriesSection = () => {
 
           {/* Auxiliary Modules Grid */}
           <div className="lg:col-span-5 grid grid-rows-1 lg:grid-rows-2 gap-8">
+            
+            <motion.div variants={itemVariants}>
+              <CategoryCard 
+                slug="accessories"
+                title="Accessoires"
+                description="Kits de Calibration, Filtres et tubulures de grade chirurgical."
+                imageUrl="/mask_category.png"
+                badgeText="Support Médical"
+              />
+            </motion.div>
+            
             <motion.div variants={itemVariants}>
               <CategoryCard 
                 slug="others"
@@ -206,15 +217,7 @@ const CategoriesSection = () => {
               />
             </motion.div>
 
-            <motion.div variants={itemVariants}>
-              <CategoryCard 
-                slug="accessories"
-                title="Accessoires"
-                description="Kits de Calibration, Filtres et tubulures de grade chirurgical."
-                imageUrl="https://picsum.photos/seed/cat2/400/300"
-                badgeText="Support Médical"
-              />
-            </motion.div>
+
           </div>
         </motion.div>
       </div>

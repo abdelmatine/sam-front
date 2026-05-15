@@ -41,7 +41,7 @@ const Hero = () => {
         className="absolute inset-0 z-0"
       >
         <Image 
-          src="https://picsum.photos/seed/hero-cpap/1920/1080"
+          src="/hero.png"
           alt="Respiratory Medical Device"
           fill
           className="object-cover grayscale-[0.2]"
