@@ -270,7 +270,7 @@ const Navbar = () => {
                     
                     <Accordion type="single" collapsible className="w-full space-y-6">
                       <AccordionItem value="shop" className="border-none">
-                        <AccordionTrigger className="p-0 hover:no-underline font-headline font-bold text-2xl uppercase tracking-tighter hover:text-primary transition-colors">
+                        <AccordionTrigger className="p-0 hover:no-underline font-headline font-bold text-xl uppercase tracking-tighter hover:text-primary transition-colors">
                           {t.nav.catalogue}
                         </AccordionTrigger>
                         <AccordionContent className="pt-6 pl-4 space-y-4 border-l-2 border-primary/10">
@@ -287,15 +287,15 @@ const Navbar = () => {
                         </AccordionContent>
                       </AccordionItem>
                       
-                      <div className="space-y-8 pt-4">
+                      <div className="space-y-6 pt-4">
                         <SheetClose asChild>
-                          <Link href="/services" className="block text-2xl font-headline font-bold uppercase tracking-tighter hover:text-primary transition-colors">{t.nav.services}</Link>
+                          <Link href="/services" className="block text-xl font-headline font-bold uppercase tracking-tighter hover:text-primary transition-colors">{t.nav.services}</Link>
                         </SheetClose>
                         <SheetClose asChild>
-                          <Link href="/about" className="block text-2xl font-headline font-bold uppercase tracking-tighter hover:text-primary transition-colors">{t.nav.about}</Link>
+                          <Link href="/about" className="block text-xl font-headline font-bold uppercase tracking-tighter hover:text-primary transition-colors">{t.nav.about}</Link>
                         </SheetClose>
                         <SheetClose asChild>
-                          <Link href="/contact" className="block text-2xl font-headline font-bold uppercase tracking-tighter hover:text-primary transition-colors">{t.nav.contact}</Link>
+                          <Link href="/contact" className="block text-xl font-headline font-bold uppercase tracking-tighter hover:text-primary transition-colors">{t.nav.contact}</Link>
                         </SheetClose>
                       </div>
                     </Accordion>
