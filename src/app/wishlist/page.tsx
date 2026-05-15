@@ -9,7 +9,7 @@ import { clearWishlist } from '@/store/slices/wishlistSlice';
 import { Button } from '@/components/ui/button';
 import { products } from '@/lib/products';
 import Link from 'next/link';
-import { Heart, Trash2, ArrowLeft, ArrowRight, Activity, Database } from 'lucide-react';
+import { Heart, Trash2, ArrowLeft, ArrowRight, Activity } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from '@/hooks/use-translation';
 import ProductCard from '@/components/shared/ProductCard';
@@ -67,10 +67,6 @@ export default function WishlistPage() {
           className="flex items-center justify-between mb-12 border-l-4 border-primary pl-6"
         >
           <div>
-            <div className="flex items-center gap-3 mb-2">
-              <Database className="h-3.5 w-3.5 text-primary/40" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-primary/60">Module: WISHLIST-IDX</span>
-            </div>
             <h1 className="text-3xl font-headline font-bold uppercase tracking-tighter flex items-center gap-3">
               <Heart className="h-7 w-7 text-primary" />
               Priorités Cliniques
