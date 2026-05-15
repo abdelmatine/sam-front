@@ -23,7 +23,7 @@ const ClinicalTicker = () => {
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
       transition={{ duration: 1.2 }}
-      className="relative z-10 border-y bg-background py-10 overflow-hidden cursor-default"
+      className="relative z-10 bg-background py-10 overflow-hidden cursor-default"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >

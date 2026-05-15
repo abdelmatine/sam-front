@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState } from 'react';
@@ -83,7 +82,7 @@ export default function FlagshipEquipment() {
   };
 
   return (
-    <section className="py-24 bg-slate-50 dark:bg-slate-900 overflow-hidden border-b relative">
+    <section className="py-24 bg-slate-50 dark:bg-slate-900 overflow-hidden relative">
       <div className="container mx-auto px-4 relative z-10">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
           <motion.div 

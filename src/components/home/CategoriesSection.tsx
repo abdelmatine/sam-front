@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState } from 'react';
@@ -129,7 +128,7 @@ const CategoriesSection = () => {
   };
 
   return (
-    <section className="py-32 bg-slate-50/50 dark:bg-slate-950 text-foreground overflow-hidden relative border-y">
+    <section className="py-32 bg-slate-50/50 dark:bg-slate-950 text-foreground overflow-hidden relative">
       {/* Background Clinical Grid */}
       <div className="absolute top-0 right-0 w-1/3 h-full bg-primary/5 -skew-x-12 translate-x-1/4 z-0" />
       

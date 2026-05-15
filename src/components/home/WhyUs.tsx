@@ -47,7 +47,7 @@ export default function WhyUs() {
   ];
 
   return (
-    <section className="py-32 bg-background dark:bg-slate-950 relative overflow-hidden border-b">
+    <section className="py-32 bg-background dark:bg-slate-950 relative overflow-hidden">
       <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] pointer-events-none" 
         style={{ backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)', backgroundSize: '40px 40px' }} 
       />
