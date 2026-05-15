@@ -205,7 +205,7 @@ export const fr = {
     shipping: "Livraison Technique",
     tax: "Taxes estimées",
     total: "Total à régler",
-    checkout: "Procéder au paiement sécurisé",
+    checkout: "Procéder au paiement",
     disclaimer: "Certains équipements nécessitent une prescription médicale valide.",
     remove: "Retirer",
     procurement_module: "Module_Procurement v4.2",

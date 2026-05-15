@@ -205,7 +205,7 @@ export const en = {
     shipping: "Technical Shipping",
     tax: "Estimated Tax",
     total: "Total Amount",
-    checkout: "Proceed to Secure Checkout",
+    checkout: "Proceed to Checkout",
     disclaimer: "Certain equipment requires a valid medical prescription.",
     remove: "Remove",
     procurement_module: "Procurement_Module v4.2",
