@@ -44,6 +44,10 @@ export default function CheckoutPage() {
   // Handle order submission protocol
   const handleAcquisitionSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Technical Click Lock: Prevent redundant execution signals
+    if (isProcessing) return;
+    
     setIsProcessing(true);
     
     // Simulate technical synchronization

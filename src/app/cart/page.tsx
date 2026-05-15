@@ -30,10 +30,16 @@ export default function CartPage() {
   };
 
   const handleCheckout = () => {
+    // Technical Click Lock: Prevent redundant signals during procurement transition
+    if (isCheckingOut) return;
+    
     setIsCheckingOut(true);
+    
+    // Initiate secure handoff to checkout terminal
     setTimeout(() => {
       router.push('/checkout');
-      setIsCheckingOut(false);
+      // Note: We do not set isCheckingOut back to false here to ensure the 
+      // button remains in its "locked" state during navigation.
     }, 800);
   };
 
