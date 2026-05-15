@@ -100,30 +100,56 @@ export default function CartPage() {
         {items.length === 0 ? (
           <motion.div 
             variants={itemVariants}
-            className="flex flex-col items-center justify-center py-40 text-center border-2 border-dashed border-primary/10 bg-primary/[0.02] relative overflow-hidden"
+            className="relative min-h-[500px] flex flex-col items-center justify-center p-12 border border-primary/10 bg-accent/3 overflow-hidden group"
           >
-            <div className={cn("absolute top-4 opacity-10 text-[8px] font-bold uppercase tracking-[0.5em]", isRTL ? "right-4" : "left-4")}>
-              {t.cart.system_id}
+            {/* Architectural Brackets */}
+            <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-primary/20" />
+            <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-primary/20" />
+            <div className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-primary/20" />
+            <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-primary/20" />
+            
+            {/* Background Technical Grid Scan */}
+            <div className="absolute inset-0 opacity-[0.03] flex flex-col gap-6 p-4 pointer-events-none">
+              {[...Array(15)].map((_, i) => (
+                <div key={i} className="h-[1px] w-full bg-primary" />
+              ))}
             </div>
-            <div className="relative mb-8">
-              <motion.div 
-                animate={{ rotate: 360 }}
-                transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
-                className="absolute inset-0 border border-dashed border-primary/20 rounded-full"
-              />
-              <div className="p-10 bg-primary/5 rounded-full relative z-10">
-                <Activity className="h-12 w-12 text-primary/20" />
+
+            <div className="relative z-10 flex flex-col items-center max-w-sm text-center">
+              <div className={cn("absolute -top-16 opacity-10 text-[8px] font-bold uppercase tracking-[0.5em]", isRTL ? "right-0" : "left-0")}>
+                {t.cart.system_id}
               </div>
+              
+              <motion.div 
+                animate={{ 
+                  scale: [1, 1.05, 1],
+                  opacity: [0.5, 1, 0.5] 
+                }}
+                transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+                className="p-10 bg-primary/5 rounded-full mb-12 border border-primary/10 relative"
+              >
+                <div className="absolute inset-0 border border-dashed border-primary/20 rounded-full animate-[spin_20s_linear_infinite]" />
+                <ShoppingBag className="h-16 w-16 text-primary/40 relative z-10" />
+              </motion.div>
+              
+              <div className="space-y-4 mb-16">
+                <div className="flex items-center justify-center gap-3 opacity-40">
+                  <Activity className="h-4 w-4 text-primary animate-pulse" />
+                  <span className="text-[10px] font-black uppercase tracking-[0.5em]">STATUS: INVENTORY_ZERO</span>
+                </div>
+                <h2 className="text-3xl font-bold uppercase tracking-tighter text-foreground/80 leading-none">{t.cart.empty}</h2>
+                <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-[0.4em] leading-relaxed max-w-xs mx-auto italic">
+                  {t.cart.empty_desc}
+                </p>
+              </div>
+
+              <Link href="/shop" className="w-full">
+                <Button className="w-full bg-primary text-white py-10 rounded-none text-[11px] font-bold uppercase tracking-[0.3em] shadow-2xl shadow-primary/20 hover:scale-[1.02] transition-all group/btn">
+                  {t.cart.continue}
+                  <ArrowRight className={cn("h-4 w-4 ml-4 group-hover/btn:translate-x-2 transition-transform", isRTL && "rotate-180 group-hover/btn:-translate-x-2")} />
+                </Button>
+              </Link>
             </div>
-            <h2 className="text-xl font-bold mb-4 uppercase tracking-tighter text-foreground/80">{t.cart.empty}</h2>
-            <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-[0.4em] mb-12 max-w-xs leading-relaxed mx-auto">
-              {t.cart.empty_desc}
-            </p>
-            <Link href="/shop">
-              <Button className="bg-primary text-white px-16 py-8 rounded-none text-[11px] font-bold uppercase tracking-[0.3em] shadow-2xl shadow-primary/20 hover:scale-105 transition-all">
-                {t.cart.continue}
-              </Button>
-            </Link>
           </motion.div>
         ) : (
           <div className="grid lg:grid-cols-12 gap-12">

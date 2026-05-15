@@ -24,7 +24,8 @@ import {
   Lock, 
   Package, 
   ArrowLeft,
-  TruckIcon
+  TruckIcon,
+  ShoppingBag
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -97,20 +98,43 @@ export default function CheckoutPage() {
     return (
       <main className="min-h-screen flex flex-col pt-32 pb-20 bg-background relative overflow-hidden">
         <Navbar />
-        <div className="container mx-auto px-4 flex flex-col items-center justify-center flex-1 text-center relative z-10">
+        <div className="container mx-auto px-4 flex-1 flex flex-col items-center justify-center relative z-10">
           <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }} 
-            animate={{ opacity: 1, scale: 1 }} 
-            className="max-w-md"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="w-full max-w-2xl p-12 md:p-24 border border-primary/10 bg-accent/3 relative overflow-hidden group text-center"
           >
-             <Activity className="h-16 w-16 text-primary/20 mx-auto mb-8 animate-pulse" />
-             <h1 className="text-3xl font-headline font-bold uppercase tracking-tighter mb-4">{t.cart.empty}</h1>
-             <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-[0.4em] mb-12">{t.cart.empty_desc}</p>
-             <Link href="/shop">
-               <Button className="bg-primary text-white px-12 py-8 rounded-none text-[11px] font-bold uppercase tracking-[0.3em] shadow-2xl">
-                 {t.cart.continue}
-               </Button>
-             </Link>
+            {/* Architectural Brackets */}
+            <div className="absolute top-0 left-0 w-12 h-12 border-t-2 border-l-2 border-primary/20" />
+            <div className="absolute top-0 right-0 w-12 h-12 border-t-2 border-r-2 border-primary/20" />
+            <div className="absolute bottom-0 left-0 w-12 h-12 border-b-2 border-l-2 border-primary/20" />
+            <div className="absolute bottom-0 right-0 w-12 h-12 border-b-2 border-r-2 border-primary/20" />
+
+            <div className="relative z-10 flex flex-col items-center">
+               <motion.div 
+                 animate={{ scale: [1, 1.1, 1], rotate: [0, 5, -5, 0] }}
+                 transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
+                 className="mb-10 p-10 bg-primary/5 rounded-full border border-primary/10 relative"
+               >
+                 <div className="absolute inset-0 border border-dashed border-primary/20 rounded-full animate-[spin_20s_linear_infinite]" />
+                 <ShoppingBag className="h-16 w-16 text-primary/30 relative z-10" />
+               </motion.div>
+               
+               <div className="space-y-4 mb-12">
+                 <div className="flex items-center justify-center gap-3 opacity-30">
+                   <Database className="h-3.5 w-3.5 text-primary" />
+                   <span className="text-[9px] font-black uppercase tracking-[0.5em]">SIGNAL_DISRUPTION_v4.0</span>
+                 </div>
+                 <h1 className="text-3xl md:text-4xl font-headline font-bold uppercase tracking-tighter">{t.cart.empty}</h1>
+                 <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-[0.4em] max-w-md mx-auto italic">{t.cart.empty_desc}</p>
+               </div>
+
+               <Link href="/shop">
+                 <Button className="bg-primary text-white px-16 py-8 rounded-none text-[11px] font-bold uppercase tracking-[0.3em] shadow-2xl hover:scale-105 transition-all">
+                   {t.cart.continue}
+                 </Button>
+               </Link>
+            </div>
           </motion.div>
         </div>
       </main>
