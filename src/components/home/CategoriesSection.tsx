@@ -81,7 +81,7 @@ const CategoryCard = ({ slug, title, description, imageUrl, badgeText, className
         )}>
           <div className="flex items-center mb-6">
             {/* Fixed Middle Line (The Sam-Medicale Signature) - Width increased for technical density */}
-            <div className="h-[2px] w-24 bg-primary" />
+            <div className="h-[2px] w-32 bg-primary" />
           </div>
           
           <h3 className={cn(
@@ -136,7 +136,7 @@ const CategoriesSection = () => {
 
   return (
     <section className="py-32 bg-slate-50/50 dark:bg-slate-950 text-foreground overflow-hidden relative">
-      {/* Background Clinical Grid */}
+      {/* Background Technical Grid */}
       <div className="absolute top-0 right-0 w-1/3 h-full bg-primary/5 -skew-x-12 translate-x-1/4 z-0" />
       
       <div className="container mx-auto px-4 relative z-10">
@@ -174,7 +174,7 @@ const CategoriesSection = () => {
           </motion.div>
         </div>
 
-        {/* Clinical Module Grid */}
+        {/* Technical Module Grid */}
         <motion.div 
           variants={containerVariants}
           initial="hidden"

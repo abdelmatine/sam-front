@@ -146,7 +146,7 @@ export default function CatalogueRootPage() {
                       
                       <div className="flex items-center justify-between mb-6">
                         {/* Static technical signature line - Width increased */}
-                        <div className="h-[2px] w-24 bg-primary" />
+                        <div className="h-[2px] w-32 bg-primary" />
                         <span className="text-[8px] font-black text-primary/40 uppercase tracking-widest">{t.catalogue.clinical_sector}</span>
                       </div>
 
