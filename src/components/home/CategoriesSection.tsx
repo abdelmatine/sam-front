@@ -81,8 +81,8 @@ const CategoryCard = ({ slug, title, description, imageUrl, badgeText, className
           isLarge ? "bottom-12 md:left-12 md:right-12" : "bottom-8"
         )}>
           <div className="flex items-center mb-6">
-            {/* Animated Middle Line (The Sam-Medicale Signature) */}
-            <div className="h-[2px] w-12 bg-primary group-hover:w-24 group-hover:bg-primary transition-all duration-700" />
+            {/* Fixed Middle Line (The Sam-Medicale Signature) */}
+            <div className="h-[2px] w-16 bg-primary" />
           </div>
           
           <h3 className={cn(
