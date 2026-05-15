@@ -43,7 +43,7 @@ export default function CatalogueRootPage() {
     <main className="min-h-screen pt-24 pb-20 bg-background relative overflow-hidden">
       <Navbar />
       
-      {/* Clinical Atmospheric Layers */}
+      {/* Technical Atmospheric Layers */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.07]" 
           style={{ backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)', backgroundSize: '30px 30px' }} 
@@ -145,7 +145,8 @@ export default function CatalogueRootPage() {
                       <div className="absolute top-0 left-0 h-1 w-0 bg-primary group-hover:w-full transition-all duration-700" />
                       
                       <div className="flex items-center justify-between mb-6">
-                        <div className="h-[2px] w-16 bg-primary" />
+                        {/* Static technical signature line - Width increased */}
+                        <div className="h-[2px] w-24 bg-primary" />
                         <span className="text-[8px] font-black text-primary/40 uppercase tracking-widest">{t.catalogue.clinical_sector}</span>
                       </div>
 

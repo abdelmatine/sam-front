@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState } from 'react';
@@ -81,8 +80,8 @@ const CategoryCard = ({ slug, title, description, imageUrl, badgeText, className
           isLarge ? "bottom-12 md:left-12 md:right-12" : "bottom-8"
         )}>
           <div className="flex items-center mb-6">
-            {/* Fixed Middle Line (The Sam-Medicale Signature) */}
-            <div className="h-[2px] w-16 bg-primary" />
+            {/* Fixed Middle Line (The Sam-Medicale Signature) - Width increased for technical density */}
+            <div className="h-[2px] w-24 bg-primary" />
           </div>
           
           <h3 className={cn(
@@ -157,7 +156,7 @@ const CategoriesSection = () => {
               Catégories <span className="text-primary">Spécialisées</span>
             </h2>
             <p className="text-slate-500 dark:text-slate-400 text-base max-w-2xl font-medium italic leading-relaxed">
-              Équipements de précision pour chaque besoin respiratoire. Notre catalogue est organisé par application clinique pour garantir une identification rapide.
+              Équipements de précision pour chaque besoin respiratoire. Notre catalogue est organisé par application technique pour garantir une identification rapide.
             </p>
           </motion.div>
 
@@ -188,7 +187,7 @@ const CategoriesSection = () => {
             <CategoryCard 
               slug="cpap"
               title="Soin Respiratoire"
-              description="CPAP, BPAP et Concentrateurs d'Oxygène avancés conçus pour la thérapie à domicile et le soutien clinique."
+              description="CPAP, BPAP et Concentrateurs d'Oxygène avancés conçus pour la thérapie à domicile et le soutien technique."
               imageUrl="https://picsum.photos/seed/cat1/800/600"
               badgeText="Choix Professionnel"
               isLarge
