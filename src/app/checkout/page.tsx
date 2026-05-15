@@ -28,7 +28,8 @@ import {
   TruckIcon,
   ShoppingBag,
   XCircle,
-  AlertCircle
+  AlertCircle,
+  X
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -40,6 +41,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogDescription,
+  DialogPortal,
+  DialogOverlay
 } from "@/components/ui/dialog";
 
 export default function CheckoutPage() {
@@ -79,9 +82,9 @@ export default function CheckoutPage() {
         
         // Technical Redirect Protocol: Return to catalogue after observation
         setTimeout(() => {
-          setShowResultModal(false);
           router.push('/shop');
-        }, 5000);
+          // Note: Modal stays open during navigation for seamless transition
+        }, 3500);
       } else {
         setIsProcessing(false);
         setIsSuccess(false);
@@ -441,114 +444,127 @@ export default function CheckoutPage() {
 
       {/* Technical Result Modal Protocol */}
       <Dialog open={showResultModal} onOpenChange={setShowResultModal}>
-        <DialogContent className="max-w-md p-0 overflow-hidden border-primary/10 rounded-none bg-background shadow-2xl">
-          <div className="relative p-10 pt-16 flex flex-col items-center text-center">
-            {/* Background Decorative Element */}
-            <div className="absolute top-0 inset-x-0 h-1 bg-primary/20">
-              <motion.div 
-                className="h-full bg-primary"
-                initial={{ width: 0 }}
-                animate={{ width: "100%" }}
-                transition={{ duration: 0.8 }}
-              />
-            </div>
-            
-            <AnimatePresence mode="wait">
-              {isSuccess ? (
+        <DialogPortal>
+          <DialogOverlay className="bg-background/40 backdrop-blur-xl z-[150]" />
+          <DialogContent className="max-w-md p-0 overflow-hidden border-primary/10 rounded-none bg-background shadow-2xl z-[160] outline-none">
+            {/* Custom Close Button Top Right */}
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={() => setShowResultModal(false)}
+              className="absolute top-4 right-4 z-50 rounded-none h-8 w-8 border border-primary/10 hover:bg-primary/5 hover:text-primary transition-all"
+            >
+              <X className="h-4 w-4" />
+            </Button>
+
+            <div className="relative p-10 pt-16 flex flex-col items-center text-center">
+              {/* Background Decorative Element */}
+              <div className="absolute top-0 inset-x-0 h-1 bg-primary/20">
                 <motion.div 
-                  key="success-content"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="space-y-8"
-                >
-                  <div className="relative inline-block">
-                    <motion.div 
-                      animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
-                      transition={{ repeat: Infinity, duration: 2.5 }}
-                      className="absolute inset-0 bg-primary/20 rounded-full blur-2xl"
-                    />
-                    <div className="p-6 bg-primary/10 rounded-full relative z-10 border border-primary/20">
-                      <CheckCircle2 className="h-14 w-14 text-primary" />
+                  className="h-full bg-primary"
+                  initial={{ width: 0 }}
+                  animate={{ width: "100%" }}
+                  transition={{ duration: 0.8 }}
+                />
+              </div>
+              
+              <AnimatePresence mode="wait">
+                {isSuccess ? (
+                  <motion.div 
+                    key="success-content"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="space-y-8"
+                  >
+                    <div className="relative inline-block">
+                      <motion.div 
+                        animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
+                        transition={{ repeat: Infinity, duration: 2.5 }}
+                        className="absolute inset-0 bg-primary/20 rounded-full blur-2xl"
+                      />
+                      <div className="p-6 bg-primary/10 rounded-full relative z-10 border border-primary/20">
+                        <CheckCircle2 className="h-14 w-14 text-primary" />
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-center gap-2 opacity-40">
-                      <Database className="h-3.5 w-3.5 text-primary" />
-                      <span className="text-[9px] font-black uppercase tracking-[0.4em]">PROTOCOL_LOCKED_v4.2</span>
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-center gap-2 opacity-40">
+                        <Database className="h-3.5 w-3.5 text-primary" />
+                        <span className="text-[9px] font-black uppercase tracking-[0.4em]">PROTOCOL_LOCKED_v4.2</span>
+                      </div>
+                      <DialogTitle className="text-3xl font-headline font-bold uppercase tracking-tighter">
+                        {t.checkout.success_toast_title}
+                      </DialogTitle>
+                      <DialogDescription className="text-sm font-medium italic text-muted-foreground leading-relaxed px-4">
+                        {t.checkout.success_desc.replace('{{id}}', orderId)}
+                      </DialogDescription>
                     </div>
-                    <DialogTitle className="text-3xl font-headline font-bold uppercase tracking-tighter">
-                      {t.checkout.success_toast_title}
-                    </DialogTitle>
-                    <DialogDescription className="text-sm font-medium italic text-muted-foreground leading-relaxed px-4">
-                      {t.checkout.success_desc.replace('{{id}}', orderId)}
-                    </DialogDescription>
-                  </div>
 
-                  <div className="pt-6">
-                    <div className="flex items-center justify-center gap-3 text-[9px] font-bold text-primary/60 uppercase tracking-[0.2em] animate-pulse">
-                      <Loader2 className="h-3 w-3 animate-spin" />
-                      Synchronizing with Logistics...
+                    <div className="pt-6">
+                      <div className="flex items-center justify-center gap-3 text-[9px] font-bold text-primary/60 uppercase tracking-[0.2em] animate-pulse">
+                        <Loader2 className="h-3 w-3 animate-spin" />
+                        Synchronizing with Logistics...
+                      </div>
                     </div>
-                  </div>
-                </motion.div>
-              ) : (
-                <motion.div 
-                  key="fail-content"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="space-y-8"
-                >
-                  <div className="relative inline-block">
-                    <motion.div 
-                      animate={{ scale: [1, 1.1, 1], opacity: [0.2, 0.4, 0.2] }}
-                      transition={{ repeat: Infinity, duration: 1.5 }}
-                      className="absolute inset-0 bg-destructive/20 rounded-full blur-2xl"
-                    />
-                    <div className="p-6 bg-destructive/10 rounded-full relative z-10 border border-destructive/20">
-                      <AlertCircle className="h-14 w-14 text-destructive" />
+                  </motion.div>
+                ) : (
+                  <motion.div 
+                    key="fail-content"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="space-y-8"
+                  >
+                    <div className="relative inline-block">
+                      <motion.div 
+                        animate={{ scale: [1, 1.1, 1], opacity: [0.2, 0.4, 0.2] }}
+                        transition={{ repeat: Infinity, duration: 1.5 }}
+                        className="absolute inset-0 bg-destructive/20 rounded-full blur-2xl"
+                      />
+                      <div className="p-6 bg-destructive/10 rounded-full relative z-10 border border-destructive/20">
+                        <AlertCircle className="h-14 w-14 text-destructive" />
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-center gap-2 opacity-40">
-                      <XCircle className="h-3.5 w-3.5 text-destructive" />
-                      <span className="text-[9px] font-black uppercase tracking-[0.4em] text-destructive">SIGNAL_LOSS_DETECTOR</span>
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-center gap-2 opacity-40">
+                        <XCircle className="h-3.5 w-3.5 text-destructive" />
+                        <span className="text-[9px] font-black uppercase tracking-[0.4em] text-destructive">SIGNAL_LOSS_DETECTOR</span>
+                      </div>
+                      <DialogTitle className="text-3xl font-headline font-bold uppercase tracking-tighter text-destructive">
+                        {t.checkout.fail_toast_title}
+                      </DialogTitle>
+                      <DialogDescription className="text-sm font-medium italic text-muted-foreground leading-relaxed px-4">
+                        {t.checkout.fail_toast_desc}
+                      </DialogDescription>
                     </div>
-                    <DialogTitle className="text-3xl font-headline font-bold uppercase tracking-tighter text-destructive">
-                      {t.checkout.fail_toast_title}
-                    </DialogTitle>
-                    <DialogDescription className="text-sm font-medium italic text-muted-foreground leading-relaxed px-4">
-                      {t.checkout.fail_toast_desc}
-                    </DialogDescription>
-                  </div>
 
-                  <div className="pt-6 grid grid-cols-2 gap-4">
-                    <Button 
-                      variant="outline" 
-                      onClick={() => setShowResultModal(false)}
-                      className="rounded-none uppercase text-[9px] font-bold tracking-widest h-12 border-primary/10"
-                    >
-                      {t.checkout.cancel}
-                    </Button>
-                    <Button 
-                      onClick={() => setShowResultModal(false)}
-                      className="bg-primary text-white rounded-none uppercase text-[9px] font-bold tracking-widest h-12 shadow-xl shadow-primary/20"
-                    >
-                      {t.checkout.re_execute}
-                    </Button>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+                    <div className="pt-6 grid grid-cols-2 gap-4">
+                      <Button 
+                        variant="outline" 
+                        onClick={() => setShowResultModal(false)}
+                        className="rounded-none uppercase text-[9px] font-bold tracking-widest h-12 border-primary/10"
+                      >
+                        {t.checkout.cancel}
+                      </Button>
+                      <Button 
+                        onClick={() => setShowResultModal(false)}
+                        className="bg-primary text-white rounded-none uppercase text-[9px] font-bold tracking-widest h-12 shadow-xl shadow-primary/20"
+                      >
+                        {t.checkout.re_execute}
+                      </Button>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
-            {/* Clinical Footer */}
-            <div className="mt-12 pt-6 border-t border-primary/5 w-full flex items-center justify-between opacity-30">
-               <span className="text-[7px] font-black uppercase tracking-[0.3em]">SAM_PROCUREMENT_TERMINAL</span>
-               <span className="text-[7px] font-black uppercase tracking-[0.3em]">ISO-13485:2016</span>
+              {/* Clinical Footer */}
+              <div className="mt-12 pt-6 border-t border-primary/5 w-full flex items-center justify-between opacity-30">
+                 <span className="text-[7px] font-black uppercase tracking-[0.3em]">SAM_PROCUREMENT_TERMINAL</span>
+                 <span className="text-[7px] font-black uppercase tracking-[0.3em]">ISO-13485:2016</span>
+              </div>
             </div>
-          </div>
-        </DialogContent>
+          </DialogContent>
+        </DialogPortal>
       </Dialog>
     </main>
   );
