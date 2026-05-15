@@ -105,10 +105,10 @@ export default function ContactPage() {
         className="container px-4 relative z-10 pt-32 pb-20 flex-1"
       >
         <div className="max-w-4xl mx-auto text-center mb-24">
-          <motion.h1 variants={itemVariants} className="text-4xl md:text-6xl font-headline font-bold mb-6 uppercase tracking-tighter">
+          <motion.h1 variants={itemVariants} className="text-3xl md:text-5xl font-headline font-bold mb-6 uppercase tracking-tighter">
             {t.contact.title.split(' ')[0]} <span className="text-primary">{t.contact.title.split(' ').slice(1).join(' ')}</span>
           </motion.h1>
-          <motion.p variants={itemVariants} className="text-muted-foreground text-lg max-w-2xl mx-auto leading-relaxed font-medium italic">
+          <motion.p variants={itemVariants} className="text-muted-foreground text-sm max-w-2xl mx-auto leading-relaxed font-medium italic">
             {t.contact.subtitle}
           </motion.p>
         </div>
