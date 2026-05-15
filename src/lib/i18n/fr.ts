@@ -6,12 +6,12 @@ export const fr = {
     contact: "Contact",
     cart: "Panier",
     wishlist: "Wishlist",
-    menu_title: "Menu Clinique"
+    menu_title: "Menu Technique"
   },
   hero: {
     badge: "Dispositifs certifiés ISO & FDA",
     title: "Précision Médicale pour les Soins Respiratoires",
-    subtitle: "Solutions cliniques de haute performance : CPAP, BPAP et concentrateurs d'oxygène pour un usage domestique professionnel.",
+    subtitle: "Solutions techniques de haute performance : CPAP, BPAP et concentrateurs d'oxygène pour un usage domestique professionnel.",
     cta_primary: "Explorer le Catalogue",
     cta_secondary: "Consultation Technique"
   },
@@ -19,30 +19,30 @@ export const fr = {
     hero: {
       title: "Notre Mission est le ",
       highlight: "Souffle",
-      subtitle: "Chez SAM Médicale, nous comblons l'écart entre l'excellence clinique et les soins à domicile. Nous nous dédions à fournir une technologie respiratoire de pointe à ceux qui en ont le plus besoin."
+      subtitle: "Chez SAM Médicale, nous comblons l'écart entre l'excellence technique et les soins à domicile. Nous nous dédions à fournir une technologie respiratoire de pointe à ceux qui en ont le plus besoin."
     },
     story: {
       title: "Leader de la ",
       highlight: "Santé",
       p1: "Fondée par une équipe de spécialistes en pneumologie et d'ingénieurs médicaux, SAM Médicale a commencé avec un objectif simple : rendre l'équipement d'oxygénothérapie et de sommeil accessible, fiable et facile à utiliser.",
-      p2: " Aujourd'hui, nous servons plus de 15 000 patients, en partenariat avec des marques de classe mondiale pour garantir que chaque appareil répond aux normes cliniques les plus strictes."
+      p2: " Aujourd'hui, nous servons plus de 15 000 patients, en partenariat avec des marques de classe mondiale pour garantir que chaque appareil répond aux normes techniques les plus strictes."
     },
     values: {
       v1: { title: "Certifié FDA", desc: "Tous nos produits sont rigoureusement testés et approuvés." },
       v2: { title: "Patient d'Abord", desc: "Équipe de support dédiée disponible 24/7." },
       v3: { title: "Soins Compatissants", desc: "Nous comprenons l'importance de la fiabilité." },
-      v4: { title: "Confiance Mondiale", desc: "Partenariats avec 500+ cliniques mondiales." }
+      v4: { title: "Confiance Mondiale", desc: "Partenariats avec 500+ partenaires techniques mondiaux." }
     },
     stats: {
       s1: { val: "15k+", label: "Patients Servis" },
       s2: { val: "12+", label: "Années d'Expérience" },
-      s3: { val: "500+", label: "Partenaires Cliniques" },
+      s3: { val: "500+", label: "Partenaires Techniques" },
       s4: { val: "98%", label: "Satisfaction Patient" }
     },
     registry: {
       badge: "Registre Qualité Mondial",
       iso_detail: "Gestion de la Qualité",
-      ce_detail: "Santé et Sécurité Clinique",
+      ce_detail: "Santé et Sécurité Technique",
       fda_detail: "Conformité Réglementaire"
     }
   },
@@ -51,7 +51,7 @@ export const fr = {
       badge: "Assistance Technique v2.5",
       title: "Expertise ",
       highlight: "Chirurgicale",
-      subtitle: "Au-delà de la fourniture d'équipement, nous offrons un accompagnement clinique complet pour garantir l'efficacité maximale de votre thérapie respiratoire."
+      subtitle: "Au-delà de la fourniture d'équipement, nous offrons un accompagnement technique complet pour garantir l'efficacité maximale de votre thérapie respiratoire."
     },
     status: "PROTOCOLE_ACTIF",
     list: {
@@ -59,9 +59,9 @@ export const fr = {
       consultation: { title: "Consultation Médicale", desc: "Accès à des spécialistes en pneumologie pour l'ajustement de vos paramètres de traitement et le suivi de vos données." },
       delivery: { title: "Logistique Spécialisée", desc: "Livraison sécurisée et installation à domicile par des techniciens certifiés pour une mise en service optimale." },
       support: { title: "Support Technique 24/7", desc: "Une assistance technique continue pour répondre à toutes vos urgences opérationnelles et questions de maintenance." },
-      training: { title: "Formation Clinique", desc: "Programmes de formation pour les patients et les aidants sur l'utilisation correcte des équipements respiratoires." },
+      training: { title: "Formation Technique", desc: "Programmes de formation pour les patients et les aidants sur l'utilisation correcte des équipements respiratoires." },
       hygiene: { title: "Protocoles d'Hygiène", desc: "Services de désinfection de grade chirurgical et remplacement régulier des consommables pour une sécurité totale." },
-      polygraphy: { title: "Polygraphie en Clinique", desc: "Études du sommeil professionnelles réalisées dans notre établissement clinique pour diagnostiquer précisément les troubles respiratoires." }
+      polygraphy: { title: "Polygraphie Technique", desc: "Études du sommeil professionnelles réalisées dans notre établissement technique pour diagnostiquer précisément les troubles respiratoires." }
     },
     cta: {
       title: "Prêt pour une Analyse Technique ?",
@@ -71,7 +71,7 @@ export const fr = {
   },
   categories: {
     title: "Spécialités Médicales",
-    subtitle: "Équipements de pointe sélectionnés pour leur fiabilité et leur excellence clinique.",
+    subtitle: "Équipements de pointe sélectionnés pour leur fiabilité et leur excellence technique.",
     view_all: "Voir tout le catalogue",
     cpap: "CPAP",
     cpap_desc: "Dispositifs de pression positive continue pour l'apnée obstructive du sommeil.",
@@ -80,7 +80,7 @@ export const fr = {
     oxygen: "Concentrateurs d'Oxygène",
     oxygen_desc: "Concentrateurs portables et stationnaires pour un soutien fiable de la saturation.",
     masks: "Masques",
-    masks_desc: "Interfaces et masques de grade chirurgical pour une thérapie clinique optimale.",
+    masks_desc: "Interfaces et masques de grade chirurgical pour une thérapie technique optimale.",
     accessories: "Accessoires",
     accessories_desc: "Tubulures, filtres et pièces de rechange essentiels pour dispositifs médicaux.",
     monitoring: "Monitorage Vital",
@@ -88,25 +88,25 @@ export const fr = {
     consumables: "Consommables",
     consumables_desc: "Consommables de grade médical et produits d'hygiène chirurgicale.",
     others: "Autres",
-    others_desc: "Outils cliniques spécialisés et équipements périphériques."
+    others_desc: "Outils techniques spécialisés et équipements périphériques."
   },
   ticker: {
     iso: { title: "CERTIFICATION ISO", desc: "Standard de gestion de qualité pour dispositifs médicaux." },
-    logistics: { title: "LOGISTIQUE CLINIQUE", desc: "Expédition sécurisée de matériel sensible partout." },
+    logistics: { title: "LOGISTIQUE TECHNIQUE", desc: "Expédition sécurisée de matériel sensible partout." },
     support: { title: "SUPPORT TECHNIQUE", desc: "Assistance experte 24/7 pour le calibrage." }
   },
   why_us: {
     title: "Pourquoi SAM Médicale",
     subtitle: "Solutions ?",
-    description: "SAM Médicale est plus qu'un simple fournisseur. Nous sommes un partenaire technique engagé dans l'excellence clinique. Chaque appareil subit un contrôle de calibration en 15 points avant expédition.",
+    description: "SAM Médicale est plus qu'un simple fournisseur. Nous sommes un partenaire technique engagé dans l'excellence technique. Chaque appareil subit un contrôle de calibration en 15 points avant expédition.",
     item1: { title: "Calibration de Précision", desc: "Notre laboratoire interne garantit que chaque machine respecte les spécifications d'origine avec une précision chirurgicale." },
     item2: { title: "Conformité Totale", desc: "Nous opérons en pleine conformité avec les normes de gestion de la qualité ISO 13485:2016 pour les dispositifs médicaux." },
     stats: "Taux de satisfaction"
   },
   flagship: {
     title: "Nos Best-Sellers",
-    subtitle: "Nos solutions cliniques les plus fiables et les mieux notées.",
-    certified: "Grade Clinique Certifié ISO",
+    subtitle: "Nos solutions techniques les plus fiables et les mieux notées.",
+    certified: "Grade Technique Certifié ISO",
     msrp: "Acquisition MSRP",
     specs: "Spécifications"
   },
@@ -116,7 +116,7 @@ export const fr = {
     description: "Restez informé des dernières technologies respiratoires et recevez des rappels automatisés pour le calibrage.",
     placeholder: "Adresse Email Médicale",
     button: "S'abonner",
-    compliance: "Protocole Clinique Sécurisé • Conforme HIPAA"
+    compliance: "Protocole Technique Sécurisé • Conforme HIPAA"
   },
   contact_info: {
     support_title: "Support Technique",
@@ -133,7 +133,7 @@ export const fr = {
       technical_hours: "Lun-Ven: 8h - 20h EST",
       email_title: "Email Support",
       email_response: "Délai de réponse: < 24h",
-      location_title: "Clinical Plaza",
+      location_title: "Plaza Technique",
       location_address: "123 Medical Center Way, New York, NY 10001"
     },
     authorized: {
@@ -146,7 +146,7 @@ export const fr = {
       name_label: "Nom Complet",
       name_placeholder: "John Doe",
       email_label: "Email Professionnel",
-      email_placeholder: "john@clinique.com",
+      email_placeholder: "john@technique.com",
       type_label: "Type de Demande",
       type_placeholder: "Spécifications, Calibration, Revue de Prescription...",
       message_label: "Message Diagnostic",
@@ -156,8 +156,8 @@ export const fr = {
     }
   },
   footer: {
-    description: "Fournisseur mondial de solutions respiratoires cliniques. Certifié ISO 13485 pour la précision chirurgicale des soins aux patients.",
-    quality_title: "Qualité Clinique",
+    description: "Fournisseur mondial de solutions respiratoires techniques. Certifié ISO 13485 pour la précision chirurgicale des soins aux patients.",
+    quality_title: "Qualité Technique",
     quality_desc: "Tout l'équipement est conforme aux normes européennes CE et ISO 13485:2016. Précision chirurgicale garantie.",
     rights: "TOUS DROITS RÉSERVÉS • SOLUTIONS RESPIRATOIRES DE PRÉCISION",
     privacy: "Confidentialité",
@@ -166,7 +166,7 @@ export const fr = {
   },
   catalogue: {
     title: "Catalogue de Précision",
-    subtitle: "Sélectionnez une catégorie spécialisée pour parcourir les solutions cliniques.",
+    subtitle: "Sélectionnez une catégorie spécialisée pour parcourir les solutions techniques.",
     search: "Rechercher un dispositif...",
     sort: "Trier par",
     sort_methods: {
@@ -181,15 +181,15 @@ export const fr = {
     tech_id: "Classification Technique v2.5",
     index_total: "Index Total",
     sectors: "Secteurs",
-    clinical_sector: "Secteur Clinique",
+    clinical_sector: "Secteur Technique",
     explore_range: "Explorer la Gamme",
     global_inventory: "Inventaire Global",
-    all_devices_desc: "Tous les dispositifs cliniques",
+    all_devices_desc: "Tous les dispositifs techniques",
     access_grid: "Accéder à la Grille",
     brand: "SAM MÉDICALE",
     load_more: "Charger plus d'appareils",
     identified_devices: "Appareils Identifiés",
-    reset_search: "Réinitialiser la recherche clinique",
+    reset_search: "Réinitialiser la recherche technique",
     standards: {
       iso: "ISO 13485:2016",
       ce: "CE GRADE MÉDICAL",
@@ -197,12 +197,12 @@ export const fr = {
     }
   },
   cart: {
-    title: "Votre Sélection Clinique",
+    title: "Votre Sélection Technique",
     empty: "Votre panier est vide",
     continue: "Retour au Catalogue",
     summary: "Résumé de la commande",
     subtotal: "Sous-total",
-    shipping: "Livraison Clinique",
+    shipping: "Livraison Technique",
     tax: "Taxes estimées",
     total: "Total à régler",
     checkout: "Procéder au paiement sécurisé",
@@ -211,9 +211,9 @@ export const fr = {
     procurement_module: "Module_Procurement v4.2",
     units: "Unités",
     system_id: "ID Système : EMPTY-PROC-0",
-    empty_desc: "Aucun dispositif clinique n'a été synchronisé avec votre module de sélection.",
+    empty_desc: "Aucun dispositif technique n'a été synchronisé avec votre module de sélection.",
     ref: "RÉF",
-    clinical_grade: "Grade Clinique",
+    clinical_grade: "Grade Technique",
     clear: "Effacer la Sélection",
     secure_portal: "Portail Sécurisé",
     active: "Actif",
@@ -222,12 +222,12 @@ export const fr = {
     synchronizing: "Synchronisation...",
     ssl_secure: "Sécurisé SSL",
     pci_compliant: "Conforme PCI",
-    encryption_protocol: "Protocole de Chiffrement Clinique v4.0",
-    protocol_notice: "Note de Protocole Clinique",
+    encryption_protocol: "Protocole de Chiffrement Technique v4.0",
+    protocol_notice: "Note de Protocole Technique",
     protocol_desc: "Tout l'équipement médical répertorié nécessite la vérification des paramètres thérapeutiques par un praticien qualifié."
   },
   wishlist: {
-    title: "Priorités Cliniques",
+    title: "Priorités Techniques",
     subtitle: "Équipements sauvegardés pour analyse technique et acquisition future",
     archive_v: "Archive_Sélection v2.1",
     clear: "Déréférencer tout",
@@ -241,12 +241,12 @@ export const fr = {
   product: {
     back: "Retour au Catalogue",
     new: "Nouveau",
-    clinical_grade: "Certifié Grade Clinique",
+    clinical_grade: "Certifié Grade Technique",
     add_to_cart: "Ajouter au Panier",
     out_of_stock: "Actuellement Indisponible",
     ai_assistant: "Assistant Technique IA",
-    ai_desc: "Simplifiez les spécifications complexes en un résumé clinique.",
-    ai_btn: "Résumé Clinique Expert",
+    ai_desc: "Simplifiez les spécifications complexes en un résumé technique.",
+    ai_btn: "Résumé Technique Expert",
     ai_new: "Nouvelle Analyse",
     specs: "Spécifications Techniques",
     warranty: "Garantie 2 ans",
@@ -259,13 +259,13 @@ export const fr = {
     ready: "Prêt pour Expédition",
     selection_updated: "Sélection Mise à Jour",
     added_to_cart_msg: "ajouté au panier.",
-    clinical_protocol: "Protocole Clinique",
+    clinical_protocol: "Protocole Technique",
     compliance: "Conformité",
     acquisition: "Acquisition",
     tech_assistance: "Assistance Technique",
     support_email: "Email Support",
     copied: "Copié",
-    support_disclaimer: "* Nos spécialistes cliniques sont disponibles 24/7 pour toute assistance technique ou demande de calibration.",
+    support_disclaimer: "* Nos spécialistes techniques sont disponibles 24/7 pour toute assistance technique ou demande de calibration.",
     tech_file_v: "Dossier Technique v4.0.1",
     test_report: "Le {name} a été rigoureusement testé dans nos laboratoires certifiés pour garantir une performance optimale. Chaque unité subit un contrôle technique en 15 points avant d'être approuvée pour l'acquisition. Toutes les données techniques sont conformes à la norme ISO 13485:2016.",
     related_title: "Équipements Complémentaires",
@@ -285,7 +285,7 @@ export const fr = {
   },
   error: {
     not_found_title: "404 - Signal Perdu",
-    not_found_desc: "Le dispositif ou la classification technique que vous recherchez est introuvable dans notre base de données clinique.",
+    not_found_desc: "Le dispositif ou la classification technique que vous recherchez est introuvable dans notre base de données technique.",
     back_home: "Recalibrer vers l'Accueil"
   }
 };
