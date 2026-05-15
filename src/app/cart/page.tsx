@@ -10,6 +10,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Trash2, Minus, Plus, ShoppingBag, ArrowLeft, ArrowRight, ShieldCheck, Loader2, Database, Activity, Lock } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from '@/hooks/use-translation';
@@ -20,6 +21,7 @@ export default function CartPage() {
   const { items, totalAmount } = useSelector((state: RootState) => state.cart);
   const dispatch = useDispatch();
   const { t, isRTL } = useTranslation();
+  const router = useRouter();
   const [isCheckingOut, setIsCheckingOut] = useState(false);
 
   const handleQuantityChange = (id: string, currentQty: number, delta: number) => {
@@ -30,12 +32,9 @@ export default function CartPage() {
   const handleCheckout = () => {
     setIsCheckingOut(true);
     setTimeout(() => {
-      toast({
-        title: t.cart.secure_portal,
-        description: t.cart.synchronizing,
-      });
+      router.push('/checkout');
       setIsCheckingOut(false);
-    }, 1500);
+    }, 800);
   };
 
   const containerVariants = {

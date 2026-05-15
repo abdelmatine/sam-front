@@ -29,7 +29,7 @@ export const en = {
     },
     values: {
       v1: { title: "FDA Certified", desc: "All our products are rigorously tested and approved." },
-      v2: { title: "Patient First", desc: "Dedicated support team available 24/7." },
+      v2: { title: "Patient first", desc: "Dedicated support team available 24/7." },
       v3: { title: "Compassionate Care", desc: "We understand the importance of reliability." },
       v4: { title: "Global Trust", desc: "Partnerships with 500+ technical global partners." }
     },
@@ -225,6 +225,35 @@ export const en = {
     encryption_protocol: "Technical Encryption Protocol v4.0",
     protocol_notice: "Technical Protocol Notice",
     protocol_desc: "All medical equipment listed requires verification of therapeutic parameters by a qualified practitioner."
+  },
+  checkout: {
+    title: "Technical Acquisition Terminal",
+    subtitle: "Complete the technical protocol to finalize your equipment acquisition.",
+    module_id: "ACQUISITION_TERMINAL_v4.5",
+    shipping_details: "Logistics Protocol",
+    payment_method: "Payment Synchronization",
+    order_review: "Technical Review",
+    place_order: "Execute Acquisition",
+    first_name: "First Name",
+    last_name: "Last Name",
+    email: "Professional Email",
+    phone: "Technical Contact Line",
+    address: "Street Address",
+    city: "City",
+    postal_code: "Postal Code",
+    country: "Region",
+    card_holder: "Cardholder Name",
+    card_number: "Technical Card ID",
+    expiry: "EXP MM/YY",
+    cvv: "CVV Protocol",
+    submitting: "Executing Synchronization...",
+    success_title: "Acquisition Protocol Confirmed",
+    success_desc: "Order Ref: SAM-ORD-{{id}} is now synchronized with our logistics terminal. A summary has been dispatched to your email.",
+    payment_types: {
+      card: "Technical Card Protocol",
+      bank: "Bank Transfer",
+      wire: "Professional Wire"
+    }
   },
   wishlist: {
     title: "Technical Priorities",
