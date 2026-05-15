@@ -1,10 +1,34 @@
 "use client";
 
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
+import { motion, animate, useInView } from 'framer-motion';
 import { Activity, ShieldCheck } from 'lucide-react';
 import { useTranslation } from '@/hooks/use-translation';
+
+const StatCounter = ({ value }: { value: string }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [displayValue, setDisplayValue] = useState("0");
+
+  useEffect(() => {
+    if (isInView) {
+      const numericPart = parseFloat(value.replace(/[^0-9.]/g, ''));
+      const suffix = value.replace(/[0-9.]/g, '');
+      
+      const controls = animate(0, numericPart, {
+        duration: 2.5,
+        ease: [0.22, 1, 0.36, 1],
+        onUpdate(latest) {
+          setDisplayValue(Math.floor(latest).toLocaleString() + suffix);
+        }
+      });
+      return () => controls.stop();
+    }
+  }, [isInView, value]);
+
+  return <span ref={ref}>{displayValue}</span>;
+};
 
 export default function WhyUs() {
   const { t } = useTranslation();
@@ -23,7 +47,7 @@ export default function WhyUs() {
   ];
 
   return (
-    <section className="py-32 bg-white dark:bg-slate-950 relative overflow-hidden border-b">
+    <section className="py-32 bg-background dark:bg-slate-950 relative overflow-hidden border-b">
       <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] pointer-events-none" 
         style={{ backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)', backgroundSize: '40px 40px' }} 
       />
@@ -83,13 +107,13 @@ export default function WhyUs() {
           >
             <motion.div 
               whileHover={{ scale: 1.03 }}
-              className="absolute top-0 right-0 w-4/5 h-4/5 z-0 grayscale hover:grayscale-0 transition-all duration-300 border-8 border-white dark:border-slate-900 shadow-2xl overflow-hidden cursor-pointer rounded-3xl"
+              className="absolute top-0 right-0 w-4/5 h-4/5 z-0 grayscale hover:grayscale-0 transition-all duration-300 border-8 border-background dark:border-slate-900 shadow-2xl overflow-hidden cursor-pointer rounded-3xl"
             >
               <Image src="https://picsum.photos/seed/med10/800/1000" alt="Laboratory" fill className="object-cover" />
             </motion.div>
             <motion.div 
               whileHover={{ scale: 1.03 }}
-              className="absolute bottom-0 left-0 w-3/5 h-3/5 z-10 grayscale hover:grayscale-0 transition-all duration-300 border-8 border-white dark:border-slate-900 shadow-2xl overflow-hidden cursor-pointer rounded-3xl"
+              className="absolute bottom-0 left-0 w-3/5 h-3/5 z-10 grayscale hover:grayscale-0 transition-all duration-300 border-8 border-background dark:border-slate-900 shadow-2xl overflow-hidden cursor-pointer rounded-3xl"
             >
               <Image src="https://picsum.photos/seed/med11/800/1000" alt="Medical Tech" fill className="object-cover" />
               <div className="absolute inset-0 bg-primary/10 pointer-events-none" />
@@ -102,7 +126,9 @@ export default function WhyUs() {
               viewport={{ once: true }}
               className="absolute -bottom-6 -right-6 bg-primary text-white p-8 z-20 hidden md:block shadow-xl rounded-2xl"
             >
-              <div className="text-4xl font-bold tracking-tighter mb-1">98%</div>
+              <div className="text-4xl font-bold tracking-tighter mb-1">
+                <StatCounter value="98%" />
+              </div>
               <div className="text-[9px] font-bold uppercase tracking-widest opacity-80">{t.why_us.stats}</div>
             </motion.div>
           </motion.div>
