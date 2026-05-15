@@ -8,7 +8,7 @@ export interface WishlistItem {
   brand: string;
 }
 
-interface WishlistState {
+export interface WishlistState {
   items: WishlistItem[];
 }
 
@@ -20,6 +20,9 @@ const wishlistSlice = createSlice({
   name: 'wishlist',
   initialState,
   reducers: {
+    setWishlist(state, action: PayloadAction<WishlistState>) {
+      state.items = action.payload.items;
+    },
     toggleWishlist(state, action: PayloadAction<WishlistItem>) {
       const item = action.payload;
       const index = state.items.findIndex((i) => i.id === item.id);
@@ -38,5 +41,5 @@ const wishlistSlice = createSlice({
   },
 });
 
-export const { toggleWishlist, removeFromWishlist, clearWishlist } = wishlistSlice.actions;
+export const { toggleWishlist, removeFromWishlist, clearWishlist, setWishlist } = wishlistSlice.actions;
 export default wishlistSlice.reducer;

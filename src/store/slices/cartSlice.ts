@@ -9,7 +9,7 @@ export interface CartItem {
   brand: string;
 }
 
-interface CartState {
+export interface CartState {
   items: CartItem[];
   totalAmount: number;
   totalQuantity: number;
@@ -25,6 +25,11 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
+    setCart(state, action: PayloadAction<CartState>) {
+      state.items = action.payload.items;
+      state.totalAmount = action.payload.totalAmount;
+      state.totalQuantity = action.payload.totalQuantity;
+    },
     addToCart(state, action: PayloadAction<CartItem>) {
       const newItem = action.payload;
       const existingItem = state.items.find((item) => item.id === newItem.id);
@@ -74,5 +79,5 @@ const cartSlice = createSlice({
   },
 });
 
-export const { addToCart, removeFromCart, updateQuantity, clearCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, updateQuantity, clearCart, setCart } = cartSlice.actions;
 export default cartSlice.reducer;
