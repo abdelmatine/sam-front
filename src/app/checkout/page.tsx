@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useRef } from 'react';
@@ -12,7 +13,6 @@ import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from '@/hooks/use-translation';
-import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 import { 
   CreditCard, 
@@ -25,21 +25,27 @@ import {
   CheckCircle2, 
   Lock, 
   Package, 
-  ArrowLeft,
   TruckIcon,
   ShoppingBag,
-  XCircle
+  XCircle,
+  AlertCircle
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import UnderConstruction from '@/components/shared/UnderConstruction';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 
 export default function CheckoutPage() {
   const { items, totalAmount } = useSelector((state: RootState) => state.cart);
   const dispatch = useDispatch();
   const { t, isRTL } = useTranslation();
-  const { toast } = useToast();
   const router = useRouter();
   
   const [isProcessing, setIsProcessing] = useState(false);
@@ -47,6 +53,7 @@ export default function CheckoutPage() {
   const [hasFailedOnce, setHasFailedOnce] = useState(false);
   const [orderId, setOrderId] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('delivery');
+  const [showResultModal, setShowResultModal] = useState(false);
   
   const syncTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -55,6 +62,7 @@ export default function CheckoutPage() {
     if (isProcessing) return;
     
     setIsProcessing(true);
+    setHasFailedOnce(false);
     
     // Simulate technical synchronization with potential disruption
     syncTimeoutRef.current = setTimeout(() => {
@@ -66,25 +74,19 @@ export default function CheckoutPage() {
         setOrderId(generatedId);
         setIsProcessing(false);
         setIsSuccess(true);
+        setShowResultModal(true);
         dispatch(clearCart());
         
-        toast({
-          title: t.checkout.success_toast_title,
-          description: t.checkout.success_toast_desc,
-        });
-
         // Technical Redirect Protocol: Return to catalogue after observation
         setTimeout(() => {
+          setShowResultModal(false);
           router.push('/shop');
-        }, 3000);
+        }, 5000);
       } else {
         setIsProcessing(false);
+        setIsSuccess(false);
         setHasFailedOnce(true);
-        toast({
-          variant: "destructive",
-          title: t.checkout.fail_toast_title,
-          description: t.checkout.fail_toast_desc,
-        });
+        setShowResultModal(true);
       }
     }, 3500);
   };
@@ -94,10 +96,6 @@ export default function CheckoutPage() {
       clearTimeout(syncTimeoutRef.current);
       syncTimeoutRef.current = null;
       setIsProcessing(false);
-      toast({
-        title: t.checkout.abort_toast_title,
-        description: t.checkout.abort_toast_desc,
-      });
     }
   };
 
@@ -197,294 +195,361 @@ export default function CheckoutPage() {
       </div>
 
       <div className="container mx-auto px-4 flex-1 relative z-10">
-        <AnimatePresence mode="wait">
-          {isSuccess ? (
-            <motion.div 
-              key="success"
-              initial="hidden"
-              animate="visible"
-              variants={containerVariants}
-              className="flex flex-col items-center justify-center py-20 text-center max-w-2xl mx-auto"
-            >
-              <motion.div 
-                variants={itemVariants}
-                className="p-10 bg-primary/10 rounded-full mb-10 relative"
-              >
-                <motion.div 
-                  animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
-                  transition={{ repeat: Infinity, duration: 3 }}
-                  className="absolute inset-0 bg-primary/20 rounded-full blur-2xl"
-                />
-                <CheckCircle2 className="h-20 w-20 text-primary relative z-10" />
-              </motion.div>
-              
-              <div className="space-y-6">
-                <motion.div variants={itemVariants} className="flex items-center justify-center gap-3 opacity-40">
-                  <Database className="h-4 w-4 text-primary" />
-                  <span className="text-[10px] font-black uppercase tracking-[0.5em]">SIGNAL_LOCKED_v4.2</span>
-                </motion.div>
-                <motion.h1 variants={itemVariants} className="text-4xl md:text-5xl font-headline font-bold uppercase tracking-tighter">{t.checkout.success_title}</motion.h1>
-                <motion.p variants={itemVariants} className="text-muted-foreground text-sm font-medium italic leading-relaxed">
-                  {t.checkout.success_desc.replace('{{id}}', orderId)}
-                </motion.p>
-                <motion.div variants={itemVariants} className="pt-10 flex flex-col sm:flex-row items-center justify-center gap-6">
-                  <Link href="/shop">
-                    <Button className="bg-primary text-white px-12 py-8 rounded-none text-[11px] font-bold uppercase tracking-[0.3em] shadow-2xl hover:scale-105 transition-transform">
-                      {t.checkout.back_to_shop || "Inventory Home"}
-                    </Button>
-                  </Link>
-                  <Button variant="outline" className="px-12 py-8 rounded-none text-[11px] font-bold uppercase tracking-[0.3em] border-2 hover:bg-primary/5">
-                    Print Technical Receipt
-                  </Button>
-                </motion.div>
+        <motion.div 
+          key="form"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className="space-y-12"
+        >
+          <motion.div variants={sectionVariants} className={cn("border-primary", isRTL ? "border-r-4 pr-8" : "border-l-4 pl-8")}>
+            <div className="flex items-center gap-3 mb-3">
+              <div className="p-1.5 bg-primary/10 rounded-sm">
+                <Database className="h-3.5 w-3.5 text-primary" />
               </div>
-            </motion.div>
-          ) : (
-            <motion.div 
-              key="form"
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-              className="space-y-12"
-            >
-              <motion.div variants={sectionVariants} className={cn("border-primary", isRTL ? "border-r-4 pr-8" : "border-l-4 pl-8")}>
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="p-1.5 bg-primary/10 rounded-sm">
-                    <Database className="h-3.5 w-3.5 text-primary" />
+              <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary/70">{t.checkout.module_id}</span>
+            </div>
+            <h1 className="text-3xl md:text-5xl font-headline font-bold uppercase tracking-tighter mb-4">{t.checkout.title}</h1>
+            <p className="text-muted-foreground text-sm font-medium italic max-w-2xl">{t.checkout.subtitle}</p>
+          </motion.div>
+
+          <form onSubmit={handleAcquisitionSubmit} className="grid lg:grid-cols-12 gap-12">
+            <div className="lg:col-span-8 space-y-10">
+              <motion.div variants={sectionVariants}>
+                <Card className="rounded-none clinical-shadow border-primary/10 bg-accent/5 overflow-hidden">
+                  <div className="bg-primary/5 p-6 border-b border-primary/10 flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      <Truck className="h-5 w-5 text-primary" />
+                      <h2 className="text-sm font-bold uppercase tracking-[0.3em]">{t.checkout.shipping_details}</h2>
+                    </div>
+                    <div className="h-[2px] w-24 bg-primary" />
                   </div>
-                  <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary/70">{t.checkout.module_id}</span>
-                </div>
-                <h1 className="text-3xl md:text-5xl font-headline font-bold uppercase tracking-tighter mb-4">{t.checkout.title}</h1>
-                <p className="text-muted-foreground text-sm font-medium italic max-w-2xl">{t.checkout.subtitle}</p>
+                  <CardContent className="p-8 grid md:grid-cols-2 gap-8">
+                    {[
+                      { label: t.checkout.first_name, req: true },
+                      { label: t.checkout.last_name, req: true },
+                      { label: t.checkout.email, req: true, type: "email" },
+                      { label: t.checkout.phone, req: true },
+                      { label: t.checkout.address, req: true, col: "md:col-span-2" },
+                      { label: t.checkout.city, req: true },
+                      { label: t.checkout.postal_code, req: true },
+                    ].map((field, idx) => (
+                      <motion.div 
+                        key={idx} 
+                        variants={fieldVariants} 
+                        className={cn("space-y-3", field.col)}
+                      >
+                        <Label className="text-[9px] font-black uppercase tracking-[0.3em] opacity-60 ml-1">{field.label}</Label>
+                        <Input 
+                          type={field.type || "text"}
+                          required={field.req} 
+                          className="rounded-none border-primary/10 bg-background h-12 focus-visible:ring-primary/20 focus:border-primary/40 transition-all" 
+                        />
+                      </motion.div>
+                    ))}
+                  </CardContent>
+                </Card>
               </motion.div>
 
-              <form onSubmit={handleAcquisitionSubmit} className="grid lg:grid-cols-12 gap-12">
-                <div className="lg:col-span-8 space-y-10">
-                  <motion.div variants={sectionVariants}>
-                    <Card className="rounded-none clinical-shadow border-primary/10 bg-accent/5 overflow-hidden">
-                      <div className="bg-primary/5 p-6 border-b border-primary/10 flex items-center justify-between">
-                        <div className="flex items-center gap-4">
-                          <Truck className="h-5 w-5 text-primary" />
-                          <h2 className="text-sm font-bold uppercase tracking-[0.3em]">{t.checkout.shipping_details}</h2>
-                        </div>
-                        <div className="h-[2px] w-24 bg-primary" />
-                      </div>
-                      <CardContent className="p-8 grid md:grid-cols-2 gap-8">
-                        {[
-                          { label: t.checkout.first_name, req: true },
-                          { label: t.checkout.last_name, req: true },
-                          { label: t.checkout.email, req: true, type: "email" },
-                          { label: t.checkout.phone, req: true },
-                          { label: t.checkout.address, req: true, col: "md:col-span-2" },
-                          { label: t.checkout.city, req: true },
-                          { label: t.checkout.postal_code, req: true },
-                        ].map((field, idx) => (
+              <motion.div variants={sectionVariants}>
+                <Card className="rounded-none clinical-shadow border-primary/10 bg-accent/5 overflow-hidden">
+                  <div className="bg-primary/5 p-6 border-b border-primary/10 flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      <CreditCard className="h-5 w-5 text-primary" />
+                      <h2 className="text-sm font-bold uppercase tracking-[0.3em]">{t.checkout.payment_method}</h2>
+                    </div>
+                    <div className="h-[2px] w-24 bg-primary" />
+                  </div>
+                  <CardContent className="p-8 space-y-10">
+                    <RadioGroup 
+                      defaultValue="delivery" 
+                      onValueChange={setPaymentMethod}
+                      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"
+                    >
+                      {[
+                        { id: "delivery", label: t.checkout.payment_types.delivery, icon: TruckIcon },
+                        { id: "card", label: t.checkout.payment_types.card, icon: CreditCard },
+                        { id: "bank", label: t.checkout.payment_types.bank, icon: Database },
+                        { id: "wire", label: t.checkout.payment_types.wire, icon: Activity },
+                      ].map((method) => (
+                        <motion.div 
+                          key={method.id}
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          className={cn(
+                            "flex items-center space-x-3 space-y-0 border border-primary/10 p-4 bg-background/50 transition-all cursor-pointer",
+                            paymentMethod === method.id ? "border-primary bg-primary/5 shadow-lg" : "hover:border-primary/30"
+                          )}
+                          onClick={() => setPaymentMethod(method.id)}
+                        >
+                          <RadioGroupItem value={method.id} id={method.id} />
+                          <Label htmlFor={method.id} className="flex-1 cursor-pointer font-bold uppercase text-[8px] tracking-[0.2em] flex items-center gap-3">
+                            <method.icon className="h-3.5 w-3.5 text-primary/60" />
+                            {method.label}
+                          </Label>
+                        </motion.div>
+                      ))}
+                    </RadioGroup>
+
+                    <div className="pt-4">
+                      <AnimatePresence mode="wait">
+                        {paymentMethod === 'delivery' ? (
                           <motion.div 
-                            key={idx} 
-                            variants={fieldVariants} 
-                            className={cn("space-y-3", field.col)}
+                            key="delivery-content"
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                            className="bg-primary/5 border border-primary/20 p-8 flex items-center gap-6"
                           >
-                            <Label className="text-[9px] font-black uppercase tracking-[0.3em] opacity-60 ml-1">{field.label}</Label>
-                            <Input 
-                              type={field.type || "text"}
-                              required={field.req} 
-                              className="rounded-none border-primary/10 bg-background h-12 focus-visible:ring-primary/20 focus:border-primary/40 transition-all" 
-                            />
+                            <div className="p-4 bg-primary/10 rounded-full">
+                              <TruckIcon className="h-8 w-8 text-primary" />
+                            </div>
+                            <div className="space-y-2">
+                              <h4 className="text-[10px] font-bold uppercase tracking-widest text-primary">{t.checkout.payment_types.delivery}</h4>
+                              <p className="text-xs text-muted-foreground italic font-medium">{t.checkout.delivery_msg}</p>
+                            </div>
+                          </motion.div>
+                        ) : (
+                          <motion.div 
+                            key="other-content"
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                          >
+                            <UnderConstruction moduleName={`PROTOCOL_${paymentMethod.toUpperCase()}_v4.0`} />
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            </div>
+
+            <div className="lg:col-span-4 flex flex-col gap-6">
+              <motion.div variants={sectionVariants} className="sticky top-28">
+                <Card className="rounded-none clinical-shadow border-primary/20 bg-card overflow-hidden">
+                  <div className="bg-primary p-6 text-white flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <Package className="h-4 w-4" />
+                      <h2 className="text-xs font-bold uppercase tracking-[0.3em]">{t.checkout.order_review}</h2>
+                    </div>
+                    <span className="text-[10px] font-black bg-white/10 px-2 py-0.5">{items.length} Units</span>
+                  </div>
+                  
+                  <CardContent className="p-8">
+                    <div className="max-h-[300px] overflow-y-auto space-y-6 mb-10 pr-4 custom-scrollbar">
+                      <AnimatePresence>
+                        {items.map((item, idx) => (
+                          <motion.div 
+                            key={item.id} 
+                            initial={{ opacity: 0, x: 20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: idx * 0.1 }}
+                            className="flex gap-4 items-center group"
+                          >
+                            <div className="relative h-14 w-14 shrink-0 border border-primary/10 bg-accent/5 p-2 overflow-hidden">
+                              <Image src={item.imageUrl} alt={item.name} fill className="object-contain grayscale group-hover:grayscale-0 transition-all" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <h4 className="text-[10px] font-bold uppercase tracking-tight truncate leading-none mb-1">{item.name}</h4>
+                              <p className="text-[8px] text-primary font-black uppercase tracking-widest">Qty: {item.quantity}</p>
+                            </div>
+                            <span className="text-xs font-bold tracking-tighter tabular-nums">${(item.price * item.quantity).toLocaleString()}</span>
                           </motion.div>
                         ))}
-                      </CardContent>
-                    </Card>
-                  </motion.div>
+                      </AnimatePresence>
+                    </div>
 
-                  <motion.div variants={sectionVariants}>
-                    <Card className="rounded-none clinical-shadow border-primary/10 bg-accent/5 overflow-hidden">
-                      <div className="bg-primary/5 p-6 border-b border-primary/10 flex items-center justify-between">
-                        <div className="flex items-center gap-4">
-                          <CreditCard className="h-5 w-5 text-primary" />
-                          <h2 className="text-sm font-bold uppercase tracking-[0.3em]">{t.checkout.payment_method}</h2>
-                        </div>
-                        <div className="h-[2px] w-24 bg-primary" />
+                    <div className="space-y-4 pt-6 border-t border-dashed border-primary/10 text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+                      <div className="flex justify-between">
+                        <span>{t.cart.subtotal}</span>
+                        <span className="text-foreground tracking-tighter text-xs">${totalAmount.toLocaleString()}</span>
                       </div>
-                      <CardContent className="p-8 space-y-10">
-                        <RadioGroup 
-                          defaultValue="delivery" 
-                          onValueChange={setPaymentMethod}
-                          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"
+                      <div className="flex justify-between text-primary">
+                        <span>{t.cart.shipping}</span>
+                        <span className="font-black">{t.common.free}</span>
+                      </div>
+                    </div>
+
+                    <div className="mt-8 pt-8 border-t-2 border-primary/10">
+                      <div className="flex justify-between items-end mb-10">
+                        <div className="flex flex-col gap-1">
+                          <span className="text-[8px] font-black text-primary/40 uppercase tracking-[0.4em]">{t.cart.total_acquisition}</span>
+                          <span className="text-sm font-bold uppercase tracking-tighter">{t.cart.total}</span>
+                        </div>
+                        <span className="text-3xl font-bold tracking-tighter text-primary">${totalAmount.toLocaleString()}</span>
+                      </div>
+
+                      <div className="space-y-4">
+                        <Button 
+                          type="submit"
+                          disabled={isProcessing || paymentMethod !== 'delivery'}
+                          className="w-full bg-primary text-white py-10 rounded-none text-[11px] font-bold uppercase tracking-[0.3em] hover:bg-primary/90 transition-all shadow-2xl shadow-primary/20 flex items-center justify-center gap-4 active:scale-95 group/btn"
                         >
-                          {[
-                            { id: "delivery", label: t.checkout.payment_types.delivery, icon: TruckIcon },
-                            { id: "card", label: t.checkout.payment_types.card, icon: CreditCard },
-                            { id: "bank", label: t.checkout.payment_types.bank, icon: Database },
-                            { id: "wire", label: t.checkout.payment_types.wire, icon: Activity },
-                          ].map((method) => (
-                            <motion.div 
-                              key={method.id}
-                              whileHover={{ scale: 1.02 }}
-                              whileTap={{ scale: 0.98 }}
-                              className={cn(
-                                "flex items-center space-x-3 space-y-0 border border-primary/10 p-4 bg-background/50 transition-all cursor-pointer",
-                                paymentMethod === method.id ? "border-primary bg-primary/5 shadow-lg" : "hover:border-primary/30"
-                              )}
-                              onClick={() => setPaymentMethod(method.id)}
+                          {isProcessing ? (
+                            <>
+                              <Loader2 className="h-5 w-5 animate-spin" />
+                              {t.checkout.submitting}
+                            </>
+                          ) : (
+                            <>
+                              {hasFailedOnce ? t.checkout.re_execute : t.checkout.place_order}
+                              {isRTL ? <ArrowLeft className="h-4 w-4 group-hover/btn:-translate-x-2 transition-transform" /> : <ArrowRight className="h-4 w-4 group-hover/btn:translate-x-2 transition-transform" />}
+                            </>
+                          )}
+                        </Button>
+
+                        <AnimatePresence>
+                          {isProcessing && (
+                            <motion.div
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: 'auto' }}
+                              exit={{ opacity: 0, height: 0 }}
                             >
-                              <RadioGroupItem value={method.id} id={method.id} />
-                              <Label htmlFor={method.id} className="flex-1 cursor-pointer font-bold uppercase text-[8px] tracking-[0.2em] flex items-center gap-3">
-                                <method.icon className="h-3.5 w-3.5 text-primary/60" />
-                                {method.label}
-                              </Label>
+                              <Button 
+                                type="button"
+                                onClick={handleAbortProtocol}
+                                variant="ghost"
+                                className="w-full text-destructive hover:bg-destructive/5 text-[9px] font-bold uppercase tracking-widest rounded-none h-12"
+                              >
+                                <XCircle className="h-3.5 w-3.5 mr-2" />
+                                {t.checkout.cancel}
+                              </Button>
                             </motion.div>
-                          ))}
-                        </RadioGroup>
-
-                        <div className="pt-4">
-                          <AnimatePresence mode="wait">
-                            {paymentMethod === 'delivery' ? (
-                              <motion.div 
-                                key="delivery-content"
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -10 }}
-                                className="bg-primary/5 border border-primary/20 p-8 flex items-center gap-6"
-                              >
-                                <div className="p-4 bg-primary/10 rounded-full">
-                                  <TruckIcon className="h-8 w-8 text-primary" />
-                                </div>
-                                <div className="space-y-2">
-                                  <h4 className="text-[10px] font-bold uppercase tracking-widest text-primary">{t.checkout.payment_types.delivery}</h4>
-                                  <p className="text-xs text-muted-foreground italic font-medium">{t.checkout.delivery_msg}</p>
-                                </div>
-                              </motion.div>
-                            ) : (
-                              <motion.div 
-                                key="other-content"
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -10 }}
-                              >
-                                <UnderConstruction moduleName={`PROTOCOL_${paymentMethod.toUpperCase()}_v4.0`} />
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                </div>
-
-                <div className="lg:col-span-4 flex flex-col gap-6">
-                  <motion.div variants={sectionVariants} className="sticky top-28">
-                    <Card className="rounded-none clinical-shadow border-primary/20 bg-card overflow-hidden">
-                      <div className="bg-primary p-6 text-white flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <Package className="h-4 w-4" />
-                          <h2 className="text-xs font-bold uppercase tracking-[0.3em]">{t.checkout.order_review}</h2>
-                        </div>
-                        <span className="text-[10px] font-black bg-white/10 px-2 py-0.5">{items.length} Units</span>
+                          )}
+                        </AnimatePresence>
                       </div>
-                      
-                      <CardContent className="p-8">
-                        <div className="max-h-[300px] overflow-y-auto space-y-6 mb-10 pr-4 custom-scrollbar">
-                          <AnimatePresence>
-                            {items.map((item, idx) => (
-                              <motion.div 
-                                key={item.id} 
-                                initial={{ opacity: 0, x: 20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: idx * 0.1 }}
-                                className="flex gap-4 items-center group"
-                              >
-                                <div className="relative h-14 w-14 shrink-0 border border-primary/10 bg-accent/5 p-2 overflow-hidden">
-                                  <Image src={item.imageUrl} alt={item.name} fill className="object-contain grayscale group-hover:grayscale-0 transition-all" />
-                                </div>
-                                <div className="flex-1 min-w-0">
-                                  <h4 className="text-[10px] font-bold uppercase tracking-tight truncate leading-none mb-1">{item.name}</h4>
-                                  <p className="text-[8px] text-primary font-black uppercase tracking-widest">Qty: {item.quantity}</p>
-                                </div>
-                                <span className="text-xs font-bold tracking-tighter tabular-nums">${(item.price * item.quantity).toLocaleString()}</span>
-                              </motion.div>
-                            ))}
-                          </AnimatePresence>
-                        </div>
+                    </div>
 
-                        <div className="space-y-4 pt-6 border-t border-dashed border-primary/10 text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
-                          <div className="flex justify-between">
-                            <span>{t.cart.subtotal}</span>
-                            <span className="text-foreground tracking-tighter text-xs">${totalAmount.toLocaleString()}</span>
-                          </div>
-                          <div className="flex justify-between text-primary">
-                            <span>{t.cart.shipping}</span>
-                            <span className="font-black">{t.common.free}</span>
-                          </div>
-                        </div>
-
-                        <div className="mt-8 pt-8 border-t-2 border-primary/10">
-                          <div className="flex justify-between items-end mb-10">
-                            <div className="flex flex-col gap-1">
-                              <span className="text-[8px] font-black text-primary/40 uppercase tracking-[0.4em]">{t.cart.total_acquisition}</span>
-                              <span className="text-sm font-bold uppercase tracking-tighter">{t.cart.total}</span>
-                            </div>
-                            <span className="text-3xl font-bold tracking-tighter text-primary">${totalAmount.toLocaleString()}</span>
-                          </div>
-
-                          <div className="space-y-4">
-                            <Button 
-                              type="submit"
-                              disabled={isProcessing || paymentMethod !== 'delivery'}
-                              className="w-full bg-primary text-white py-10 rounded-none text-[11px] font-bold uppercase tracking-[0.3em] hover:bg-primary/90 transition-all shadow-2xl shadow-primary/20 flex items-center justify-center gap-4 active:scale-95 group/btn"
-                            >
-                              {isProcessing ? (
-                                <>
-                                  <Loader2 className="h-5 w-5 animate-spin" />
-                                  {t.checkout.submitting}
-                                </>
-                              ) : (
-                                <>
-                                  {hasFailedOnce ? t.checkout.re_execute : t.checkout.place_order}
-                                  {isRTL ? <ArrowLeft className="h-4 w-4 group-hover/btn:-translate-x-2 transition-transform" /> : <ArrowRight className="h-4 w-4 group-hover/btn:translate-x-2 transition-transform" />}
-                                </>
-                              )}
-                            </Button>
-
-                            <AnimatePresence>
-                              {isProcessing && (
-                                <motion.div
-                                  initial={{ opacity: 0, height: 0 }}
-                                  animate={{ opacity: 1, height: 'auto' }}
-                                  exit={{ opacity: 0, height: 0 }}
-                                >
-                                  <Button 
-                                    type="button"
-                                    onClick={handleAbortProtocol}
-                                    variant="ghost"
-                                    className="w-full text-destructive hover:bg-destructive/5 text-[9px] font-bold uppercase tracking-widest rounded-none h-12"
-                                  >
-                                    <XCircle className="h-3.5 w-3.5 mr-2" />
-                                    {t.checkout.cancel}
-                                  </Button>
-                                </motion.div>
-                              )}
-                            </AnimatePresence>
-                          </div>
-                        </div>
-
-                        <div className="mt-8 pt-8 border-t border-primary/5 flex flex-col items-center gap-4 text-center grayscale opacity-40">
-                           <div className="flex items-center gap-2 text-[8px] font-bold uppercase tracking-[0.3em]">
-                             <Lock className="h-3 w-3" />
-                             {t.cart.encryption_protocol}
-                           </div>
-                           <p className="text-[8px] leading-relaxed italic max-w-[200px]">
-                             {t.cart.protocol_desc}
-                           </p>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                </div>
-              </form>
-            </motion.div>
-          )}
-        </AnimatePresence>
+                    <div className="mt-8 pt-8 border-t border-primary/5 flex flex-col items-center gap-4 text-center grayscale opacity-40">
+                       <div className="flex items-center gap-2 text-[8px] font-bold uppercase tracking-[0.3em]">
+                         <Lock className="h-3 w-3" />
+                         {t.cart.encryption_protocol}
+                       </div>
+                       <p className="text-[8px] leading-relaxed italic max-w-[200px]">
+                         {t.cart.protocol_desc}
+                       </p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            </div>
+          </form>
+        </motion.div>
       </div>
+
+      {/* Technical Result Modal Protocol */}
+      <Dialog open={showResultModal} onOpenChange={setShowResultModal}>
+        <DialogContent className="max-w-md p-0 overflow-hidden border-primary/10 rounded-none bg-background shadow-2xl">
+          <div className="relative p-10 pt-16 flex flex-col items-center text-center">
+            {/* Background Decorative Element */}
+            <div className="absolute top-0 inset-x-0 h-1 bg-primary/20">
+              <motion.div 
+                className="h-full bg-primary"
+                initial={{ width: 0 }}
+                animate={{ width: "100%" }}
+                transition={{ duration: 0.8 }}
+              />
+            </div>
+            
+            <AnimatePresence mode="wait">
+              {isSuccess ? (
+                <motion.div 
+                  key="success-content"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="space-y-8"
+                >
+                  <div className="relative inline-block">
+                    <motion.div 
+                      animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
+                      transition={{ repeat: Infinity, duration: 2.5 }}
+                      className="absolute inset-0 bg-primary/20 rounded-full blur-2xl"
+                    />
+                    <div className="p-6 bg-primary/10 rounded-full relative z-10 border border-primary/20">
+                      <CheckCircle2 className="h-14 w-14 text-primary" />
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-center gap-2 opacity-40">
+                      <Database className="h-3.5 w-3.5 text-primary" />
+                      <span className="text-[9px] font-black uppercase tracking-[0.4em]">PROTOCOL_LOCKED_v4.2</span>
+                    </div>
+                    <DialogTitle className="text-3xl font-headline font-bold uppercase tracking-tighter">
+                      {t.checkout.success_toast_title}
+                    </DialogTitle>
+                    <DialogDescription className="text-sm font-medium italic text-muted-foreground leading-relaxed px-4">
+                      {t.checkout.success_desc.replace('{{id}}', orderId)}
+                    </DialogDescription>
+                  </div>
+
+                  <div className="pt-6">
+                    <div className="flex items-center justify-center gap-3 text-[9px] font-bold text-primary/60 uppercase tracking-[0.2em] animate-pulse">
+                      <Loader2 className="h-3 w-3 animate-spin" />
+                      Synchronizing with Logistics...
+                    </div>
+                  </div>
+                </motion.div>
+              ) : (
+                <motion.div 
+                  key="fail-content"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="space-y-8"
+                >
+                  <div className="relative inline-block">
+                    <motion.div 
+                      animate={{ scale: [1, 1.1, 1], opacity: [0.2, 0.4, 0.2] }}
+                      transition={{ repeat: Infinity, duration: 1.5 }}
+                      className="absolute inset-0 bg-destructive/20 rounded-full blur-2xl"
+                    />
+                    <div className="p-6 bg-destructive/10 rounded-full relative z-10 border border-destructive/20">
+                      <AlertCircle className="h-14 w-14 text-destructive" />
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-center gap-2 opacity-40">
+                      <XCircle className="h-3.5 w-3.5 text-destructive" />
+                      <span className="text-[9px] font-black uppercase tracking-[0.4em] text-destructive">SIGNAL_LOSS_DETECTOR</span>
+                    </div>
+                    <DialogTitle className="text-3xl font-headline font-bold uppercase tracking-tighter text-destructive">
+                      {t.checkout.fail_toast_title}
+                    </DialogTitle>
+                    <DialogDescription className="text-sm font-medium italic text-muted-foreground leading-relaxed px-4">
+                      {t.checkout.fail_toast_desc}
+                    </DialogDescription>
+                  </div>
+
+                  <div className="pt-6 grid grid-cols-2 gap-4">
+                    <Button 
+                      variant="outline" 
+                      onClick={() => setShowResultModal(false)}
+                      className="rounded-none uppercase text-[9px] font-bold tracking-widest h-12 border-primary/10"
+                    >
+                      {t.checkout.cancel}
+                    </Button>
+                    <Button 
+                      onClick={() => setShowResultModal(false)}
+                      className="bg-primary text-white rounded-none uppercase text-[9px] font-bold tracking-widest h-12 shadow-xl shadow-primary/20"
+                    >
+                      {t.checkout.re_execute}
+                    </Button>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Clinical Footer */}
+            <div className="mt-12 pt-6 border-t border-primary/5 w-full flex items-center justify-between opacity-30">
+               <span className="text-[7px] font-black uppercase tracking-[0.3em]">SAM_PROCUREMENT_TERMINAL</span>
+               <span className="text-[7px] font-black uppercase tracking-[0.3em]">ISO-13485:2016</span>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </main>
   );
 }
