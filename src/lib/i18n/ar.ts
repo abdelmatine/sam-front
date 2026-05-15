@@ -250,15 +250,17 @@ export const ar = {
     success_title: "تأكيد بروتوكول الاستحواذ",
     success_desc: "مرجع الطلب: SAM-ORD-{{id}} تمت مزامنته الآن مع محطتنا اللوجستية. تم إرسال ملخص إلى بريدك الإلكتروني.",
     payment_types: {
+      delivery: "الدفع عند الاستلام",
       card: "بروتوكول البطاقة التقنية",
       bank: "تحويل بنكي",
       wire: "تحويل مهني"
-    }
+    },
+    delivery_msg: "يتم الانتهاء من الاستحواذ عند تسليم المعدات. سيتم إجراء فحص تقني في الموقع."
   },
   wishlist: {
     title: "الأولويات التقنية",
     subtitle: "معدات محفوظة للتحليل الفني والاستحواذ المستقبلي",
-    archive_v: "أرشيف_الاختيار v2.1",
+    archive_v: "Archive_Sélection v2.1",
     clear: "إلغاء مرجعية الكل",
     diag_id: "معرف التشخيص: NO-PRIORITY-REF",
     empty_title: "لم يتم تحديد أولويات",
@@ -308,7 +310,9 @@ export const ar = {
     sort: "فرز",
     free: "مجاني",
     grade_medical: "درجة طبية",
-    loading: "جاري التحميل..."
+    loading: "جاري التحميل...",
+    under_construction: "الوحدة قيد التطوير",
+    under_construction_desc: "هذا البروتوكول التقني حالياً في مرحلة المعايرة. يرجى استخدام وسيلة بديلة."
   },
   error: {
     not_found_title: "404 - فقدان الإشارة",

@@ -250,10 +250,12 @@ export const fr = {
     success_title: "Protocole d'Acquisition Confirmé",
     success_desc: "Réf Commande : SAM-ORD-{{id}} est désormais synchronisée avec notre terminal logistique. Un résumé a été envoyé par email.",
     payment_types: {
+      delivery: "Paiement à la livraison",
       card: "Protocole Carte Bancaire",
       bank: "Virement Bancaire",
       wire: "Virement Professionnel"
-    }
+    },
+    delivery_msg: "Acquisition finalisée lors de la livraison de l'équipement. Une vérification technique sera effectuée sur place."
   },
   wishlist: {
     title: "Priorités Techniques",
@@ -310,7 +312,9 @@ export const fr = {
     sort: "Trier",
     free: "Gratuit",
     grade_medical: "Grade Médical",
-    loading: "Initialisation..."
+    loading: "Initialisation...",
+    under_construction: "Module en Cours de Développement",
+    under_construction_desc: "Ce protocole technique est actuellement en phase de calibration. Veuillez utiliser un chemin alternatif."
   },
   error: {
     not_found_title: "404 - Signal Perdu",

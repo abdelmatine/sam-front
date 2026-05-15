@@ -250,10 +250,12 @@ export const en = {
     success_title: "Acquisition Protocol Confirmed",
     success_desc: "Order Ref: SAM-ORD-{{id}} is now synchronized with our logistics terminal. A summary has been dispatched to your email.",
     payment_types: {
+      delivery: "Payment at Delivery",
       card: "Technical Card Protocol",
       bank: "Bank Transfer",
       wire: "Professional Wire"
-    }
+    },
+    delivery_msg: "Acquisition finalized upon equipment delivery. Technical verification will be performed on-site."
   },
   wishlist: {
     title: "Technical Priorities",
@@ -310,7 +312,9 @@ export const en = {
     sort: "Sort",
     free: "Free",
     grade_medical: "Medical Grade",
-    loading: "Initializing..."
+    loading: "Initializing...",
+    under_construction: "Module Under Development",
+    under_construction_desc: "This technical protocol is currently in phase of calibration. Please utilize an alternate path."
   },
   error: {
     not_found_title: "404 - Signal Lost",

@@ -23,11 +23,13 @@ import {
   CheckCircle2, 
   Lock, 
   Package, 
-  ArrowLeft 
+  ArrowLeft,
+  TruckIcon
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
+import UnderConstruction from '@/components/shared/UnderConstruction';
 
 export default function CheckoutPage() {
   const { items, totalAmount } = useSelector((state: RootState) => state.cart);
@@ -36,6 +38,7 @@ export default function CheckoutPage() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [orderId, setOrderId] = useState('');
+  const [paymentMethod, setPaymentMethod] = useState('delivery');
 
   // Handle order submission protocol
   const handleAcquisitionSubmit = (e: React.FormEvent) => {
@@ -118,7 +121,7 @@ export default function CheckoutPage() {
     <main className="min-h-screen flex flex-col pt-24 pb-20 bg-background relative overflow-hidden">
       <Navbar />
       
-      {/* Background Clinical Grid */}
+      {/* Background Technical Grid */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute inset-0 opacity-[0.02] dark:opacity-[0.05]" 
           style={{ backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)', backgroundSize: '40px 40px' }} 
@@ -238,47 +241,65 @@ export default function CheckoutPage() {
                         <div className="h-[2px] w-24 bg-primary" />
                       </div>
                       <CardContent className="p-8 space-y-10">
-                        <RadioGroup defaultValue="card" className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <RadioGroup 
+                          defaultValue="delivery" 
+                          onValueChange={setPaymentMethod}
+                          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"
+                        >
                           {[
-                            { id: "card", label: t.checkout.payment_types.card, active: true },
-                            { id: "bank", label: t.checkout.payment_types.bank, active: false },
-                            { id: "wire", label: t.checkout.payment_types.wire, active: false },
+                            { id: "delivery", label: t.checkout.payment_types.delivery, icon: TruckIcon },
+                            { id: "card", label: t.checkout.payment_types.card, icon: CreditCard },
+                            { id: "bank", label: t.checkout.payment_types.bank, icon: Database },
+                            { id: "wire", label: t.checkout.payment_types.wire, icon: Activity },
                           ].map((method) => (
                             <motion.div 
                               key={method.id}
-                              whileHover={method.active ? { scale: 1.02 } : {}}
-                              whileTap={method.active ? { scale: 0.98 } : {}}
+                              whileHover={{ scale: 1.02 }}
+                              whileTap={{ scale: 0.98 }}
                               className={cn(
                                 "flex items-center space-x-3 space-y-0 border border-primary/10 p-4 bg-background/50 transition-all cursor-pointer",
-                                !method.active && "opacity-50 grayscale cursor-not-allowed"
+                                paymentMethod === method.id ? "border-primary bg-primary/5 shadow-lg" : "hover:border-primary/30"
                               )}
+                              onClick={() => setPaymentMethod(method.id)}
                             >
-                              <RadioGroupItem value={method.id} id={method.id} disabled={!method.active} />
-                              <Label htmlFor={method.id} className="flex-1 cursor-pointer font-bold uppercase text-[9px] tracking-widest">{method.label}</Label>
+                              <RadioGroupItem value={method.id} id={method.id} />
+                              <Label htmlFor={method.id} className="flex-1 cursor-pointer font-bold uppercase text-[8px] tracking-[0.2em] flex items-center gap-3">
+                                <method.icon className="h-3.5 w-3.5 text-primary/60" />
+                                {method.label}
+                              </Label>
                             </motion.div>
                           ))}
                         </RadioGroup>
 
-                        <div className="grid md:grid-cols-2 gap-8 pt-4">
-                          <motion.div variants={fieldVariants} className="md:col-span-2 space-y-3">
-                            <Label className="text-[9px] font-black uppercase tracking-[0.3em] opacity-60 ml-1">{t.checkout.card_holder}</Label>
-                            <Input required className="rounded-none border-primary/10 bg-background h-12 focus-visible:ring-primary/20" placeholder="SURNAME INITIALS" />
-                          </motion.div>
-                          <motion.div variants={fieldVariants} className="md:col-span-2 space-y-3">
-                            <Label className="text-[9px] font-black uppercase tracking-[0.3em] opacity-60 ml-1">{t.checkout.card_number}</Label>
-                            <div className="relative">
-                              <Input required maxLength={19} className="rounded-none border-primary/10 bg-background h-12 pl-12 focus-visible:ring-primary/20" placeholder="XXXX XXXX XXXX XXXX" />
-                              <CreditCard className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                            </div>
-                          </motion.div>
-                          <motion.div variants={fieldVariants} className="space-y-3">
-                            <Label className="text-[9px] font-black uppercase tracking-[0.3em] opacity-60 ml-1">{t.checkout.expiry}</Label>
-                            <Input required className="rounded-none border-primary/10 bg-background h-12 focus-visible:ring-primary/20" placeholder="MM/YY" />
-                          </motion.div>
-                          <motion.div variants={fieldVariants} className="space-y-3">
-                            <Label className="text-[9px] font-black uppercase tracking-[0.3em] opacity-60 ml-1">{t.checkout.cvv}</Label>
-                            <Input required maxLength={3} className="rounded-none border-primary/10 bg-background h-12 focus-visible:ring-primary/20" placeholder="***" />
-                          </motion.div>
+                        <div className="pt-4">
+                          <AnimatePresence mode="wait">
+                            {paymentMethod === 'delivery' ? (
+                              <motion.div 
+                                key="delivery-content"
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -10 }}
+                                className="bg-primary/5 border border-primary/20 p-8 flex items-center gap-6"
+                              >
+                                <div className="p-4 bg-primary/10 rounded-full">
+                                  <TruckIcon className="h-8 w-8 text-primary" />
+                                </div>
+                                <div className="space-y-2">
+                                  <h4 className="text-[10px] font-bold uppercase tracking-widest text-primary">{t.checkout.payment_types.delivery}</h4>
+                                  <p className="text-xs text-muted-foreground italic font-medium">{t.checkout.delivery_msg}</p>
+                                </div>
+                              </motion.div>
+                            ) : (
+                              <motion.div 
+                                key="other-content"
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -10 }}
+                              >
+                                <UnderConstruction moduleName={`PROTOCOL_${paymentMethod.toUpperCase()}_v4.0`} />
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
                         </div>
                       </CardContent>
                     </Card>
@@ -343,7 +364,7 @@ export default function CheckoutPage() {
 
                           <Button 
                             type="submit"
-                            disabled={isProcessing}
+                            disabled={isProcessing || paymentMethod !== 'delivery'}
                             className="w-full bg-primary text-white py-10 rounded-none text-[11px] font-bold uppercase tracking-[0.3em] hover:bg-primary/90 transition-all shadow-2xl shadow-primary/20 flex items-center justify-center gap-4 active:scale-95 group/btn"
                           >
                             {isProcessing ? (
