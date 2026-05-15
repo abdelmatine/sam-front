@@ -161,55 +161,31 @@ const Footer = () => {
           </motion.div>
         </motion.div>
 
+        {/* Simplified Legal Bar */}
         <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ 
-            duration: 1.2, 
-            ease: [0.22, 1, 0.36, 1],
-            delay: 0.2
-          }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 1 }}
           viewport={{ once: true }}
-          className="pt-12 border-t border-primary/10 flex flex-col md:flex-row justify-between items-center gap-8"
+          className="pt-10 border-t border-primary/5 flex flex-col md:flex-row justify-between items-center gap-6"
         >
-          <div className="flex items-center gap-4 group">
-            <motion.div
-              animate={{ 
-                scale: [1, 1.15, 1],
-                opacity: [0.4, 1, 0.4]
-              }}
-              transition={{ 
-                repeat: Infinity, 
-                duration: 2.5, 
-                ease: "easeInOut" 
-              }}
-            >
-              <Activity className="h-4 w-4 text-primary" />
-            </motion.div>
-            <p className="text-[9px] text-muted-foreground uppercase font-bold tracking-[0.4em] leading-none">
-              © {new Date().getFullYear()} SAM MÉDICALE • {t.footer.rights}
-            </p>
-          </div>
+          <p className="text-[9px] text-muted-foreground/60 uppercase font-bold tracking-[0.2em] text-center md:text-left">
+            © {new Date().getFullYear()} SAM MÉDICALE <span className="mx-2 opacity-20">•</span> {t.footer.rights}
+          </p>
           
-          <div className="flex flex-wrap justify-center gap-x-12 gap-y-4 text-[9px] text-muted-foreground uppercase font-bold tracking-[0.4em]">
+          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-[9px] text-muted-foreground/60 uppercase font-bold tracking-[0.2em]">
             {legalLinks.map((legal, idx) => (
-              <motion.span 
-                key={legal.key}
-                initial={{ opacity: 0, x: -10 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.4 + (idx * 0.1), duration: 0.8 }}
-                viewport={{ once: true }}
-                whileHover={{ color: 'hsl(var(--primary))' }}
-                className="cursor-pointer transition-colors relative group py-1"
-              >
-                {legal.label}
-                <motion.span 
-                  className="absolute -bottom-0.5 left-1/2 h-[1px] bg-primary -translate-x-1/2" 
-                  initial={{ width: 0 }}
-                  whileHover={{ width: '100%' }}
-                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                />
-              </motion.span>
+              <React.Fragment key={legal.key}>
+                <Link 
+                  href={`/${legal.key}`}
+                  className="hover:text-primary transition-colors duration-300"
+                >
+                  {legal.label}
+                </Link>
+                {idx < legalLinks.length - 1 && (
+                  <span className="opacity-20 hidden sm:inline">•</span>
+                )}
+              </React.Fragment>
             ))}
           </div>
         </motion.div>
