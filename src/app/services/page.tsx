@@ -51,13 +51,14 @@ export default function ServicesPage() {
   const { t, isRTL } = useTranslation();
 
   const serviceList = [
+    { icon: Microscope, key: 'polygraphy' },
     { icon: Wrench, key: 'calibration' },
     { icon: Stethoscope, key: 'consultation' },
     { icon: Truck, key: 'delivery' },
     { icon: Headset, key: 'support' },
     { icon: GraduationCap, key: 'training' },
-    { icon: ShieldAlert, key: 'hygiene' },
-    { icon: Microscope, key: 'polygraphy' }
+    { icon: ShieldAlert, key: 'hygiene' }
+  
   ];
 
   return (

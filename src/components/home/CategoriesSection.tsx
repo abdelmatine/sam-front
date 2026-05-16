@@ -209,10 +209,10 @@ const CategoriesSection = () => {
             
             <motion.div variants={itemVariants}>
               <CategoryCard 
-                slug="others"
-                title="Autres"
-                description="Équipements et Accessoires Divers pour le soutien quotidien."
-                imageUrl="/others_cat.jpg"
+                slug="oxygen"
+                title="Concentrateurs d'Oxygène"
+                description="Concentrateurs d'Oxygène portables et stationnaires pour un soutien fiable de la saturation."
+                imageUrl="/oxy_category.jpg"
                 badgeText="Technologie Annexe"
               />
             </motion.div>

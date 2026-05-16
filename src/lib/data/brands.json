@@ -3,7 +3,7 @@
     "id": "sam-medicale",
     "name": "SAM Médicale",
     "description": "Leading innovator in respiratory clinical engineering.",
-    "origin": "France"
+    "origin": "Tunisia"
   },
   {
     "id": "resmed",
@@ -46,5 +46,11 @@
     "name": "Omron",
     "description": "Healthcare monitoring and clinical heart health.",
     "origin": "Japan"
+  },
+  {
+    "id": "bmc",
+    "name": "bmc",
+    "description": "Healthcare monitoring and clinical heart health.",
+    "origin": "China"
   }
 ]
